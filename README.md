@@ -6,17 +6,23 @@ A collection of awesome open data projects, blogs, news sites, etc. in Austria /
 including web feeds ([What is?](https://en.wikipedia.org/wiki/Web_feed))
 for easy subscriptions.
 
+Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
 
-Note: Looking for a mini all-in-one-page news portal?
+---
+
+[ANNOUNCEMENT] Looking for an all-in-one-page mini news portal?
 See the [Planet Open Data News Reader »](https://planetopendata.herokuapp.com/opendataaustria?style=top).
 
-
+---
 
 Contributions welcome. Anything missing? Send in a pull request. Thanks.
 
 
+
+
 [Portals / Datahubs](#portals--datahubs) •
-[Orgs](#orgs)
+[Orgs](#orgs) •
+[Projects](#projects)
 
 
 
@@ -30,44 +36,82 @@ Contributions welcome. Anything missing? Send in a pull request. Thanks.
 
 ## Orgs
 
+### Government
+
 - [open.wien.gv.at - Open Government Wien News](https://open.wien.gv.at)
     [:mega:](https://open.wien.gv.at/site/feed/)  #openwiengvat
-- [Open Commons Linz News](http://opencommons.public1.linz.at)
-    [:mega:](http://opencommons.public1.linz.at/feed)  #opencommonslinz
-- [opendatagraz.at - Open Data Graz News](http://opendatagraz.at)
-    [:mega:](http://www.opendatagraz.at/feed/)  #opendatagraz
-- [innsbruckopen.org - Open Data Innsbruck News](http://innsbruckopen.org)
-    [:mega:](http://innsbruckopen.org/feed/)  #innsbruckopen
-- [offene-oeffis.at - Offene Öffis News](http://www.offene-oeffis.at)
-    [:mega:](http://www.offene-oeffis.at/feed/)  #offeneoeffis
-- [offenerhaushalt.at - Offener Haushalt News](https://www.offenerhaushalt.at/news)
-    [:mega:](https://www.offenerhaushalt.at/news/feed)  #offenerhaushaltat
-- [okfn.at - Open Knowledge Foundation (OKFN) Austria News](http://okfn.at/blog)
-    [:mega:](http://okfn.at/feed/)
-    [:octocat:](https://github.com/okfnat)  #okfnat
+
 - [opendata.at - Open Government Data (OGD) Austria News](http://opendata.at)
     [:mega:](http://opendata.at/site/blog.xml)  #ogdat
-- [open3.at - Open 3 (Society, Gov und Data) Austria News](https://www.open3.at)
-    [:mega:](http://feeds.feedburner.com/open3)  #open3at
-- [Open Street Map Austria News](https://www.openstreetmap.at)
-    [:mega:](https://www.openstreetmap.at/rss.xml)  #openstreetmapat
-- [Linuxwochen Österreich News](http://linuxwochen.at)
-    [:mega:](http://www.linuxwochen.at/atom/)   #linuxwochenat
-- [netidee News (Österreichs größtes Internet-Förderprogramm)](https://netidee.neurovation.net)
-    [:mega:](https://netidee.neurovation.net/de/blog/feed)  #netideeat
-- [Wikimedia Österreich News](https://www.wikimedia.at)
-    [:mega:](https://www.wikimedia.at/feed/)  #wikimediaat
 
 Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
 
 - [geoland.at - Geodatenportal der österreichischen Länder](http://geoland.at)  #geolandat
 - [basemap.at - Verwaltungsgrundkarte von Österreich](http://basemap.at)  #basemapat
+
+
+
+### Universities
+
+Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
+
 - [data.wu.ac.at - Open Data Wirtschaftsuniversität (WU) Wien](http://data.wu.ac.at)  #datawuacat
 
 
+### Non-Profit
+
+- [Open Commons Linz News](http://opencommons.public1.linz.at)
+    [:mega:](http://opencommons.public1.linz.at/feed)  #opencommonslinz
+
+- [okfn.at - Open Knowledge Foundation (OKFN) Austria News](http://okfn.at/blog)
+    [:mega:](http://okfn.at/feed/)
+    [:octocat:](https://github.com/okfnat)  #okfnat
+
+- [Wikimedia Österreich News](https://www.wikimedia.at)
+    [:mega:](https://www.wikimedia.at/feed/)  #wikimediaat
+
+- [Linuxwochen Österreich News](http://linuxwochen.at)
+    [:mega:](http://www.linuxwochen.at/atom/)   #linuxwochenat
 
 
-Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
+### Grants / Funds
+
+- [netidee News (Österreichs größtes Internet-Förderprogramm)](https://netidee.neurovation.net)
+    [:mega:](https://netidee.neurovation.net/de/blog/feed)  #netideeat
+    by Internet Foundation Austria (IPA) 
+
+## Blogs
+
+- [open3.at - Open 3 (Society, Gov und Data) Austria News](https://www.open3.at)
+    [:mega:](http://feeds.feedburner.com/open3)  #open3at
+
+- [offene-oeffis.at - Offene Öffis News](http://www.offene-oeffis.at)
+    [:mega:](http://www.offene-oeffis.at/feed/)  #offeneoeffis
+
+- [opendatagraz.at - Open Data Graz News](http://opendatagraz.at)
+    [:mega:](http://www.opendatagraz.at/feed/)  #opendatagraz
+
+- [innsbruckopen.org - Open Data Innsbruck News](http://innsbruckopen.org)
+    [:mega:](http://innsbruckopen.org/feed/)  #innsbruckopen
+
+
+
+## Projects
+
+- [offenerhaushalt.at - Offener Haushalt News](https://www.offenerhaushalt.at/news)
+   [:mega:](https://www.offenerhaushalt.at/news/feed)  #offenerhaushaltat
+    by KDZ Zentrum für Verwaltungsforschung
+
+- [Open Street Map Austria News](https://www.openstreetmap.at)
+    [:mega:](https://www.openstreetmap.at/rss.xml)  #openstreetmapat
+
+Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
+
+- [austria.db @ world.db :octocat:](https://github.com/openmundi/austria.db)   #austriadb
+
+- [Austrian Beer, Brewpubs & Breweries @ beer.db :octocat:](https://github.com/openbeer/at-austria)  #openbeerat
+
+- [Austrian Bundesliga, Erste Liga @ football.db :octocat:](https://github.com/openfootball/at-austria)  #openfootballat
 
 
 ## Meta
