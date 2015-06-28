@@ -1,14 +1,21 @@
 
 # Open Data Austria / Österreich
 
-A collection of awesome open data projects, blogs, news sites, etc. in Austria / Österreich
 
-Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
+A collection of awesome open data projects, blogs, news sites, etc. in Austria / Österreich
+including web feeds ([What is?](https://en.wikipedia.org/wiki/Web_feed))
+for easy subscriptions.
+
+
+Note: Looking for a mini all-in-one-page news portal?
+See the [Planet Open Data News Reader »](https://planetopendata.herokuapp.com/opendataaustria?style=top).
+
+
 
 Contributions welcome. Anything missing? Send in a pull request. Thanks.
 
 
-[Portals / Datahubs](#portals-datahubs) •
+[Portals / Datahubs](#portals--datahubs) •
 [Orgs](#orgs)
 
 
@@ -48,15 +55,10 @@ Contributions welcome. Anything missing? Send in a pull request. Thanks.
     [:mega:](http://www.linuxwochen.at/atom/)   #linuxwochenat
 - [netidee News (Österreichs größtes Internet-Förderprogramm)](https://netidee.neurovation.net)
     [:mega:](https://netidee.neurovation.net/de/blog/feed)  #netideeat
-
-
-Broken Web Feeds
-
 - [Wikimedia Österreich News](https://www.wikimedia.at)
-    [:mega:](https://www.wikimedia.at/taxonomy/term/20/feed)  # wikimediaat  - note: feed not really working (e.g. no entries)
+    [:mega:](https://www.wikimedia.at/feed/)  #wikimediaat
 
-
-Missing Web Feeds
+Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
 
 - [geoland.at - Geodatenportal der österreichischen Länder](http://geoland.at)  #geolandat
 - [basemap.at - Verwaltungsgrundkarte von Österreich](http://basemap.at)  #basemapat
@@ -65,6 +67,7 @@ Missing Web Feeds
 
 
 
+Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
 
 
 ## Meta
