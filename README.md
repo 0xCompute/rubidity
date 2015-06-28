@@ -16,94 +16,54 @@ Contributions welcome. Anything missing? Send in a pull request. Thanks.
 ## Portals / Datahubs
 
 - [data.gv.at - Offene Daten Österreich News](https://www.data.gv.at)
-    [:mega:](https://www.data.gv.at/feed/)   <!-- key: datagvat -->
+    [:mega:](https://www.data.gv.at/feed/)   #datagvat
 - [opendataportal.at - Open Data Portal Österreich News](https://www.opendataportal.at)
-    [:mega:](https://www.opendataportal.at/feed/)  <!-- key: opendataportalat -->
-  
+    [:mega:](https://www.opendataportal.at/feed/)   #opendataportalat
 
 
-<!--
+## Orgs
 
-##############
-# Orgs
-
-[openwiengvat]
-  title = open.wien.gv.at - Open Government Wien News
-  link  = https://open.wien.gv.at
-  feed  = https://open.wien.gv.at/site/feed/
-
-[opencommonslinz]
-  title = Open Commons Linz News
-  link  = http://opencommons.public1.linz.at
-  feed  = http://opencommons.public1.linz.at/feed
-
-[opendatagraz]
-  title = opendatagraz.at - Open Data Graz News
-  link  = http://opendatagraz.at
-  feed  = http://www.opendatagraz.at/feed/
-
-[innsbruckopen]
-  title = innsbruckopen.org - Open Data Innsbruck News
-  link  = http://innsbruckopen.org
-  feed  = http://innsbruckopen.org/feed/
-
-[offeneoeffis]
-  title = offene-oeffis.at - Offene Öffis News
-  link  = http://www.offene-oeffis.at
-  feed  = http://www.offene-oeffis.at/feed/
-
-[offenerhaushaltat]
-  title = offenerhaushalt.at - Offener Haushalt News
-  link  = https://www.offenerhaushalt.at/news
-  feed  = https://www.offenerhaushalt.at/news/feed
+- [open.wien.gv.at - Open Government Wien News](https://open.wien.gv.at)
+    [:mega:](https://open.wien.gv.at/site/feed/)  #openwiengvat
+- [Open Commons Linz News](http://opencommons.public1.linz.at)
+    [:mega:](http://opencommons.public1.linz.at/feed)  #opencommonslinz
+- [opendatagraz.at - Open Data Graz News](http://opendatagraz.at)
+    [:mega:](http://www.opendatagraz.at/feed/)  #opendatagraz
+- [innsbruckopen.org - Open Data Innsbruck News](http://innsbruckopen.org)
+    [:mega:](http://innsbruckopen.org/feed/)  #innsbruckopen
+- [offene-oeffis.at - Offene Öffis News](http://www.offene-oeffis.at)
+    [:mega:](http://www.offene-oeffis.at/feed/)  #offeneoeffis
+- [offenerhaushalt.at - Offener Haushalt News](https://www.offenerhaushalt.at/news)
+    [:mega:](https://www.offenerhaushalt.at/news/feed)  #offenerhaushaltat
+- [okfn.at - Open Knowledge Foundation (OKFN) Austria News](http://okfn.at/blog)
+    [:mega:](http://okfn.at/feed/)
+    [:octocat:](https://github.com/okfnat)  #okfnat
+- [opendata.at - Open Government Data (OGD) Austria News](http://opendata.at)
+    [:mega:](http://opendata.at/site/blog.xml)  #ogdat
+- [open3.at - Open 3 (Society, Gov und Data) Austria News](https://www.open3.at)
+    [:mega:](http://feeds.feedburner.com/open3)  #open3at
+- [Open Street Map Austria News](https://www.openstreetmap.at)
+    [:mega:](https://www.openstreetmap.at/rss.xml)  #openstreetmapat
+- [Linuxwochen Österreich News](http://linuxwochen.at)
+    [:mega:](http://www.linuxwochen.at/atom/)   #linuxwochenat
+- [netidee News (Österreichs größtes Internet-Förderprogramm)](https://netidee.neurovation.net)
+    [:mega:](https://netidee.neurovation.net/de/blog/feed)  #netideeat
 
 
-[okfnat]
-  title  = okfn.at - Open Knowledge Foundation (OKFN) Austria News
-  link   = http://okfn.at/blog
-  feed   = http://okfn.at/feed/
-  github = okfnat
+Broken Web Feeds
 
-[ogdat]
-  title = opendata.at - Open Government Data (OGD) Austria News
-  link  = http://opendata.at
-  feed  = http://opendata.at/site/blog.xml
-
-[open3at]
-  title = open3.at - Open 3 (Society, Gov und Data) Austria News
-  link  = https://www.open3.at
-  feed  = http://feeds.feedburner.com/open3
-
-[openstreetmapat]
-  title = Open Street Map Austria News
-  link  = https://www.openstreetmap.at
-  feed  = https://www.openstreetmap.at/rss.xml
-
-[linuxwochenat]
-  title = Linuxwochen Österreich News
-  link  = http://linuxwochen.at
-  feed  = http://www.linuxwochen.at/atom/
-
-[netideeat]
-  title = netidee News (Österreichs größtes Internet-Förderprogramm)
-  link  = https://netidee.neurovation.net
-  feed  = https://netidee.neurovation.net/de/blog/feed
+- [Wikimedia Österreich News](https://www.wikimedia.at)
+    [:mega:](https://www.wikimedia.at/taxonomy/term/20/feed)  # wikimediaat  - note: feed not really working (e.g. no entries)
 
 
-### note: feed not really working (e.g. no entries)
-[wikimediaat]
-  title = Wikimedia Österreich News
-  link  = https://www.wikimedia.at
-  feed  = https://www.wikimedia.at/taxonomy/term/20/feed
+Missing Web Feeds
+
+- [geoland.at - Geodatenportal der österreichischen Länder](http://geoland.at)  #geolandat
+- [basemap.at - Verwaltungsgrundkarte von Österreich](http://basemap.at)  #basemapat
+- [data.wu.ac.at - Open Data Wirtschaftsuniversität (WU) Wien](http://data.wu.ac.at)  #datawuacat
 
 
-###  no feed found, sorry
-##   geoland.at - Geodatenportal der österreichischen Länder
-##   basemap.at - Verwaltungsgrundkarte von Österreich
 
-#
-# http://data.wu.ac.at   - no feed found; sorry
--->
 
 
 
