@@ -8,34 +8,19 @@ Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
 Contributions welcome. Anything missing? Send in a pull request. Thanks.
 
 
-<!--
-###########################
-# Open Data Austria News
+[Portals / Datahubs](#portals-datahubs) •
+[Orgs](#orgs)
 
-title  = Planet Open Data Austria
-source = https://raw.github.com/feedreader/planet-opendata/master/opendata-austria.ini
--->
 
-<!--
-########################
-# Portals / Datahubs
-
-[datagvat]
-  title = data.gv.at - Offene Daten Österreich News
-  link  = https://www.data.gv.at
-  feed  = https://www.data.gv.at/feed/
-
-[opendataportalat]
-  title = opendataportal.at - Open Data Portal Österreich News
-  link  = https://www.opendataportal.at
-  feed  = https://www.opendataportal.at/feed/
--->
 
 ## Portals / Datahubs
 
-- [data.gv.at - Offene Daten Österreich News](https://www.data.gv.at)  [:mega:](https://www.data.gv.at/feed/)
-- [opendataportal.at - Open Data Portal Österreich News](https://www.opendataportal.at)  [:mega:](https://www.opendataportal.at/feed/)
+- [data.gv.at - Offene Daten Österreich News](https://www.data.gv.at)
+    [:mega:](https://www.data.gv.at/feed/)   <!-- key: datagvat -->
+- [opendataportal.at - Open Data Portal Österreich News](https://www.opendataportal.at)
+    [:mega:](https://www.opendataportal.at/feed/)  <!-- key: opendataportalat -->
   
+
 
 <!--
 
