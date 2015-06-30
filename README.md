@@ -31,7 +31,7 @@ Contributions welcome. Anything missing? Send in a pull request. Thanks.
     [:mega:](https://www.data.gv.at/feed/)   #datagvat
 - [opendataportal.at - Open Data Portal Österreich News](https://www.opendataportal.at)
     [:mega:](https://www.opendataportal.at/feed/),
-    [:ocotocat:](https://github.com/OpenDataPortal-AT) #opendataportalat
+    [:octocat:](https://github.com/OpenDataPortal-AT) #opendataportalat
 
 
 ## Orgs
@@ -114,10 +114,10 @@ Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
    - 2015: Vienna / Wien, ??
    - 2014: Vienna / Wien, ??
 - [Young Coders Festival](http://www.youngcoders.at)
-    2015: Vienna / Wien; ???
-    2014: Vienna / Wien; Oct/11+12
+    - 2015: Vienna / Wien; ???
+    - 2014: Vienna / Wien; Oct/11+12
 - Open Data Day
-    2015: Vienna; Feb/21
+    - 2015: Vienna; Feb/21
 
 
 ## Meta
