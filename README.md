@@ -21,7 +21,7 @@ Contributions welcome. Anything missing? Send in a pull request. Thanks.
 [Portals / Datahubs](#portals--datahubs) •
 [Orgs](#orgs) •
 [Projects](#projects) •
-[Eductation / Quality (Authenticity) Marks](#eductation--quality-authenticity-marks) •
+[Eductation / Quality (Authenticity) Marks](#education--quality-authenticity-marks) •
 [Events](#events)
 
 
