@@ -18,12 +18,11 @@ See the [Planet Open Data News Reader »](https://planetopendata.herokuapp.com/o
 Contributions welcome. Anything missing? Send in a pull request. Thanks.
 
 
-
-
 [Portals / Datahubs](#portals--datahubs) •
 [Orgs](#orgs) •
-[Projects](#projects)
-
+[Projects](#projects) •
+[Eductation / Quality (Authenticity) Marks](#eductation--quality-authenticity-marks) •
+[Events](#events)
 
 
 ## Portals / Datahubs
@@ -31,7 +30,8 @@ Contributions welcome. Anything missing? Send in a pull request. Thanks.
 - [data.gv.at - Offene Daten Österreich News](https://www.data.gv.at)
     [:mega:](https://www.data.gv.at/feed/)   #datagvat
 - [opendataportal.at - Open Data Portal Österreich News](https://www.opendataportal.at)
-    [:mega:](https://www.opendataportal.at/feed/)   #opendataportalat
+    [:mega:](https://www.opendataportal.at/feed/),
+    [:ocotocat:](https://github.com/OpenDataPortal-AT) #opendataportalat
 
 
 ## Orgs
@@ -66,8 +66,6 @@ Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
     [:octocat:](https://github.com/okfnat)  #okfnat
 - [Wikimedia Österreich News](https://www.wikimedia.at)
     [:mega:](https://www.wikimedia.at/feed/)  #wikimediaat
-- [Linuxwochen Österreich News](http://linuxwochen.at)
-    [:mega:](http://www.linuxwochen.at/atom/)   #linuxwochenat
 
 
 ### Grants / Funds
@@ -102,6 +100,24 @@ Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
 - [austria.db @ world.db :octocat:](https://github.com/openmundi/austria.db)   #austriadb
 - [Austrian Beer, Brewpubs & Breweries @ beer.db :octocat:](https://github.com/openbeer/at-austria)  #openbeerat
 - [Austrian Bundesliga, Erste Liga @ football.db :octocat:](https://github.com/openfootball/at-austria)  #openfootballat
+
+
+## Education / Quality (Authenticity) Marks
+
+- [School of Data Austria](http://www.schoolofdata.at)
+- [Open Data Inside Badge](http://www.opendatainside.com) by Open Knowledge Forum Österreich
+
+
+## Events
+
+- [Linuxwochen Österreich News](http://linuxwochen.at) [:mega:](http://www.linuxwochen.at/atom/)   #linuxwochenat
+   - 2015: Vienna / Wien, ??
+   - 2014: Vienna / Wien, ??
+- [Young Coders Festival](http://www.youngcoders.at)
+    2015: Vienna / Wien; ???
+    2014: Vienna / Wien; Oct/11+12
+- Open Data Day
+    2015: Vienna; Feb/21
 
 
 ## Meta
