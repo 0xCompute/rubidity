@@ -120,6 +120,11 @@ Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
     - 2015: Vienna; Feb/21
 
 
+## Thanks
+
+Julian Ausserhofer  • Robert Harm • Thomas Thurner
+
+
 ## Meta
 
 **License**
