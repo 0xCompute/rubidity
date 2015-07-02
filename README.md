@@ -6,8 +6,6 @@ A collection of awesome open data projects, blogs, news sites, etc. in Austria /
 including web feeds ([What is?](https://en.wikipedia.org/wiki/Web_feed))
 for easy subscriptions.
 
-Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
-
 ---
 
 [ANNOUNCEMENT] Looking for an all-in-one-page mini news portal?
@@ -15,7 +13,7 @@ See the [Planet Open Data News Reader »](https://planetopendata.herokuapp.com/o
 
 ---
 
-Contributions welcome. Anything missing? Send in a pull request. Thanks.
+#### _Contributions welcome. Anything missing? Send in a pull request. Thanks._
 
 
 [Portals / Datahubs](#portals--datahubs) •
@@ -24,6 +22,8 @@ Contributions welcome. Anything missing? Send in a pull request. Thanks.
 [Eductation / Quality (Authenticity) Marks](#education--quality-authenticity-marks) •
 [Events](#events)
 
+
+Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
 
 ## Portals / Datahubs
 
