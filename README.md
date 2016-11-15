@@ -90,26 +90,6 @@ _Geo / Maps_
     [:mega:](https://www.wikimedia.at/feed/)  #wikimediaat
 
 
-### Grants / Funds
-
-- [netidee News (Österreichs größtes Internet-Förderprogramm)](https://netidee.neurovation.net)
-    [:mega:](https://netidee.neurovation.net/de/blog/feed)  #netideeat
-    by Internet Foundation Austria (IPA) 
-
-
-## Blogs
-
-- [open3.at - Open 3 (Society, Gov und Data) Austria News](https://www.open3.at)
-    [:mega:](http://feeds.feedburner.com/open3)  #open3at
-- [offene-oeffis.at - Offene Öffis News](http://www.offene-oeffis.at)
-    [:mega:](http://www.offene-oeffis.at/feed/)  #offeneoeffis
-- [opendatagraz.at - Open Data Graz News](http://opendatagraz.at)
-    [:mega:](http://www.opendatagraz.at/feed/)  #opendatagraz
-- [innsbruckopen.org - Open Data Innsbruck News](http://innsbruckopen.org)
-    [:mega:](http://innsbruckopen.org/feed/)  #innsbruckopen
-
-
-
 ## Projects
 
 - [offenerhaushalt.at - Offener Haushalt News](https://www.offenerhaushalt.at/news)
@@ -126,6 +106,24 @@ _Geo / Maps_
 
 - [schoolofdata.at - School of Data Austria](http://www.schoolofdata.at)
 - [opendatainside.com - Open Data Inside Badge](http://www.opendatainside.com) by Open Knowledge Forum Österreich
+
+### Grants / Funds
+
+- [netidee News (Österreichs größtes Internet-Förderprogramm)](https://netidee.neurovation.net)
+    [:mega:](https://netidee.neurovation.net/de/blog/feed)  #netideeat
+    by Internet Foundation Austria (IPA) 
+
+## Blogs
+
+- [open3.at - Open 3 (Society, Gov und Data) Austria News](https://www.open3.at)
+    [:mega:](http://feeds.feedburner.com/open3)  #open3at
+- [offene-oeffis.at - Offene Öffis News](http://www.offene-oeffis.at)
+    [:mega:](http://www.offene-oeffis.at/feed/)  #offeneoeffis
+- [opendatagraz.at - Open Data Graz News](http://opendatagraz.at)
+    [:mega:](http://www.opendatagraz.at/feed/)  #opendatagraz
+- [innsbruckopen.org - Open Data Innsbruck News](http://innsbruckopen.org)
+    [:mega:](http://innsbruckopen.org/feed/)  #innsbruckopen
+
 
 
 ## Events
@@ -149,11 +147,6 @@ _Others_
     - 2015: Vienna; Feb/21
     
 
-## Thanks
-
-Julian Ausserhofer  • Robert Harm • Thomas Thurner
-
-
 ## License
 
 ![](https://publicdomainworks.github.io/buttons/zero88x31.png)
@@ -163,3 +156,7 @@ The awesome list is dedicated to the public domain. Use it as you please with no
 
 Send them along to the [Open World Database (world.db) and Friends Forum/Mailing List](http://groups.google.com/group/openmundi). 
 Thanks!
+
+## Thanks
+
+Julian Ausserhofer  • Robert Harm • Thomas Thurner
