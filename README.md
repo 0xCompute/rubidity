@@ -82,8 +82,8 @@ _Geo / Maps_
 - [Open Commons Linz](http://opencommons.public1.linz.at)
     [:mega:](http://opencommons.public1.linz.at/feed)  #opencommonslinz
 - [okfn.at - Open Knowledge Foundation (OKFN) Austria](http://okfn.at/blog)
-    [:mega:](http://okfn.at/feed/)
-    [:octocat:](https://github.com/okfnat)  #okfnat
+    [:mega:](http://okfn.at/feed/), 
+    github: [okfnat](https://github.com/okfnat)  #okfnat
 - [Wikimedia Österreich](https://www.wikimedia.at)
     [:mega:](https://www.wikimedia.at/feed/)  #wikimediaat
 
@@ -128,16 +128,23 @@ _Geo / Maps_
 
 ## Events
 
+_Conferences / Festivals / Meetups / Camps_
+
 - [Linuxwochen Österreich News](http://linuxwochen.at) [:mega:](http://www.linuxwochen.at/atom/)   #linuxwochenat
-   - 2015: Vienna / Wien, ??
-   - 2014: Vienna / Wien, ??
+   - 2017: Vienna / Wien, ?? - FREE
+   - 2016: Vienna / Wien, ?? - FREE
+   - 2015: Vienna / Wien, ?? - FREE
+   - 2014: Vienna / Wien, ?? - FREE
+- GovCamp Vienna - BarCamp / Unconference / OpenSpace
+    - [2016: Vienna, Dec/2](https://www.barcamp.at/GovCamp_Vienna_2016) @ Verwaltungsakademie der Stadt Wien im 2. Bezirk, Rotensterngasse 9-11  - FREE
 - [Young Coders Festival](http://www.youngcoders.at)
     - 2015: Vienna / Wien; ???
     - 2014: Vienna / Wien; Oct/11+12
+
+_Others_
+
 - Open Data Day
     - 2015: Vienna; Feb/21
-- [GovCamp Vienna](https://www.barcamp.at/GovCamp_Vienna_2016) - BarCamp / Unconference / OpenSpace
-    - 2016: Vienna, Dec/2 @ Verwaltungsakademie der Stadt Wien im 2. Bezirk, Rotensterngasse 9-11  - FREE
     
 
 ## Thanks
@@ -145,14 +152,12 @@ _Geo / Maps_
 Julian Ausserhofer  • Robert Harm • Thomas Thurner
 
 
-## Meta
-
-**License**
+## License
 
 ![](https://publicdomainworks.github.io/buttons/zero88x31.png)
 The awesome list is dedicated to the public domain. Use it as you please with no restrictions whatsoever.
 
-**Questions? Comments?**
+## Questions? Comments?
 
 Send them along to the [Open World Database (world.db) and Friends Forum/Mailing List](http://groups.google.com/group/openmundi). 
 Thanks!
