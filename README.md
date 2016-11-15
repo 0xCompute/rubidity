@@ -1,5 +1,12 @@
+Awesome Series @ Planet Open Data
 
-# Open Data Austria / Österreich
+[World Data](https://github.com/planetopendata/awesome-world) • 
+[Football Data](https://github.com/planetopendata/awesome-football) •
+[Austria Data](https://github.com/planetopendata/awesome-austria) •
+[SQLite](https://github.com/planetopendata/awesome-sqlite)
+
+
+# Awesome Open Data Austria / Österreich
 
 
 A collection of awesome open data projects, blogs, news sites, etc. in Austria / Österreich
