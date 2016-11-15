@@ -6,12 +6,10 @@ A collection of awesome open data projects, blogs, news sites, etc. in Austria /
 including web feeds ([What is?](https://en.wikipedia.org/wiki/Web_feed))
 for easy subscriptions.
 
----
 
-[ANNOUNCEMENT] Looking for an all-in-one-page mini news portal?
-See the [Planet Open Data News Reader »](https://planetopendata.herokuapp.com/opendataaustria?style=top).
+> Note: Looking for an all-in-one-page mini news portal?
+> See the [Planet Open Data News Reader »](https://planetopendata.herokuapp.com/opendataaustria?style=top).
 
----
 
 #### _Contributions welcome. Anything missing? Send in a pull request. Thanks._
 
@@ -27,9 +25,9 @@ Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
 
 ## Portals / Datahubs
 
-- [data.gv.at - Offene Daten Österreich News](https://www.data.gv.at)
+- [data.gv.at - Offene Daten Österreich](https://www.data.gv.at)
     [:mega:](https://www.data.gv.at/feed/)   #datagvat
-- [opendataportal.at - Open Data Portal Österreich News](https://www.opendataportal.at)
+- [opendataportal.at - Open Data Portal Österreich](https://www.opendataportal.at)
     [:mega:](https://www.opendataportal.at/feed/),
     [:octocat:](https://github.com/OpenDataPortal-AT) #opendataportalat
 
@@ -38,20 +36,28 @@ Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
 
 ### Government
 
-- [open.wien.gv.at - Open Government Wien News](https://open.wien.gv.at)
-    [:mega:](https://open.wien.gv.at/site/feed/)  #openwiengvat
-- [opendata.at - Open Government Data (OGD) Austria News](http://opendata.at)
-    [:mega:](http://opendata.at/site/blog.xml)  #ogdat
+_Länder / Städte_
 
+- [open.wien.gv.at - Open Government Wien](https://open.wien.gv.at)
+    [:mega:](https://open.wien.gv.at/site/feed/)  #openwiengvat
+- [opendata.at - Open Government Data (OGD) Austria](http://opendata.at)
+    [:mega:](http://opendata.at/site/blog.xml)  #ogdat  -- todo/check: still in operation / merged / folded into data.gv.at ???
 - [data.ooe.gv.at - Land Oberösterreich](http://data.ooe.gv.at)
   - [data.linz.gv.at - Linz](http://data.linz.gv.at)
+- [data.steiermark.at - Open Data Steiermark - Land Steiermark](http://data.steiermark.at)
+  - [data.graz.gv.at - Open Government Data Graz | Graz Open Data](http://data.graz.gv.at)
+- [data.ktn.gv.at - Open Data Kärnten](http://data.ktn.gv.at)
+- [data.vorarlberg.gv.at - Open Government Data Vorarlberg](http://data.vorarlberg.gv.at) 
 
+_Ministries / Public Orgs_
 
-#### Geo / Maps
+- [data.statistik.gv.at - statistik austria](http://data.statistik.gv.at)
+- [data.umweltbundesamt.at - Umweltbundesamt](http://data.umweltbundesamt.at)
+
+_Geo / Maps_
 
 - [geoland.at - Geodatenportal der österreichischen Länder](http://geoland.at)  #geolandat
 - [basemap.at - Verwaltungsgrundkarte von Österreich](http://basemap.at)  #basemapat
-
 
 
 ### Universities
@@ -59,14 +65,14 @@ Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
 - [data.wu.ac.at - Open Data Wirtschaftsuniversität (WU) Wien](http://data.wu.ac.at)  #datawuacat
 
 
-### Non-Profit
+### Non-Profit / Non-Government
 
-- [Open Commons Linz News](http://opencommons.public1.linz.at)
+- [Open Commons Linz](http://opencommons.public1.linz.at)
     [:mega:](http://opencommons.public1.linz.at/feed)  #opencommonslinz
-- [okfn.at - Open Knowledge Foundation (OKFN) Austria News](http://okfn.at/blog)
+- [okfn.at - Open Knowledge Foundation (OKFN) Austria](http://okfn.at/blog)
     [:mega:](http://okfn.at/feed/)
     [:octocat:](https://github.com/okfnat)  #okfnat
-- [Wikimedia Österreich News](https://www.wikimedia.at)
+- [Wikimedia Österreich](https://www.wikimedia.at)
     [:mega:](https://www.wikimedia.at/feed/)  #wikimediaat
 
 
@@ -75,6 +81,7 @@ Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
 - [netidee News (Österreichs größtes Internet-Förderprogramm)](https://netidee.neurovation.net)
     [:mega:](https://netidee.neurovation.net/de/blog/feed)  #netideeat
     by Internet Foundation Austria (IPA) 
+
 
 ## Blogs
 
