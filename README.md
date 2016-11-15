@@ -33,10 +33,10 @@ Note: :mega: stands for the web feed.
 ## Portals / Datahubs
 
 - [data.gv.at - Offene Daten Österreich](https://www.data.gv.at)
-    [:mega:](https://www.data.gv.at/feed/), github: [datagvat](https://github.com/datagvat) #datagvat
+    [:mega:](https://www.data.gv.at/feed/), github: [datagvat](https://github.com/datagvat)
 - [opendataportal.at - Open Data Portal Österreich](https://www.opendataportal.at)
     [:mega:](https://www.opendataportal.at/feed/),
-    github: [OpenDataPortal-AT](https://github.com/OpenDataPortal-AT) #opendataportalat
+    github: [OpenDataPortal-AT](https://github.com/OpenDataPortal-AT)
 
 
 ## Orgs
@@ -46,7 +46,7 @@ Note: :mega: stands for the web feed.
 _Länder / Städte_
 
 - [open.wien.gv.at - Open Government Wien](https://open.wien.gv.at)
-    [:mega:](https://open.wien.gv.at/site/feed/)  #openwiengvat
+    [:mega:](https://open.wien.gv.at/site/feed/)
 - [data.noe.gv.at - Land Niederösterreich](http://data.noe.gv.at)
 - [data.ooe.gv.at - Land Oberösterreich](http://data.ooe.gv.at)
   - [data.linz.gv.at - Linz](http://data.linz.gv.at)
@@ -60,7 +60,7 @@ _Länder / Städte_
 <!-- more -->
 
 - [opendata.at - Open Government Data (OGD) Austria](http://opendata.at)
-    [:mega:](http://opendata.at/site/blog.xml)  #ogdat  -- todo/check: still in operation / merged / folded into data.gv.at ???
+    [:mega:](http://opendata.at/site/blog.xml) -- todo/check: still in operation / merged / folded into data.gv.at ???
 
 
 _Ministries / Public Orgs_
@@ -70,14 +70,13 @@ _Ministries / Public Orgs_
 
 _Geo / Maps_
 
-- [geoland.at - Geodatenportal der österreichischen Länder](http://geoland.at)  #geolandat
-- [basemap.at - Verwaltungsgrundkarte von Österreich](http://basemap.at)  #basemapat
+- [geoland.at - Geodatenportal der österreichischen Länder](http://geoland.at)
+- [basemap.at - Verwaltungsgrundkarte von Österreich](http://basemap.at)
 
 _Gov Initiatives / Projects_
 
 - [opencommons.linz.at - Open Commons Linz](http://opencommons.linz.at)
     [:mega:](http://opencommons.linz.at/feed) -  eine Initiative der Stadt Linz (Magistrat Linz, Gruberstraße 42)
-    #opencommonslinz
 - [offenerhaushalt.at - Offener Haushalt](https://www.offenerhaushalt.at)
    [:mega:](https://www.offenerhaushalt.at/news/feed) - 
    by KDZ - Zentrum für Verwaltungsforschung (1110 Wien, Guglgasse 13)
@@ -85,26 +84,26 @@ _Gov Initiatives / Projects_
 
 ### Universities
 
-- [data.wu.ac.at - Open Data Wirtschaftsuniversität (WU) Wien](http://data.wu.ac.at)  #datawuacat
+- [data.wu.ac.at - Open Data Wirtschaftsuniversität (WU) Wien](http://data.wu.ac.at)
 
 
 ### Non-Profit / Non-Government
 
 - [okfn.at - Open Knowledge Foundation (OKFN) Austria](http://okfn.at/blog)
     [:mega:](http://okfn.at/feed/), 
-    github: [okfnat](https://github.com/okfnat)  #okfnat
+    github: [okfnat](https://github.com/okfnat)
 - [wikimedia.at - Wikimedia Österreich](https://www.wikimedia.at)
-    [:mega:](https://www.wikimedia.at/feed/)  #wikimediaat
+    [:mega:](https://www.wikimedia.at/feed/)
 - [openstreetmap.at - Open Street Map Austria](https://www.openstreetmap.at)
-    [:mega:](https://www.openstreetmap.at/rss.xml), osm: [wiki/OSM-AT](http://wiki.openstreetmap.org/wiki/OSM-AT)  #openstreetmapat
+    [:mega:](https://www.openstreetmap.at/rss.xml), osm: [wiki/OSM-AT](http://wiki.openstreetmap.org/wiki/OSM-AT)
 
 
 
 ## Projects
 
-- austria.db @ world.db, github: [openmundi/austria.db](https://github.com/openmundi/austria.db)   #austriadb
-- Austrian Beer, Brewpubs & Breweries @ beer.db, github: [openbeer/at-austria](https://github.com/openbeer/at-austria)   #openbeerat
-- Austrian Bundesliga, Erste Liga @ football.db, github: [openfootball/at-austria](https://github.com/openfootball/at-austria)  #openfootballat
+- austria.db @ world.db, github: [openmundi/austria.db](https://github.com/openmundi/austria.db)
+- Austrian Beer, Brewpubs & Breweries @ beer.db, github: [openbeer/at-austria](https://github.com/openbeer/at-austria)
+- Austrian Bundesliga, Erste Liga @ football.db, github: [openfootball/at-austria](https://github.com/openfootball/at-austria)  
 
 _Local_
 
@@ -114,24 +113,24 @@ _Local_
 ## Education / Quality (Authenticity) Marks
 
 - [schoolofdata.at - School of Data Austria](http://www.schoolofdata.at)
-- [opendatainside.com - Open Data Inside Badge](http://www.opendatainside.com) by Open Knowledge Forum Österreich
+- [opendatainside.com - Open Data Inside Badge](http://www.opendatainside.com) by Open Knowledge Foundation Österreich
 
 ## Grants / Funds
 
 - [netidee News (Österreichs größtes Internet-Förderprogramm)](https://netidee.neurovation.net)
-    [:mega:](https://netidee.neurovation.net/de/blog/feed)  #netideeat
+    [:mega:](https://netidee.neurovation.net/de/blog/feed)  
     by Internet Foundation Austria (IPA) 
 
 ## Blogs
 
 - [open3.at - Open 3 (Society, Gov und Data) Austria News](https://www.open3.at)
-    [:mega:](http://feeds.feedburner.com/open3) by Robert Harm et al  #open3at
+    [:mega:](http://feeds.feedburner.com/open3) by Robert Harm et al
 - [offene-oeffis.at - Offene Öffis News](http://www.offene-oeffis.at)
-    [:mega:](http://www.offene-oeffis.at/feed/), github: [offene-oeffis-at](https://github.com/offene-oeffis-at) by Robert Harm, Patrick Wolowicz et al  #offeneoeffis
+    [:mega:](http://www.offene-oeffis.at/feed/), github: [offene-oeffis-at](https://github.com/offene-oeffis-at) by Robert Harm, Patrick Wolowicz et al
 - [opendatagraz.at - Open Data Graz News](http://opendatagraz.at)
-    [:mega:](http://www.opendatagraz.at/feed/)  #opendatagraz
+    [:mega:](http://www.opendatagraz.at/feed/)
 - [innsbruckopen.org - Open Data Innsbruck News](http://innsbruckopen.org)
-    [:mega:](http://innsbruckopen.org/feed/)  #innsbruckopen
+    [:mega:](http://innsbruckopen.org/feed/)
 
 
 
@@ -139,7 +138,7 @@ _Local_
 
 _Conferences / Festivals / Meetups / Camps_
 
-- [Linuxwochen Österreich](http://linuxwochen.at) [:mega:](http://www.linuxwochen.at/atom/)   #linuxwochenat
+- [Linuxwochen Österreich](http://linuxwochen.at) [:mega:](http://www.linuxwochen.at/atom/)
    - 2017: Vienna / Wien, ?? - FREE
    - 2016: Vienna / Wien, ?? - FREE
    - 2015: Vienna / Wien, ?? - FREE
