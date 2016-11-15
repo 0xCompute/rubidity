@@ -47,13 +47,15 @@ _Länder / Städte_
 
 - [open.wien.gv.at - Open Government Wien](https://open.wien.gv.at)
     [:mega:](https://open.wien.gv.at/site/feed/)  #openwiengvat
+- [data.noe.gv.at - Land Niederösterreich](http://data.noe.gv.at)
 - [data.ooe.gv.at - Land Oberösterreich](http://data.ooe.gv.at)
   - [data.linz.gv.at - Linz](http://data.linz.gv.at)
 - [data.steiermark.at - Open Data Steiermark - Land Steiermark](http://data.steiermark.at)
   - [data.graz.gv.at - Open Government Data Graz | Graz Open Data](http://data.graz.gv.at)
 - [data.ktn.gv.at - Open Data Kärnten](http://data.ktn.gv.at)
 - [data.vorarlberg.gv.at - Open Government Data Vorarlberg](http://data.vorarlberg.gv.at) 
-
+- [tirol.gv.at/data - Land Tirol](https://www.tirol.gv.at/data)
+- [data.stadt-salzburg.at - Stadt Salzburg](https://data.stadt-salzburg.at)
 
 <!-- more -->
 
