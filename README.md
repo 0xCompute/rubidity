@@ -79,8 +79,8 @@ _Gov Initiatives / Projects_
     [:mega:](http://opencommons.linz.at/feed) -  eine Initiative der Stadt Linz (Magistrat Linz, Gruberstraße 42)
     #opencommonslinz
 - [offenerhaushalt.at - Offener Haushalt](https://www.offenerhaushalt.at)
-   [:mega:](https://www.offenerhaushalt.at/news/feed)
-    - by KDZ - Zentrum für Verwaltungsforschung (1110 Wien, Guglgasse 13)
+   [:mega:](https://www.offenerhaushalt.at/news/feed) - 
+   by KDZ - Zentrum für Verwaltungsforschung (1110 Wien, Guglgasse 13)
 
 
 ### Universities
@@ -93,7 +93,7 @@ _Gov Initiatives / Projects_
 - [okfn.at - Open Knowledge Foundation (OKFN) Austria](http://okfn.at/blog)
     [:mega:](http://okfn.at/feed/), 
     github: [okfnat](https://github.com/okfnat)  #okfnat
-- [Wikimedia Österreich](https://www.wikimedia.at)
+- [wikimedia.at - Wikimedia Österreich](https://www.wikimedia.at)
     [:mega:](https://www.wikimedia.at/feed/)  #wikimediaat
 - [openstreetmap.at - Open Street Map Austria](https://www.openstreetmap.at)
     [:mega:](https://www.openstreetmap.at/rss.xml), osm: [wiki/OSM-AT](http://wiki.openstreetmap.org/wiki/OSM-AT)  #openstreetmapat
