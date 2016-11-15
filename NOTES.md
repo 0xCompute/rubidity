@@ -11,6 +11,11 @@
 
 ## Open Data Gov News - Austria, Laender, Staedte
 
+
+- [opendata.at - Open Government Data (OGD) Austria](http://opendata.at)
+    [:mega:](http://opendata.at/site/blog.xml) -- todo/check: still in operation / merged / folded into data.gv.at ???
+
+
 - http://data.graz.gv.at/feed/aktuelles.rss
 - http://data.noe.gv.at/Land-Zukunft/Open-Government-Data.rss
 - http://data.ktn.gv.at/news/feed
