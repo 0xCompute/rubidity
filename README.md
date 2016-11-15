@@ -117,14 +117,14 @@ _Local_
 
 ## Grants / Funds
 
-- [netidee News (Österreichs größtes Internet-Förderprogramm)](https://netidee.neurovation.net)
-    [:mega:](https://netidee.neurovation.net/de/blog/feed)  
-    by Internet Foundation Austria (IPA) 
+- [netidee.at - netidee (Österreichs größtes Internet-Förderprogramm)](https://www.netidee.at)
+    by Internet Foundation Austria (IPA) - 1 million euro / year granted; up to 50 000 / project 
+
 
 ## Blogs
 
 - [open3.at - Open 3 (Society, Gov und Data) Austria News](https://www.open3.at)
-    [:mega:](http://feeds.feedburner.com/open3) by Robert Harm et al
+    [:mega:](http://feeds.feedburner.com/open3) by Robert Harm, Rudolf Legat et al
 - [offene-oeffis.at - Offene Öffis News](http://www.offene-oeffis.at)
     [:mega:](http://www.offene-oeffis.at/feed/), github: [offene-oeffis-at](https://github.com/offene-oeffis-at) by Robert Harm, Patrick Wolowicz et al
 - [opendatagraz.at - Open Data Graz News](http://opendatagraz.at)
