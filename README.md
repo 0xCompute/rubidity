@@ -43,7 +43,11 @@ Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
 - [opendata.at - Open Government Data (OGD) Austria News](http://opendata.at)
     [:mega:](http://opendata.at/site/blog.xml)  #ogdat
 
-Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
+- [data.ooe.gv.at - Land Oberösterreich](http://data.ooe.gv.at)
+  - [data.linz.gv.at - Linz](http://data.linz.gv.at)
+
+
+#### Geo / Maps
 
 - [geoland.at - Geodatenportal der österreichischen Länder](http://geoland.at)  #geolandat
 - [basemap.at - Verwaltungsgrundkarte von Österreich](http://basemap.at)  #basemapat
@@ -51,8 +55,6 @@ Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
 
 
 ### Universities
-
-Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
 
 - [data.wu.ac.at - Open Data Wirtschaftsuniversität (WU) Wien](http://data.wu.ac.at)  #datawuacat
 
