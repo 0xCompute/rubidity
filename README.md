@@ -135,7 +135,7 @@ _Gov Initiatives / Projects_
 
 _Conferences / Festivals / Meetups / Camps_
 
-- [Linuxwochen Österreich News](http://linuxwochen.at) [:mega:](http://www.linuxwochen.at/atom/)   #linuxwochenat
+- [Linuxwochen Österreich](http://linuxwochen.at) [:mega:](http://www.linuxwochen.at/atom/)   #linuxwochenat
    - 2017: Vienna / Wien, ?? - FREE
    - 2016: Vienna / Wien, ?? - FREE
    - 2015: Vienna / Wien, ?? - FREE
