@@ -54,7 +54,7 @@ _Länder / Städte_
   - [data.graz.gv.at - Open Government Data Graz | Graz Open Data](http://data.graz.gv.at)
 - [data.ktn.gv.at - Open Data Kärnten](http://data.ktn.gv.at)
 - [data.vorarlberg.gv.at - Open Government Data Vorarlberg](http://data.vorarlberg.gv.at) 
-- [tirol.gv.at/data - Land Tirol](https://www.tirol.gv.at/data)
+- [data.tirol.gv.at - Land Tirol](http://data.tirol.gv.at)
 - [data.stadt-salzburg.at - Stadt Salzburg](https://data.stadt-salzburg.at)
 
 
