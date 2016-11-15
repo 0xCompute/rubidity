@@ -10,8 +10,7 @@ Awesome Series @ Planet Open Data
 
 
 A collection of awesome open data projects, blogs, news sites, etc. in Austria / Österreich
-including web feeds ([What is?](https://en.wikipedia.org/wiki/Web_feed))
-for easy subscriptions.
+including web feeds for easy subscriptions.
 
 
 > Note: Looking for an all-in-one-page mini news portal?
@@ -28,7 +27,8 @@ for easy subscriptions.
 [Events](#events)
 
 
-Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
+Note: :mega: stands for the web feed.
+
 
 ## Portals / Datahubs
 
@@ -36,7 +36,7 @@ Note: :octocat: stands for the GitHub page and :mega: stands for the web feed.
     [:mega:](https://www.data.gv.at/feed/)   #datagvat
 - [opendataportal.at - Open Data Portal Österreich](https://www.opendataportal.at)
     [:mega:](https://www.opendataportal.at/feed/),
-    [:octocat:](https://github.com/OpenDataPortal-AT) #opendataportalat
+    github: [OpenDataPortal-AT](https://github.com/OpenDataPortal-AT) #opendataportalat
 
 
 ## Orgs
@@ -47,14 +47,19 @@ _Länder / Städte_
 
 - [open.wien.gv.at - Open Government Wien](https://open.wien.gv.at)
     [:mega:](https://open.wien.gv.at/site/feed/)  #openwiengvat
-- [opendata.at - Open Government Data (OGD) Austria](http://opendata.at)
-    [:mega:](http://opendata.at/site/blog.xml)  #ogdat  -- todo/check: still in operation / merged / folded into data.gv.at ???
 - [data.ooe.gv.at - Land Oberösterreich](http://data.ooe.gv.at)
   - [data.linz.gv.at - Linz](http://data.linz.gv.at)
 - [data.steiermark.at - Open Data Steiermark - Land Steiermark](http://data.steiermark.at)
   - [data.graz.gv.at - Open Government Data Graz | Graz Open Data](http://data.graz.gv.at)
 - [data.ktn.gv.at - Open Data Kärnten](http://data.ktn.gv.at)
 - [data.vorarlberg.gv.at - Open Government Data Vorarlberg](http://data.vorarlberg.gv.at) 
+
+
+<!-- more -->
+
+- [opendata.at - Open Government Data (OGD) Austria](http://opendata.at)
+    [:mega:](http://opendata.at/site/blog.xml)  #ogdat  -- todo/check: still in operation / merged / folded into data.gv.at ???
+
 
 _Ministries / Public Orgs_
 
@@ -108,20 +113,17 @@ _Geo / Maps_
 - [offenerhaushalt.at - Offener Haushalt News](https://www.offenerhaushalt.at/news)
    [:mega:](https://www.offenerhaushalt.at/news/feed)  #offenerhaushaltat
     by KDZ Zentrum für Verwaltungsforschung
-- [Open Street Map Austria News](https://www.openstreetmap.at)
+- [openstreetmap.at - Open Street Map Austria](https://www.openstreetmap.at)
     [:mega:](https://www.openstreetmap.at/rss.xml)  #openstreetmapat
-
-Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
-
-- [austria.db @ world.db :octocat:](https://github.com/openmundi/austria.db)   #austriadb
-- [Austrian Beer, Brewpubs & Breweries @ beer.db :octocat:](https://github.com/openbeer/at-austria)  #openbeerat
-- [Austrian Bundesliga, Erste Liga @ football.db :octocat:](https://github.com/openfootball/at-austria)  #openfootballat
+- austria.db @ world.db, github: [openmundi/austria.db](https://github.com/openmundi/austria.db)   #austriadb
+- Austrian Beer, Brewpubs & Breweries @ beer.db, github: [openbeer/at-austria](https://github.com/openbeer/at-austria)   #openbeerat
+- Austrian Bundesliga, Erste Liga @ football.db, github: [openfootball/at-austria](https://github.com/openfootball/at-austria)  #openfootballat
 
 
 ## Education / Quality (Authenticity) Marks
 
-- [School of Data Austria](http://www.schoolofdata.at)
-- [Open Data Inside Badge](http://www.opendatainside.com) by Open Knowledge Forum Österreich
+- [schoolofdata.at - School of Data Austria](http://www.schoolofdata.at)
+- [opendatainside.com - Open Data Inside Badge](http://www.opendatainside.com) by Open Knowledge Forum Österreich
 
 
 ## Events
@@ -134,7 +136,9 @@ Web Feeds Missing - ([What is?](https://en.wikipedia.org/wiki/Web_feed))
     - 2014: Vienna / Wien; Oct/11+12
 - Open Data Day
     - 2015: Vienna; Feb/21
-
+- [GovCamp Vienna](https://www.barcamp.at/GovCamp_Vienna_2016) - BarCamp / Unconference / OpenSpace
+    - 2016: Vienna, Dec/2 @ Verwaltungsakademie der Stadt Wien im 2. Bezirk, Rotensterngasse 9-11  - FREE
+    
 
 ## Thanks
 
@@ -145,6 +149,7 @@ Julian Ausserhofer  • Robert Harm • Thomas Thurner
 
 **License**
 
+![](https://publicdomainworks.github.io/buttons/zero88x31.png)
 The awesome list is dedicated to the public domain. Use it as you please with no restrictions whatsoever.
 
 **Questions? Comments?**
