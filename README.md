@@ -33,7 +33,7 @@ Note: :mega: stands for the web feed.
 ## Portals / Datahubs
 
 - [data.gv.at - Offene Daten Österreich](https://www.data.gv.at)
-    [:mega:](https://www.data.gv.at/feed/)   #datagvat
+    [:mega:](https://www.data.gv.at/feed/), github: [datagvat](https://github.com/datagvat) #datagvat
 - [opendataportal.at - Open Data Portal Österreich](https://www.opendataportal.at)
     [:mega:](https://www.opendataportal.at/feed/),
     github: [OpenDataPortal-AT](https://github.com/OpenDataPortal-AT) #opendataportalat
@@ -106,6 +106,10 @@ _Gov Initiatives / Projects_
 - Austrian Beer, Brewpubs & Breweries @ beer.db, github: [openbeer/at-austria](https://github.com/openbeer/at-austria)   #openbeerat
 - Austrian Bundesliga, Erste Liga @ football.db, github: [openfootball/at-austria](https://github.com/openfootball/at-austria)  #openfootballat
 
+_Local_
+
+- [data.seestadt.city - Seestadt Aspern](https://data.seestadt.city), github: [botic/seestadt-data](https://github.com/botic/seestadt-data) by Philipp Naderer et al
+
 
 ## Education / Quality (Authenticity) Marks
 
@@ -121,9 +125,9 @@ _Gov Initiatives / Projects_
 ## Blogs
 
 - [open3.at - Open 3 (Society, Gov und Data) Austria News](https://www.open3.at)
-    [:mega:](http://feeds.feedburner.com/open3)  #open3at
+    [:mega:](http://feeds.feedburner.com/open3) by Robert Harm et al  #open3at
 - [offene-oeffis.at - Offene Öffis News](http://www.offene-oeffis.at)
-    [:mega:](http://www.offene-oeffis.at/feed/)  #offeneoeffis
+    [:mega:](http://www.offene-oeffis.at/feed/), github: [offene-oeffis-at](https://github.com/offene-oeffis-at) by Robert Harm, Patrick Wolowicz et al  #offeneoeffis
 - [opendatagraz.at - Open Data Graz News](http://opendatagraz.at)
     [:mega:](http://www.opendatagraz.at/feed/)  #opendatagraz
 - [innsbruckopen.org - Open Data Innsbruck News](http://innsbruckopen.org)
@@ -165,4 +169,4 @@ Thanks!
 
 ## Thanks
 
-Julian Ausserhofer  • Robert Harm • Thomas Thurner
+Julian Ausserhofer • Robert Harm • Thomas Thurner 
