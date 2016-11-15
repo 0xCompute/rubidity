@@ -57,11 +57,6 @@ _Länder / Städte_
 - [tirol.gv.at/data - Land Tirol](https://www.tirol.gv.at/data)
 - [data.stadt-salzburg.at - Stadt Salzburg](https://data.stadt-salzburg.at)
 
-<!-- more -->
-
-- [opendata.at - Open Government Data (OGD) Austria](http://opendata.at)
-    [:mega:](http://opendata.at/site/blog.xml) -- todo/check: still in operation / merged / folded into data.gv.at ???
-
 
 _Ministries / Public Orgs_
 
