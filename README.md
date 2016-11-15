@@ -73,6 +73,15 @@ _Geo / Maps_
 - [geoland.at - Geodatenportal der österreichischen Länder](http://geoland.at)  #geolandat
 - [basemap.at - Verwaltungsgrundkarte von Österreich](http://basemap.at)  #basemapat
 
+_Gov Initiatives / Projects_
+
+- [opencommons.linz.at - Open Commons Linz](http://opencommons.linz.at)
+    [:mega:](http://opencommons.linz.at/feed) -  eine Initiative der Stadt Linz (Magistrat Linz, Gruberstraße 42)
+    #opencommonslinz
+- [offenerhaushalt.at - Offener Haushalt](https://www.offenerhaushalt.at)
+   [:mega:](https://www.offenerhaushalt.at/news/feed)
+    - by KDZ - Zentrum für Verwaltungsforschung (1110 Wien, Guglgasse 13)
+
 
 ### Universities
 
@@ -81,22 +90,18 @@ _Geo / Maps_
 
 ### Non-Profit / Non-Government
 
-- [Open Commons Linz](http://opencommons.public1.linz.at)
-    [:mega:](http://opencommons.public1.linz.at/feed)  #opencommonslinz
 - [okfn.at - Open Knowledge Foundation (OKFN) Austria](http://okfn.at/blog)
     [:mega:](http://okfn.at/feed/), 
     github: [okfnat](https://github.com/okfnat)  #okfnat
 - [Wikimedia Österreich](https://www.wikimedia.at)
     [:mega:](https://www.wikimedia.at/feed/)  #wikimediaat
+- [openstreetmap.at - Open Street Map Austria](https://www.openstreetmap.at)
+    [:mega:](https://www.openstreetmap.at/rss.xml), osm: [wiki/OSM-AT](http://wiki.openstreetmap.org/wiki/OSM-AT)  #openstreetmapat
+
 
 
 ## Projects
 
-- [offenerhaushalt.at - Offener Haushalt News](https://www.offenerhaushalt.at/news)
-   [:mega:](https://www.offenerhaushalt.at/news/feed)  #offenerhaushaltat
-    by KDZ Zentrum für Verwaltungsforschung
-- [openstreetmap.at - Open Street Map Austria](https://www.openstreetmap.at)
-    [:mega:](https://www.openstreetmap.at/rss.xml)  #openstreetmapat
 - austria.db @ world.db, github: [openmundi/austria.db](https://github.com/openmundi/austria.db)   #austriadb
 - Austrian Beer, Brewpubs & Breweries @ beer.db, github: [openbeer/at-austria](https://github.com/openbeer/at-austria)   #openbeerat
 - Austrian Bundesliga, Erste Liga @ football.db, github: [openfootball/at-austria](https://github.com/openfootball/at-austria)  #openfootballat
@@ -107,7 +112,7 @@ _Geo / Maps_
 - [schoolofdata.at - School of Data Austria](http://www.schoolofdata.at)
 - [opendatainside.com - Open Data Inside Badge](http://www.opendatainside.com) by Open Knowledge Forum Österreich
 
-### Grants / Funds
+## Grants / Funds
 
 - [netidee News (Österreichs größtes Internet-Förderprogramm)](https://netidee.neurovation.net)
     [:mega:](https://netidee.neurovation.net/de/blog/feed)  #netideeat
