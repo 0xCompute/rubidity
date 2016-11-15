@@ -142,7 +142,8 @@ _Conferences / Festivals / Meetups / Camps_
    - 2014: Vienna / Wien, ?? - FREE
 - GovCamp Vienna - BarCamp / Unconference / OpenSpace
     - [2016: Vienna, Dec/2](https://www.barcamp.at/GovCamp_Vienna_2016) @ Verwaltungsakademie der Stadt Wien im 2. Bezirk, Rotensterngasse 9-11  - FREE
-- [Young Coders Festival](http://www.youngcoders.at)
+- [Jugend Hackt Österreich](http://jugendhackt.at) - vormals Young Coders Festival -2016
+    - 2016: Linz; Nov/4+5 - FREE (age 12-18)
     - 2015: Vienna / Wien; ???
     - 2014: Vienna / Wien; Oct/11+12
 
