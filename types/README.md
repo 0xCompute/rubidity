@@ -17,16 +17,16 @@ uint256 :public, :totalSupply
 allow "stand-alone" by-hand use e.g
 
 ``` ruby
-name   = TypedVar.new( :string, :public, :name ) 
-symbol = TypedVar.new( :string, :public, :symbol )
+name   = Typed::Var.new( :string ) 
+symbol = Typed::Var.new( :string )
 
-decimals    = TypedVar.new( :uint256, :public, :decimals ) 
-totalSupply = TypedVar.new( :uint256, :public, :totalSupply )
+decimals    = Typed::Var.new( :uint256 ) 
+totalSupply = Typed::Var.new( :uint256 )
 
 
 :string # gets turned into
-Typed::String  ## use singelton - why?
+Typed::String.new  ## use singelton - why?
 
 :uint256 # gets turned into
-Typed::Uint256  ## use singelton - why?
+Typed::Uint256.new  ## use singelton - why?
 ```
