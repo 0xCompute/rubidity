@@ -190,3 +190,11 @@ puts "bye"
 And so on.  To be continued ...
 
 
+
+
+## Bonus - More Blockchain (Crypto) Tools, Libraries & Scripts In Ruby
+
+See [**/blockchain**](https://github.com/rubycocos/blockchain) 
+at the ruby code commons (rubycocos) org.
+
+

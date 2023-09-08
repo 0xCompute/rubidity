@@ -56,18 +56,8 @@ abi = TestToken.abi
 pp TestToken.public_abi
   
 
-class ContractRecord    ## activerecord model class dummy 
-    def initialize( type ) @type = type.name; end
-    def type() @type;  end
-end
 
-
-rec = ContractRecord.new( TestToken )
-pp rec.type               ## TestToken (string)
-pp rec.type.constantize   ## TestToken (class) 
-
-
-contract = TestToken.new( rec )
+contract = TestToken.create
 pp contract
 
 
