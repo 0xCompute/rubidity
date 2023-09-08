@@ -68,7 +68,8 @@ class Type
  
   def raise_variable_type_error(literal)
     ## change to typeerror or such - why? why not?
-    raise ArgumentError, "Invalid #{self}: #{literal.inspect}"
+    msg = "Invalid #{self}: #{literal.inspect}"
+    raise ArgumentError, msg
   end
 
   def parse_integer(literal)
@@ -156,6 +157,8 @@ class Type
           Typed::Var.create( valuetype, value)
         ]
       end.to_h
+      ## puts "[debug] literal hash data:"
+      ## pp data
     
       proxy = MappingVar::Proxy.new(data, keytype: keytype, valuetype: valuetype)
       

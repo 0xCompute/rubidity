@@ -1,5 +1,15 @@
 
+require 'forwardable'  ## def_delegate
+
+
 module Typed
+
+def self.var( type, value = nil, **kwargs )
+     Var.create( type, value, **kwargs )
+end
+
+
+
 class Var
   
   attr_accessor :type, :value
@@ -79,7 +89,7 @@ class ArrayVar < Var
       end
       
       @subtype = subtype
-      @data    = (initial_value||[]).map { |value| Var.create( subtype, value )}
+      @data    = initial_value
     end
   
     def []( index )
@@ -109,8 +119,9 @@ end # class ArrayVar
 
 
 class MappingVar < Var
-  
+  extend Forwardable   ## pulls in def_delegator
 
+  
   def serialize
     @value.data.reduce({}) do |h, (k, v)|
       h[k.serialize] = v.serialize;
@@ -118,6 +129,10 @@ class MappingVar < Var
     end
   end
 
+  
+  def_delegator :@value,   :[]
+  def_delegator :@value,   :[]=
+  
 
   class Proxy
     attr_accessor :keytype, :valuetype, :data
@@ -126,11 +141,7 @@ class MappingVar < Var
       @keytype   = keytype
       @valuetype = valuetype
       
-      @data = (initial_value || {}).reduce({}) do |h, (k,v)| 
-                                      pp h
-                                      h[Var.create(keytype,k)]=Var.create( valuetype,v) 
-                                      h 
-                                     end
+      @data = initial_value 
     end
     
     def [](key_var)
