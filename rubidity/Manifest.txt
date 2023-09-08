@@ -1,0 +1,16 @@
+CHANGELOG.md
+Manifest.txt
+README.md
+Rakefile
+lib/rubidity.rb
+lib/rubidity/abi_proxy.rb
+lib/rubidity/array_type.rb
+lib/rubidity/contract_errors.rb
+lib/rubidity/contract_implementation.rb
+lib/rubidity/contract_transaction_globals.rb
+lib/rubidity/function_context.rb
+lib/rubidity/mapping_type.rb
+lib/rubidity/state_proxy.rb
+lib/rubidity/state_variable.rb
+lib/rubidity/type.rb
+lib/rubidity/typed_variable.rb
