@@ -10,8 +10,11 @@ end
 
 
 
+
 class Var
-  
+  extend Forwardable   ## pulls in def_delegator
+
+
   attr_accessor :type, :value
 
   def initialize( type, value = nil)
@@ -19,11 +22,14 @@ class Var
     self.value   = value || type.default_value
   end
  
+
   
   def self.create( type, value = nil, **kwargs)
     type = Type.create( type, **kwargs )
     
-    if type.is_a?( Mapping )
+    if type.is_a?( String )
+      StringVar.new( type, value ) 
+    elsif type.is_a?( Mapping )
       MappingVar.new( type, value )
     elsif type.is_a?( Array )
       ArrayVar.new(type, value )
@@ -72,103 +78,190 @@ end # class Var
 
 
 
+class StringVar < Var
 
-class ArrayVar < Var  
- 
-  def serialize
-    @value.data.map {|item| item.serialize }
-  end
-  
+  ## add more String forwards here!!!!
+  def_delegators :@value, :downcase, 
+                          :index, :include?
+end
 
-  class Proxy
-    attr_accessor :subtype, :data
-  
-    def initialize(initial_value=[], subtype:)
-      unless subtype.is_value_type?
-        raise ArgumentError, "Only value types for array elements supported; sorry" 
-      end
-      
+
+
+
+class SafeArray
+
+  attr_reader :data   
+
+   def initialize( initial_value=[], subtype: )
       @subtype = subtype
       @data    = initial_value
-    end
-  
-    def []( index )
-      ## fix: use index out of bounds error - why? why not?
-      raise ArgumentError, "Index out of bounds"   if index >= @data.size
+   end
 
-      value = @data[index]
-      value || Var.create( subtype )
-    end
-  
-    def []=(index, value) 
-      raise ArgumentError, "Sparse arrays are not supported"   if index > @data.size
+  ## add more Array forwards here!!!!
+  extend Forwardable   ## pulls in def_delegator
+  def_delegators :@data, :size, :empty?, :clear,
+                          :map, :reduce 
 
-      val_var = Var.create( subtype, value )
-      @data[ index ] = val_var
+
+  def []( index )
+    ## fix: use index out of bounds error - why? why not?
+    raise ArgumentError, "Index out of bounds"   if index >= @data.size
+
+    @data[ index ] || @subtype.default_value
+  end
+
+  def []=(index, new_value) 
+    raise ArgumentError, "Sparse arrays are not supported"   if index > @data.size
+
+    @data[ index ] = _typecast( @subtype, new_value )
+  end
+  
+  def push( new_value )
+     @data.push( _typecast( @subtype, new_value ) )
+  end
+
+  def _typecast( type, obj )
+    if obj.is_a?( Var )
+      if obj.type != type
+         ## fix: raise typeerror - if exists!!!
+          raise ArgumentError, "type error - expected #{type}; got #{obj.type} with value >#{obj.value}<"
+      end
+      obj.value
+    else 
+       type.check_and_normalize_literal( obj )
     end
-    
-    def push(value)
-      next_index = @data.size
-      
-      self.[]=(next_index, value)
+  end
+end  # class SafeArray
+
+
+
+class ArrayVar < Var  
+  def initialize( type, value = nil)
+    unless type.subtype.is_value_type?
+      raise ArgumentError, "Only value types for array elements supported; sorry" 
     end
-  end  # class Proxy
+
+    @type        = type
+    self.value   = value || type.default_value
+  end
+ 
+  
+  ## note: pass through value!!!!
+  ##   in new scheme - only "plain" ruby arrays/hash/string/integer/bool used!!!!
+  ##    no wrappers!!! - no need to convert!!!
+   
+  ## fix later: now only supporting/holding primitives (always serialized as is)
+  def _serialize_array( ary )
+    ary.map {|item| item }
+  end
+
+  def serialize()  _serialize_array( @value ); end
+  
+  ## add more Array forwards here!!!!
+  def_delegators :@value, :[], :[]=, :push,
+                          :size, :empty?, :clear 
+
 end # class ArrayVar
 
+
+class SafeMapping     ## change/rename  to SafeHash or such - why? why not?
+
+  attr_reader :data   
+
+  def initialize( initial_value={}, keytype:, valuetype: )
+    @keytype   = keytype
+    @valuetype = valuetype
+    @data      = initial_value   ## todo: add check here - why? why not?
+ end
+
+
+
+  ## add more Array forwards here!!!!
+  extend Forwardable   ## pulls in def_delegator
+  def_delegators :@data, :size, :empty?, :clear, 
+                         :map, :reduce 
+
+  ##
+   ### todo/fix: do NOT store typed keys and values in hash!!!!
+   ##   (maybe only if array or mapping but NOT for primitivies!!!!)
+
+   def [](key)
+    puts "[debug] []( #{key} )"
+    key_var = _typecast( @keytype, key )
+    obj = @data[key_var]
+
+    if @valuetype.is_a?( Mapping ) && obj.nil?
+      obj = @valuetype.default_value
+      @data[key_var] = obj
+    end
+
+    obj || @valuetype.default_value 
+  end
+
+  def []=(key, new_value)
+    puts "[debug] []=( #{key}, #{new_value}})"
+    key_var = _typecast( @keytype, key )
+    obj     = _typecast( @valuetype, new_value )
+
+    if @valuetype.is_a?( Mapping )
+      ## val_var = Proxy.new(keytype: valuetype.keytype, valuetype: valuetype.valuetype)
+      raise "What?"
+    end
+
+    @data[key_var] = obj
+  end
+
+
+  def _typecast( type, obj )
+    if obj.is_a?( Var )
+      if obj.type != type
+         ## fix: raise typeerror - if exists!!!
+          raise ArgumentError, "type error - expected #{@subtype}; got #{obj.type} with value >#{obj.value}<"
+      end
+      obj.value
+    else 
+       type.check_and_normalize_literal( obj )
+    end
+  end
+end  # class SafeMapping
 
 
 
 class MappingVar < Var
-  extend Forwardable   ## pulls in def_delegator
+  def initialize( type, value = nil)
+    puts
+    puts "[debug] MappingVar#initialize - #{type.inspect}, #{value.inspect}"
+    @type        = type
+    self.value   = value || type.default_value
 
-  
-  def serialize
-    @value.data.reduce({}) do |h, (k, v)|
-      h[k.serialize] = v.serialize;
+    puts "[debug] value: #{@value.inspect}"
+  end
+
+
+  ## todo: add support for array too??
+  def _serialize_mapping( mapping )
+    mapping.reduce({}) do |h, (k, v)|
+      h[k] = v.is_a?( Hash ) ? _serialize_mapping( v ) : v
       h
     end
   end
 
-  
-  def_delegator :@value,   :[]
-  def_delegator :@value,   :[]=
-  
+  ## note: pass through value!!!!
+  ##   in new scheme - only "plain" ruby arrays/hash/string/integer/bool used!!!!
+  ##    no wrappers!!! - no need to convert!!!
+  def serialize
+    puts "[debug] MappingVar#serialize"
+    pp @value
+    _serialize_mapping( @value )
+  end
 
-  class Proxy
-    attr_accessor :keytype, :valuetype, :data
-    
-    def initialize(initial_value = {}, keytype:, valuetype:)
-      @keytype   = keytype
-      @valuetype = valuetype
-      
-      @data = initial_value 
-    end
-    
-    def [](key_var)
-      key_var = Var.create( keytype, key_var)
-      value = @data[key_var]
 
-      if valuetype.is_a?( Mapping ) && value.nil?
-        value = Var.create( valuetype )
-        @data[key_var] = value
-      end
+  ## add more Hash forwards here!!!!
+  def_delegators :@value, :[], :[]=, 
+                        :size, :empty?, :clear
 
-      value || Var.create(valuetype)
-    end
-
-    def []=(key_var, value)
-      key_var = Var.create(keytype, key_var)
-      val_var = Var.create(valuetype, value)
-
-      if valuetype.is_a?( Mapping )
-        val_var = Proxy.new(keytype: valuetype.keytype, valuetype: valuetype.valuetype)
-        raise "What?"
-      end
-
-      @data[key_var] = val_var
-    end
-  end # class Proxy
 end # class MappingVar
+
 end  #  module Typed
 
 

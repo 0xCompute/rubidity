@@ -13,6 +13,8 @@ symbol = Typed.var :string
 pp name
 pp name.type
 pp name.value
+pp name.downcase
+pp name.index( 'hello' )
 
 puts
 pp symbol
@@ -23,6 +25,7 @@ name.value = 'hello'
 pp name
 pp name.value
 
+
 ## name.value = 123
 
 decimals     = Typed.var :uint256
@@ -32,6 +35,8 @@ pp totalSupply
 
 decimals.value = 18
 totalSupply.value = 21000000
+
+
 pp decimals
 pp totalSupply
 pp totalSupply.serialize
@@ -39,21 +44,34 @@ pp totalSupply.serialize
 
 balanceOf = Typed.var :mapping, keytype: :addressOrDumbContract,
                                 valuetype: :uint256
+
+
+
 pp balanceOf
 
+
+
 balanceOf.value['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 21000000
+balanceOf['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 21000000
+
 pp balanceOf
+
+
+
 old_state = balanceOf.serialize
 puts old_state.class.name  
 #=> Hash
 
 
-balanceOf.value['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 0
+balanceOf['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 0
 pp balanceOf.serialize
 
 puts "old_state:"
 pp old_state
+
 balanceOf.value = old_state
+
+
 pp balanceOf.serialize
 
 

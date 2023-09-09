@@ -76,12 +76,14 @@ s.totalSupply = 21000000
 
 pp s.serialize
 
+pp s.name
+pp s.symbol
+pp s.decimals
 pp s.balanceOf
 
 
 puts "try array access"
-pp s.balanceOf[ '0xC2172a6315c1D7f6855768F843c420EbB36eDa97' ] 
-pp s.balanceOf[ '0xC2172a6315c1D7f6855768F843c420EbB36eDa97' ].value 
+pp s.balanceOf[ '0xC2172a6315c1D7f6855768F843c420EbB36eDa97' ]  
 # = 21000000
 
 

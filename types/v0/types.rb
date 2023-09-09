@@ -83,7 +83,6 @@ class Type
   end
  
 
-
   def check_and_normalize_literal( literal )
     if is_a?(Address)
       unless literal.is_a?(::String) && literal.match?(/^0x[a-f0-9]{40}$/i)
@@ -144,50 +143,47 @@ class Type
         raise_variable_type_error(literal)
       end
     elsif is_a?( Mapping )
-      if literal.is_a?(SafeMapping)
-        return literal    ## .data  ## note: return nested (inside) data e.g. hash!!!
+      if literal.is_a?(MappingVar::Proxy)
+        return literal
       end
- 
+      
       unless literal.is_a?(::Hash)
         raise ArgumentError, "invalid #{literal}"
       end
       
-      ## add types (wrap literal in types)
-      ## todo - do a quick check - if hash populated with vars - why? why not?
-      ## todo/fix: check for nested arrays/mappings!!!
-      ##    do NOT wrap in SafeMapping/SafeArray
       data = literal.map do |key, value|
         [
-          keytype.check_and_normalize_literal( key ),
-          valuetype.check_and_normalize_literal( value )
+          Typed::Var.create( keytype,   key),
+          Typed::Var.create( valuetype, value)
         ]
       end.to_h
-
-      proxy =  SafeMapping.new( data, keytype: keytype, 
-                                      valuetype: valuetype )
-       return proxy
-    elsif is_a?( Array )   
-      if literal.is_a?(SafeArray)
-        return literal    ## .data   ## note: return nested (inside) data e.g. array!!!
+      ## puts "[debug] literal hash data:"
+      ## pp data
+    
+      proxy = MappingVar::Proxy.new(data, keytype: keytype, valuetype: valuetype)
+      
+      return proxy
+    elsif is_a?( Array )
+      if literal.is_a?(ArrayVar::Proxy)
+        return literal
       end
       
       unless literal.is_a?(::Array)
         raise_variable_type_error(literal)
       end
       
-      ## add types (wrap literal in types)
       data = literal.map do |value|
-        subtype.check_and_normalize_literal( value )
+        Typed::Var.create( subtype, value )
       end
-
-      proxy = SafeArray.new( data, subtype: subtype ) 
+    
+      proxy = ArrayVar::Proxy.new(data, subtype: subtype)
+      
       return proxy
     end
     
     raise ArgumentError, "Unknown type #{self.inspect}: #{literal.inspect}"
   end
 end  # class Type
-
 
 
 
@@ -268,7 +264,7 @@ class Array < Type   ## note: dynamic array for now (NOT fixed!!!! - add FixedAr
       another_type.kind_of?( Array ) && @subtype == another_type.subtype
     end
     def default_value
-        SafeArray.new( subtype: @subtype )   ## or just return [] - why? why not?  
+        ArrayVar::Proxy.new( subtype: @subtype )  
     end
     def self.instance( subtype ) 
        @instances ||= {}
@@ -291,7 +287,8 @@ class Mapping < Type
        @valuetype == another_type.valuetype 
      end
      def default_value 
-        SafeMapping.new( keytype: @keytype, valuetype: @valuetype )   ## or just return {} - why? why not? 
+        MappingVar::Proxy.new( keytype: @keytype, 
+                               valuetype: @valuetype ) 
      end
      def self.instance( keytype, valuetype ) 
         @instances ||= {}
