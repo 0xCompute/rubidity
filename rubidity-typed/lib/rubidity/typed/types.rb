@@ -41,15 +41,15 @@ class Type
 
   def self.value_types
     ## note: use shared single (type) instances
-    [StringType.instance,   
-     AddressType.instance,
-     DumbContractType.instance,
-     AddressOrDumbContractType.instance,
-     EthscriptionIdType.instance,
-     BoolType.instance,
-     Uint256Type.instance,
-     Int256Type.instance, 
-     DatetimeType.instance, 
+    [:string,   
+     :address,
+     :dumbContract,
+     :addressOrDumbContract,
+     :ethscriptionId,
+     :bool,
+     :uint256,
+     :int256, 
+     :datetime, 
     ]
   end
  

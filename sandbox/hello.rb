@@ -5,8 +5,18 @@
 
 
 ## require_relative '../lang/rubidity'
-require_relative '../rubidity/lib/rubidity'
+$LOAD_PATH.unshift( './rubidity-typed/lib' )
+$LOAD_PATH.unshift( './rubidity/lib' )
 
+require 'rubidity/typed'
+
+pp Type.value_types
+
+require 'rubidity'
+
+
+puts "bye"
+__END__
 
 class TestToken < ContractImplementation    
     string :public, :name

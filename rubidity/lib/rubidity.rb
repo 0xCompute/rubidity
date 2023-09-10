@@ -4,6 +4,16 @@
 #        Array#exclude?
 
 
+require 'rubidity/typed'
+## replaces:
+##    - type.rb
+##    - typed_variable.rb
+##    - array_type.rb
+##    - mapping_type.rb
+
+
+
+
 require 'active_support/all'
 
 # module Enumerable
@@ -21,11 +31,6 @@ require 'active_support/all'
 
 ## our own code
 require_relative 'rubidity/contract_errors'
-
-require_relative 'rubidity/type'
-require_relative 'rubidity/typed_variable'
-require_relative 'rubidity/array_type'
-require_relative 'rubidity/mapping_type'
 
 require_relative 'rubidity/state_variable'
 require_relative 'rubidity/state_proxy'

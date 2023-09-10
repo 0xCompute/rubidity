@@ -3,8 +3,7 @@ require 'hoe'
 
 Hoe.spec 'rubidity' do
 
-  self.version =   '0.0.1'  ##Pixelart::Module::Ordgen::VERSION
-
+  self.version =   '0.1.0'  ##Pixelart::Module::Ordgen::VERSION
 
   self.summary = 'Rubidity - Ruby for Layer 1 (L1) Contracts with "Off-Chain" Indexer'
   self.description = summary
@@ -19,7 +18,8 @@ Hoe.spec 'rubidity' do
   self.history_file = 'CHANGELOG.md'
 
   self.extra_deps = [
-    ['activesupport'],
+    ['rubidity-typed'],
+    ['activesupport'], 
   ]
 
   self.licenses = ['Public Domain']
