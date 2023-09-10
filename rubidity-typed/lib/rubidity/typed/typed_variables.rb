@@ -211,8 +211,15 @@ class SafeMapping     ## change/rename  to SafeHash or such - why? why not?
 
 
   def _typecast( type, obj )
-    if obj.is_a?( TypedVariable )
+    if obj.is_a?( TypedVariable )       
       if obj.type != type
+         puts "[debug] SafeMapping  _typecast:"
+         pp type
+         pp obj.type
+         pp type.inspect
+         pp obj.type.inspect
+         pp type == obj.type
+         pp type != obj.type
          ## fix: raise typeerror - if exists!!!
           raise ArgumentError, "type error - expected #{type}; got #{obj.type} with value >#{obj.value}<"
       end

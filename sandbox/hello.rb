@@ -9,14 +9,11 @@ $LOAD_PATH.unshift( './rubidity-typed/lib' )
 $LOAD_PATH.unshift( './rubidity/lib' )
 
 require 'rubidity/typed'
+require 'rubidity'
 
 pp Type.value_types
 
-require 'rubidity'
 
-
-puts "bye"
-__END__
 
 class TestToken < ContractImplementation    
     string :public, :name
@@ -41,6 +38,11 @@ class TestToken < ContractImplementation
       }
 
     function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
+
+        puts "[debug] transfer"
+        pp s.balanceOf[msg.sender]
+        pp amount
+
         require(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
         
         s.balanceOf[msg.sender] -= amount
@@ -53,7 +55,8 @@ class TestToken < ContractImplementation
         return true
     end
 end  # class TestToken  
-  
+
+
 
 
 pp TestToken.state_variable_definitions
@@ -64,7 +67,8 @@ pp TestToken.is_abstract_contract
 abi = TestToken.abi
 
 pp TestToken.public_abi
-  
+
+
 
 class ContractRecord    ## activerecord model class dummy 
     def initialize( type ) @type = type.name; end
@@ -79,6 +83,7 @@ pp rec.type.constantize   ## TestToken (class)
 
 contract = TestToken.new( rec )
 pp contract
+
 
 
 ## test globals (context)

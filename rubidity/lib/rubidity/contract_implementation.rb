@@ -66,8 +66,8 @@ class ContractImplementation
   
   def self.mapping(*args)
     key_type, value_type = args.first.first
-    metadata = {key_type: key_type, value_type: value_type}
-    type = Type.create(:mapping, metadata)
+    type = Type.create( :mapping, key_type: key_type, 
+                                  value_type: value_type )
     
     if args.last.is_a?(Symbol)
       define_state_variable(type, args)
@@ -77,9 +77,7 @@ class ContractImplementation
   end
   
   def self.array(*args)
-    value_type = args.first
-    metadata = {value_type: value_type}
-    type = Type.create(:array, metadata)
+    type = Type.create(:array, sub_type: sub_type )
     
     define_state_variable(type, args)
   end

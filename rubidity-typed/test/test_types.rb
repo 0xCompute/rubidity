@@ -24,6 +24,31 @@ def test_create
 
     assert_equal ''.freeze, t.zero
     assert_equal ''.freeze, t.default_value
+
+    t2 = Type.create( :string )
+    pp t
+    pp t2
+
+    assert_equal t.class, t2.class
+    assert_equal t.format, t2.format
+    assert       t == t2
+    assert      !t != t2
+end
+
+def test_addressOrDumbContract
+    a1 = Type.create( :addressOrDumbContract )
+    pp a1
+    a2 = Type.create( :addressOrDumbContract )
+    pp a2
+
+    assert_equal a1.class, a2.class
+    assert_equal a1.format, a2.format
+    assert       a1 == a2
+    assert      !a1 != a2
+
+    puts a1.inspect
+    puts a2.inspect
+    assert_equal a1, a2
 end
 end   # class TestTypes
 

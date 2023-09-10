@@ -223,8 +223,25 @@ class Type
 ### todo/check for minimal required methods required for
 ##    compare and equal support??
 def ==(other)
-  other.is_a?(self.class) && other.format == format
+  raise ArgumentError, "no required == method defined for Type subclass #{self.class.name}; sorry"
 end
+
+
+=begin
+def ==(other)
+## todo: check what to do for AddressOrDumbContract
+  ##                               allow union? (e.g. Address and DumbContract) too
+  ##
+  ##
+
+  if is_a?( ValueType )
+     other.is_a?( self.class )
+  else 
+    ## note: also check for matching sub_type or key_type/value_type
+    other.is_a?(self.class) && other.format == format
+  end
+end
+=end
 
 def !=(other) !(self == other); end
 def hash()    [format].hash;  end    ## add Type prefix or such - why? why not?  
@@ -238,11 +255,15 @@ class ValueType < Type; end       ## add value & reference type base - why? why 
 class ReferenceType < Type; end
 
 
+##
+## ruby note:  is_a? and kind_of? are alias - the same
+##            for "strict" checking use instance_of?()
+
 STRING_ZERO   = ''.freeze 
 class StringType < ValueType  ## note: strings are frozen / immutable - check again!!
     def name() :string; end     ## change name to type or symbol  or - why? why not???
     def format() 'string'; end
-    def ==(another_type)  another_type.kind_of?( StringType ); end
+    def ==(other)  other.is_a?( StringType ); end
     def zero()  STRING_ZERO;  end    
 
     alias_method :to_s,          :format
@@ -256,7 +277,7 @@ ADDRESS_ZERO  = ('0x'+'0'*40).freeze
 class AddressType < ValueType
     def name() :address; end
     def format() 'address'; end
-    def ==(another_type)  another_type.kind_of?( AddressType ); end
+    def ==(other)  other.is_a?( AddressType ); end
     def zero() ADDRESS_ZERO;  end
     
     alias_method :to_s,          :format
@@ -272,7 +293,7 @@ ETHSCRIPTION_ID_ZERO = ETHSCRIPTIONID_ZERO = CONTRACT_ZERO
 class DumbContractType < ValueType
     def name() :dumbContract; end
     def format() 'dumbContract'; end
-    def ==(another_type)  another_type.kind_of?( DumbContractType ); end
+    def ==(other)  other.is_a?( DumbContractType ); end
     def zero() CONTRACT_ZERO; end
     
     alias_method :to_s,          :format
@@ -281,10 +302,19 @@ class DumbContractType < ValueType
     def self.instance()  @instance ||= new; end
 end
 
+
 class AddressOrDumbContractType < ValueType  ## note: use "generic" "union" type???
     def name() :addressOrDumbContract; end
     def format() 'addressOrDumbContract'; end
-    def ==(another_type)  another_type.kind_of?( AddressType ) || another_type.kind_of?( DumbContractType ); end
+   
+## todo: check what to do for AddressOrDumbContract
+##       allow union? (e.g. Address and DumbContract) too
+##            or only AddressOrDumbContract???
+      def ==(other) 
+         other.is_a?( AddressOrDumbContractType ) ||
+         other.is_a?( AddressType ) || 
+         other.is_a?( DumbContractType ) 
+      end
     def zero()  ADDRESS_ZERO;  end  # note: default is address(0)
     
     alias_method :to_s,          :format
@@ -297,7 +327,7 @@ end
 class EthscriptionIdType < ValueType      ## todo/check: rename to inscripeId or inscriptionId
     def name() :ethscriptionId; end
     def format() 'ethscriptionId'; end
-    def ==(another_type)  another_type.kind_of?( EthscriptionIdType ); end
+    def ==(other)  other.is_a?( EthscriptionIdType ); end
     def zero()  ETHSCRIPTION_ID_ZERO; end
     
     alias_method :to_s,          :format
@@ -310,7 +340,7 @@ end
 class BoolType < ValueType
     def name() :bool; end
     def format() 'bool'; end
-    def ==(another_type)  another_type.kind_of?( BoolType ); end
+    def ==(other)  other.is_a?( BoolType ); end
     def zero()   false; end
     
     alias_method :to_s,          :format
@@ -322,7 +352,7 @@ end
 class Uint256Type < ValueType
     def name() :uint256; end
     def format() 'uint256'; end
-    def ==(another_type)  another_type.kind_of?( Uint256Type ); end
+    def ==(other)  other.is_a?( Uint256Type ); end
     def zero()   0; end
      
     alias_method :to_s,          :format
@@ -334,7 +364,7 @@ end
 class Int256Type < ValueType
     def name() :int256; end
     def format() 'int256'; end
-    def ==(another_type)  another_type.kind_of?( Int256Type ); end
+    def ==(other)  other.is_a?( Int256Type ); end
     def zero()   0; end
         
     alias_method :to_s,          :format
@@ -346,7 +376,7 @@ end
 class DatetimeType < ValueType   ## note: datetime is int (epoch time since 1970 in seconds in utc)
     def name() :datetime; end
     def format() 'datetime'; end
-    def ==(another_type)  another_type.kind_of?( DatetimeType ); end
+    def ==(other)  other.is_a?( DatetimeType ); end
     def zero()   0; end
         
     alias_method :to_s,          :format
@@ -363,8 +393,8 @@ class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! 
     end
     def name() :array; end
     def format() "#{@sub_type.format}[]"; end
-    def ==(another_type)
-      another_type.kind_of?( ArrayType ) && @sub_type == another_type.sub_type
+    def ==(other)
+      other.is_a?( ArrayType ) && @sub_type == other.sub_type
     end
     def zero
         ## or just return [] - why? why not?
@@ -391,10 +421,10 @@ class MappingType < ReferenceType
      end
      def name() :mapping; end
      def format() "mapping(#{@key_type.format}=>#{@value_type.format})"; end
-     def ==(another_type)
-       another_type.kind_of?( MappingType ) && 
-       @key_type   == another_type.key_type &&
-       @value_type == another_type.value_type 
+     def ==(other)
+       other.is_a?( MappingType ) && 
+       @key_type   == other.key_type &&
+       @value_type == other.value_type 
      end
      def zero
         ## or just return {} - why? why not?
@@ -409,196 +439,4 @@ class MappingType < ReferenceType
         @instances[ key_type.format+"=>"+value_type.format ] ||= new(key_type, value_type) 
      end
 end # class MappingType
-
-
-
-__END__
-
-  attr_accessor :name, :metadata, :key_type, :value_type
   
-  
-  TYPES.each do |type|
-    define_method("#{type}?") do
-      self.name == type
-    end
-  end
-  
-  def self.value_types
-    TYPES.select do |type|
-      create(type).is_value_type?
-    end
-  end
-  
-  def initialize(type_name, metadata = {})
-    type_name = type_name.to_sym
-    
-    if TYPES.exclude?(type_name)
-      raise "Invalid type #{type_name}"
-    end
-    
-    self.name = type_name.to_sym
-    self.metadata = metadata
-  end
-  
-  def self.create(type_or_name, metadata = {})
-    return type_or_name if type_or_name.is_a?(self)
-    
-    new(type_or_name, metadata)
-  end
-  
-  def key_type=(type)
-    return if type.nil?
-    @key_type = self.class.create(type)
-  end
-  
-  def value_type=(type)
-    return if type.nil?
-    @value_type = self.class.create(type)
-  end
-  
-  def metadata=(metadata)
-    self.key_type = metadata[:key_type]
-    self.value_type = metadata[:value_type]
-  end
-  
-  def metadata
-    { key_type: key_type, value_type: value_type }
-  end
-  
-  
-  
-  def raise_variable_type_error(literal)
-    raise VariableTypeError.new("Invalid #{self}: #{literal.inspect}")
-  end
-  
-  def parse_integer(literal)
-    base = literal.start_with?("0x") ? 16 : 10
-    
-    begin
-      Integer(literal, base)
-    rescue ArgumentError => e
-      raise_variable_type_error(literal)
-    end
-  end
-  
-  def check_and_normalize_literal(literal)
-    if address?
-      unless literal.is_a?(String) && literal.match?(/^0x[a-f0-9]{40}$/i)
-        raise_variable_type_error(literal)
-      end
-      
-      return literal.downcase
-    elsif uint256?
-      if literal.is_a?(String)
-        literal = parse_integer(literal)
-      end
-        
-      if literal.is_a?(Integer) && literal.between?(0, 2 ** 256 - 1)
-        return literal
-      end
-      
-      raise_variable_type_error(literal)
-    elsif int256?
-      if literal.is_a?(String)
-        literal = parse_integer(literal)
-      end
-        
-      if literal.is_a?(Integer) && literal.between?(-2 ** 255, 2 ** 255 - 1)
-        return literal
-      end
-      
-      raise_variable_type_error(literal)
-    elsif string?
-      unless literal.is_a?(String)
-        raise_variable_type_error(literal)
-      end
-      
-      return literal.freeze
-    elsif bool?
-      unless literal == true || literal == false
-        raise_variable_type_error(literal)
-      end
-      
-      return literal
-    elsif (dumbContract? || ethscriptionId?)
-      unless literal.is_a?(String) && literal.match?(/^0x[a-f0-9]{64}$/i)
-        raise_variable_type_error(literal)
-      end
-      
-      return literal.downcase
-    elsif addressOrDumbContract?
-      unless literal.is_a?(String) && (literal.match?(/^0x[a-f0-9]{64}$/i) || literal.match?(/^0x[a-f0-9]{40}$/i))
-        raise_variable_type_error(literal)
-      end
-      
-      return literal.downcase
-    elsif datetime?
-      dummy_uint = Type.create(:uint256)
-      
-      begin
-        return dummy_uint.check_and_normalize_literal(literal)
-      rescue VariableTypeError => e
-        raise_variable_type_error(literal)
-      end
-    elsif mapping?
-      if literal.is_a?(MappingType::Proxy)
-        return literal
-      end
-      
-      unless literal.is_a?(Hash)
-        raise VariableTypeError.new("invalid #{literal}")
-      end
-      
-      data = literal.map do |key, value|
-        [
-          TypedVariable.create(key_type, key),
-          TypedVariable.create(value_type, value)
-        ]
-      end.to_h
-    
-      proxy = MappingType::Proxy.new(data, key_type: key_type, value_type: value_type)
-      
-      return proxy
-    elsif array?
-      if literal.is_a?(ArrayType::Proxy)
-        return literal
-      end
-      
-      unless literal.is_a?(Array)
-        raise_variable_type_error(literal)
-      end
-      
-      data = literal.map do |value|
-        TypedVariable.create(value_type, value)
-      end
-    
-      proxy = ArrayType::Proxy.new(data, value_type: value_type)
-      
-      return proxy
-    end
-    
-    raise VariableTypeError.new("Unknown type #{self.inspect}: #{literal.inspect}")
-  end
-  
-  def ==(other)
-    other.is_a?(self.class) &&
-    other.name == name &&
-    other.metadata == metadata
-  end
-  
-  def !=(other)
-    !(self == other)
-  end
-  
-  def hash
-    [name, metadata].hash
-  end
-
-  def eql?(other)
-    hash == other.hash
-  end
-  
-  def is_value_type?
-    !mapping? && !array?
-  end
-end
