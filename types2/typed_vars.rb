@@ -2,24 +2,18 @@
 require 'forwardable'  ## def_delegate
 
 
-module Typed
 
-def self.var( type, value = nil, **kwargs )
-     Var.create( type, value, **kwargs )
-end
-
-
-
-
-class Var
+class TypedVariable
   extend Forwardable   ## pulls in def_delegator
 
 
   attr_accessor :type, :value
 
+
+ ## todo/fix: make initialize "private" - always use create!!! 
   def initialize( type, value = nil)
     @type        = type
-    self.value   = value || type.default_value
+    self.value   = value || type.zero
   end
  
 
@@ -27,12 +21,12 @@ class Var
   def self.create( type, value = nil, **kwargs)
     type = Type.create( type, **kwargs )
     
-    if type.is_a?( String )
-      StringVar.new( type, value ) 
-    elsif type.is_a?( Mapping )
-      MappingVar.new( type, value )
-    elsif type.is_a?( Array )
-      ArrayVar.new(type, value )
+    if type.is_a?( StringType )
+      TypedString.new( type, value ) 
+    elsif type.is_a?( MappingType )
+      TypedMapping.new( type, value )
+    elsif type.is_a?( ArrayType )
+      TypedArray.new(type, value )
     else
       new( type, value )
     end
@@ -58,15 +52,14 @@ class Var
 
  
   def value=(new_value)
-    @value = if new_value.is_a?(Var)
+    @value = if new_value.is_a?(TypedVariable)
                if new_value.type != @type
-                 if @type.is_a?( AddressOrDumbContract) &&
-                     (new_value.type.is_a?( Address) ||
-                      new_value.type.is_a?( DumbContract))           
+                 if @type.is_a?( AddressOrDumbContractType ) &&
+                     (new_value.type.is_a?( AddressType ) ||
+                      new_value.type.is_a?( DumbContractType ))           
                    new_value.value
                  else
-                  ## fix: raise typeerror - if exists!!!
-                   raise ArgumentError, "invalid #{type}: #{new_value.value}"
+                   raise TypeError, "expected type #{type}; got #{new_value.type} : #{new_value.value}"
                  end
                end
                new_value.value
@@ -78,11 +71,17 @@ end # class Var
 
 
 
-class StringVar < Var
+class TypedString < TypedVariable
 
   ## add more String forwards here!!!!
   def_delegators :@value, :downcase, 
-                          :index, :include?
+                          :index, :include?,
+                          :+
+
+  def to_str() @value; end  ## "automagilally" support implicit string conversion - why? why not?
+
+
+  def pretty_print( printer ) printer.text( "<var string:#{@value.inspect}>" ); end
 end
 
 
@@ -92,8 +91,8 @@ class SafeArray
 
   attr_reader :data   
 
-   def initialize( initial_value=[], subtype: )
-      @subtype = subtype
+   def initialize( initial_value=[], sub_type: )
+      @sub_type = sub_type
       @data    = initial_value
    end
 
@@ -107,21 +106,22 @@ class SafeArray
     ## fix: use index out of bounds error - why? why not?
     raise ArgumentError, "Index out of bounds"   if index >= @data.size
 
-    @data[ index ] || @subtype.default_value
+    @data[ index ] || @sub_type.zero
   end
 
   def []=(index, new_value) 
     raise ArgumentError, "Sparse arrays are not supported"   if index > @data.size
 
-    @data[ index ] = _typecast( @subtype, new_value )
+    @data[ index ] = _typecast( @sub_type, new_value )
   end
   
   def push( new_value )
-     @data.push( _typecast( @subtype, new_value ) )
+     @data.push( _typecast( @sub_type, new_value ) )
   end
 
+
   def _typecast( type, obj )
-    if obj.is_a?( Var )
+    if obj.is_a?( TypedVariable )
       if obj.type != type
          ## fix: raise typeerror - if exists!!!
           raise ArgumentError, "type error - expected #{type}; got #{obj.type} with value >#{obj.value}<"
@@ -135,14 +135,14 @@ end  # class SafeArray
 
 
 
-class ArrayVar < Var  
+class TypedArray < TypedVariable  
   def initialize( type, value = nil)
-    unless type.subtype.is_value_type?
+    unless type.sub_type.is_value_type?
       raise ArgumentError, "Only value types for array elements supported; sorry" 
     end
 
     @type        = type
-    self.value   = value || type.default_value
+    self.value   = value || type.zero
   end
  
   
@@ -168,9 +168,9 @@ class SafeMapping     ## change/rename  to SafeHash or such - why? why not?
 
   attr_reader :data   
 
-  def initialize( initial_value={}, keytype:, valuetype: )
-    @keytype   = keytype
-    @valuetype = valuetype
+  def initialize( initial_value={}, key_type:, value_type: )
+    @key_type   = key_type
+    @value_type = value_type
     @data      = initial_value   ## todo: add check here - why? why not?
  end
 
@@ -187,23 +187,23 @@ class SafeMapping     ## change/rename  to SafeHash or such - why? why not?
 
    def [](key)
     puts "[debug] []( #{key} )"
-    key_var = _typecast( @keytype, key )
+    key_var = _typecast( @key_type, key )
     obj = @data[key_var]
 
-    if @valuetype.is_a?( Mapping ) && obj.nil?
-      obj = @valuetype.default_value
+    if @value_type.is_a?( MappingType ) && obj.nil?
+      obj = @value_type.zero
       @data[key_var] = obj
     end
 
-    obj || @valuetype.default_value 
+    obj || @value_type.zero 
   end
 
   def []=(key, new_value)
     puts "[debug] []=( #{key}, #{new_value}})"
-    key_var = _typecast( @keytype, key )
-    obj     = _typecast( @valuetype, new_value )
+    key_var = _typecast( @key_type, key )
+    obj     = _typecast( @value_type, new_value )
 
-    if @valuetype.is_a?( Mapping )
+    if @value_type.is_a?( MappingType )
       ## val_var = Proxy.new(keytype: valuetype.keytype, valuetype: valuetype.valuetype)
       raise "What?"
     end
@@ -213,10 +213,10 @@ class SafeMapping     ## change/rename  to SafeHash or such - why? why not?
 
 
   def _typecast( type, obj )
-    if obj.is_a?( Var )
+    if obj.is_a?( TypedVariable )
       if obj.type != type
          ## fix: raise typeerror - if exists!!!
-          raise ArgumentError, "type error - expected #{@subtype}; got #{obj.type} with value >#{obj.value}<"
+          raise ArgumentError, "type error - expected #{type}; got #{obj.type} with value >#{obj.value}<"
       end
       obj.value
     else 
@@ -227,12 +227,12 @@ end  # class SafeMapping
 
 
 
-class MappingVar < Var
+class TypedMapping < TypedVariable
   def initialize( type, value = nil)
     puts
     puts "[debug] MappingVar#initialize - #{type.inspect}, #{value.inspect}"
     @type        = type
-    self.value   = value || type.default_value
+    self.value   = value || type.zero
 
     puts "[debug] value: #{@value.inspect}"
   end
@@ -260,9 +260,7 @@ class MappingVar < Var
   def_delegators :@value, :[], :[]=, 
                         :size, :empty?, :clear
 
-end # class MappingVar
-
-end  #  module Typed
+end # class TypedMapping
 
 
 
