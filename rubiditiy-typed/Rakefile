@@ -1,0 +1,28 @@
+require 'hoe'
+## require './lib/rubidity/version.rb'
+
+Hoe.spec 'rubidity-typed' do
+
+  self.version =   '0.0.1'  ##Pixelart::Module::Ordgen::VERSION
+
+
+  self.summary = 'rubidity-typed - "zero-dependency" type machinery incl. (frozen) string, address, uint256, contract and more for rubidity - ruby for layer 1 (l1) contracts with "off-chain" indexer'
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/s6ruby/rubidity' }
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'gerald.bauer@gmail.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = []
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.3'
+  }
+end
