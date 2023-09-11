@@ -200,8 +200,11 @@ class Type
       proxy =  SafeMapping.new( data, key_type: key_type, 
                                       value_type: value_type )
        return proxy
-    elsif is_a?( ArrayType )   
-      if literal.is_a?(SafeArray)
+    elsif is_a?( ArrayType )  
+      
+      ## todo/fix: check for matching sub_type!!!!
+      ## check if possible to get TypedArray passed in as literal!!!
+      if literal.is_a?(TypedArray)
         return literal    ## .data   ## note: return nested (inside) data e.g. array!!!
       end
       
@@ -209,13 +212,12 @@ class Type
         raise TypeError, "invalid type; expected literal Array; got #{literal.inspect}"
       end
       
-      ## add types (wrap literal in types)
+      ## check types only - wrap literal in types - why? why not?
       data = literal.map do |value|
-        subtype.check_and_normalize_literal( value )
+        sub_type.check_and_normalize_literal( value )
       end
 
-      proxy = SafeArray.new( data, sub_type: sub_type ) 
-      return proxy
+      return data
     end
     
     raise TypeError, "invalid type; expected #{self.format}; got #{literal.inspect}"
@@ -270,7 +272,12 @@ class StringType < ValueType  ## note: strings are frozen / immutable - check ag
     alias_method :default_value, :zero
 
     def self.instance()  @instance ||= new; end
+
+    #####
+    #  add create helper - why? why not?    
+    def create( value ) TypedString.new( value ); end 
 end
+
 
 
 ADDRESS_ZERO  = ('0x'+'0'*40).freeze
@@ -399,7 +406,7 @@ class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! 
     end
     def zero
         ## or just return [] - why? why not?
-        SafeArray.new( sub_type: @sub_type )     
+        TypedArray.new( sub_type: @sub_type )    
     end
     
     alias_method :to_s,          :format

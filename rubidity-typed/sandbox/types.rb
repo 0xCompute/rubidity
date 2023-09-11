@@ -111,6 +111,7 @@ pp str
 pp str.type
 pp str.value
 pp str.value.frozen?
+pp str.zero?
 
 
 str  =  TypedVariable.create(:string )
@@ -124,6 +125,7 @@ pp str
 pp str.type
 pp str.value
 pp str.value.frozen?
+pp str.zero?
 
 
 
@@ -217,5 +219,21 @@ pp balanceOf.serialize
 
 
 
+ary = TypedVariable.create( :array, sub_type: :string )
+pp ary
+pp ary.zero?
+
+pp ary.replace( ['one', 'two'] )
+pp ary
+
+ary.push( 'three' )
+pp ary[0]
+pp ary[1]
+pp ary[2]
+pp ary.size
+pp ary
+
+pp ary.serialize
+pp ary.deserialize( ary.serialize )
 
 puts "bye"

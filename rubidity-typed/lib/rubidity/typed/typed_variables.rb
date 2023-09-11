@@ -17,17 +17,15 @@ class TypedVariable
 
   
   def self.create( type, value = nil, **kwargs)
-    type = Type.create( type, **kwargs )
-    
     case type
-    when StringType  
+    when :string  
       TypedString.new( value ) 
-    when MappingType 
-      TypedMapping.new( type, value )
-    when ArrayType 
-      TypedArray.new(type, value )
+    when :array 
+      TypedArray.new( value, **kwargs )
+    when :mapping 
+      TypedMapping.new( Type.create(type, **kwargs), value )
     else
-      new( type, value )
+      new( Type.create( type ), value )
     end
   end
 
@@ -49,7 +47,8 @@ class TypedVariable
     self.value = serialized_value
   end
 
- 
+  ### value=(new_value) change to replace
+  ##
   def value=(new_value)
     @value = if new_value.is_a?(TypedVariable)
                if new_value.type != @type
@@ -96,87 +95,12 @@ class TypedString < TypedValue
   def to_str() @value; end  ## "automagilally" support implicit string conversion - why? why not?
 
 
+  def zero?()  @value == type.zero; end
+
+
   def pretty_print( printer ) printer.text( "<var string:#{@value.inspect}>" ); end
 end
 
-
-
-
-class SafeArray
-
-  attr_reader :data   
-
-   def initialize( initial_value=[], sub_type: )
-      @sub_type = sub_type
-      @data    = initial_value
-   end
-
-  ## add more Array forwards here!!!!
-  extend Forwardable   ## pulls in def_delegator
-  def_delegators :@data, :size, :empty?, :clear,
-                          :map, :reduce 
-
-
-  def []( index )
-    ## fix: use index out of bounds error - why? why not?
-    raise ArgumentError, "Index out of bounds"   if index >= @data.size
-
-    @data[ index ] || @sub_type.zero
-  end
-
-  def []=(index, new_value) 
-    raise ArgumentError, "Sparse arrays are not supported"   if index > @data.size
-
-    @data[ index ] = _typecast( @sub_type, new_value )
-  end
-  
-  def push( new_value )
-     @data.push( _typecast( @sub_type, new_value ) )
-  end
-
-
-  def _typecast( type, obj )
-    if obj.is_a?( TypedVariable )
-      if obj.type != type
-         ## fix: raise typeerror - if exists!!!
-          raise ArgumentError, "type error - expected #{type}; got #{obj.type} with value >#{obj.value}<"
-      end
-      obj.value
-    else 
-       type.check_and_normalize_literal( obj )
-    end
-  end
-end  # class SafeArray
-
-
-
-class TypedArray < TypedReference
-  def initialize( type, value = nil)
-    unless type.sub_type.is_value_type?
-      raise ArgumentError, "Only value types for array elements supported; sorry" 
-    end
-
-    @type        = type
-    self.value   = value || type.zero
-  end
- 
-  
-  ## note: pass through value!!!!
-  ##   in new scheme - only "plain" ruby arrays/hash/string/integer/bool used!!!!
-  ##    no wrappers!!! - no need to convert!!!
-   
-  ## fix later: now only supporting/holding primitives (always serialized as is)
-  def _serialize_array( ary )
-    ary.map {|item| item }
-  end
-
-  def serialize()  _serialize_array( @value ); end
-  
-  ## add more Array forwards here!!!!
-  def_delegators :@value, :[], :[]=, :push,
-                          :size, :empty?, :clear 
-
-end # class ArrayVar
 
 
 class SafeMapping     ## change/rename  to SafeHash or such - why? why not?
