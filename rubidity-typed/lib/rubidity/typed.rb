@@ -7,4 +7,5 @@ require 'forwardable'  ## def_delegate
 require_relative 'typed/types'
 require_relative 'typed/typed_variables'
 require_relative 'typed/typed_array'
+require_relative 'typed/typed_mapping'
 

@@ -28,7 +28,7 @@ class TypedArray < TypedReference
                new_value.data
             else
                 type.check_and_normalize_literal( new_value ).map do |item|
-                    @type.sub_type.create( item )
+                    type.sub_type.create( item )
                 end 
             end
   end

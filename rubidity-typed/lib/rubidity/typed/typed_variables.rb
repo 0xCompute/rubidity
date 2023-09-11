@@ -11,6 +11,11 @@ class TypedVariable
  ## todo/fix: make initialize "private" - always use create!!! 
   def initialize( type, value = nil)
     @type        = type
+
+    unless type.is_a?( Type )
+      puts  "!! [warn] no type passed in; got #{type.inspect} for #{self.class.name} with value >#{value.inspect}<"
+    end
+
     self.value   = value || type.zero
   end
  
@@ -23,7 +28,7 @@ class TypedVariable
     when :array 
       TypedArray.new( value, **kwargs )
     when :mapping 
-      TypedMapping.new( Type.create(type, **kwargs), value )
+      TypedMapping.new( value, **kwargs )
     else
       new( Type.create( type ), value )
     end
@@ -100,114 +105,6 @@ class TypedString < TypedValue
 
   def pretty_print( printer ) printer.text( "<var string:#{@value.inspect}>" ); end
 end
-
-
-
-class SafeMapping     ## change/rename  to SafeHash or such - why? why not?
-
-  attr_reader :data   
-
-  def initialize( initial_value={}, key_type:, value_type: )
-    @key_type   = key_type
-    @value_type = value_type
-    @data      = initial_value   ## todo: add check here - why? why not?
- end
-
-
-
-  ## add more Array forwards here!!!!
-  extend Forwardable   ## pulls in def_delegator
-  def_delegators :@data, :size, :empty?, :clear, 
-                         :map, :reduce 
-
-  ##
-   ### todo/fix: do NOT store typed keys and values in hash!!!!
-   ##   (maybe only if array or mapping but NOT for primitivies!!!!)
-
-   def [](key)
-    puts "[debug] []( #{key} )"
-    key_var = _typecast( @key_type, key )
-    obj = @data[key_var]
-
-    if @value_type.is_a?( MappingType ) && obj.nil?
-      obj = @value_type.zero
-      @data[key_var] = obj
-    end
-
-    obj || @value_type.zero 
-  end
-
-  def []=(key, new_value)
-    puts "[debug] []=( #{key}, #{new_value}})"
-    key_var = _typecast( @key_type, key )
-    obj     = _typecast( @value_type, new_value )
-
-    if @value_type.is_a?( MappingType )
-      ## val_var = Proxy.new(keytype: valuetype.keytype, valuetype: valuetype.valuetype)
-      raise "What?"
-    end
-
-    @data[key_var] = obj
-  end
-
-
-  def _typecast( type, obj )
-    if obj.is_a?( TypedVariable )       
-      if obj.type != type
-         puts "[debug] SafeMapping  _typecast:"
-         pp type
-         pp obj.type
-         pp type.inspect
-         pp obj.type.inspect
-         pp type == obj.type
-         pp type != obj.type
-         ## fix: raise typeerror - if exists!!!
-          raise ArgumentError, "type error - expected #{type}; got #{obj.type} with value >#{obj.value}<"
-      end
-      obj.value
-    else 
-       type.check_and_normalize_literal( obj )
-    end
-  end
-end  # class SafeMapping
-
-
-
-class TypedMapping < TypedReference
-  def initialize( type, value = nil)
-    puts
-    puts "[debug] MappingVar#initialize - #{type.inspect}, #{value.inspect}"
-    @type        = type
-    self.value   = value || type.zero
-
-    puts "[debug] value: #{@value.inspect}"
-  end
-
-
-  ## todo: add support for array too??
-  def _serialize_mapping( mapping )
-    mapping.reduce({}) do |h, (k, v)|
-      h[k] = v.is_a?( Hash ) ? _serialize_mapping( v ) : v
-      h
-    end
-  end
-
-  ## note: pass through value!!!!
-  ##   in new scheme - only "plain" ruby arrays/hash/string/integer/bool used!!!!
-  ##    no wrappers!!! - no need to convert!!!
-  def serialize
-    puts "[debug] MappingVar#serialize"
-    pp @value
-    _serialize_mapping( @value )
-  end
-
-
-  ## add more Hash forwards here!!!!
-  def_delegators :@value, :[], :[]=, 
-                        :size, :empty?, :clear
-
-end # class TypedMapping
-
 
 
 

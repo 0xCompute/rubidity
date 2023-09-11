@@ -178,7 +178,7 @@ class Type
         raise_variable_type_error(literal)
       end
     elsif is_a?( MappingType )
-      if literal.is_a?(SafeMapping)
+      if literal.is_a?(TypedMapping)
         return literal    ## .data  ## note: return nested (inside) data e.g. hash!!!
       end
  
@@ -197,9 +197,7 @@ class Type
         ]
       end.to_h
 
-      proxy =  SafeMapping.new( data, key_type: key_type, 
-                                      value_type: value_type )
-       return proxy
+      return data
     elsif is_a?( ArrayType )  
       
       ## todo/fix: check for matching sub_type!!!!
@@ -329,6 +327,10 @@ class AddressOrDumbContractType < ValueType  ## note: use "generic" "union" type
     alias_method :default_value, :zero
 
     def self.instance()  @instance ||= new; end
+
+    #####
+    #  add create helper - why? why not?    
+    def create( value ) TypedVariable.create( :addressOrDumbContract, value ); end 
 end
 
 
@@ -367,7 +369,12 @@ class Uint256Type < ValueType
     alias_method :default_value, :zero
    
     def self.instance()  @instance ||= new; end
+
+    #####
+    #  add create helper - why? why not?    
+    def create( value ) TypedVariable.create( :uint256, value ); end 
 end
+
 
 class Int256Type < ValueType
     def name() :int256; end
@@ -436,7 +443,7 @@ class MappingType < ReferenceType
      end
      def zero
         ## or just return {} - why? why not?
-        SafeMapping.new( key_type: @key_type, value_type: @value_type )    
+        TypedMapping.new( key_type: @key_type, value_type: @value_type )    
      end
     
      alias_method :to_s,          :format
