@@ -2,6 +2,18 @@
 
 
 
+## Todos
+
+- [ ]  change TypedVariable to "stand-alone" legacy creator only
+       and use new Typed class for base, is_a?(Typed)
+       and all .new MUST be per class (no "generic") available for now - why? why not?
+
+- use later Typed.var( ) for generic create or such? - why? why not?
+
+
+## More
+
+
 ContractImplementation
 
 move #mock with Contract db use out of lang??
