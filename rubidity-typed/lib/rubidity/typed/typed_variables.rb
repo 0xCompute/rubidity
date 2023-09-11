@@ -19,11 +19,12 @@ class TypedVariable
   def self.create( type, value = nil, **kwargs)
     type = Type.create( type, **kwargs )
     
-    if type.is_a?( StringType )
-      TypedString.new( type, value ) 
-    elsif type.is_a?( MappingType )
+    case type
+    when StringType  
+      TypedString.new( value ) 
+    when MappingType 
       TypedMapping.new( type, value )
-    elsif type.is_a?( ArrayType )
+    when ArrayType 
       TypedArray.new(type, value )
     else
       new( type, value )
@@ -52,7 +53,7 @@ class TypedVariable
   def value=(new_value)
     @value = if new_value.is_a?(TypedVariable)
                if new_value.type != @type
-                 if @type.is_a?( AddressOrDumbContractType ) &&
+                 if type.is_a?( AddressOrDumbContractType ) &&
                      (new_value.type.is_a?( AddressType ) ||
                       new_value.type.is_a?( DumbContractType ))           
                    new_value.value
@@ -62,15 +63,31 @@ class TypedVariable
                end
                new_value.value
             else
-               @type.check_and_normalize_literal(new_value)
+               type.check_and_normalize_literal(new_value)
             end
   end
 end # class Var
 
 
 
-class TypedString < TypedVariable
+## add value & reference type base - why? why not?
+class TypedValue < TypedVariable; end
+class TypedReference < TypedVariable; end 
 
+
+
+
+
+class TypedString < TypedValue
+
+  ## used shared type instance - why? why not?
+  def type() StringType.instance; end  
+
+  def initialize( value = nil )
+    self.value  = value || type.zero
+  end
+
+  
   ## add more String forwards here!!!!
   def_delegators :@value, :downcase, 
                           :index, :include?,
@@ -133,7 +150,7 @@ end  # class SafeArray
 
 
 
-class TypedArray < TypedVariable  
+class TypedArray < TypedReference
   def initialize( type, value = nil)
     unless type.sub_type.is_value_type?
       raise ArgumentError, "Only value types for array elements supported; sorry" 
@@ -232,7 +249,7 @@ end  # class SafeMapping
 
 
 
-class TypedMapping < TypedVariable
+class TypedMapping < TypedReference
   def initialize( type, value = nil)
     puts
     puts "[debug] MappingVar#initialize - #{type.inspect}, #{value.inspect}"

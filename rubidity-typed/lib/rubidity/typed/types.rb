@@ -5,7 +5,8 @@ class Type
      ##       or sig or signature or typespec   - why? why not?   
     def format    
         ## check/todo: what error to raise for not implemented / method not defined???
-        raise ArgumentError, "no required format method defined for Type subclass #{self.class.name}; sorry"
+        ### note: raise (will use RuntimeError/Exception?)
+        raise "no required format method defined for Type subclass #{self.class.name}; sorry"
     end   
     ## return type signature string - why? why not?
     ##   e.g.     string
@@ -223,7 +224,7 @@ class Type
 ### todo/check for minimal required methods required for
 ##    compare and equal support??
 def ==(other)
-  raise ArgumentError, "no required == method defined for Type subclass #{self.class.name}; sorry"
+  raise "no required == method defined for Type subclass #{self.class.name}; sorry"
 end
 
 
@@ -243,9 +244,8 @@ def ==(other)
 end
 =end
 
-def !=(other) !(self == other); end
-def hash()    [format].hash;  end    ## add Type prefix or such - why? why not?  
 
+def hash()    [format].hash;  end    ## add Type prefix or such - why? why not?  
 def eql?(other)  hash == other.hash; end  ## check eql? used for what?
 end  # class Type
 
@@ -310,10 +310,11 @@ class AddressOrDumbContractType < ValueType  ## note: use "generic" "union" type
 ## todo: check what to do for AddressOrDumbContract
 ##       allow union? (e.g. Address and DumbContract) too
 ##            or only AddressOrDumbContract???
-      def ==(other) 
-         other.is_a?( AddressOrDumbContractType ) ||
-         other.is_a?( AddressType ) || 
-         other.is_a?( DumbContractType ) 
+      def ==(other)
+        other.is_a?( AddressOrDumbContractType ) 
+        ##  other.is_a?( AddressOrDumbContractType ) ||
+        ##  other.is_a?( AddressType ) || 
+        ##  other.is_a?( DumbContractType ) 
       end
     def zero()  ADDRESS_ZERO;  end  # note: default is address(0)
     

@@ -106,11 +106,27 @@ pp str.type
 pp str.value
 pp str.value.frozen?
 
+str  =  TypedString.new( 'hello, world!' )
+pp str
+pp str.type
+pp str.value
+pp str.value.frozen?
+
+
 str  =  TypedVariable.create(:string )
 pp str
 pp str.type
 pp str.value
 pp str.value.frozen?
+
+str  =  TypedString.new
+pp str
+pp str.type
+pp str.value
+pp str.value.frozen?
+
+
+
 
 addr =  TypedVariable.create(:address)  ## zero(0) / default address
 pp addr
