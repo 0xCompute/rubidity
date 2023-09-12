@@ -61,24 +61,15 @@ class Type
     type_name = type_or_name.to_sym
   
     case type_name
-    when :string  
-      StringType.instance   ## share single (type) instance
-    when :address  
-      AddressType.instance
-    when :dumbContract    
-      DumbContractType.instance
-    when :addressOrDumbContract
-      AddressOrDumbContractType.instance 
-    when :ethscriptionId
-      EthscriptionIdType.instance
-    when :bool
-      BoolType.instance 
-    when :uint256
-      Uint256Type.instance 
-    when :int256
-      Int256Type.instance 
-    when :datetime
-       DatetimeType.instance 
+    when :string                 then StringType.instance   ## share single (type) instance
+    when :address                then AddressType.instance
+    when :dumbContract           then DumbContractType.instance
+    when :addressOrDumbContract  then AddressOrDumbContractType.instance 
+    when :ethscriptionId         then EthscriptionIdType.instance
+    when :bool                   then BoolType.instance 
+    when :uint256                then Uint256Type.instance 
+    when :int256                 then Int256Type.instance 
+    when :datetime               then DatetimeType.instance 
     when :array
       ## todo: fix - find metadata format
       sub_type = create( kwargs[:sub_type] )  
@@ -97,28 +88,30 @@ class Type
 
 
  
-  def raise_variable_type_error(literal)
+  def raise_type_error(literal)
     ## change to typeerror or such - why? why not?
     raise TypeError, "expected type #{self.format}; got #{literal.inspect}"
   end
 
 
   def parse_integer(literal)
-    base = literal.start_with?("0x") ? 16 : 10
+    base = literal.start_with?( '0x' ) ? 16 : 10
     
     begin
       Integer(literal, base)
     rescue ArgumentError => e
-      raise_variable_type_error(literal)
+      raise_type_error(literal)
     end
   end
  
 
 
   def check_and_normalize_literal( literal )
+     ### todo/check - split up and move to type classes - why? why not?
+
     if is_a?(AddressType)
       unless literal.is_a?(String) && literal.match?(/^0x[a-f0-9]{40}$/i)
-        raise_variable_type_error(literal)
+        raise_type_error(literal)
       end
       
       ## note: always downcase & freeze address - why? why not?
@@ -132,7 +125,7 @@ class Type
         return literal
       end
       
-      raise_variable_type_error(literal)
+      raise_type_error(literal)
     elsif is_a?( Int256Type )
       if literal.is_a?(String)
         literal = parse_integer(literal)
@@ -142,29 +135,29 @@ class Type
         return literal
       end
       
-      raise_variable_type_error(literal)
+      raise_type_error(literal)
     elsif is_a?( StringType )
       unless literal.is_a?(String)
-        raise_variable_type_error(literal)
+        raise_type_error(literal)
       end
       
       return literal.freeze
     elsif is_a?( BoolType )
       unless literal == true || literal == false
-        raise_variable_type_error(literal)
+        raise_type_error(literal)
       end
       
       return literal
     elsif is_a?( DumbContractType ) || is_a?( EthscriptionIdType )
       unless literal.is_a?(String) && literal.match?(/^0x[a-f0-9]{64}$/i)
-        raise_variable_type_error(literal)
+        raise_type_error(literal)
       end
 
       ## note: always downcase & freeze address - why? why not?
       return literal == CONTRACT_ZERO ? literal : literal.downcase.freeze
     elsif is_a?( AddressOrDumbContractType )
       unless literal.is_a?(::String) && (literal.match?(/^0x[a-f0-9]{64}$/i) || literal.match?(/^0x[a-f0-9]{40}$/i))
-        raise_variable_type_error(literal)
+        raise_type_error(literal)
       end
 
       ## note: always downcase & freeze address - why? why not?
@@ -175,15 +168,15 @@ class Type
       begin
         return dummy_uint.check_and_normalize_literal(literal)
       rescue VariableTypeError => e
-        raise_variable_type_error(literal)
+        raise_type_error(literal)
       end
     elsif is_a?( MappingType )
-      if literal.is_a?(TypedMapping)
-        return literal    ## .data  ## note: return nested (inside) data e.g. hash!!!
+      if literal.is_a?(TypedMapping)   ## todo - check if possible (literal) typed mapping
+        return literal    
       end
  
       unless literal.is_a?(Hash)
-        raise TypeError, "invalid type; expected literal Hash; got #{literal.inspect}"
+        raise_type_error(literal)
       end
       
       ## add types (wrap literal in types)
@@ -207,7 +200,7 @@ class Type
       end
       
       unless literal.is_a?(Array)
-        raise TypeError, "invalid type; expected literal Array; got #{literal.inspect}"
+        raise_type_error(literal)
       end
       
       ## check types only - wrap literal in types - why? why not?
@@ -289,6 +282,10 @@ class AddressType < ValueType
     alias_method :default_value, :zero
   
     def self.instance()  @instance ||= new; end
+
+    #####
+    #  add create helper - why? why not?    
+    def create( value ) TypedAddress.new( value ); end 
 end
 
 
@@ -305,7 +302,12 @@ class DumbContractType < ValueType
     alias_method :default_value, :zero
 
     def self.instance()  @instance ||= new; end
+
+    #####
+    #  add create helper - why? why not?    
+    def create( value ) TypedDumbContract.new( value ); end 
 end
+
 
 
 class AddressOrDumbContractType < ValueType  ## note: use "generic" "union" type???
@@ -330,7 +332,7 @@ class AddressOrDumbContractType < ValueType  ## note: use "generic" "union" type
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedVariable.create( :addressOrDumbContract, value ); end 
+    def create( value ) TypedAddressOrDumbContract.new( value ); end 
 end
 
 
@@ -344,6 +346,10 @@ class EthscriptionIdType < ValueType      ## todo/check: rename to inscripeId or
     alias_method :default_value, :zero
 
     def self.instance()  @instance ||= new; end
+
+    #####
+    #  add create helper - why? why not?    
+    def create( value ) TypedEthscriptionId.new( value ); end 
 end
 
 
@@ -357,6 +363,10 @@ class BoolType < ValueType
     alias_method :default_value, :zero
 
     def self.instance()  @instance ||= new; end
+
+    #####
+    #  add create helper - why? why not?    
+    def create( value ) TypedBool.new( value ); end 
 end
 
 class Uint256Type < ValueType
@@ -372,7 +382,7 @@ class Uint256Type < ValueType
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedVariable.create( :uint256, value ); end 
+    def create( value ) TypedUint256.new( value ); end 
 end
 
 
@@ -386,6 +396,10 @@ class Int256Type < ValueType
     alias_method :default_value, :zero
 
     def self.instance()  @instance ||= new; end
+
+    #####
+    #  add create helper - why? why not?    
+    def create( value ) TypedInt256.new( value ); end 
 end
 
 class DatetimeType < ValueType   ## note: datetime is int (epoch time since 1970 in seconds in utc)
@@ -398,6 +412,10 @@ class DatetimeType < ValueType   ## note: datetime is int (epoch time since 1970
     alias_method :default_value, :zero
 
     def self.instance()  @instance ||= new; end
+
+    #####
+    #  add create helper - why? why not?    
+    def create( value ) TypedDatetime.new( value ); end 
 end 
 
 
@@ -423,6 +441,10 @@ class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! 
        @instances ||= {}
        @instances[ sub_type.format ] ||= new(sub_type) 
     end
+
+    #####
+    #  add create helper - why? why not?    
+    def create( value ) TypedArray.new( value, sub_type: sub_type ); end 
 end # class ArrayType
 
 
@@ -453,5 +475,10 @@ class MappingType < ReferenceType
         @instances ||= {}
         @instances[ key_type.format+"=>"+value_type.format ] ||= new(key_type, value_type) 
      end
+
+    #####
+    #  add create helper - why? why not?    
+    def create( value ) TypedMapping.new( value, key_type: key_type,
+                                                 value_type: value_type ); end 
 end # class MappingType
   

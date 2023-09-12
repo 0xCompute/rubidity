@@ -1,13 +1,12 @@
 
 
 
-
-
 class TypedArray < TypedReference
     
-    ## todo/check: make "internal" data/array available? why? why not?
+    ## todo/check: make "internal" data (array) available? why? why not?
     attr_reader :data   
-
+    attr_reader :type 
+    def sub_type() @type.sub_type; end
 
    def initialize( value = nil, sub_type: )
     @type = Type.create( :array, sub_type: sub_type )
@@ -19,11 +18,10 @@ class TypedArray < TypedReference
   end
   def zero?() @data == []; end  ## use @data.empty? - why? why not?
 
-
   def replace( new_value )  ### add/use alias assign / set / or ___ or such - why? why?
-    @data = if new_value.is_a?( TypedVariable )
-               if new_value.type != @type
-                 raise TypeError, "expected type #{type}; got #{new_value.type} : #{new_value.value}"
+    @data = if new_value.is_a?( Typed )
+               if new_value.type != type
+                 raise TypeError, "expected type #{type}; got #{new_value.pretty_print_inspect}"
                end
                new_value.data
             else
@@ -32,45 +30,41 @@ class TypedArray < TypedReference
                 end 
             end
   end
+ 
   ## change to ref or reference - why? why not?
   ##  or better remove completely? why? why not?
-  def value()
-    puts "[warn] do NOT use TypedArray#value; will get removed? SOON?" 
+  def value
+    puts "[warn] do NOT use TypedArrayg#value; will get removed? SOON?" 
     self
   end    
-  def value=(new_value) 
-    puts "[warn] do NOT use TypedArray#value=(new_value); will get removed? SOON?" 
-    replace( new_value ) 
-  end
+
 
   ## add more Array forwards here!!!!
-  extend Forwardable   ## pulls in def_delegator
-  def_delegators :@data, :size, :empty?, :clear,
-                          :map, :reduce 
+  def_delegators :@data, :size, :empty?, :clear
 
   def []( index )
     ## fix: use index out of bounds error - why? why not?
     raise ArgumentError, "Index out of bounds"   if index >= @data.size
 
-    @data[ index ] || @type.sub_type.create
+    @data[ index ] || sub_type.create
   end
 
   def []=(index, new_value) 
     raise ArgumentError, "Sparse arrays are not supported"   if index > @data.size
 
-    @data[ index ] = @type.sub_type.create( new_value )
+    @data[ index ] = sub_type.create( new_value )
   end
   
   def push( new_value )
-     @data.push( @type.sub_type.create( new_value ) )
+     @data.push( sub_type.create( new_value ) )
   end
-
-  ## note: pass through value!!!!
-  ##   in new scheme - only "plain" ruby arrays/hash/string/integer/bool used!!!!
-  ##    no wrappers!!! - no need to convert!!!
 
   def serialize
      @data.map {|item| item.serialize } 
+  end
+
+  def pretty_print( printer ) 
+    printer.text( "<ref #{type}:#{@data.pretty_print_inspect}>" ); 
   end
 end  # class TypedArray
 

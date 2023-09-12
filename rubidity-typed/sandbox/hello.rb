@@ -1,13 +1,15 @@
-###
-# to run use
-#  $ ruby  sandbox/types.rb
-
-require_relative '../types'
-require_relative '../typed_vars'
+##
+# to run use:
+#   $ ruby sandbox/hello.rb
 
 
-name   = Typed.var :string 
-symbol = Typed.var :string 
+
+$LOAD_PATH.unshift( "./lib" )
+require 'rubidity/typed'
+
+
+name   = TypedString.new 
+symbol = TypedString.new 
 
 
 pp name
@@ -16,25 +18,26 @@ pp name.value
 pp name.downcase
 pp name.index( 'hello' )
 
+
 puts
 pp symbol
 pp symbol.type
 pp symbol.value
 
-name.value = 'hello'
+name.replace( 'hello' )
 pp name
 pp name.value
 
+## name.replace( 123 )
 
-## name.value = 123
 
-decimals     = Typed.var :uint256
-totalSupply  = Typed.var :uint256
+decimals     = TypedUint256.new
+totalSupply  = TypedUint256.new
 pp decimals
 pp totalSupply
 
-decimals.value = 18
-totalSupply.value = 21000000
+decimals.replace( 18 )
+totalSupply.replace( 21000000 )
 
 
 pp decimals
@@ -42,16 +45,15 @@ pp totalSupply
 pp totalSupply.serialize
 
 
-balanceOf = Typed.var :mapping, keytype: :addressOrDumbContract,
-                                valuetype: :uint256
+
+balanceOf = TypedMapping.new key_type: :addressOrDumbContract,
+                             value_type: :uint256
 
 
 
 pp balanceOf
 
 
-
-balanceOf.value['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 21000000
 balanceOf['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 21000000
 
 pp balanceOf
@@ -69,7 +71,7 @@ pp balanceOf.serialize
 puts "old_state:"
 pp old_state
 
-balanceOf.value = old_state
+balanceOf.replace( old_state )
 
 
 pp balanceOf.serialize

@@ -1,9 +1,11 @@
-###
-# to run use
-#  $ ruby  sandbox/state.rb
+##
+# to run use:
+#   $ ruby sandbox/state.rb
 
-require_relative '../types'
-require_relative '../typed_vars'
+
+
+$LOAD_PATH.unshift( "./lib" )
+require 'rubidity/typed'
 
 
 
@@ -17,6 +19,7 @@ class StateProxy
       end
     end
     
+
     def method_missing(name, *args)
       is_setter = name[-1] == '='
       var_name = is_setter ? name[0...-1].to_s : name.to_s
@@ -27,9 +30,11 @@ class StateProxy
       
       return super if var.nil?
       
-      return var unless is_setter
-        
-      var.value = args.first
+      if is_setter
+        var.replace( args.first )
+      else
+        var
+      end
      end
     
     def serialize
@@ -51,12 +56,12 @@ end
 # try state proxy-lke
 
 statevars = [ 
-  [:name,        Typed.var( :string )],
-  [:symbol,      Typed.var( :string )],
-  [:decimals,    Typed.var( :uint256 )],    
-  [:totalSupply, Typed.var( :uint256 )],
-  [:balanceOf,   Typed.var( :mapping, keytype: :addressOrDumbContract,
-                                      valuetype: :uint256) ],
+  [:name,        TypedVariable.create( :string )],
+  [:symbol,      TypedVariable.create( :string )],
+  [:decimals,    TypedVariable.create( :uint256 )],    
+  [:totalSupply, TypedVariable.create( :uint256 )],
+  [:balanceOf,   TypedVariable.create( :mapping, key_type: :addressOrDumbContract,
+                                                 value_type: :uint256) ],
 ]
 
 pp statevars
@@ -74,7 +79,6 @@ s.symbol = 'FUN'
 s.decimals = 18
 s.totalSupply = 21000000 
 
-pp s.serialize
 
 pp s.name
 pp s.symbol
@@ -85,6 +89,18 @@ pp s.balanceOf
 puts "try array access"
 pp s.balanceOf[ '0xC2172a6315c1D7f6855768F843c420EbB36eDa97' ]  
 # = 21000000
+
+s.balanceOf[ '0xC2172a6315c1D7f6855768F843c420EbB36eDa97' ] = 21000000 
+pp s.balanceOf[ '0xC2172a6315c1D7f6855768F843c420EbB36eDa97' ]  
+
+
+old_state =  s.serialize
+pp old_state
+
+
+s.deserialize( old_state )
+pp s
+pp s.serialize
 
 
 puts "bye"

@@ -1,21 +1,24 @@
-###
-# to run use
-#  $ ruby  sandbox/types.rb
-
-require_relative '../types'
-require_relative '../typed_vars'
+##
+# to run use:
+#   $ ruby sandbox/types2.rb
 
 
-string       =  Typed::String.new
-address      =  Typed::Address.new 
-dumbContract =  Typed::DumbContract.new 
 
-addressOrDumbContract =  Typed::AddressOrDumbContract.new
-ethscriptionId   =  Typed::EthscriptionId.new 
-bool    =   Typed::Bool.new 
-uint256 =   Typed::Uint256.new
-int256  =   Typed::Int256.new 
-datetime =  Typed::Datetime.new 
+$LOAD_PATH.unshift( "./lib" )
+require 'rubidity/typed'
+
+
+
+string       =  Type.create( :string )
+address      =  Type.create( :address ) 
+dumbContract =  Type.create( :dumbContract )
+
+addressOrDumbContract =  Type.create( :addressOrDumbContract )
+ethscriptionId   =  Type.create( :ethscriptionId ) 
+bool    =   Type.create( :bool ) 
+uint256 =   Type.create( :uint256 )
+int256  =   Type.create( :int256 )
+datetime =  Type.create( :datetime )
 
 pp string
 pp address
@@ -26,77 +29,81 @@ pp address.format
 pp dumbContract.format
 pp dumbContract.is_value_type?
 
+
+
 #=>     mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
-mapping = Typed::Mapping.new( addressOrDumbContract, uint256 )
+mapping = Type.create( :mapping, key_type: :addressOrDumbContract, 
+                                 value_type: :uint256 )
 pp mapping
 pp mapping.format
 pp mapping.is_value_type?
 
 
-t = Typed::Type.create( :string )
+t = Type.create( :string )
 pp t
 
-t = Typed::Type.create( t )
+t = Type.create( t )
 pp t
 
-t = Typed::Type.create( :uint256 )
-pp t
-pp t.format
-pp t.is_value_type?
-
-
-t = Typed::Type.create( :array, subtype: :string )
-pp t
-pp t.format
-pp t.is_value_type?
-
-t = Typed::Type.create( :mapping, keytype:   :addressOrDumbContract,
-                                  valuetype: :uint256 )
+t = Type.create( :uint256 )
 pp t
 pp t.format
 pp t.is_value_type?
 
 
-###
+t = Type.create( :array, sub_type: :string )
+pp t
+pp t.format
+pp t.is_value_type?
+
+t = Type.create( :mapping, key_type:   :addressOrDumbContract,
+                           value_type: :uint256 )
+pp t
+pp t.format
+pp t.is_value_type?
+
+
+##########
 # try typed vars
 
-var =  Typed::Var.create( :string, 'Hello, World!')
+var =  TypedVariable.create( :string, 'Hello, World!')
 pp var
 puts "serialize:"
 pp var.serialize
 
-var =  Typed::Var.create( :string )
+var =  TypedVariable.create( :string )
 pp var
 puts "serialize:"
 pp var.serialize
 
-var =  Typed::Var.create( :array, ['one', 'two' ], subtype: :string )
-pp var
-puts "serialize:"
-pp var.serialize
-
-var =  Typed::Var.create( :array, subtype: :uint256 )
-pp var
-puts "serialize:"
-pp var.serialize
-
-var =  Typed::Var.create( :mapping, {'one'=> 'two' }, keytype: :string,
-                                                      valuetype: :string )
+var =  TypedVariable.create( :array, ['one', 'two' ], 
+                              sub_type: :string )
 pp var
 puts "serialize:"
 pp var.serialize
 
 
+var =  TypedVariable.create( :array, 
+                             sub_type: :uint256 )
+pp var
+puts "serialize:"
+pp var.serialize
 
-var =  Typed::Var.create( :mapping,  keytype: :string,
-                                     valuetype: :string )
+var =  TypedVariable.create( :mapping, {'one'=> 'two' }, 
+                              key_type: :string,
+                              value_type: :string )
 pp var
 puts "serialize:"
 pp var.serialize
 
 
+var =  TypedVariable.create( :mapping,  key_type: :string,
+                                        value_type: :string )
+pp var
+puts "serialize:"
+pp var.serialize
 
 
-pp Typed::Type.value_types
+pp Type.value_types
 
 puts "bye"

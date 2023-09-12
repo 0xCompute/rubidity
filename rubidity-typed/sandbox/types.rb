@@ -100,7 +100,7 @@ pp BoolType.instance == Uint256Type.instance
 
 
 
-str  =  TypedVariable.create(:string, 'hello, world!')
+str  =  TypedVariable.create( :string, 'hello, world!')
 pp str
 pp str.type
 pp str.value
@@ -114,7 +114,7 @@ pp str.value.frozen?
 pp str.zero?
 
 
-str  =  TypedVariable.create(:string )
+str  =  TypedVariable.create( :string )
 pp str
 pp str.type
 pp str.value
@@ -156,7 +156,7 @@ pp symbol
 pp symbol.type
 pp symbol.value
 
-name.value = 'hello'
+name.replace( 'hello' )
 pp name
 pp name.value
 pp name.value.frozen?
@@ -166,20 +166,20 @@ puts "symbol:<#{symbol}>- name:<#{name}>"
 
 
 
-## name.value = 123
-
 decimals     = TypedVariable.create( :uint256 )
 totalSupply  = TypedVariable.create( :uint256 )
 pp decimals
 pp totalSupply
 
-decimals.value = 18
-totalSupply.value = 21000000
+decimals.replace( 18 )
+totalSupply.replace( 21000000 )
 
 
 pp decimals
 pp totalSupply
 pp totalSupply.serialize
+
+
 
 
 balanceOf = TypedVariable.create :mapping, key_type:   :addressOrDumbContract,
@@ -188,9 +188,6 @@ balanceOf = TypedVariable.create :mapping, key_type:   :addressOrDumbContract,
 
 pp balanceOf
 
-
-
-balanceOf.value['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 21000000
 balanceOf['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 21000000
 
 pp balanceOf
@@ -207,7 +204,7 @@ pp balanceOf.serialize
 puts "old_state:"
 pp old_state
 
-balanceOf.value = old_state
+balanceOf.replace( old_state )
 
 
 pp balanceOf.serialize
