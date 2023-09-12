@@ -5,7 +5,11 @@ end
 
 
 
-def typed( type, value = nil, **kwargs)
+def typed( type, value = nil, **kwargs)   
+    ## rename type to type_or_name or such - why? why not?
+    return type.create( value )   if type.is_a?( Type )    ## already a type(def) object
+
+    ## check - allow strings too (onyl symbols now) - why? why not?
     case type
     when :string                then  TypedString.new( value )
     when :address               then  TypedAddress.new( value ) 
@@ -19,7 +23,7 @@ def typed( type, value = nil, **kwargs)
     when :array                 then  TypedArray.new( value, **kwargs )
     when :mapping               then  TypedMapping.new( value, **kwargs )
     else
-      raise ArgumentError, "unknown type #{type}; sorry"
+      raise ArgumentError, "unknown type #{type}:#{type.class.name}; sorry"
     end
 end
 
@@ -132,6 +136,8 @@ class TypedString < TypedValue
   end
   
   ## add more String forwards here!!!!
+  ##   fix!! - wrap returned values in typed value!!!
+  ##                use type_cast_to_literal or such - why? why not?
   def_delegators :@value, :downcase, 
                           :index, :include?,
                           :+
@@ -187,8 +193,24 @@ class TypedUint256 < TypedValue
        replace( value || type.zero )
     end 
 
+
+     include Comparable
+     def <=>(other)  @value <=> other.to_int; end
+
+     def +(other ) TypedUint256.new( @value + other.to_int); end
+     def -(other)  TypedUint256.new( @value - other.to_int); end
+   
+      ## add more Integer forwards here!!!!
+     ##def_delegators :@value, :+, :-
+
+## 
+## undefined method `>=' for #<TypedUint256 @value=21000000> (NoMethodError)
+## undefined method `-' for #<TypedUint256 @value=21000000> (NoMethodError)
+    ## def to_i() @value; end
     def to_int() @value; end  ## "automagilally" support implicit integer conversion - why? why not?
+    def to_i() @value; end
 end  # class TypedUint256
+
 
 class TypedInt256 < TypedValue
     def type() Int256Type.instance; end  

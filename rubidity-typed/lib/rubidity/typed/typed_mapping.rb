@@ -48,21 +48,21 @@ class TypedMapping < TypedReference
   def_delegators :@data, :size, :empty?, :clear
 
    def [](key)
-    puts "[debug] []( #{key} )"
+    puts "[debug] TypedMapping#[]( #{key} )"
     key_var =  key.is_a?( Typed ) ? key : key_type.create( key )
     obj = @data[key_var]
 
     if value_type.is_a?( MappingType ) && obj.nil?
-      obj = value_type.zero
+      obj = value_type.create( value_type.zero ) 
       @data[key_var] = obj
     end
 
-    obj || value_type.zero 
+    obj || value_type.create( value_type.zero ) 
   end
 
 
   def []=(key, new_value)
-    puts "[debug] []=( #{key}:#{key.class.name}, #{new_value}:#{new_value.class.name})"
+    puts "[debug] TypedMapping#[]=( #{key}:#{key.class.name}, #{new_value}:#{new_value.class.name})"
     pp type.key_type
     key_var = key.is_a?( Typed ) ? key : key_type.create( key )
     pp key_var

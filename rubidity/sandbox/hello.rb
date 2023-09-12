@@ -4,8 +4,14 @@
 
 
 
-## require_relative '../lang/rubidity'
-require_relative '../rubidity/lib/rubidity'
+$LOAD_PATH.unshift( '../rubidity-typed/lib' )
+$LOAD_PATH.unshift( './lib' )
+
+require 'rubidity/typed'
+require 'rubidity'
+
+pp Type.value_types
+
 
 
 class TestToken < ContractImplementation    
@@ -31,9 +37,20 @@ class TestToken < ContractImplementation
       }
 
     function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
+
+        puts "[debug] transfer"
+        pp s.balanceOf[msg.sender]
+        pp amount
+
         require(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
         
         s.balanceOf[msg.sender] -= amount
+
+        pp amount
+        pp to
+        puts "[debug] s.balanceOf[to]"
+        pp s.balanceOf[to]
+        puts "[debug] s.balanceOf[to] += amount"
         s.balanceOf[to] += amount
 
         puts "hello from transfer"
@@ -43,7 +60,7 @@ class TestToken < ContractImplementation
         return true
     end
 end  # class TestToken  
-  
+
 
 
 pp TestToken.state_variable_definitions
@@ -54,7 +71,22 @@ pp TestToken.is_abstract_contract
 abi = TestToken.abi
 
 pp TestToken.public_abi
-  
+
+
+
+=begin
+class ContractRecord    ## activerecord model class dummy 
+    def initialize( type ) @type = type.name; end
+    def type() @type;  end
+end
+
+
+rec = ContractRecord.new( TestToken )
+pp rec.type               ## TestToken (string)
+pp rec.type.constantize   ## TestToken (class) 
+
+contract = TestToken.new( rec )
+=end
 
 
 contract = TestToken.create
@@ -101,6 +133,8 @@ pp contract.transfer( '0xB2172a6315c1D7f6855768F843c420EbB36eDa98',
 
 state = contract.state_proxy.serialize
 pp state
+
+
 
 pp contract.balanceOf( '0xC2172a6315c1D7f6855768F843c420EbB36eDa97')
 pp contract.balanceOf( '0xB2172a6315c1D7f6855768F843c420EbB36eDa98')

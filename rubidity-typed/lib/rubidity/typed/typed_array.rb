@@ -40,13 +40,14 @@ class TypedArray < TypedReference
 
 
   ## add more Array forwards here!!!!
+  ##  todo/fix:  wrap size, empty?  return value literals into typed values - why? why not?
   def_delegators :@data, :size, :empty?, :clear
 
   def []( index )
     ## fix: use index out of bounds error - why? why not?
     raise ArgumentError, "Index out of bounds"   if index >= @data.size
 
-    @data[ index ] || sub_type.create
+    @data[ index ] || sub_type.create( sub_type.zero )
   end
 
   def []=(index, new_value) 

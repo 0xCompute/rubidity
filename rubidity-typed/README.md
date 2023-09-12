@@ -92,8 +92,8 @@ Here's a brief rundown of Rubidity's type coercion rules:
 * **:dumbContract and :ethscriptionId**: Accepts hexadecimal strings matching specific patterns (`0x` followed by 64 hexadecimal characters).
 * **:addressOrDumbContract**: Accepts either an address or a `:dumbContract`, again matching the relevant hexadecimal patterns.
 * **:datetime**: Relies on `:uint256` type coercion, as it's represented as an unsigned integer internally.
-* **:mapping**: Accepts a Hash and ensures that keys and values match the specified types. Coerces these into a special mapping object (`SafeMapping`).
-* **:array**: Accepts an array and ensures that the values match the specified type. Coerces these into a special array object (`SafeArray`).
+* **:mapping**: Accepts a Hash and ensures that keys and values match the specified types. Coerces these into a typed mapping object (`TypedMapping`).
+* **:array**: Accepts an array and ensures that the values match the specified type. Coerces these into a typed array object (`TypedArray`).
 
 
 

@@ -24,7 +24,7 @@ class StateProxy
     return var.typed_variable unless is_setter
       
     begin
-      var.typed_variable.value = args.first
+      var.typed_variable.replace( args.first )
     rescue StateVariableMutabilityError => e
       message = "immutability error for #{var_name}: #{e.message}"
       raise ContractRuntimeError.new(message, contract)
@@ -32,6 +32,7 @@ class StateProxy
       raise ContractRuntimeError.new(e.message, contract)
     end
   end
+  
   
   def serialize
     state_variables.each.with_object({}) do |(key, value), h|

@@ -1,17 +1,13 @@
 ##
-# to runu use:
-#   $ ruby sandbox/hello.rb
+# to run use:
+#   $ ruby sandbox/hello2.rb
 
 
-
-## require_relative '../lang/rubidity'
-$LOAD_PATH.unshift( './rubidity-typed/lib' )
-$LOAD_PATH.unshift( './rubidity/lib' )
+$LOAD_PATH.unshift( '../rubidity-typed/lib' )
+$LOAD_PATH.unshift( './lib' )
 
 require 'rubidity/typed'
 require 'rubidity'
-
-pp Type.value_types
 
 
 
@@ -38,11 +34,6 @@ class TestToken < ContractImplementation
       }
 
     function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
-
-        puts "[debug] transfer"
-        pp s.balanceOf[msg.sender]
-        pp amount
-
         require(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
         
         s.balanceOf[msg.sender] -= amount
@@ -55,8 +46,7 @@ class TestToken < ContractImplementation
         return true
     end
 end  # class TestToken  
-
-
+  
 
 
 pp TestToken.state_variable_definitions
@@ -67,23 +57,11 @@ pp TestToken.is_abstract_contract
 abi = TestToken.abi
 
 pp TestToken.public_abi
+  
 
 
-
-class ContractRecord    ## activerecord model class dummy 
-    def initialize( type ) @type = type.name; end
-    def type() @type;  end
-end
-
-
-rec = ContractRecord.new( TestToken )
-pp rec.type               ## TestToken (string)
-pp rec.type.constantize   ## TestToken (class) 
-
-
-contract = TestToken.new( rec )
+contract = TestToken.create
 pp contract
-
 
 
 ## test globals (context)
