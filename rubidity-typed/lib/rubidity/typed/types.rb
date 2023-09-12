@@ -167,7 +167,7 @@ class Type
       
       begin
         return dummy_uint.check_and_normalize_literal(literal)
-      rescue VariableTypeError => e
+      rescue TypeError => e
         raise_type_error(literal)
       end
     elsif is_a?( MappingType )

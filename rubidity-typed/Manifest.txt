@@ -3,5 +3,7 @@ Manifest.txt
 README.md
 Rakefile
 lib/rubidity/typed.rb
-lib/rubidity/typed/typed_variables.rb
+lib/rubidity/typed/typed.rb
+lib/rubidity/typed/typed_array.rb
+lib/rubidity/typed/typed_mapping.rb
 lib/rubidity/typed/types.rb
