@@ -1,13 +1,4 @@
-##
-# to run use:
-#   $ ruby sandbox/hello2.rb
-
-
-$LOAD_PATH.unshift( '../rubidity-typed/lib' )
-$LOAD_PATH.unshift( './lib' )
-
-require 'rubidity/typed'
-require 'rubidity'
+require_relative 'helper'
 
 
 
@@ -30,7 +21,6 @@ class TestToken < ContractImplementation
         s.totalSupply = totalSupply
 
         s.balanceOf[msg.sender] = totalSupply
-        puts "hello from contructor"
       }
 
     function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
@@ -38,11 +28,8 @@ class TestToken < ContractImplementation
         
         s.balanceOf[msg.sender] -= amount
         s.balanceOf[to] += amount
-
-        puts "hello from transfer"
-    
-        ## emit :Transfer, from: msg.sender, to: to, amount: amount
-        
+   
+        ## emit :Transfer, from: msg.sender, to: to, amount: amount        
         return true
     end
 end  # class TestToken  
@@ -59,7 +46,6 @@ abi = TestToken.abi
 pp TestToken.public_abi
   
 
-
 contract = TestToken.create
 pp contract
 
@@ -67,14 +53,14 @@ pp contract
 ## test globals (context)
 pp contract.msg
 pp contract.msg.sender
-contract.msg.sender = '0xC2172a6315c1D7f6855768F843c420EbB36eDa97'
+contract.msg.sender = '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'   # a(lice)
 pp contract.msg.sender
 
 
 
 initial_state = contract.state_proxy.serialize
 pp initial_state  
-
+#=> {"name"=>"", "symbol"=>"", "decimals"=>0, "totalSupply"=>0, "balanceOf"=>{}}
       
 
 contract.constructor(
@@ -85,28 +71,41 @@ contract.constructor(
 
 state = contract.state_proxy.serialize
 
-if state != initial_state
-    puts "STATE CHANGE:"
-    pp state
-end
+#=> {"name"=>"My Fun Token",
+#    "symbol"=>"FUN",
+#    "decimals"=>18,
+#    "totalSupply"=>21000000,
+#    "balanceOf"=>{'0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"=>21000000}}
 
 pp contract.name
+#=> "My Fun Token"
 pp contract.symbol
+#=> "FUN"
 pp contract.decimals    
+#=> 18
 pp contract.totalSupply
+#=> 21000000
 
-pp contract.balanceOf( '0xC2172a6315c1D7f6855768F843c420EbB36eDa97')
+pp contract.balanceOf( '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+#=> 21000000
 
 
-
-pp contract.transfer( '0xB2172a6315c1D7f6855768F843c420EbB36eDa98', 
+pp contract.transfer( '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 
                     10000 )
 
 state = contract.state_proxy.serialize
 pp state
+#=> {"name"=>"My Fun Token",
+#    "symbol"=>"FUN",
+#    "decimals"=>18,
+#    "totalSupply"=>21000000,
+#    "balanceOf"=>
+#    {"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"=>20990000, 
+#     "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"=>10000}}
 
-pp contract.balanceOf( '0xC2172a6315c1D7f6855768F843c420EbB36eDa97')
-pp contract.balanceOf( '0xB2172a6315c1D7f6855768F843c420EbB36eDa98')
-
+pp contract.balanceOf( '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+#=> 20990000 
+pp contract.balanceOf( '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
+#=> 10000
 
 puts "bye"

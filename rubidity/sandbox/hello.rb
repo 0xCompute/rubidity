@@ -3,63 +3,13 @@
 #   $ ruby sandbox/hello.rb
 
 
+require_relative 'helper'
 
-$LOAD_PATH.unshift( '../rubidity-typed/lib' )
-$LOAD_PATH.unshift( './lib' )
-
-require 'rubidity/typed'
-require 'rubidity'
 
 pp Type.value_types
 
 
-
-class TestToken < ContractImplementation    
-    string :public, :name
-    string :public, :symbol
-    uint256 :public, :decimals    
-    uint256 :public, :totalSupply
-  
-    mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
-
-
-    constructor(name: :string, 
-                symbol: :string, 
-                decimals: :uint256,
-                totalSupply: :uint256) {
-        s.name = name
-        s.symbol = symbol
-        s.decimals = decimals
-        s.totalSupply = totalSupply
-
-        s.balanceOf[msg.sender] = totalSupply
-        puts "hello from contructor"
-      }
-
-    function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
-
-        puts "[debug] transfer"
-        pp s.balanceOf[msg.sender]
-        pp amount
-
-        require(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
-        
-        s.balanceOf[msg.sender] -= amount
-
-        pp amount
-        pp to
-        puts "[debug] s.balanceOf[to]"
-        pp s.balanceOf[to]
-        puts "[debug] s.balanceOf[to] += amount"
-        s.balanceOf[to] += amount
-
-        puts "hello from transfer"
-    
-        ## emit :Transfer, from: msg.sender, to: to, amount: amount
-        
-        return true
-    end
-end  # class TestToken  
+require_relative 'testtoken'
 
 
 
@@ -73,30 +23,18 @@ abi = TestToken.abi
 pp TestToken.public_abi
 
 
-
-=begin
-class ContractRecord    ## activerecord model class dummy 
-    def initialize( type ) @type = type.name; end
-    def type() @type;  end
-end
-
-
-rec = ContractRecord.new( TestToken )
-pp rec.type               ## TestToken (string)
-pp rec.type.constantize   ## TestToken (class) 
-
-contract = TestToken.new( rec )
-=end
-
-
 contract = TestToken.create
 pp contract
+
+
+alice   = '0x'+'a'*40 # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+bob     = '0x'+'b'*40 # e.g. '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
 
 
 ## test globals (context)
 pp contract.msg
 pp contract.msg.sender
-contract.msg.sender = '0xC2172a6315c1D7f6855768F843c420EbB36eDa97'
+contract.msg.sender = alice
 pp contract.msg.sender
 
 
@@ -124,11 +62,11 @@ pp contract.symbol
 pp contract.decimals    
 pp contract.totalSupply
 
-pp contract.balanceOf( '0xC2172a6315c1D7f6855768F843c420EbB36eDa97')
+pp contract.balanceOf( alice )
 
 
 
-pp contract.transfer( '0xB2172a6315c1D7f6855768F843c420EbB36eDa98', 
+pp contract.transfer( bob, 
                     10000 )
 
 state = contract.state_proxy.serialize
@@ -136,8 +74,8 @@ pp state
 
 
 
-pp contract.balanceOf( '0xC2172a6315c1D7f6855768F843c420EbB36eDa97')
-pp contract.balanceOf( '0xB2172a6315c1D7f6855768F843c420EbB36eDa98')
+pp contract.balanceOf( alice )
+pp contract.balanceOf( bob )
 
 
 puts "bye"

@@ -14,14 +14,15 @@ The idea -  only store ("serialized") method calls "on-chain" -
 the "state" and "transaction receipts" and so on are handled "off-chain" with indexer.
 
 Bonus:  Offer an ever growing library of built-in (standard) contracts / protocols. Contract / protocol security through reuse and standardization 
-PLUS upgradable (because "off-chain" in indexer).
+PLUS "auto-magically" upgradable (because "off-chain" in indexer).
+
 
 
 Why?  
 
 - Way cheaper (> 4x!) because only call data "on-chain" (no storage fees because there's no "on-chain" storage ). 
 
-- Way simpler than "classic" ethereum solidity contracts because you can (re)use (built-in) "standard" contracts.  
+- Way simpler than "classic" ethereum solidity contracts because you can (re)use (built-in) "standard" contracts / protocols.  
 
 
 <details>
@@ -80,6 +81,13 @@ or in json5-style (why? why not?)
 </details>
 
 
+Layer 1 (L1)?!
+
+Yes, it's layer 1 (L1), that is, happening right on ethereum layer 1 (L1) - 
+no layer 2 (L2) "side-chain" needed. 
+
+
+
 
 
 ## What's Rubidity?
@@ -115,8 +123,8 @@ contracts samples and database (SQL) and runtime modules or such.
 
 The first published modules / gems include:
 
-- [**rubidity-typed**](rubidity-typed) - "zero-dependency" type machinery incl. (frozen) string, address, uint256, (dumb) contract and more for rubidity - ruby for layer 1 (l1) contracts with "off-chain" indexer
-- [**rubidity**](rubidity) - ruby for layer 1 (l1) contracts with "off-chain" indexer 
+- [**rubidity-typed**](rubidity-typed) - "zero-dependency" type machinery incl. (frozen) string, address, uint256, (dumb) contract and more for rubidity - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer
+- [**rubidity**](rubidity) - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer 
 - [**rubidity-contracts**](rubidity-contracts) - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer
 
 

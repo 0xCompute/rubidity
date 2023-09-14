@@ -12,7 +12,7 @@ rubidity-typed - "zero-dependency" type machinery incl. (frozen) string, address
 
 ## What's Rubidity?!
 
-See [**Rubidity - Ruby for Layer 1 (L1) Contracts with "Off-Chain" Indexer**  »](https://github.com/s6ruby/rubidity)
+See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" Indexer**  »](https://github.com/s6ruby/rubidity)
 
 
 
