@@ -9,6 +9,25 @@ require_relative 'helper'
 require_relative '../simpletoken'
 
 
+##
+# check metadata
+pp SimpleToken.state_variable_definitions
+pp SimpleToken.parent_contracts 
+pp SimpleToken.events 
+pp SimpleToken.is_abstract_contract
+
+abi = SimpleToken.abi
+
+puts
+puts "public_abi:"
+pp SimpleToken.public_abi
+
+
+
+
+####
+# test drive
+
 contract = SimpleToken.create
 pp contract
 
