@@ -8,7 +8,7 @@
 * rdoc  :: [rubydoc.info/gems/rubidity-contracts](http://rubydoc.info/gems/rubidity-contracts)
 
 
-## What's Rubidity?
+## What's Rubidity?!
 
 See [**Rubidity - Ruby for Layer 1 (L1) Contracts with "Off-Chain" Indexer**  »](https://github.com/s6ruby/rubidity)
 

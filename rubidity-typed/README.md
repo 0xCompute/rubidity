@@ -12,31 +12,7 @@ rubidity-typed - "zero-dependency" type machinery incl. (frozen) string, address
 
 ## What's Rubidity?!
 
-middlemarch (a.k.a. Tom Lehman) 
-introduced dumb contracts on ethscriptions with the production code written in a dialect of Ruby called "Rubidity". 
-
-Q: Why do you choose ruby for dump contracts? 
-
-A: Because you can create a mini-language that's very similar to Solidity and will be easier for Solidity devs to use. 
-
-For official doc(ument)s and sources see:
-
-- <https://github.com/ethscriptions-protocol/ethscriptions-vm-server> - Source
-- <https://docs.ethscriptions.com/v/ethscriptions-vm/rubidity/rubidity-by-example> - Documentation 
-- <https://goerli.ethscriptionsvm.com/contracts> - Test Chain - Live!
-
-
-
-## What's Happening Here?
-
-This is a rubidity sandbox by [Gerald Bauer](https://github.com/geraldb). 
-The idea here is to experiment with rubidity "off-chain"
-and if time permits break the "majestic rails rubidity monolith"
-also known as "ethscriptions vm"
-up into easier to (re)use modules / gems.
-
-This is the "zero-dependency" rubidity-typed module / gem for the type machinery
-incl. (frozen) string, address, uint256, contract and more 
+See [**Rubidity - Ruby for Layer 1 (L1) Contracts with "Off-Chain" Indexer**  »](https://github.com/s6ruby/rubidity)
 
 
 
