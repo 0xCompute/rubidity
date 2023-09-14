@@ -26,7 +26,7 @@ contract SimpleToken {
     }
 
     function mint(uint256 amount) public {
-        require(amount > 0, "amount must be positive);
+        require(amount > 0, "amount must be positive");
         require(amount <= perMintLimit, "amount exceeds perMintLimit");
         require(amount + totalSupply <= maxSupply, "amount exceeds maxSupply");
         
