@@ -11,10 +11,10 @@
 
 
 The idea -  only store ("serialized") method calls "on-chain" - 
-the "state" and "transaction receipts" and so on are handled "off-chain" with indexers.
+the "state" and "transaction receipts" and so on are handled "off-chain" with indexer.
 
 Bonus:  Offer an ever growing library of built-in (standard) contracts / protocols. Contract / protocol security through reuse and standardization 
-PLUS upgradable (because "off-chain" in indexers).
+PLUS upgradable (because "off-chain" in indexer).
 
 
 Why?  
@@ -23,7 +23,11 @@ Why?
 
 - Way simpler than "classic" ethereum solidity contracts because you can (re)use (built-in) "standard" contracts.  
 
-The classic: let's start a new token. yes, you can. only requires a deploy inscribe (constructor contract call) because you can (re)use (built-in) token contracts / protocols. Example: 
+
+<details>
+<summary markdown="1">The classic: let's start a new token in a minute.</summary>
+
+yes, you can. only requires a deploy inscribe (constructor contract call) because you can (re)use (built-in) token contracts / protocols. Example: 
 
 This rubidity (script) ...
 
@@ -72,6 +76,9 @@ or in json5-style (why? why not?)
   }  
 }
 ```
+
+</details>
+
 
 
 
