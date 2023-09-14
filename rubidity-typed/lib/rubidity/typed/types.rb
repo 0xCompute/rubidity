@@ -103,7 +103,6 @@ class Type
       raise_type_error(literal)
     end
   end
- 
 
 
   def check_and_normalize_literal( literal )
@@ -482,3 +481,16 @@ class MappingType < ReferenceType
                                                  value_type: value_type ); end 
 end # class MappingType
   
+
+
+
+
+#####
+#  todo/check:   use AddressType.try_convert( literal_or_obj ) or such - why? why not?
+
+def address( literal='0' )
+  ## hack for now support  address(0) 
+  ##  todo/fix:  address( '0x0' ) too!!!!
+  literal = ADDRESS_ZERO     if literal.is_a?(Integer) && literal == 0
+  AddressType.instance.check_and_normalize_literal( literal )
+end  # methdod address 
