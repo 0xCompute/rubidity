@@ -1,10 +1,77 @@
-# Rubidity  -  Ruby for Layer 1 (L1) Contracts with "Off-Chain" Indexer
+
+> The future of decentralized processing is here.
+> Revolutionizing computation with (dumb) contracts / protocols (and "off-chain" indexer) 
+> one block at a time.
+>
+> -- [Ethereum Inscriptions (Ethscriptions) Virtual Machine (VM)](https://goerli.ethscriptionsvm.com/)
+
+
+
+# Rubidity  -  Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" Indexer
+
 
 The idea -  only store ("serialized") method calls "on-chain" - 
 the "state" and "transaction receipts" and so on are handled "off-chain" with indexers.
 
-Why?  Way cheaper (> 4x!) only call data (no storage fees) 
-and simpler than "classic" ethereum solidity contract, for example.
+Bonus:  Offer an ever growing library of built-in (standard) contracts / protocols. Contract / protocol security through reuse and standardization 
+PLUS upgradable (because "off-chain" in indexers).
+
+
+Why?  
+
+- Way cheaper (> 4x!) because only call data "on-chain" (no storage fees because there's no "on-chain" storage ). 
+
+- Way simpler than "classic" ethereum solidity contracts because you can (re)use (built-in) "standard" contracts.  
+
+The classic: let's start a new token. yes, you can. only requires a deploy inscribe (constructor contract call) because you can (re)use (built-in) token contracts / protocols. Example: 
+
+This rubidity (script) ...
+
+``` ruby
+PublicMintToken.construct( name:         'My Fun Token',    # string
+                           symbol:       'FUN',             # string
+                           maxSupply:    21000000,          # uint256
+                           perMintLimit: 1000               # uint256
+                          )
+```
+
+... maps to a inscribe / inscription in text-style
+
+```
+deploy PublicMintToken
+name: My Fun Token 
+symbol: FUN        
+maxSupply: 21000000
+perMintLimit: 1000 
+```
+
+or in json-style
+
+``` json
+{
+  "protocol": "PublicMintToken",
+  "constructor": {
+    "name":      "My Fun Token",
+    "symbol":    "FUN",
+    "maxSupply":  210000000,
+    "perMintLimit": 1000
+  }  
+}
+```
+
+or in json5-style (why? why not?)
+
+``` json5
+{
+  protocol: "PublicMintToken",
+  constructor: {
+    name:      "My Fun Token",   # string
+    symbol:    "FUN",            # string
+    maxSupply:   210000000,      # uint256
+    perMintLimit: 1000           # uint256
+  }  
+}
+```
 
 
 
