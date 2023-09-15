@@ -76,6 +76,7 @@ require_relative 'rubidity/contract_errors'
 require_relative 'rubidity/state_variable'
 require_relative 'rubidity/state_proxy'
 
+require_relative 'rubidity/contract_base'
 require_relative 'rubidity/contract_implementation'
 require_relative 'rubidity/abi_proxy'
 require_relative 'rubidity/function_context'

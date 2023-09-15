@@ -1,14 +1,8 @@
-class ContractImplementation
+class ContractImplementation  < ContractBase
   include ContractErrors
  
   attr_reader :contract_record
   
-  class << self
-    attr_accessor :state_variable_definitions, 
-                  :parent_contracts, 
-                  :events, 
-                  :is_abstract_contract
-  end
  
   extend Forwardable   ## pulls in def_delegators
 
@@ -30,17 +24,6 @@ class ContractImplementation
   end
   
   
-  def self.abstract
-    @is_abstract_contract = true
-  end
-  
-  def self.state_variable_definitions
-    @state_variable_definitions ||= {}
-  end
-  
-  def self.parent_contracts
-    @parent_contracts ||= []
-  end
   
   def s
     @state_proxy
@@ -54,34 +37,7 @@ class ContractImplementation
     @msg ||= ContractTransactionGlobals::Message.new
   end
   
-  def self.abi
-    @abi ||= AbiProxy.new(self)
-  end
   
-  Type.value_types.each do |type|
-    define_singleton_method(type) do |*args|
-      define_state_variable(type, args)
-    end
-  end
-  
-  def self.mapping(*args)
-    key_type, value_type = args.first.first
-    type = Type.create( :mapping, key_type: key_type, 
-                                  value_type: value_type )
-    
-    if args.last.is_a?(Symbol)
-      define_state_variable(type, args)
-    else
-      type
-    end
-  end
-  
-  def self.array(*args)
-    sub_type = args.first
-    type = Type.create(:array, sub_type: sub_type )
-    
-    define_state_variable(type, args)
-  end
   
   def require(condition, message)
     unless condition
@@ -94,52 +50,10 @@ class ContractImplementation
     end
   end
   
-  def self.public_abi
-    abi.select do |name, details|
-      details.publicly_callable?
-    end
-  end
   
-  def public_abi
-    self.class.public_abi
-  end
   
-  def self.is(*constants)
-    self.parent_contracts += constants.map{|i| "Contracts::#{i}".safe_constantize}
-    self.parent_contracts = self.parent_contracts.uniq
-  end
   
-  def self.linearize_contracts(contract, processed = [])
-    return [] if processed.include?(contract)
   
-    new_processed = processed + [contract]
-  
-    return [contract] if contract.parent_contracts.empty?
-    linearized = [contract] + contract.parent_contracts.reverse.flat_map { |parent| linearize_contracts(parent, new_processed) }
-    linearized.uniq { |c| raise "Invalid linearization" if linearized.rindex(c) != linearized.index(c); c }
-  end
-  
-  def self.linearized_parents
-    linearize_contracts(self)[1..-1]
-  end
-  
-  def self.function(name, args, *options, returns: nil, &block)
-    abi.create_and_add_function(name, args, *options, returns: returns, &block)
-  end
-  
-  def self.constructor(args = {}, *options, &block)
-    function(:constructor, args, *options, returns: nil, &block)
-  end
-  
-  def self.event(name, args)
-    @events ||= HashWithIndifferentAccess.new
-    @events[name] = args
-  end
-
-  def self.events
-    @events || HashWithIndifferentAccess.new
-  end
-
   def emit(event_name, args = {})
     unless self.class.events.key?(event_name)
       raise ContractDefinitionError.new("Event #{event_name} is not defined in this contract.", self)
@@ -159,24 +73,7 @@ class ContractImplementation
     current_transaction.log_event({ event: event_name, data: args })
   end
 
-  def self.define_state_variable(type, args)
-    name = args.last.to_sym
-    type = Type.create(type)
-    
-    if state_variable_definitions[name]
-      raise "No shadowing: #{name} is already defined."
-    end
-    
-    state_variable_definitions[name] = { type: type, args: args }
-    
-    state_var = StateVariable.create(name, type, args)
-    ## state_var = StateVariable.new(name, type, args)
-    state_var.create_public_getter_function(self)
-  end
   
-  def self.pragma(*args)
-    # Do nothing for now
-  end
   
   def keccak256(input)
     str = TypedVariable.create(:string, input)
