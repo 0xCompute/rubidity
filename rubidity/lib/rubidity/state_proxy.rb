@@ -1,3 +1,4 @@
+
 class StateProxy
   include ContractErrors
   
@@ -6,7 +7,8 @@ class StateProxy
   
   def initialize(contract, definitions)
     @contract = contract
-    @state_variables = {}.with_indifferent_access
+    ## was {}.with_indifferent_access
+    @state_variables = HashWithIndifferentAccess.new
     
     definitions.each do |name, definition|
       @state_variables[name] = StateVariable.create(name, definition[:type], definition[:args])

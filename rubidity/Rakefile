@@ -19,7 +19,6 @@ Hoe.spec 'rubidity' do
 
   self.extra_deps = [
     ['rubidity-typed'],
-    ['activesupport'], 
   ]
 
   self.licenses = ['Public Domain']

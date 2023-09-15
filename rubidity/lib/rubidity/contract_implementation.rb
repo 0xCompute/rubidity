@@ -1,7 +1,6 @@
 class ContractImplementation
   include ContractErrors
-  extend Forwardable   ## pulls in def_delegator
-
+ 
   attr_reader :contract_record
   
   class << self
@@ -10,15 +9,15 @@ class ContractImplementation
                   :events, 
                   :is_abstract_contract
   end
-  
+ 
+  extend Forwardable   ## pulls in def_delegators
+
   ## delegate :block, :tx, :esc, to: :current_transaction
   ## delegate :current_transaction, :contract_id, to: :contract_record
-  def_delegator :contract_record,     :current_transaction
-  def_delegator :contract_record,     :contract_id 
+  def_delegators :contract_record,  :current_transaction,
+                                    :contract_id 
   
-  def_delegator :current_transaction, :block
-  def_delegator :current_transaction, :tx 
-  def_delegator :current_transaction, :esc
+  def_delegators :current_transaction, :block, :tx, :esc
 
   def initialize(contract_record)
     @state_proxy = StateProxy.new(
@@ -131,12 +130,12 @@ class ContractImplementation
   end
   
   def self.event(name, args)
-    @events ||= {}
+    @events ||= HashWithIndifferentAccess.new
     @events[name] = args
   end
 
   def self.events
-    @events || {}.with_indifferent_access
+    @events || HashWithIndifferentAccess.new
   end
 
   def emit(event_name, args = {})
@@ -169,6 +168,7 @@ class ContractImplementation
     state_variable_definitions[name] = { type: type, args: args }
     
     state_var = StateVariable.create(name, type, args)
+    ## state_var = StateVariable.new(name, type, args)
     state_var.create_public_getter_function(self)
   end
   

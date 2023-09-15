@@ -3,21 +3,23 @@ module ContractErrors
     attr_accessor :contract
     attr_accessor :error_status
   
-    def initialize(message, contract)
+    def initialize( message, contract )
       super(message)
       @contract = contract
     end
     
     def message
-      return super if contract.blank?
+      ## note: was contract.blank?    - assumes contract is a object
+      return super   if contract.nil?
       "#{contract.class.name.demodulize} error: " + super + " (contract id: #{contract.contract_id})"
     end
   end
+
+  class ContractRuntimeError < ContractError; end
+  class ContractDefinitionError < ContractError; end
   
   class StaticCallError < StandardError; end  
   class TransactionError < StandardError; end
-  class ContractRuntimeError < ContractError; end
-  class ContractDefinitionError < ContractError; end
   class StateVariableTypeError < StandardError; end
   class VariableTypeError < StandardError; end
   class StateVariableMutabilityError < StandardError; end

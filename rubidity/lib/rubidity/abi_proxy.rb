@@ -1,3 +1,7 @@
+
+
+
+
 class AbiProxy
   include ContractErrors
   
@@ -5,7 +9,7 @@ class AbiProxy
   
   def initialize(contract_class)
     @contract_class = contract_class
-    @data = {}.with_indifferent_access
+    @data = HashWithIndifferentAccess.new     ## was {}.with.with_indifferent_access
     
     merge_parent_state_variables
     merge_parent_abis
@@ -18,17 +22,21 @@ class AbiProxy
   
   def merge_parent_events
     parent_events = contract_class.linearized_parents.map(&:events).reverse
-    contract_class.events = parent_events.reduce({}, :merge).merge(contract_class.events)
+    contract_class.events = parent_events.reduce(HashWithIndifferentAccess.new) { |mem,h|mem.merge(h); mem }
+                                         .merge(contract_class.events)
   end
   
   def merge_parent_state_variables
     parent_state_variables = contract_class.linearized_parents.map(&:state_variable_definitions).reverse
-    contract_class.state_variable_definitions = parent_state_variables.reduce({}, :merge).merge(contract_class.state_variable_definitions)
+    contract_class.state_variable_definitions = parent_state_variables.reduce(HashWithIndifferentAccess.new) { |mem,h|mem.merge(h); mem }
+                                                                      .merge(contract_class.state_variable_definitions)
   end
   
-  def merge_parent_abis
-    return unless contract_class.linearized_parents.present?
   
+  def merge_parent_abis
+    ## note was:  unless linearized_parents.present? 
+    return if contract_class.linearized_parents.nil? || contract_class.linearized_parents.empty?
+    
     contract_class.linearized_parents.each do |parent|
       parent.abi.data.each do |name, func|
         prefixed_name = "__#{parent.name.demodulize}__#{name}"
@@ -186,7 +194,8 @@ class AbiProxy
     end
     
     def convert_args_to_typed_variables_struct(other_args, other_kwargs)
-      if other_kwargs.present?
+      ## note: was other_kwargs.present?  assume other_kwargs is a hash   
+      if other_kwargs && !other_kwargs.empty?
         other_args = other_kwargs.deep_symbolize_keys
       end
       
@@ -196,7 +205,8 @@ class AbiProxy
       
       validate_arg_names(other_args)
       
-      return Struct.new(nil) if args.blank?
+      ## note: was args.blank?  assumes args is a hash {} or nil
+      return Struct.new(nil) if args.nil? || args.empty? 
       
       as_typed = if other_args.is_a?(Array)
         args.keys.zip(other_args).map do |key, value|
