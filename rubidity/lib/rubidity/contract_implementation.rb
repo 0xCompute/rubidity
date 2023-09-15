@@ -21,8 +21,9 @@ class ContractImplementation
 
   def initialize(contract_record)
     @state_proxy = StateProxy.new(
-      contract_record,
-      contract_record.type.constantize.state_variable_definitions
+      ## was: 
+      ##  contract_record.type.constantize.state_variable_definitions
+       self.class.state_variable_definitions 
     )
     
     @contract_record = contract_record
@@ -76,6 +77,7 @@ class ContractImplementation
   end
   
   def self.array(*args)
+    sub_type = args.first
     type = Type.create(:array, sub_type: sub_type )
     
     define_state_variable(type, args)

@@ -196,11 +196,13 @@ class AbiProxy
     def convert_args_to_typed_variables_struct(other_args, other_kwargs)
       ## note: was other_kwargs.present?  assume other_kwargs is a hash   
       if other_kwargs && !other_kwargs.empty?
-        other_args = other_kwargs.deep_symbolize_keys
+        # fix: was  other_kwargs.deep_symbolize_keys
+        other_args = other_kwargs   
       end
       
       if other_args.first.is_a?(Hash) && other_args.length == 1
-        other_args = other_args.first.deep_symbolize_keys
+        # fix: was  other_args.first.deep_symbolize_keys
+        other_args = other_args.first
       end
       
       validate_arg_names(other_args)

@@ -44,14 +44,20 @@ class TypedArray < TypedReference
   def_delegators :@data, :size, :empty?, :clear
 
   def []( index )
+    ## use serialize to get value (why not value) - why? why not?
+    index = index.is_a?( Typed ) ? index.serialize : index
+  
     ## fix: use index out of bounds error - why? why not?
-    raise ArgumentError, "Index out of bounds"   if index >= @data.size
+    raise ArgumentError, "Index out of bounds -  #{index} : #{index.class.name} >= #{@data.size}"   if index >= @data.size
 
     @data[ index ] || sub_type.create( sub_type.zero )
   end
 
   def []=(index, new_value) 
-    raise ArgumentError, "Sparse arrays are not supported"   if index > @data.size
+     ## use serialize to get value (why not value) - why? why not?
+     index = index.is_a?( Typed ) ? index.serialize : index
+ 
+     raise ArgumentError, "Sparse arrays are not supported"   if index > @data.size
 
     @data[ index ] = sub_type.create( new_value )
   end
