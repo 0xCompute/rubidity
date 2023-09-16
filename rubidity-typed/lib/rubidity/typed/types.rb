@@ -265,7 +265,7 @@ class StringType < ValueType  ## note: strings are frozen / immutable - check ag
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedString.new( value ); end 
+    def create( initial_value=STRING_ZERO ) TypedString.new( initial_value ); end 
 end
 
 
@@ -284,7 +284,7 @@ class AddressType < ValueType
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedAddress.new( value ); end 
+    def create( initial_value=ADDRESS_ZERO ) TypedAddress.new( initial_value ); end 
 end
 
 
@@ -304,7 +304,7 @@ class DumbContractType < ValueType
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedDumbContract.new( value ); end 
+    def create( initial_value=CONTRACT_ZERO ) TypedDumbContract.new( initial_value ); end 
 end
 
 
@@ -331,7 +331,7 @@ class AddressOrDumbContractType < ValueType  ## note: use "generic" "union" type
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedAddressOrDumbContract.new( value ); end 
+    def create( initial_value=ADDRESS_ZERO ) TypedAddressOrDumbContract.new( initial_value ); end 
 end
 
 
@@ -348,7 +348,7 @@ class EthscriptionIdType < ValueType      ## todo/check: rename to inscripeId or
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedEthscriptionId.new( value ); end 
+    def create( initial_value=ETHSCRIPTION_ID_ZERO ) TypedEthscriptionId.new( initial_value ); end 
 end
 
 
@@ -365,7 +365,7 @@ class BoolType < ValueType
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedBool.new( value ); end 
+    def create( initial_value=false ) TypedBool.new( initial_value ); end 
 end
 
 class Uint256Type < ValueType
@@ -381,7 +381,7 @@ class Uint256Type < ValueType
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedUint256.new( value ); end 
+    def create( initial_value=0 ) TypedUint256.new( initial_value ); end 
 end
 
 
@@ -398,7 +398,7 @@ class Int256Type < ValueType
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedInt256.new( value ); end 
+    def create( initial_value=0 ) TypedInt256.new( initial_value ); end 
 end
 
 class DatetimeType < ValueType   ## note: datetime is int (epoch time since 1970 in seconds in utc)
@@ -414,7 +414,7 @@ class DatetimeType < ValueType   ## note: datetime is int (epoch time since 1970
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedDatetime.new( value ); end 
+    def create( initial_value=0 ) TypedDatetime.new( initial_value ); end 
 end 
 
 
@@ -443,7 +443,7 @@ class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! 
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedArray.new( value, sub_type: sub_type ); end 
+    def create( initial_value=[] ) TypedArray.new( initial_value, sub_type: sub_type ); end 
 end # class ArrayType
 
 
@@ -477,8 +477,8 @@ class MappingType < ReferenceType
 
     #####
     #  add create helper - why? why not?    
-    def create( value ) TypedMapping.new( value, key_type: key_type,
-                                                 value_type: value_type ); end 
+    def create( initial_value={} ) TypedMapping.new( initial_value, key_type: key_type,
+                                                         value_type: value_type ); end 
 end # class MappingType
   
 

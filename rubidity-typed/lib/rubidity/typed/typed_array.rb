@@ -8,13 +8,13 @@ class TypedArray < TypedReference
     attr_reader :type 
     def sub_type() @type.sub_type; end
 
-   def initialize( value = nil, sub_type: )
-    @type = Type.create( :array, sub_type: sub_type )
+   def initialize( initial_value = nil, sub_type: )
+    @type = ArrayType.instance( sub_type )
     unless @type.sub_type.is_value_type?
       raise ArgumentError, "Only value types for array elements supported for now; sorry" 
     end
 
-    replace( value || [] )            
+    replace( initial_value || [] )            
   end
   def zero?() @data == []; end  ## use @data.empty? - why? why not?
 

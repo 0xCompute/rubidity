@@ -8,13 +8,12 @@ class TypedMapping < TypedReference
     def key_type() @type.key_type; end
     def value_type() @type.value_type; end
 
-    def initialize( value = nil, key_type:, value_type: )
-      @type = Type.create( :mapping, key_type: key_type,
-                                     value_type: value_type )
+    def initialize( initial_value = nil, key_type:, value_type: )
+      @type = MappingType.instance(  key_type, value_type )
       # puts
       # puts "[debug] TypedMapping#initialize - #{type.inspect}, #{value.inspect}"
 
-      replace( value || {} )            
+      replace( initial_value || {} )            
       # puts "[debug] data: #{@data.inspect}"
     end
     def zero?() @data == {}; end  ## use @data.empty? - why? why not?

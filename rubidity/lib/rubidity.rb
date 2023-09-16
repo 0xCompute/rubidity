@@ -73,7 +73,6 @@ end  # class String
 ## our own code
 require_relative 'rubidity/contract_errors'
 
-require_relative 'rubidity/state_variable'
 require_relative 'rubidity/state_proxy'
 
 require_relative 'rubidity/contract_base'

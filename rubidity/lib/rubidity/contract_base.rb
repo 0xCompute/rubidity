@@ -64,25 +64,40 @@ class ContractBase
 
 
   def self.define_state_variable(type, args)
-    name = args.last.to_sym
-    type = Type.create(type)
+    ## note: REMOVE last item from array (use Array#pop)
+    ##  make sure name is ALWAYS a symbol!!!
+    name = args.pop.to_sym
     
     if state_variable_definitions[name]
       raise "No shadowing: #{name} is already defined."
     end
+
+    ## check for visibility  - internal/private/public
+    visibility = :internal    ## make :public default - why? why not?
+    immutable  = false
+    constant   = false
+
+    ##  todo/check - force strict check for double (public/private etc.) use - why? why not?
+    args.each do |arg|
+      case arg
+      when :public, :private then  visibility = arg
+      when :immutable        then  immutable = true
+      when :constant         then  constant = true
+      else
+         raise ArgumentError, "unknown type qualifier >#{arg}<; sorry for typedef #{type} in #{args.inspect}" 
+      end
+    end
     
     state_variable_definitions[name] = { type: type, 
-                                         args: args }
+                                         visibility: visibility,
+                                         immutable: immutable,
+                                         constant: constant }
     
-    ## todo/check: why create state var here - not used?
-    ##   will get created with stateproxy later from defs - double check!!!!
-    ## state_var = StateVariable.create(name, type, args)
-    ## state_var = StateVariable.new(name, type, args)
   
     ## check - visibility 
-    if args.include?( :public )   # was: @visibility == :public
-       create_public_getter_function( name, type, constant: args.include?( :constant ),
-                                                  immutable: args.include?( :immutable ))
+    if visibility == :public
+       create_public_getter_function( name, type, constant: constant,
+                                                  immutable: immutable )
     end
     
     type
@@ -91,12 +106,14 @@ class ContractBase
 
   Type.value_types.each do |type|
     define_singleton_method(type) do |*args|
+      type = Type.create( type )
       define_state_variable(type, args)
     end
   end
   
   def self.mapping(*args)
-    key_type, value_type = args.first.first
+    # note: REMOVE first item from array (use Array#shift)
+    key_type, value_type = args.shift.first
     type = Type.create( :mapping, key_type: key_type, 
                                   value_type: value_type )
     
@@ -108,7 +125,8 @@ class ContractBase
   end
   
   def self.array(*args)
-    sub_type = args.first
+    # note: REMOVE first item from array (use Array#shift)
+    sub_type = args.shift
     type = Type.create(:array, sub_type: sub_type )
     
     define_state_variable(type, args)
