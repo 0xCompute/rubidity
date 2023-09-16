@@ -5,23 +5,23 @@ end
 
 
 
-def typed( type, value = nil, **kwargs)   
+def typed( type, initial_value = nil, **kwargs)   
     ## rename type to type_or_name or such - why? why not?
-    return type.create( value )   if type.is_a?( Type )    ## already a type(def) object
+    return type.create( initial_value )   if type.is_a?( Type )    ## already a type(def) object
 
     ## check - allow strings too (onyl symbols now) - why? why not?
     case type
-    when :string                then  TypedString.new( value )
-    when :address               then  TypedAddress.new( value ) 
-    when :dumbContract          then  TypedDumbContract.new( value )
-    when :addressOrDumbContract then  TypedAddressOrDumbContract.new( value ) 
-    when :ethscriptionId        then  TypedEthscriptionId.new( value )
-    when :bool                  then  TypedBool.new( value ) 
-    when :uint256               then  TypedUint256.new( value )
-    when :int256                then  TypedInt256.new( value )
-    when :datetime              then  TypedDatatime.new( value )
-    when :array                 then  TypedArray.new( value, **kwargs )
-    when :mapping               then  TypedMapping.new( value, **kwargs )
+    when :string                then  TypedString.new( initial_value )
+    when :address               then  TypedAddress.new( initial_value ) 
+    when :dumbContract          then  TypedDumbContract.new( initial_value )
+    when :addressOrDumbContract then  TypedAddressOrDumbContract.new( initial_value ) 
+    when :ethscriptionId        then  TypedEthscriptionId.new( initial_value )
+    when :bool                  then  TypedBool.new( initial_value ) 
+    when :uint256               then  TypedUint256.new( initial_value )
+    when :int256                then  TypedInt256.new( initial_value )
+    when :datetime              then  TypedDatatime.new( initial_value )
+    when :array                 then  TypedArray.new( initial_value, **kwargs )
+    when :mapping               then  TypedMapping.new( initial_value, **kwargs )
     else
       raise ArgumentError, "unknown type #{type}:#{type.class.name}; sorry"
     end
@@ -56,8 +56,8 @@ end  # class Typed
 
 ### note: for "legacy" use TypedVariable as legacy base - remove? SOON? why? why not?
 class TypedVariable  < Typed   ## old "legacy" class for create - do NOT use  
-  def self.create(  type, value = nil, **kwargs ) 
-     typed( type, value, **kwargs ); 
+  def self.create(  type, initial_value = nil, **kwargs ) 
+     typed( type, initial_value, **kwargs ); 
    end
 end # class TypedVariable
 
@@ -129,10 +129,15 @@ end
 
 
 class TypedString < TypedValue
+
+  ## todo/check -- use self.zero or such - why? why not?
+  def self.zero() @zero ||= new; end
+
+
   def type() StringType.instance; end  
 
-  def initialize( value = nil )
-    replace( value || type.zero )
+  def initialize( initial_value = nil )
+    replace( initial_value || type.zero )
   end
   
   ## add more String forwards here!!!!
@@ -149,48 +154,52 @@ end
 class TypedAddress < TypedValue
    def type() AddressType.instance; end  
  
-   def initialize( value = nil)
-      replace( value || type.zero )
+   def initialize( initial_value = nil)
+      replace( initial_value || type.zero )
    end
 end   # class TypedAddress
 
 class TypedDumbContract < TypedValue
     def type() DumpContractType.instance; end  
   
-    def initialize( value = nil)
-       replace( value || type.zero )
+    def initialize( initial_value = nil)
+       replace( initial_value || type.zero )
     end 
 end  # class TypedDumbContract
 
 class TypedAddressOrDumbContract < TypedValue
     def type() AddressOrDumbContractType.instance; end  
   
-    def initialize( value = nil)
-       replace( value || type.zero )
+    def initialize( initial_value = nil)
+       replace( initial_value || type.zero )
     end 
 end  # class TypedAddressOrDumbContract
 
 class TypedEthscriptionId < TypedValue
     def type() EthscriptionIdType.instance; end  
   
-    def initialize( value = nil)
-       replace( value || type.zero )
+    def initialize( initial_value = nil)
+       replace( initial_value || type.zero )
     end 
 end  # class TypedEthscriptionId
    
 class TypedBool < TypedValue
     def type() BoolType.instance; end  
   
-    def initialize( value = nil)
-       replace( value || type.zero )
+    def initialize( initial_value = nil)
+       replace( initial_value || type.zero )
     end 
 end  # class TypedBool
 
+
 class TypedUint256 < TypedValue
+    ## todo/check -- use self.zero or such - why? why not?
+    def self.zero() @zero ||= new; end
+
     def type() Uint256Type.instance; end  
   
-    def initialize( value = nil)
-       replace( value || type.zero )
+    def initialize( initial_value = nil)
+       replace( initial_value || type.zero )
     end 
 
 
@@ -215,8 +224,8 @@ end  # class TypedUint256
 class TypedInt256 < TypedValue
     def type() Int256Type.instance; end  
   
-    def initialize( value = nil)
-       replace( value || type.zero )
+    def initialize( initial_value = nil)
+       replace( initial_value || type.zero )
     end 
 
     def to_int() @value; end  ## "automagilally" support implicit integer conversion - why? why not?
@@ -225,8 +234,8 @@ end  # class TypedInt256
 class TypedDatetime < TypedValue
     def type() DatetimeType.instance; end  
   
-    def initialize( value = nil)
-       replace( value || type.zero )
+    def initialize( initial_value = nil)
+       replace( initial_value || type.zero )
     end 
 end  # class TypedDatetime
 
