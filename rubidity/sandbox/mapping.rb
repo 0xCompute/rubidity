@@ -2,9 +2,21 @@ require_relative 'helper'
 
 
 class TestMapping < ContractImplementation    
-  
-  mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
 
+  ## from ERC20
+  mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
+  mapping ({ addressOrDumbContract: mapping(addressOrDumbContract: :uint256) }), :public, :allowance
+
+  ## from ERC721
+  mapping ({ uint256: :addressOrDumbContract }), :internal, :_ownerOf
+  mapping ({ addressOrDumbContract: :uint256 }), :internal, :_balanceOf
+  
+  mapping ({ uint256: :addressOrDumbContract }), :public, :getApproved
+  mapping ({ addressOrDumbContract: mapping(addressOrDumbContract: :bool) }), :public, :isApprovedForAll
+  
+  ## from GenerativeERC721
+  mapping ({ uint256: :uint256 }), :public, :tokenIdToSeed
+  
 
     constructor() {}
 end  # class TestMapping  
@@ -52,5 +64,20 @@ pp contract.balanceOf( '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
 #=> 20990000 
 pp contract.balanceOf( '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
 #=> 10000
+
+
+pp contract.s.allowance
+contract.s.allowance['0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa']['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb']=100
+contract.s.allowance['0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa']['0xcccccccccccccccccccccccccccccccccccccccc']=200
+pp contract.s.allowance
+pp contract.state_proxy.serialize
+
+
+pp contract.s.allowance[ '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa']['0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb']
+pp contract.s.allowance[ '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'][ '0xcccccccccccccccccccccccccccccccccccccccc']
+
+pp contract.allowance( '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb' )
+pp contract.allowance( '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '0xcccccccccccccccccccccccccccccccccccccccc' )
+
 
 puts "bye"

@@ -24,7 +24,7 @@ class ContractBase
   end
   
   def self.is(*constants)
-    self.parent_contracts += constants.map{|i| "Contracts::#{i}".safe_constantize}
+    self.parent_contracts += constants.map{ |i| i.safe_constantize }
     self.parent_contracts = self.parent_contracts.uniq
   end
   
@@ -80,9 +80,9 @@ class ContractBase
     ##  todo/check - force strict check for double (public/private etc.) use - why? why not?
     args.each do |arg|
       case arg
-      when :public, :private then  visibility = arg
-      when :immutable        then  immutable = true
-      when :constant         then  constant = true
+      when :public, :private, :internal then  visibility = arg
+      when :immutable                   then  immutable = true
+      when :constant                    then  constant = true
       else
          raise ArgumentError, "unknown type qualifier >#{arg}<; sorry for typedef #{type} in #{args.inspect}" 
       end

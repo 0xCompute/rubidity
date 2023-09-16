@@ -50,8 +50,44 @@ end
 end # class Array
 
 class String
-def constantize() Object.const_get( self ); end
+  def constantize() Object.const_get( self ); end
+  alias_method :safe_constantize, :constantize
+  def demodulize
+      path = self
+      path = path.to_s
+      if i = path.rindex('::')
+        path[(i+2)..-1]
+      else
+        path
+      end
+  end
 end  # class String
+class Symbol
+  def constantize() to_s.constantize; end
+  alias_method :safe_constantize, :constantize
+  def demodulize()  to_s.demodulize; end
+end  # class Symbol
+
+=begin
+def safe_constantize(camel_cased_word)
+  constantize(camel_cased_word)
+rescue NameError => e
+  raise if e.name && !(camel_cased_word.to_s.split("::").include?(e.name.to_s) ||
+    e.name.to_s == camel_cased_word.to_s)
+rescue ArgumentError => e
+  raise unless /not missing constant #{const_regexp(camel_cased_word)}!$/.match?(e.message)
+rescue LoadError => e
+  raise unless /Unable to autoload constant #{const_regexp(camel_cased_word)}/.match?(e.message)
+end
+=end
+
+=begin
+rubidity/abi_proxy.rb:42:in `block (2 levels) in merge_parent_abis': 
+undefined method `demodulize' for "ERC20":String (NoMethodError)
+
+        prefixed_name = "__#{parent.name.demodulize}__#{name}"
+                                        ^^^^^^^^^^^
+=end
 
 
 

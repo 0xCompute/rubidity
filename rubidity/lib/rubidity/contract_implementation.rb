@@ -33,11 +33,21 @@ class ContractImplementation  < ContractBase
     @state_proxy
   end
   
+###
+#  add convenience serialize/deserialize(load) helpers - why? why not?
+   def serialize() @state_proxy.serialize; end
+   alias_method :dump, :serialize  ### use dump as alias - why? why not?
+   def deserialize(state_data)  @state_proxy.deserialize( state_data ); end
+   alias_method :load, :deserialize
+
+
   def msg
     @msg ||= ContractTransactionGlobals::Message.new
   end
   
   
+
+
   
   def require(condition, message)
     unless condition

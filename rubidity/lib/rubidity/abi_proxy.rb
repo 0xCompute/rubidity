@@ -20,16 +20,21 @@ class AbiProxy
     contract_class.parent_contracts
   end
   
+  
   def merge_parent_events
     parent_events = contract_class.linearized_parents.map(&:events).reverse
-    contract_class.events = parent_events.reduce(HashWithIndifferentAccess.new) { |mem,h|mem.merge(h); mem }
+    contract_class.events = parent_events.reduce(HashWithIndifferentAccess.new) { |mem,h| mem.merge(h) }
                                          .merge(contract_class.events)
   end
   
   def merge_parent_state_variables
+    puts "[debug] AbiProxy#merge_parent_state_variables - #{contract_class}"
     parent_state_variables = contract_class.linearized_parents.map(&:state_variable_definitions).reverse
-    contract_class.state_variable_definitions = parent_state_variables.reduce(HashWithIndifferentAccess.new) { |mem,h|mem.merge(h); mem }
-                                                                      .merge(contract_class.state_variable_definitions)
+    vars = parent_state_variables.reduce( {} ) { |mem,h| mem.merge(h) }
+                                 .merge( contract_class.state_variable_definitions)
+    puts "[debug]   merged state_variables:"
+    pp vars
+    contract_class.state_variable_definitions = vars    
   end
   
   

@@ -41,7 +41,8 @@ class StateProxy
       h
     end
   end
-  
+  alias_method :dump, :serialize  ### use dump as alias - why? why not?
+ 
   def deserialize(state_data)
     state_data.each do |name, value|
       ##  note: make sure name is ALWAYS a symbol!!!
