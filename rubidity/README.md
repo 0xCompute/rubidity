@@ -28,6 +28,11 @@ require 'rubidity'
 
 
 class TestToken < ContractImplementation    
+
+    event :Transfer, { from: :addressOrDumbContract, 
+                       to: :addressOrDumbContract, 
+                       amount: :uint256 }
+
     string :public, :name
     string :public, :symbol
     uint256 :public, :decimals    
@@ -54,7 +59,7 @@ class TestToken < ContractImplementation
         s.balanceOf[msg.sender] -= amount
         s.balanceOf[to] += amount
    
-        ## emit :Transfer, from: msg.sender, to: to, amount: amount        
+        emit :Transfer, from: msg.sender, to: to, amount: amount        
         return true
     end
 end  # class TestToken  
@@ -82,14 +87,12 @@ contract.msg.sender = '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'   # a(lice)
 pp contract.msg.sender
 
 
-
-initial_state = contract.state_proxy.serialize
-pp initial_state  
-#=> {"name"=>"", 
-#    "symbol"=>"", 
-#    "decimals"=>0, 
-#    "totalSupply"=>0, 
-#    "balanceOf"=>{}}
+pp contract.serialize
+#=> {:name=>"", 
+#    :symbol=>"", 
+#    :decimals=>0, 
+#    :totalSupply=>0, 
+#    :balanceOf=>{}}
       
 
 contract.constructor(
@@ -98,12 +101,12 @@ contract.constructor(
                18,
                21000000 )
 
-state = contract.state_proxy.serialize
-#=> {"name"=>"My Fun Token",
-#    "symbol"=>"FUN",
-#    "decimals"=>18,
-#    "totalSupply"=>21000000,
-#    "balanceOf"=>{'0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"=>21000000}}
+pp contract.serialize
+#=> {:name=>"My Fun Token",
+#    :symbol=>"FUN",
+#    :decimals=>18,
+#    :totalSupply=>21000000,
+#    :balanceOf=>{'0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"=>21000000}}
 
 pp contract.name
 #=> "My Fun Token"
@@ -121,13 +124,12 @@ pp contract.balanceOf( '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
 pp contract.transfer( '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 
                     10000 )
 
-state = contract.state_proxy.serialize
-pp state
-#=> {"name"=>"My Fun Token",
-#    "symbol"=>"FUN",
-#    "decimals"=>18,
-#    "totalSupply"=>21000000,
-#    "balanceOf"=>
+pp contract.serialize
+#=> {:name=>"My Fun Token",
+#    :symbol=>"FUN",
+#    :decimals=>18,
+#    :totalSupply=>21000000,
+#    :balanceOf=>
 #    {"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"=>20990000, 
 #     "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"=>10000}}
 
@@ -135,8 +137,6 @@ pp contract.balanceOf( '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
 #=> 20990000 
 pp contract.balanceOf( '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb')
 #=> 10000
-
-puts "bye"
 ```
 
 

@@ -24,10 +24,12 @@ class ContractBase
   end
   
   def self.is(*constants)
-    self.parent_contracts += constants   # .map{ |i| i.safe_constantize }
+    self.parent_contracts += constants   #  note: was .map{ |i| i.safe_constantize }
+    ## todo/fix: report error on duplicates or silently remove (vai uniq) - why? why not?
     self.parent_contracts = self.parent_contracts.uniq
   end
   
+
   def self.linearize_contracts(contract, processed = [])
     return [] if processed.include?(contract)
   
@@ -44,15 +46,17 @@ class ContractBase
  
 
 
+
  ####
  # events
- def self.event(name, args)
-    @events ||= HashWithIndifferentAccess.new
+ def self.event( name, args )
+    @events ||= {}
+    name = name.to_sym  ## make sure name is ALWAYS a symbol
     @events[name] = args
   end
 
   def self.events
-    @events || HashWithIndifferentAccess.new
+    @events || {}
   end
  
 

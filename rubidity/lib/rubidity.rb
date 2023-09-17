@@ -107,13 +107,12 @@ undefined method `demodulize' for "ERC20":String (NoMethodError)
 
 
 ## our own code
-require_relative 'rubidity/contract_errors'
-
 require_relative 'rubidity/state_proxy'
 
 require_relative 'rubidity/contract_base'
 require_relative 'rubidity/contract_implementation'
 require_relative 'rubidity/abi_proxy'
+require_relative 'rubidity/function_proxy'
 require_relative 'rubidity/function_context'
 
 require_relative 'rubidity/contract_transaction_globals'
@@ -123,14 +122,31 @@ require_relative 'rubidity/contract_transaction_globals'
 ##
 #  add extra setup helpers
 
+
 class ContractRecord    ## activerecord model class dummy 
     def initialize( type ) @type = type.name; end
     def type() @type;  end
+
+    def current_transaction() @tx ||= Tx.new; end
+    class Tx
+      def log_event( event )
+         puts "==> log_event:"
+         pp event
+      end
+=begin
+  def log_event(event)
+    call_receipt.logs << event
+    event
+  end
+=end
+    end # class Tx
 end
+
+
 
 class ContractImplementation
     def self.create
-        puts "klass -> #{self.name}"
+        puts "[debug] Contract.create  - klass -> #{self.name}"
         rec = ContractRecord.new( self )
         new( rec ) 
     end

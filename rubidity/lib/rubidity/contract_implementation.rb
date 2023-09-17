@@ -1,5 +1,4 @@
 class ContractImplementation  < ContractBase
-  include ContractErrors
  
   attr_reader :contract_record
   
@@ -45,9 +44,29 @@ class ContractImplementation  < ContractBase
     @msg ||= ContractTransactionGlobals::Message.new
   end
   
+  def emit(event_name, args = {})
+    event_name = event_name.to_sym  ## note: make sure event_name is ALWAYS as symbol
+    unless self.class.events.key?( event_name)
+      raise NameError, "Event #{event_name} is not defined in this contract."
+    end
+
+  expected_args = self.class.events[event_name]
+  missing_args = expected_args.keys - args.keys
+  extra_args   = args.keys - expected_args.keys
+
+  if missing_args.any? || extra_args.any?
+    error_messages = []
+    error_messages << "Missing arguments for #{event_name} event: #{missing_args.join(', ')}." if missing_args.any?
+    error_messages << "Unexpected arguments provided for #{event_name} event: #{extra_args.join(', ')}." if extra_args.any?
+    raise ArgumentError, error_messages.join(' ')
+  end
+
+  
+  current_transaction.log_event({ event: event_name, data: args })
+end
   
 
-
+  
   
   def require(condition, message)
     unless condition
@@ -63,26 +82,6 @@ class ContractImplementation  < ContractBase
   
   
   
-  
-  def emit(event_name, args = {})
-    unless self.class.events.key?(event_name)
-      raise ContractDefinitionError.new("Event #{event_name} is not defined in this contract.", self)
-    end
-
-    expected_args = self.class.events[event_name]
-    missing_args = expected_args.keys - args.keys
-    extra_args = args.keys - expected_args.keys
-
-    if missing_args.any? || extra_args.any?
-      error_messages = []
-      error_messages << "Missing arguments for #{event_name} event: #{missing_args.join(', ')}." if missing_args.any?
-      error_messages << "Unexpected arguments provided for #{event_name} event: #{extra_args.join(', ')}." if extra_args.any?
-      raise ContractDefinitionError.new(error_messages.join(' '), self)
-    end
-
-    current_transaction.log_event({ event: event_name, data: args })
-  end
-
   
   
   def keccak256(input)

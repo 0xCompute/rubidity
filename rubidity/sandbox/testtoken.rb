@@ -1,5 +1,10 @@
 
-class TestToken < ContractImplementation    
+class TestToken < ContractImplementation   
+  
+    event :Transfer, { from: :addressOrDumbContract, 
+                       to: :addressOrDumbContract, 
+                       amount: :uint256 }
+
     string :public, :name
     string :public, :symbol
     uint256 :public, :decimals    
@@ -40,7 +45,7 @@ class TestToken < ContractImplementation
 
         puts "hello from transfer"
     
-        ## emit :Transfer, from: msg.sender, to: to, amount: amount
+        emit :Transfer, from: msg.sender, to: to, amount: amount
         
         return true
     end

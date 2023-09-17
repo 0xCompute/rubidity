@@ -100,7 +100,7 @@ class ERC20 < ContractImplementation
   function :approve, { spender: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
     s.allowance[msg.sender][spender] = amount
     
-    # emit :Approval, owner: msg.sender, spender: spender, amount: amount
+    emit :Approval, owner: msg.sender, spender: spender, amount: amount
     
     return true
   end
@@ -141,7 +141,7 @@ class ERC20 < ContractImplementation
     s.balanceOf[from] -= amount
     s.balanceOf[to] += amount
     
-    # emit :Transfer, from: from, to: to, amount: amount
+    emit :Transfer, from: from, to: to, amount: amount
     
     return true
   end

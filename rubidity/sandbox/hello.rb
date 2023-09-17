@@ -16,6 +16,8 @@ require_relative 'testtoken'
 pp TestToken.state_variable_definitions
 pp TestToken.parent_contracts 
 pp TestToken.events 
+
+
 pp TestToken.is_abstract_contract
 
 abi = TestToken.abi

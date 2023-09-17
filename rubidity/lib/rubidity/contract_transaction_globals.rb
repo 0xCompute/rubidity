@@ -8,8 +8,7 @@ class ContractTransactionGlobals
   end
   
   class Tx
-    include ContractErrors
-
+ 
     attr_reader :origin
     
     def origin=(address)
@@ -18,8 +17,7 @@ class ContractTransactionGlobals
   end
   
   class Block
-    include ContractErrors
-
+ 
     attr_accessor :number, :timestamp
     
     def initialize(current_transaction)
@@ -44,7 +42,6 @@ class ContractTransactionGlobals
   end
   
   class Esc
-    include ContractErrors
 
     def initialize(current_transaction)
       @current_transaction = current_transaction
