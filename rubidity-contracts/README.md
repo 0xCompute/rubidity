@@ -196,7 +196,6 @@ alice   = '0x'+'a'*40 # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 bob     = '0x'+'b'*40 # e.g. '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
 charlie = '0x'+'c'*40 # e.g. '0xcccccccccccccccccccccccccccccccccccccccc'
 
-## 
 #  function :mint, { amount: :uint256 }, :public  
 contract.msg.sender = alice
 
@@ -208,7 +207,6 @@ contract.msg.sender = bob
 contract.mint( 300 )
 contract.mint( 400 )
 
-##
 #  function :airdrop, { to: :addressOrDumbContract, amount: :uint256 }, :public
 contract.airdrop( alice, 500 )
 contract.airdrop( charlie, 600  )
@@ -227,17 +225,14 @@ contract.serialize
 # :perMintLimit=>1000}
 
 
-###
 #   function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool
 contract.transfer( alice, 1  )
 contract.transfer( charlie, 2  )
 
-###
 #   function :approve, { spender: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
 contract.approve( alice, 11 )
 contract.approve( charlie, 22 )
 
-##
 # function :transferFrom, {
 #  from: :addressOrDumbContract,
 #  to: :addressOrDumbContract,
