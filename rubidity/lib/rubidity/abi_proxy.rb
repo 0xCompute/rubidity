@@ -1,34 +1,43 @@
 
 
-
-
 class AbiProxy
   
+  ## todo: make data private!!!
+  ##  make  read access available via #each !!!
+
+
   attr_accessor :data, :contract_class
   
   def initialize(contract_class)
     @contract_class = contract_class
     @data = HashWithIndifferentAccess.new     ## was {}.with.with_indifferent_access
-    
-    merge_parent_state_variables
-    merge_parent_abis
-    merge_parent_events
+     
+
+    parents = contract_class.linearized_parents 
+    if parents.empty?
+      ## do nothing
+    else 
+      _merge_events( parents )  
+      _merge_state_variables( parents)
+      _merge_abis( parents )  
+    end
   end
   
-  def parent_contracts
-    contract_class.parent_contracts
-  end
+  ### todo/check -- where used? check for parent_contracts
+  # def parent_contracts
+  #  contract_class.parent_contracts
+  # end
   
   
-  def merge_parent_events
-    parent_events = contract_class.linearized_parents.map(&:events).reverse
+  def _merge_events( parents )
+    parent_events = parents.map(&:events).reverse
     contract_class.events = parent_events.reduce( {} ) { |mem,h| mem.merge(h) }
                                          .merge(contract_class.events)
   end
   
-  def merge_parent_state_variables
+  def _merge_state_variables( parents )
     puts "[debug] AbiProxy#merge_parent_state_variables - #{contract_class}"
-    parent_state_variables = contract_class.linearized_parents.map(&:state_variable_definitions).reverse
+    parent_state_variables = parents.map(&:state_variable_definitions).reverse
     vars = parent_state_variables.reduce( {} ) { |mem,h| mem.merge(h) }
                                  .merge( contract_class.state_variable_definitions)
     puts "[debug]   merged state_variables:"
@@ -36,14 +45,12 @@ class AbiProxy
     contract_class.state_variable_definitions = vars    
   end
   
-  
-  def merge_parent_abis
-    ## note was:  unless linearized_parents.present? 
-    return if contract_class.linearized_parents.nil? || contract_class.linearized_parents.empty?
-    
-    contract_class.linearized_parents.each do |parent|
+
+  def _merge_abis( parents )
+    parents.each do |parent|
       parent.abi.data.each do |name, func|
         prefixed_name = "__#{parent.name.demodulize}__#{name}"
+        puts "[debug] adding function w/ prefixed_name - #{prefixed_name}"
         define_function_method(prefixed_name, func, contract_class)
       end
   
@@ -52,6 +59,8 @@ class AbiProxy
           send("__#{parent.name.demodulize}__constructor", *args, **kwargs)
         end
         
+        ##
+        # todo/check - what is this for???
         define_method("_" + parent.name.demodulize) do
           contract_instance = self
           Object.new.tap do |proxy|
@@ -65,13 +74,15 @@ class AbiProxy
       end
     end
     
-    closest_parent = contract_class.linearized_parents.first
+    closest_parent = parents.first
     
     closest_parent.abi.data.each do |name, func|
       add_function(name, func, from_parent: true)
     end
   end
   
+
+
   def add_function(name, new_function, from_parent: false)
     existing_function = @data[name]
     
@@ -99,6 +110,9 @@ class AbiProxy
     add_function(name, new_function)
   end
   
+
+
+  
   private
   
   def define_function_method(method_name, func_proxy, target_class)
@@ -117,7 +131,12 @@ class AbiProxy
     end
   end
   
+
+
   def method_missing(name, *args, &block)
+    ## gets used for select - what else?
+    puts "WARN!! AbiProxy#method_missing name: #{name}, args: #{args.inspect} - do NOT use; get removed SOON!"
+
     if data.respond_to?(name)
       data.send(name, *args, &block)
     else
@@ -126,6 +145,7 @@ class AbiProxy
     end
   end
   
+
   def respond_to_missing?(name, include_private = false)
     data.respond_to?(name, include_private) || super
   end  

@@ -43,6 +43,8 @@
       implementation.to_s.gsub(%r(.*/app/models/contracts/), '').chop
     end
     
+
+
     def validate_arg_names(other_args)
       if other_args.is_a?(Hash)
         missing_args = arg_names - other_args.keys
@@ -60,9 +62,10 @@
       end
       
       if errors.any?
-        raise ContractArgumentError.new(errors.join(' '))
+        raise ArgumentError, errors.join(' ')
       end
     end
+    
     
     def convert_args_to_typed_variables_struct(other_args, other_kwargs)
       ## note: was other_kwargs.present?  assume other_kwargs is a hash   

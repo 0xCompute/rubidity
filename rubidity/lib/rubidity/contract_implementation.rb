@@ -27,11 +27,9 @@ class ContractImplementation  < ContractBase
   def s
     @state_proxy
   end
+  alias_method :state_proxy, :s    ## keep state_proxy alias - why? why not?
   
-  def state_proxy
-    @state_proxy
-  end
-  
+
 ###
 #  add convenience serialize/deserialize(load) helpers - why? why not?
    def serialize() @state_proxy.serialize; end
@@ -75,6 +73,7 @@ end
       line = caller_location.lineno
       
       error_message = "#{message}. (#{file}:#{line})"
+      ## todo/fix: change to (built-in) ???Error, ....
       raise ContractError.new(error_message, self)
     end
   end
