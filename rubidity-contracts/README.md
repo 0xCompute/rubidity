@@ -18,12 +18,13 @@ See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" I
 
 ## Usage
 
-Let's try the PublicMintERC20 contract -
+Let's try the PublicMintERC20 contract...
 
 <details>
-<summary markdown="1">Show Source</summary>
+<summary markdown="1">
+Show Source - [contracts/public_mint_erc20.rb](contracts/public_mint_erc20.rb)
+</summary>
 
-(source [contracts/publi_mint_erc20.rb](contracts/publi_mint_erc20.rb))
 
 ```ruby
 class PublicMintERC20 < ContractImplementation
@@ -69,9 +70,10 @@ end
 that builds on the ERC20 (base) contract.
 
 <details>
-<summary markdown="1">Show Source</summary>
+<summary markdown="1">
+Show Source - [contracts/erc20.rb](contracts/erc20.rb)
+</summary>
 
-(source [contracts/erc20.rb](contracts/erc20.rb))
 
 ```ruby
 class ERC20 < ContractImplementation
@@ -208,15 +210,12 @@ contract.msg.sender = bob
 contract.mint( 300 )
 contract.mint( 400 )
 
-state = contract.serialize
-pp state
-
 ##
 #  function :airdrop, { to: :addressOrDumbContract, amount: :uint256 }, :public
 contract.airdrop( alice, 500 )
 contract.airdrop( charlie, 600  )
 
-state = contract.serialize
+contract.serialize
 # {:name=>"My Fun Token",
 #  :symbol=>"FUN",
 #  :decimals=>18,
