@@ -1,5 +1,5 @@
 class PublicMintERC20 < ContractImplementation
-  is :ERC20
+  is ERC20
   
   uint256 :public, :maxSupply
   uint256 :public, :perMintLimit

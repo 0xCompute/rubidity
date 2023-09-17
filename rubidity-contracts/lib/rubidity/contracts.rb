@@ -1,6 +1,7 @@
+require 'rubidity/typed'
+require 'rubidity'
 
-# note: for now only include contracts only
-
+## our own code / contracts
 require_relative 'contracts/erc20.rb'
 require_relative 'contracts/erc20_liquidity_pool.rb'
 require_relative 'contracts/erc721.rb'

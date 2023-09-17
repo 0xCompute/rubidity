@@ -1,5 +1,5 @@
 class GenerativeERC721 < ContractImplementation
-  is :ERC721
+  is ERC721
   
   string :public, :generativeScript
   mapping ({ uint256: :uint256 }), :public, :tokenIdToSeed

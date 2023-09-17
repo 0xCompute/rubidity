@@ -1,5 +1,5 @@
-class Contracts::OpenEditionERC721 < ContractImplementation
-  is :ERC721
+class OpenEditionERC721 < ContractImplementation
+  is ERC721
   
   string :public, :contentURI
   uint256 :public, :maxPerAddress

@@ -1,7 +1,7 @@
-class Contracts::EthscriptionERC20Bridge < ContractImplementation
+class EthscriptionERC20Bridge < ContractImplementation
   pragma :rubidity, "1.0.0"
   
-  is :ERC20
+  is ERC20
 
   event :InitiateWithdrawal, { from: :address, escrowedId: :ethscriptionId }
   event :WithdrawalComplete, { to: :address, escrowedId: :ethscriptionId }

@@ -24,7 +24,7 @@ class ContractBase
   end
   
   def self.is(*constants)
-    self.parent_contracts += constants.map{ |i| i.safe_constantize }
+    self.parent_contracts += constants   # .map{ |i| i.safe_constantize }
     self.parent_contracts = self.parent_contracts.uniq
   end
   
