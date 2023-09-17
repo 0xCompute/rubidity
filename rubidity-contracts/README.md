@@ -21,10 +21,9 @@ See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" I
 Let's try the PublicMintERC20 contract...
 
 <details>
-<summary markdown="1">
-Show Source - [contracts/public_mint_erc20.rb](contracts/public_mint_erc20.rb)
-</summary>
+<summary markdown="1">Show Source</summary>
 
+[contracts/public_mint_erc20.rb](contracts/public_mint_erc20.rb):
 
 ```ruby
 class PublicMintERC20 < ContractImplementation
@@ -70,10 +69,9 @@ end
 that builds on the ERC20 (base) contract.
 
 <details>
-<summary markdown="1">
-Show Source - [contracts/erc20.rb](contracts/erc20.rb)
-</summary>
+<summary markdown="1">Show Source</summary>
 
+[contracts/erc20.rb](contracts/erc20.rb):
 
 ```ruby
 class ERC20 < ContractImplementation
