@@ -27,40 +27,41 @@ the "core" rubidity language.
 require 'rubidity'
 
 
-class TestToken < ContractImplementation    
+class TestToken < Contract    
 
-    event :Transfer, { from: :addressOrDumbContract, 
-                       to: :addressOrDumbContract, 
+    event :Transfer, { from:   :addressOrDumbContract, 
+                       to:     :addressOrDumbContract, 
                        amount: :uint256 }
 
-    string :public, :name
-    string :public, :symbol
-    uint256 :public, :decimals    
-    uint256 :public, :totalSupply
+    string :name
+    string :symbol
+    uint   :decimals    
+    uint   :totalSupply
   
-    mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
+    mapping [:addressOrDumbContract, :uint], :balanceOf
 
+    sig :constructor, [:string, :string, :uint256, :uint256] 
+    def constructor(name:, 
+                   symbol:, 
+                   decimals:,
+                   totalSupply:) 
+        @name = name
+        @symbol = symbol
+        @decimals = decimals
+        @totalSupply = totalSupply
 
-    constructor(name: :string, 
-                symbol: :string, 
-                decimals: :uint256,
-                totalSupply: :uint256) {
-        s.name = name
-        s.symbol = symbol
-        s.decimals = decimals
-        s.totalSupply = totalSupply
+        @balanceOf[msg.sender] = totalSupply
+     end
 
-        s.balanceOf[msg.sender] = totalSupply
-      }
-
-    function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
-        assert(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
+    sig :transfer, [:addressOrDumbContract, :uint256], :virtual, returns: :bool 
+    def transfer( to:, amount: )
+        assert( @balanceOf[msg.sender] >= amount, 'Insufficient balance')
         
-        s.balanceOf[msg.sender] -= amount
-        s.balanceOf[to] += amount
+        @balanceOf[msg.sender] -= amount
+        @balanceOf[to] += amount
    
-        emit :Transfer, from: msg.sender, to: to, amount: amount        
-        return true
+        log :Transfer, from: msg.sender, to: to, amount: amount        
+        true
     end
 end  # class TestToken  
   
