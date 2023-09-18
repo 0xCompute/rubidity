@@ -3,6 +3,43 @@
 
 ## Ideas
 
+### allow / use   self. instead of s.  - why? why not?  e.g.
+
+``` ruby
+constructor(name: :string, symbol: :string, decimals: :uint256) {
+    s.name = name
+    s.symbol = symbol
+    s.decimals = decimals
+  }
+```
+to
+
+```
+constructor(name: :string, symbol: :string, decimals: :uint256) {
+    self.name = name
+    self.symbol = symbol
+    self.decimals = decimals
+  }
+```
+
+public accessor might / will conflict with public generated accessors?
+different for public mapping or array access
+e.g.  balanceOf( 0 )  vs balanceOf[ 0 ] !!!!
+
+### new style for state vars?
+
+``` ruby
+pub :name, :type
+pub :name, :string 
+string :name
+unit  :decimals
+```
+
+### change emit (event)  to log (event)
+
+
+### change  mapping types hash to array  
+
 change
 
 ``` ruby
