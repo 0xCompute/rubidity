@@ -55,7 +55,7 @@ class TestToken < Contract
 
     sig :transfer, [:addressOrDumbContract, :uint], :virtual, returns: :bool 
     def transfer( to:, amount: )
-        assert( @balanceOf[msg.sender] >= amount, 'Insufficient balance')
+        assert @balanceOf[msg.sender] >= amount, 'Insufficient balance'
         
         @balanceOf[msg.sender] -= amount
         @balanceOf[to] += amount
