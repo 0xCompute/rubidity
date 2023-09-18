@@ -1,6 +1,24 @@
 # Rubidity Lang Notes
 
 
+## Ideas
+
+change
+
+``` ruby
+mapping ({ addressOrDumbContract: :uint256 }), :balanceOf
+mapping ({ addressOrDumbContract: mapping(addressOrDumbContract: :uint256) }), :allowance
+```
+
+to
+
+``` ruby
+mapping [:addressOrDumbContract, :uint256],  :balanceOf 
+mapping [:addressOrDumbContract, mapping[:addressOrDumbContract, :uint256]], :allowance
+```
+
+why? why not?
+
 
 ## Todos
 
