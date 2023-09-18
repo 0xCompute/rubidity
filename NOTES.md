@@ -17,7 +17,7 @@ mapping [:addressOrDumbContract, :uint256],  :balanceOf
 mapping [:addressOrDumbContract, mapping[:addressOrDumbContract, :uint256]], :allowance
 ```
 
-why? why not?
+why? why not?   or allow / support both for now?
 
 
 ## Todos
