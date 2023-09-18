@@ -29,6 +29,10 @@ class StateProxy
            define_singleton_method( "#{name}=" ) do |new_value|
              var = instance_variable_get( :@state_variables )[ name ]
              puts "[debug] StateProxy#setter #{name} : #{var.type}"
+             puts "#{new_value.pretty_print_inspect}"
+             if new_value.is_a?( Typed )
+                puts "   type match?  #{var.type==new_value.type}"
+             end
              var.replace( new_value )   
            end
          end           

@@ -17,11 +17,6 @@ pp TestToken.state_variable_definitions
 pp TestToken.parent_contracts 
 pp TestToken.events 
 
-sigs = TestToken.sigs 
-puts
-puts "#{sigs.size} sigs:"
-pp sigs
-
 
 pp TestToken.is_abstract_contract
 
@@ -30,11 +25,8 @@ abi = TestToken.abi
 pp TestToken.public_abi
 
 
-
 contract = TestToken.create
 pp contract
-
-
 
 
 alice   = '0x'+'a'*40 # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
@@ -49,7 +41,7 @@ pp contract.msg.sender
 
 
 
-initial_state = contract.serialize
+initial_state = contract.state_proxy.serialize
 pp initial_state  
 
       
@@ -60,9 +52,7 @@ contract.constructor(
                18,
                21000000 )
 
-state = contract.serialize
-
-
+state = contract.state_proxy.serialize
 
 if state != initial_state
     puts "STATE CHANGE:"
@@ -81,7 +71,7 @@ pp contract.balanceOf( alice )
 pp contract.transfer( bob, 
                     10000 )
 
-state = contract.serialize
+state = contract.state_proxy.serialize
 pp state
 
 

@@ -154,6 +154,22 @@ def public_abi() self.class.public_abi; end
   
 
 
+def self.sig( name, args=[], *options, returns: nil )
+  puts "[debug] add sig #{name} args: #{args.inspect}, options: #{options.inspect}, returns: #{returns.inspect}"
+  @sigs ||= {}
+  name = name.to_sym  ## note: make sure name is ALWAYS a symbol
+  ## use inputs for args) and outputs for returns  - why? why not?
+  @sigs[name] = { inputs:  args,
+                  outputs: returns,
+                  options: options }
+end
+
+def self.sigs
+  @sigs || {}
+end
+
+
+
 def self.function( name, args, *options, returns: nil, &block)
     abi.create_and_add_function(name, args, *options, returns: returns, &block)
 end
@@ -161,9 +177,6 @@ end
 def self.constructor(args = {}, *options, &block)
     function(:constructor, args, *options, returns: nil, &block)
 end
-  
-
-
 
 
 ###

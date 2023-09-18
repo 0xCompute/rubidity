@@ -20,6 +20,9 @@ class ContractImplementation  < ContractBase
     )
     
     @contract_record = contract_record
+
+    ## only generate once? double check
+     self.class.abi.generate_functions
   end
   
   

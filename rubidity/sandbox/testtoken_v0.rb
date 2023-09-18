@@ -13,13 +13,10 @@ class TestToken < ContractImplementation
     mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
 
 
-    ## or @sig constructor( string, string, uint256, uint256)
-    ## constructor [:string, :string, :uint256, :uint256] 
-    sig :constructor, [:string, :string, :uint256, :uint256]
-    def constructor(name:, 
-                    symbol:, 
-                    decimals:,
-                    totalSupply:) 
+    constructor(name: :string, 
+                symbol: :string, 
+                decimals: :uint256,
+                totalSupply: :uint256) {
         s.name = name
         s.symbol = symbol
         s.decimals = decimals
@@ -27,12 +24,10 @@ class TestToken < ContractImplementation
 
         s.balanceOf[msg.sender] = totalSupply
         puts "hello from contructor"
-    end
+      }
 
-    ## or @sig transfer (addressOrDumbContract, uint256 ) public virtual returns bool
-    ## function :transfer, [:addressOrDumbContract, :uint256], :public, :virtual, returns: :bool 
-    sig :transfer, [:addressOrDumbContract, :uint256], :public, :virtual, returns: :bool
-    def transfer( to:, amount: )
+    function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
+
         puts "[debug] transfer"
         pp s.balanceOf[msg.sender]
         pp amount
@@ -52,6 +47,7 @@ class TestToken < ContractImplementation
     
         emit :Transfer, from: msg.sender, to: to, amount: amount
         
-        true
+        return true
     end
 end  # class TestToken  
+

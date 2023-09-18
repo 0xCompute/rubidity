@@ -3,19 +3,22 @@ class PublicMintERC20 < ERC20
   uint256 :public, :maxSupply
   uint256 :public, :perMintLimit
   
-  constructor(
-    name: :string,
-    symbol: :string,
-    maxSupply: :uint256,
-    perMintLimit: :uint256,
-    decimals: :uint256
-  ) {
+  sig :constructor, [:string, :string, :uint256, :uint256, :uint256]
+  def constructor(
+    name:,
+    symbol:,
+    maxSupply:,
+    perMintLimit:,
+    decimals:
+  ) 
     ERC20(name: name, symbol: symbol, decimals: decimals)
     s.maxSupply = maxSupply
     s.perMintLimit = perMintLimit
-  }
-  
-  function :mint, { amount: :uint256 }, :public do
+  end
+ 
+
+  sig :mint, [:uint256], :public
+  def mint( amount: )
     assert(amount > 0, 'Amount must be positive')
     assert(amount <= s.perMintLimit, 'Exceeded mint limit')
     
@@ -24,7 +27,8 @@ class PublicMintERC20 < ERC20
     _mint(to: msg.sender, amount: amount)
   end
   
-  function :airdrop, { to: :addressOrDumbContract, amount: :uint256 }, :public do
+  sig :airdrop, [:addressOrDumbContract, :uint256], :public
+  def airdrop( to:, amount: ) 
     assert(amount > 0, 'Amount must be positive')
     assert(amount <= s.perMintLimit, 'Exceeded mint limit')
     

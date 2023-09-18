@@ -23,6 +23,99 @@ class AbiProxy
     end
   end
   
+
+def generate_functions
+  puts "==> generate (typed) functions for #{@contract_class.name}"
+  
+  parents = @contract_class.linearized_parents 
+  ## revesee order - why? why not?
+  parents.each do |parent|
+    _generate_functions( parent )
+  end
+  _generate_functions( @contract_class )
+end
+
+
+def _generate_functions( contract_class )
+  ## start with simple (no parents) for now
+
+   sigs = contract_class.sigs
+   puts "#{sigs.size} function signatures in #{contract_class.name}:"
+   pp sigs
+   sigs.each do |name, definition|
+      ## must? find matching method in class
+      exists = contract_class.instance_methods.include?( name )
+      if !exists
+        error_message = "[ERRRO] no method #{name} found for sig in class #{contract_class.name}"
+        puts error_message
+        raise NameError, error_message
+      end
+      puts "  bingo! #{name}"
+  
+      ##
+      ##  use :name_raw instead of :name_unsafe - why? why not?
+
+      ## rewire
+      ##   alias_method :name_unsafe, :name
+      ##   alias_method :name,        :name_typed
+      inputs = definition[:inputs] 
+      contract_class.class_eval do
+         define_method :"#{name}_typed" do |*args_unsafe,**kwargs_unsafe|
+            puts "==> calling #{name}_typed"
+  
+            params = method( "#{name}_unsafe" ).parameters
+            puts "params:"
+            pp params
+            ## e.g.
+            ## [[:keyreq, :name], 
+            ##  [:keyreq, :symbol], 
+            ##  [:keyreq, :decimals], 
+            ##  [:keyreq, :totalSupply]]
+            ## get keys
+            keys = params.map { |param| param[1] }
+            puts "keys:"
+            pp keys
+
+            
+            kwargs =  if !args_unsafe.empty? 
+              values = inputs.zip( args_unsafe ).map do |type, value|
+                ## todo/check:  change create to cast/try_cast or such - why? why not?
+                ##                might already be proper type? no?
+                 TypedVariable.create(type, value)
+              end
+              puts "args:"
+              pp values
+
+              keys.zip( values ).map do |key,value|
+                                                 [key,value]
+              end.to_h
+            elsif !kwargs_unsafe.empty?
+               types = keys.zip( inputs ).map do |key,type|
+                                                 [key,type]
+               end.to_h
+               puts "types:"
+               pp types
+               kwargs_unsafe.map do |key,value|
+                    type = types[key]
+                    raise ArgumentError, "unknown kwarg #{key}; sorry"   if type.nil?
+                    [key, TypedVariable.create( type, value)]
+               end.to_h
+            else
+               raise ArgumentError, "Array (args) or Hash (kwargs) required for func call; sorry"
+            end
+
+            puts "kwargs:"
+            pp kwargs
+
+            ret = send( "#{name}_unsafe", **kwargs )
+            ret
+         end 
+         alias_method :"#{name}_unsafe", :"#{name}"
+         alias_method :"#{name}",        :"#{name}_typed"
+      end
+   end
+end
+
   ### todo/check -- where used? check for parent_contracts
   # def parent_contracts
   #  contract_class.parent_contracts
@@ -104,7 +197,12 @@ class AbiProxy
     @data[name] = new_function
     define_function_method(name, new_function, contract_class)
   end
-  
+
+  def create_and_add_function(name, args, *options, returns: nil, &block)
+    new_function = FunctionProxy.create(name, args, *options, returns: returns, &block)
+    add_function(name, new_function)
+  end
+
   def create_and_add_function(name, args, *options, returns: nil, &block)
     new_function = FunctionProxy.create(name, args, *options, returns: returns, &block)
     add_function(name, new_function)
