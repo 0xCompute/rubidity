@@ -26,8 +26,7 @@ Let's try the PublicMintERC20 contract...
 [contracts/public_mint_erc20.rb](lib/rubidity/contracts/public_mint_erc20.rb):
 
 ```ruby
-class PublicMintERC20 < ContractImplementation
-  is ERC20
+class PublicMintERC20 < ERC20
   
   uint256 :public, :maxSupply
   uint256 :public, :perMintLimit
@@ -45,19 +44,19 @@ class PublicMintERC20 < ContractImplementation
   }
   
   function :mint, { amount: :uint256 }, :public do
-    require(amount > 0, 'Amount must be positive')
-    require(amount <= s.perMintLimit, 'Exceeded mint limit')
+    assert(amount > 0, 'Amount must be positive')
+    assert(amount <= s.perMintLimit, 'Exceeded mint limit')
     
-    require(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
+    assert(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
     
     _mint(to: msg.sender, amount: amount)
   end
   
   function :airdrop, { to: :addressOrDumbContract, amount: :uint256 }, :public do
-    require(amount > 0, 'Amount must be positive')
-    require(amount <= s.perMintLimit, 'Exceeded mint limit')
+    assert(amount > 0, 'Amount must be positive')
+    assert(amount <= s.perMintLimit, 'Exceeded mint limit')
     
-    require(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
+    assert(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
     
     _mint(to: to, amount: amount)
   end
@@ -116,7 +115,7 @@ class ERC20 < ContractImplementation
   end
   
   function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
-    require(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
+    assert(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
     
     s.balanceOf[msg.sender] -= amount
     s.balanceOf[to] += amount
@@ -133,8 +132,8 @@ class ERC20 < ContractImplementation
   }, :public, :virtual, returns: :bool do
     allowed = s.allowance[from][msg.sender]
     
-    require(s.balanceOf[from] >= amount, 'Insufficient balance')
-    require(allowed >= amount, 'Insufficient allowance')
+    assert(s.balanceOf[from] >= amount, 'Insufficient balance')
+    assert(allowed >= amount, 'Insufficient allowance')
     
     s.allowance[from][msg.sender] = allowed - amount
     

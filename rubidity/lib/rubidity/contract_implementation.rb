@@ -64,9 +64,9 @@ class ContractImplementation  < ContractBase
 end
   
 
-  
-  
-  def require(condition, message)
+  ## note: change from require to assert
+  ##         to avoid confusion with ruby require - why? why not?
+  def assert(condition, message)
     unless condition
       caller_location = caller_locations.detect { |l| l.path.include?('/app/models/contracts') }
       file = caller_location.path.gsub(%r{.*app/models/contracts/}, '')
@@ -74,7 +74,8 @@ end
       
       error_message = "#{message}. (#{file}:#{line})"
       ## todo/fix: change to (built-in) ???Error, ....
-      raise ContractError.new(error_message, self)
+      ##  check for error to raise for assertion fail??
+      raise error_message
     end
   end
   

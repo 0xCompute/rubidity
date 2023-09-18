@@ -1,5 +1,4 @@
-class GenerativeERC721 < ContractImplementation
-  is ERC721
+class GenerativeERC721 < ERC721
   
   string :public, :generativeScript
   mapping ({ uint256: :uint256 }), :public, :tokenIdToSeed
@@ -26,9 +25,9 @@ class GenerativeERC721 < ContractImplementation
   }
   
   function :mint, { amount: :uint256 }, :public do
-    require(amount > 0, 'Amount must be positive')
-    require(amount + s._balanceOf[msg.sender] <= s.maxPerAddress, 'Exceeded mint limit')
-    require(amount + s.totalSupply <= s.maxSupply, 'Exceeded max supply')
+    assert(amount > 0, 'Amount must be positive')
+    assert(amount + s._balanceOf[msg.sender] <= s.maxPerAddress, 'Exceeded mint limit')
+    assert(amount + s.totalSupply <= s.maxSupply, 'Exceeded max supply')
     
     hash = block.blockhash(block.number).cast(:uint256) % (2 ** 48)
     
@@ -45,7 +44,7 @@ class GenerativeERC721 < ContractImplementation
   end
   
   function :tokenURI, { id: :uint256 }, :public, :view, :override, returns: :string do
-    require(_exists(id: id), 'ERC721Metadata: URI query for nonexistent token')
+    assert(_exists(id: id), 'ERC721Metadata: URI query for nonexistent token')
     
     html = getHTML(seed: s.tokenIdToSeed[id])
     

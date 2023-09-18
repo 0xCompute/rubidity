@@ -23,13 +23,13 @@ class ERC721 < ContractImplementation
   
   function :ownerOf, { id: :uint256 }, :public, :view, :virtual, returns: :addressOrDumbContract do
     owner = s._ownerOf[id]
-    require(owner != addressOrDumbContract(0), "ERC721: owner query for nonexistent token")
+    assert(owner != addressOrDumbContract(0), "ERC721: owner query for nonexistent token")
     
     return owner
   end
   
   function :balanceOf, { owner: :addressOrDumbContract }, :public, :view, :virtual, returns: :uint256 do
-    require(owner != addressOrDumbContract(0), "ERC721: balance query for nonexistent owner")
+    assert(owner != addressOrDumbContract(0), "ERC721: balance query for nonexistent owner")
     
     return s._balanceOf[owner]
   end
@@ -37,7 +37,7 @@ class ERC721 < ContractImplementation
   function :approve, { spender: :addressOrDumbContract, id: :uint256 }, :public, :virtual do
     owner = s._ownerOf[id];
     
-    require(msg.sender == owner || s.isApprovedForAll[owner][msg.sender], "NOT_AUTHORIZED");
+    assert(msg.sender == owner || s.isApprovedForAll[owner][msg.sender], "NOT_AUTHORIZED");
     
     s.getApproved[id] = spender;
 
@@ -51,10 +51,10 @@ class ERC721 < ContractImplementation
   end
   
   function :transferFrom, { from: :addressOrDumbContract, to: :addressOrDumbContract, id: :uint256 }, :public, :virtual do
-    require(from == s._ownerOf[id], "ERC721: transfer of token that is not own");
-    require(to != addressOrDumbContract(0), "ERC721: transfer to the zero address");
+    assert(from == s._ownerOf[id], "ERC721: transfer of token that is not own");
+    assert(to != addressOrDumbContract(0), "ERC721: transfer to the zero address");
     
-    require(
+    assert(
       msg.sender == from ||
       s.getApproved[id] == msg.sender ||
       isApprovedForAll[from][msg.sender],
@@ -74,8 +74,8 @@ class ERC721 < ContractImplementation
   end
   
   function :_mint, { to: :addressOrDumbContract, id: :uint256 }, :internal, :virtual do
-    require(to != addressOrDumbContract(0), "ERC721: mint to the zero address");
-    require(s._ownerOf[id] == addressOrDumbContract(0), "ERC721: token already minted");
+    assert(to != addressOrDumbContract(0), "ERC721: mint to the zero address");
+    assert(s._ownerOf[id] == addressOrDumbContract(0), "ERC721: token already minted");
     
     s._balanceOf[to] += 1;
     
@@ -87,7 +87,7 @@ class ERC721 < ContractImplementation
   function :_burn, { id: :uint256 }, :internal, :virtual do
     owner = s._ownerOf[id];
     
-    require(owner != addressOrDumbContract(0), "ERC721: burn of nonexistent token");
+    assert(owner != addressOrDumbContract(0), "ERC721: burn of nonexistent token");
     
     s._balanceOf[owner] -= 1;
     

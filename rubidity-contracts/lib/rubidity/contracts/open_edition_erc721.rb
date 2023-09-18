@@ -1,5 +1,4 @@
-class OpenEditionERC721 < ContractImplementation
-  is ERC721
+class OpenEditionERC721 < ERC721
   
   string :public, :contentURI
   uint256 :public, :maxPerAddress
@@ -28,10 +27,10 @@ class OpenEditionERC721 < ContractImplementation
   }
   
   function :mint, { amount: :uint256 }, :public do
-    require(amount > 0, 'Amount must be positive')
-    require(amount + s._balanceOf[msg.sender] <= s.maxPerAddress, 'Exceeded mint limit')
-    require(block.timestamp >= s.mintStart, 'Minting has not started')
-    require(block.timestamp < s.mintEnd, 'Minting has ended')
+    assert(amount > 0, 'Amount must be positive')
+    assert(amount + s._balanceOf[msg.sender] <= s.maxPerAddress, 'Exceeded mint limit')
+    assert(block.timestamp >= s.mintStart, 'Minting has not started')
+    assert(block.timestamp < s.mintEnd, 'Minting has ended')
     
     amount.times do |id|
       _mint(to: msg.sender, id: s.totalSupply + id)
@@ -41,7 +40,7 @@ class OpenEditionERC721 < ContractImplementation
   end
   
   function :tokenURI, { id: :uint256 }, :public, :view, :override, returns: :string do
-    require(_exists(id: id), 'ERC721Metadata: URI query for nonexistent token')
+    assert(_exists(id: id), 'ERC721Metadata: URI query for nonexistent token')
 
     json_data = {
       name: "#{s.name} ##{string(id)}",

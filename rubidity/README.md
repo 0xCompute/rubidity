@@ -54,7 +54,7 @@ class TestToken < ContractImplementation
       }
 
     function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
-        require(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
+        assert(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
         
         s.balanceOf[msg.sender] -= amount
         s.balanceOf[to] += amount

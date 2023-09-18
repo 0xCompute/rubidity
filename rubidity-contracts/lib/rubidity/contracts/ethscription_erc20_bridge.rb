@@ -1,8 +1,6 @@
-class EthscriptionERC20Bridge < ContractImplementation
+class EthscriptionERC20Bridge < ERC20
   pragma :rubidity, "1.0.0"
   
-  is ERC20
-
   event :InitiateWithdrawal, { from: :address, escrowedId: :ethscriptionId }
   event :WithdrawalComplete, { to: :address, escrowedId: :ethscriptionId }
 
@@ -30,8 +28,8 @@ class EthscriptionERC20Bridge < ContractImplementation
     uri = deploy.contentUri
     parsed = JSON.parse(uri.split("data:,").last)
     
-    require(parsed['op'] == 'deploy', "Invalid ethscription deploy id")
-    require(parsed['p'] == 'erc-20', "Invalid protocol")
+    assert(parsed['op'] == 'deploy', "Invalid ethscription deploy id")
+    assert(parsed['p'] == 'erc-20', "Invalid protocol")
     
     s.ethscriptionsTicker = parsed['tick']
     s.ethscriptionMintAmount = parsed['lim']
@@ -39,17 +37,17 @@ class EthscriptionERC20Bridge < ContractImplementation
   }
   
   function :bridgeIn, { to: :address, escrowedId: :ethscriptionId }, :public do
-    require(
+    assert(
       address(msg.sender) == s.trustedSmartContract,
       "Only the trusted smart contract can bridge in tokens"
     )
     
-    require(
+    assert(
       s.bridgedEthscriptionToOwner[escrowedId] == address(0),
       "Ethscription already bridged in"
     )
     
-    require(
+    assert(
       s.pendingWithdrawalEthscriptionToOwner[escrowedId] == address(0),
       "Ethscription withdrawal initiated"
     )
@@ -59,7 +57,7 @@ class EthscriptionERC20Bridge < ContractImplementation
     
     match_data = uri.match(/data:,{"p":"erc-20","op":"mint","tick":"([a-z]+)","id":"([1-9]+\d*)","amt":"([1-9]+\d*)"}/)
     
-    require(match_data.present?, "Invalid ethscription content uri")
+    assert(match_data.present?, "Invalid ethscription content uri")
     
     tick, id, amt = match_data.captures
     
@@ -67,19 +65,19 @@ class EthscriptionERC20Bridge < ContractImplementation
     id = id.cast(:uint256)
     amt = amt.cast(:uint256)
     
-    require(tick == s.ethscriptionsTicker, "Invalid ethscription ticker")
-    require(amt == s.ethscriptionMintAmount, "Invalid ethscription mint amount")
+    assert(tick == s.ethscriptionsTicker, "Invalid ethscription ticker")
+    assert(amt == s.ethscriptionMintAmount, "Invalid ethscription mint amount")
 
     maxId = s.ethscriptionMaxSupply / s.ethscriptionMintAmount
     
-    require(id > 0 && id <= maxId, "Invalid token id")
+    assert(id > 0 && id <= maxId, "Invalid token id")
     
-    require(
+    assert(
       ethscription.currentOwner == s.trustedSmartContract,
       "Ethscription not owned by recipient. Observed owner: #{ethscription.currentOwner}, expected owner: #{s.trustedSmartContract}"
     )
     
-    require(
+    assert(
       ethscription.previousOwner == to,
       "Ethscription not previously owned by to. Observed previous owner: #{ethscription.previousOwner}, expected previous owner: #{to}"
     )
@@ -89,7 +87,7 @@ class EthscriptionERC20Bridge < ContractImplementation
   end
   
   function :bridgeOut, { escrowedId: :ethscriptionId }, :public do
-    require(s.bridgedEthscriptionToOwner[escrowedId] == address(msg.sender), "Ethscription not owned by sender")
+    assert(s.bridgedEthscriptionToOwner[escrowedId] == address(msg.sender), "Ethscription not owned by sender")
     
     _burn(from: msg.sender, amount: s.ethscriptionMintAmount * (10 ** decimals))
     
@@ -100,12 +98,12 @@ class EthscriptionERC20Bridge < ContractImplementation
   end
   
   function :markWithdrawalComplete, { to: :address, escrowedId: :ethscriptionId }, :public do
-    require(
+    assert(
       address(msg.sender) == s.trustedSmartContract,
       'Only the trusted smart contract can mark withdrawals as complete'
     )
     
-    require(
+    assert(
       s.pendingWithdrawalEthscriptionToOwner[escrowedId] == to,
       "Withdrawal not initiated"
     )

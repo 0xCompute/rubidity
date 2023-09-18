@@ -40,7 +40,7 @@ class ERC20 < ContractImplementation
   end
   
   function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
-    require(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
+    assert(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
     
     s.balanceOf[msg.sender] -= amount
     s.balanceOf[to] += amount
@@ -57,8 +57,8 @@ class ERC20 < ContractImplementation
   }, :public, :virtual, returns: :bool do
     allowed = s.allowance[from][msg.sender]
     
-    require(s.balanceOf[from] >= amount, 'Insufficient balance')
-    require(allowed >= amount, 'Insufficient allowance')
+    assert(s.balanceOf[from] >= amount, 'Insufficient balance')
+    assert(allowed >= amount, 'Insufficient allowance')
     
     s.allowance[from][msg.sender] = allowed - amount
     

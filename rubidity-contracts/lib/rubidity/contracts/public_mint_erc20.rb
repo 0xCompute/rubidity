@@ -1,5 +1,4 @@
-class PublicMintERC20 < ContractImplementation
-  is ERC20
+class PublicMintERC20 < ERC20
   
   uint256 :public, :maxSupply
   uint256 :public, :perMintLimit
@@ -17,19 +16,19 @@ class PublicMintERC20 < ContractImplementation
   }
   
   function :mint, { amount: :uint256 }, :public do
-    require(amount > 0, 'Amount must be positive')
-    require(amount <= s.perMintLimit, 'Exceeded mint limit')
+    assert(amount > 0, 'Amount must be positive')
+    assert(amount <= s.perMintLimit, 'Exceeded mint limit')
     
-    require(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
+    assert(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
     
     _mint(to: msg.sender, amount: amount)
   end
   
   function :airdrop, { to: :addressOrDumbContract, amount: :uint256 }, :public do
-    require(amount > 0, 'Amount must be positive')
-    require(amount <= s.perMintLimit, 'Exceeded mint limit')
+    assert(amount > 0, 'Amount must be positive')
+    assert(amount <= s.perMintLimit, 'Exceeded mint limit')
     
-    require(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
+    assert(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
     
     _mint(to: to, amount: amount)
   end

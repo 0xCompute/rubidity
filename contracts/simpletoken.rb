@@ -35,10 +35,10 @@ class SimpleToken < ContractImplementation
   }
   
   function :mint, { amount: :uint256 }, :public do
-    require(amount > 0, 'Amount must be positive')
-    require(amount <= s.perMintLimit, 'Exceeded mint limit')
+    assert(amount > 0, 'Amount must be positive')
+    assert(amount <= s.perMintLimit, 'Exceeded mint limit')
     
-    require(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
+    assert(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
     
     s.totalSupply += amount
     s.balanceOf[msg.sender] += amount
@@ -47,7 +47,7 @@ class SimpleToken < ContractImplementation
   end
 
   function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public do
-    require(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
+    assert(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
     
     s.balanceOf[msg.sender] -= amount
     s.balanceOf[to] += amount

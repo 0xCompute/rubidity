@@ -19,46 +19,47 @@ class ContractBase
     @is_abstract_contract = true
   end
   
-  def self.parent_contracts
-    @parent_contracts ||= []
-  end
-  
-  def self.is(*constants)
-    self.parent_contracts += constants   #  note: was .map{ |i| i.safe_constantize }
-    ## todo/fix: report error on duplicates or silently remove (vai uniq) - why? why not?
-    self.parent_contracts = self.parent_contracts.uniq
-  end
-  
 
-  def self.linearize_contracts(contract, processed = [])
-    return [] if processed.include?(contract)
-  
-    new_processed = processed + [contract]
-  
-    return [contract] if contract.parent_contracts.empty?
-    linearized = [contract] + contract.parent_contracts.reverse.flat_map { |parent| linearize_contracts(parent, new_processed) }
-    linearized.uniq { |c| raise "Invalid linearization" if linearized.rindex(c) != linearized.index(c); c }
+  def self.linearize_contracts( contract )
+   ## for now 
+    ##    include all classes before ContractImplementation
+    ##    cache result - why? why not?
+
+    ##
+    ## todo/fix: check if include? ContractImplementation
+    ##                    if not raise error - CANNOT linearize (no contract base found)
+    classes = []
+    contract.ancestors.each do |ancestor|
+        break if ancestor == ContractImplementation ||
+                 ancestor == ContractBase
+        if ancestor.instance_of?( Class )
+            classes << ancestor 
+        else  ### assume Module
+            puts "[debug] skipping module - #{ancestor.name} : #{ancestor.class.name}"
+        end
+    end    
+    classes
   end
-  
+
   def self.linearized_parents
-    linearize_contracts(self)[1..-1]
+    ## note: exclude self (that is, cut-off first class)
+    linearize_contracts( self )[1..-1]
   end
- 
-
 
 
  ####
  # events
  def self.event( name, args )
     @events ||= {}
-    name = name.to_sym  ## make sure name is ALWAYS a symbol
+    name = name.to_sym  ## note: make sure name is ALWAYS a symbol
     @events[name] = args
   end
 
   def self.events
     @events || {}
   end
- 
+
+
 
 ########
 # state variables

@@ -46,10 +46,10 @@ class ERC20LiquidityPool < ContractImplementation
     outputToken: :dumbContract,
     inputAmount: :uint256
   }, :public, returns: :uint256 do
-    require([s.token0, s.token1].include?(inputToken), "Invalid input token")
-    require([s.token0, s.token1].include?(outputToken), "Invalid output token")
+    assert([s.token0, s.token1].include?(inputToken), "Invalid input token")
+    assert([s.token0, s.token1].include?(outputToken), "Invalid output token")
     
-    require(inputToken != outputToken, "Input and output tokens can't be the same")
+    assert(inputToken != outputToken, "Input and output tokens can't be the same")
     
     outputAmount = calculateOutputAmount(
       inputToken: inputToken,
@@ -59,7 +59,7 @@ class ERC20LiquidityPool < ContractImplementation
     
     outputReserve = DumbContract(outputToken).balanceOf(dumbContractId(this))
     
-    require(outputAmount <= outputReserve, "Insufficient output reserve")
+    assert(outputAmount <= outputReserve, "Insufficient output reserve")
   
     DumbContract(inputToken).transferFrom(
       from: msg.sender,

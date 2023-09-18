@@ -32,7 +32,7 @@ class TestToken < ContractImplementation
         pp s.balanceOf[msg.sender]
         pp amount
 
-        require(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
+        assert(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
         
         s.balanceOf[msg.sender] -= amount
 
