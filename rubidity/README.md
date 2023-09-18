@@ -31,7 +31,7 @@ class TestToken < Contract
 
     event :Transfer, { from:   :addressOrDumbContract, 
                        to:     :addressOrDumbContract, 
-                       amount: :uint256 }
+                       amount: :uint }
 
     string :name
     string :symbol
@@ -40,7 +40,7 @@ class TestToken < Contract
   
     mapping [:addressOrDumbContract, :uint], :balanceOf
 
-    sig :constructor, [:string, :string, :uint256, :uint256] 
+    sig :constructor, [:string, :string, :uint, :uint] 
     def constructor(name:, 
                    symbol:, 
                    decimals:,
@@ -53,7 +53,7 @@ class TestToken < Contract
         @balanceOf[msg.sender] = totalSupply
      end
 
-    sig :transfer, [:addressOrDumbContract, :uint256], :virtual, returns: :bool 
+    sig :transfer, [:addressOrDumbContract, :uint], :virtual, returns: :bool 
     def transfer( to:, amount: )
         assert( @balanceOf[msg.sender] >= amount, 'Insufficient balance')
         
