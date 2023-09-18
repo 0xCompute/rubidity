@@ -3,6 +3,29 @@
 
 ## Ideas
 
+### allow / use  @ instead of s. - why? why not ? e.g.
+
+``` ruby
+constructor(name: :string, symbol: :string, decimals: :uint256) {
+    s.name = name
+    s.symbol = symbol
+    s.decimals = decimals
+  }
+```
+to
+
+``` ruby
+sig :constructor, [:string, :string, :uint256]
+def constructor(name:, symbol:, decimals:)
+    @name = name
+    @symbol = symbol
+    @decimals = decimals
+end
+```
+
+auto-add ivars with zero values  - why? why not?
+
+
 ### allow / use   self. instead of s.  - why? why not?  e.g.
 
 ``` ruby
