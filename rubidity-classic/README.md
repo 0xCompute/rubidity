@@ -287,7 +287,7 @@ class ERC20 < Contract
     log :Transfer, from: address(0), to: to, amount: amount
   end
   
-  sig  [AddressOrDumbContract, Uint], 
+  sig  [Address, Uint], 
   def _burn( from:,
              amount: )
     @balanceOf[from] -= amount
@@ -321,7 +321,7 @@ class PublicMintERC20 < ERC20
     assert amount > 0, 'Amount must be positive'
     assert amount <= @perMintLimit, 'Exceeded mint limit'
     
-    assert @totalSupply + amount <= s.maxSupply, 'Exceeded max supply'
+    assert @totalSupply + amount <= @maxSupply, 'Exceeded max supply'
     
     _mint( to: msg.sender, amount: amount )
   end
