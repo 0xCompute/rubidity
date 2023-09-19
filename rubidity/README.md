@@ -68,7 +68,6 @@ end  # class TestToken
 
 
 pp TestToken.state_variable_definitions
-pp TestToken.parent_contracts 
 pp TestToken.events 
 pp TestToken.is_abstract_contract
 

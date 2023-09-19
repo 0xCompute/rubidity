@@ -192,15 +192,20 @@ end
         function( name, {index: :uint256},
                        :public, :view, returns: type.sub_type.name) do
           puts "[debug] call public (state) array getter for #{name} : #{type} with index #{send(:index)}"
-          value = s.send( name)
-          value[send(:index)]
+          puts "[debug]  self -> #{self}"
+          puts "[debug]  self.this -> #{this}"
+          value = this.instance_variable_get( "@#{name}" )
+          value[send(:index)]    ## check if value[index] works???
       end
     else
       puts "[debug] auto-generate public getter - #{name} : #{type}:"
       function( name, {}, 
                        :public, :view, returns: type.name) do
           puts "[debug] call public (state) getter for #{name} : #{type}"
-          s.send(name)
+          puts "[debug]  self -> #{self}"
+          puts "[debug]  self.this -> #{this}"
+          value = this.instance_variable_get( "@#{name}" )
+          value
        end
     end
   end
@@ -227,7 +232,9 @@ end
 
     function( name, arguments, :public, :view, returns: current_type.name) do
         puts "[debug] call public (state) mapping getter for #{name} : #{type}"
-        value = s.send(name)
+        puts "[debug]  self -> #{self}"
+        puts "[debug]  self.this -> #{this}"
+        value = this.instance_variable_get( "@#{name}" )
         (0...index).each do |i|
           value = value[send("arg#{i}".to_sym)]
         end

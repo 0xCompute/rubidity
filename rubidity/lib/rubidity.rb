@@ -107,8 +107,6 @@ undefined method `demodulize' for "ERC20":String (NoMethodError)
 
 
 ## our own code
-require_relative 'rubidity/state_proxy'
-
 require_relative 'rubidity/contract_base'
 require_relative 'rubidity/contract_implementation'
 require_relative 'rubidity/abi_proxy'

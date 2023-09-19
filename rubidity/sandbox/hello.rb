@@ -62,14 +62,18 @@ contract.constructor(
 
 state = contract.serialize
 
-
-
 if state != initial_state
     puts "STATE CHANGE:"
     pp state
 end
 
+
+
+
 pp contract.name
+
+
+
 pp contract.symbol
 pp contract.decimals    
 pp contract.totalSupply

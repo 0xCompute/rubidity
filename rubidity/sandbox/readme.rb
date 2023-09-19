@@ -16,33 +16,36 @@ class TestToken < ContractImplementation
     mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
 
 
-    constructor(name: :string, 
-                symbol: :string, 
-                decimals: :uint256,
-                totalSupply: :uint256) {
-        s.name = name
-        s.symbol = symbol
-        s.decimals = decimals
-        s.totalSupply = totalSupply
+    sig :constructor, [:string, :string, :uint256, :uint256]
+    def constructor(name:, 
+                symbol:, 
+                decimals:,
+                totalSupply:) 
+        @name = name
+        @symbol = symbol
+        @decimals = decimals
+        @totalSupply = totalSupply
 
-        s.balanceOf[msg.sender] = totalSupply
-      }
+        @balanceOf[msg.sender] = totalSupply
+    end
 
-    function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
-        assert(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
+    sig :transfer, [:addressOrDumbContract, :uint256], :public, :virtual, returns: :bool 
+    def transfer( to:, 
+                  amount: )
+        assert @balanceOf[msg.sender] >= amount, 'Insufficient balance'
         
-        s.balanceOf[msg.sender] -= amount
-        s.balanceOf[to] += amount
+        @balanceOf[msg.sender] -= amount
+        @balanceOf[to] += amount
    
-        emit :Transfer, from: msg.sender, to: to, amount: amount        
-        return true
+        log :Transfer, from: msg.sender, to: to, amount: amount        
+        true
     end
 end  # class TestToken  
   
 
 
 pp TestToken.state_variable_definitions
-pp TestToken.parent_contracts 
+## pp TestToken.parent_contracts 
 pp TestToken.events 
 pp TestToken.is_abstract_contract
 

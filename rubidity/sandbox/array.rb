@@ -34,18 +34,19 @@ pp contract.msg.sender
 
 
 
-initial_state = contract.state_proxy.serialize
+initial_state = contract.serialize
 pp initial_state  
 
 contract.constructor()
 
-pp contract.state_proxy.serialize
+pp contract.serialize
 
-contract.s.names[0] = 'hello'
-pp contract.s.serialize
+names = contract.instance_variable_get( :@names )
+names[0] = 'hello'
+pp contract.serialize
 
-contract.s.names.push( 'world' )
-pp contract.s.serialize
+names.push( 'world' )
+pp contract.serialize
 
 
 pp contract.names( index: 0 )
@@ -54,9 +55,11 @@ pp contract.names( 0 )
 pp contract.names( 1 )
 
 
-contract.s.numbers.push( 1 )
-contract.s.numbers.push( 2 )
-contract.s.numbers.push( 3 )
+numbers = contract.instance_variable_get( :@numbers )
+
+numbers.push( 1 )
+numbers.push( 2 )
+numbers.push( 3 )
 
 pp contract.numbers( index: 0 )
 pp contract.numbers( index: 1 )
@@ -64,7 +67,7 @@ pp contract.numbers( 0 )
 pp contract.numbers( 1 )
 
 
-pp contract.state_proxy.serialize
+pp contract.serialize
 
 
 puts "bye"

@@ -1,5 +1,6 @@
 
 
+
 class StateProxy
 
   attr_reader :state_variables

@@ -12,40 +12,56 @@ class ContractImplementation  < ContractBase
   
   def_delegators :current_transaction, :block, :tx, :esc
 
+
   def initialize(contract_record)
-    @state_proxy = StateProxy.new(
-      ## was: 
-      ##  contract_record.type.constantize.state_variable_definitions
-       self.class.state_variable_definitions 
-    )
-    
     @contract_record = contract_record
 
+    ## rename to generate_storage or such - why? why not?
+    generate_state
+ 
     ## only generate once? double check
      self.class.abi.generate_functions
   end
   
-  
-  
-  def s
-    @state_proxy
+
+  def generate_state
+    self.class.state_variable_definitions.each do |name, definition|
+      type      = definition[:type]
+      # constant  = definition[:constant] 
+      # immutable = definition[:immutable]
+     
+      puts "[debug] add ivar @#{name} - #{type}"
+      ### note. create  TypedVariable instance here (via Type#create)
+      instance_variable_set("@#{name}", type.create ) 
+    end
+  end 
+
+  def serialize
+    self.class.state_variable_definitions.keys.reduce({}) do |h, name|
+      ivar = instance_variable_get("@#{name}")
+      ## todo/fix: make sure ivar is_a? Typed!!!!
+      h[name] = ivar.serialize
+      h
+    end
   end
-  alias_method :state_proxy, :s    ## keep state_proxy alias - why? why not?
+  alias_method :dump, :serialize  ### use dump as alias - why? why not?
+ 
+  def deserialize(state_data)  
+    state_data.each do |name, value|
+      ## todo/fix: make sure ivar is_a? Typed!!!!
+      ivar = instance_variable_get("@#{name}")
+      ivar.deserialize( value )
+    end
+  end
+  alias_method :load, :deserialize
+
   
-
-###
-#  add convenience serialize/deserialize(load) helpers - why? why not?
-   def serialize() @state_proxy.serialize; end
-   alias_method :dump, :serialize  ### use dump as alias - why? why not?
-   def deserialize(state_data)  @state_proxy.deserialize( state_data ); end
-   alias_method :load, :deserialize
-
 
   def msg
     @msg ||= ContractTransactionGlobals::Message.new
   end
   
-  def emit(event_name, args = {})
+  def log(event_name, args = {})
     event_name = event_name.to_sym  ## note: make sure event_name is ALWAYS as symbol
     unless self.class.events.key?( event_name)
       raise NameError, "Event #{event_name} is not defined in this contract."
