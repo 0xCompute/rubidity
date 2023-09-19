@@ -50,7 +50,7 @@ to align rubidity more with ruby itself - lets use "plain" methods
 and add an (optional) type sig(nature) annotation resulting in:
 
 ``` ruby
-sig :airdrop, [:addressOrDumbContract, :uint256], :public
+sig [Address, Uint], 
 def airdrop( to:, amount: ) 
 ...
 end
@@ -201,23 +201,21 @@ After (More Ruby-ish)
 ```ruby
 class ERC20 < Contract
   
-  event :Transfer, { from: :addressOrDumbContract, 
-                     to: :addressOrDumbContract, 
-                     amount: :uint256 }
-  event :Approval, { owner: :addressOrDumbContract, 
-                     spender: :addressOrDumbContract, 
-                     amount: :uint256 }
+  event :Transfer, { from: Address, 
+                     to:  Address, 
+                     amount: Uint }
+  event :Approval, { owner: Address, 
+                     spender: Address, 
+                     amount: Uint }
 
-  string  :name
-  string  :symbol
-  uint    :decimals
+  storage  name:   String,
+           symbol: String,
+           decimals: Uint,
+           totalSupply: Uint,
+           balanceOf:  Mapping.of( Address, Uint ),
+           allowance:  Mapping.of( Address, Mapping.of( Address, Uint )) 
   
-  uint    :totalSupply
-
-  mapping [:addressOrDumbContract, :uint], :balanceOf
-  mapping [:addressOrDumbContract, mapping [:addressOrDumbContract, :uint]], :allowance
-  
-  sig :constructor, [:string, :string, :uint]
+  sig [String, String, Uint],
   def constructor(name:, 
                   symbol:,
                   decimals: ) 
@@ -226,7 +224,7 @@ class ERC20 < Contract
     @decimals = decimals
   end
 
-  sig :approve, [:addressOrDumbContract, :uint], :virtual, returns: :bool
+  sig [Address, Uint], returns: Bool,
   def approve( spender:, 
                amount: )
     @allowance[msg.sender][spender] = amount
@@ -236,7 +234,7 @@ class ERC20 < Contract
     true
   end
   
-  sig :decreaseAllowanceUntilZero, [:addressOrDumbContract, :uint], :virtual, returns: :bool 
+  sig [Address, Uint], returns: Bool, 
   def decreaseAllowanceUntilZero( spender:,
                                   difference: )
     allowed = @allowance[msg.sender][spender]
@@ -248,7 +246,7 @@ class ERC20 < Contract
     true
   end
   
-  sig :transfer, [:addressOrDumbContract, :uint], :virtual, returns: :bool
+  sig [Address, Uint], returns: Bool,
   def transfer( to:, 
                 amount: ) 
     assert @balanceOf[msg.sender] >= amount, 'Insufficient balance'
@@ -261,7 +259,7 @@ class ERC20 < Contract
     true
   end
   
-  sig :transferFrom, [:addressOrDumbContract, :addressOrDumbContract, :uint], :virtual, returns: :bool 
+  sig  [Address, Address, Uint], returns: Bool, 
   def transferFrom( from:,
                     to:,
                     amount: )
@@ -280,7 +278,7 @@ class ERC20 < Contract
     true
   end
   
-  sig :_mint, [:addressOrDumbContract, :uint], :virtual
+  sig  [Address, Uint],
   def _mint( to:, 
              amount:  )
     @totalSupply += amount
@@ -289,7 +287,7 @@ class ERC20 < Contract
     log :Transfer, from: address(0), to: to, amount: amount
   end
   
-  sig :_burn, [:addressOrDumbContract, :uint], :virtual
+  sig  [AddressOrDumbContract, Uint], 
   def _burn( from:,
              amount: )
     @balanceOf[from] -= amount
@@ -301,10 +299,10 @@ end
 
 class PublicMintERC20 < ERC20
   
-  uint  :maxSupply
-  uint  :perMintLimit
+  storage  maxSupply:    Uint,
+           perMintLimit: Uint
   
-  sig :constructor, [:string, :string, :uint, :uint, :uint]
+  sig [String, String, Uint, Uint, Uint],
   def constructor(
     name:,
     symbol:,
@@ -318,7 +316,7 @@ class PublicMintERC20 < ERC20
   end
  
 
-  sig :mint, [:uint]
+  sig [Uint],
   def mint( amount: )
     assert amount > 0, 'Amount must be positive'
     assert amount <= @perMintLimit, 'Exceeded mint limit'
@@ -328,7 +326,7 @@ class PublicMintERC20 < ERC20
     _mint( to: msg.sender, amount: amount )
   end
   
-  sig :airdrop, [:addressOrDumbContract, :uint256]
+  sig [Address, Uint256],
   def airdrop( to:, amount: ) 
     assert amount > 0, 'Amount must be positive'
     assert amount <= @perMintLimit, 'Exceeded mint limit'
