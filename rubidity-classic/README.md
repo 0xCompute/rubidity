@@ -18,7 +18,7 @@ In the original rubidity "classic" version inheritance
 ``` ruby
 class PublicMintERC20 < Contract
   is :ERC20 
-...
+  # ...
 end
 ```
 
@@ -28,7 +28,7 @@ it is just ruby (yes, with 100%-compatibility for solidity for api / abi and sto
 
 ``` ruby
 class PublicMintERC20 < ERC20 
-...
+  # ...
 end
 ```
 
@@ -42,7 +42,7 @@ looks like:
 
 ``` ruby
 function :airdrop, { to: :addressOrDumbContract, amount: :uint256 }, :public do
-...
+  # ...
 end
 ```
 
@@ -52,7 +52,7 @@ and add an (optional) type sig(nature) annotation resulting in:
 ``` ruby
 sig [Address, Uint], 
 def airdrop( to:, amount: ) 
-...
+  # ...
 end
 ```
 
