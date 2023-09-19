@@ -64,9 +64,54 @@ class TestToken < Contract
         true
     end
 end  # class TestToken  
+```
+
+or the more ruby-ish style? 
+
+``` ruby
+class TestToken < Contract    
+
+    event :Transfer, { from:   AddressOrDumbContract, 
+                       to:     AddressOrDumbContract, 
+                       amount: Uint }
+
+    storage  name:         String,
+             symbol:       String,
+             decimals:     Uint,    
+             totalSupply:  Uint,
+             balanceOf:    Mapping.of( AddressOrDumbContract, Uint )
+            
   
+    sig [String, String, Uint, Uint], 
+    def constructor(name:, 
+                   symbol:, 
+                   decimals:,
+                   totalSupply:) 
+        @name = name
+        @symbol = symbol
+        @decimals = decimals
+        @totalSupply = totalSupply
+
+        @balanceOf[msg.sender] = totalSupply
+     end
+
+    sig [AddressOrDumbContract, Uint], :virtual, returns: Bool, 
+    def transfer( to:, amount: )
+        assert @balanceOf[msg.sender] >= amount, 'Insufficient balance'
+        
+        @balanceOf[msg.sender] -= amount
+        @balanceOf[to] += amount
+   
+        log :Transfer, from: msg.sender, to: to, amount: amount        
+        true
+    end
+end  # class TestToken  
+```  
 
 
+and let's test run the contract ....
+
+``` ruby
 pp TestToken.state_variable_definitions
 pp TestToken.events 
 pp TestToken.is_abstract_contract
