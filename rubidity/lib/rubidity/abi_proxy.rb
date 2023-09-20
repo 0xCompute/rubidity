@@ -101,7 +101,12 @@ def _generate_functions( contract_class )
                     [key, TypedVariable.create( type, value)]
                end.to_h
             else
-               raise ArgumentError, "Array (args) or Hash (kwargs) required for func call; sorry"
+              ## assume no args - e.g. construct - double check for empty input spec/def!!!
+              if inputs.empty?
+                 {}   
+              else
+                raise ArgumentError, "Array (args) or Hash (kwargs) required for func call; sorry"
+              end
             end
 
             puts "kwargs:"

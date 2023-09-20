@@ -31,12 +31,20 @@ pp SimpleToken.public_abi
 contract = SimpleToken.create
 pp contract
 
-pp contract.s.name
-pp contract.s.symbol
-pp contract.s.maxSupply
-pp contract.s.totalSupply
-pp contract.s.perMintLimit
-pp contract.s.balanceOf
+
+name       = contract.instance_variable_get( :@name)
+symbol     = contract.instance_variable_get( :@symbol )
+maxSupply  = contract.instance_variable_get( :@maxSupply )
+totalSupply  = contract.instance_variable_get( :@totalSupply ) 
+perMintLimit = contract.instance_variable_get( :@perMintLimit ) 
+balanceOf   =  contract.instance_variable_get( :@balanceOf )
+
+pp name
+pp symbol
+pp maxSupply
+pp totalSupply
+pp perMintLimit
+pp balanceOf
 
 
 pp contract.name   ## todo/check: allow access WITHOUT .s(.state_proxy) - why? why not?
@@ -47,7 +55,7 @@ pp contract.perMintLimit
 #  mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
 # pp contract.balanceOf
 
-pp contract.state_proxy.serialize
+pp contract.serialize
 
 
 contract.constructor(
@@ -57,14 +65,14 @@ contract.constructor(
     perMintLimit: 1000   # uint256
   ) 
 
-
+  
 pp contract.name
 pp contract.symbol
 pp contract.maxSupply
 pp contract.totalSupply
 pp contract.perMintLimit
 ## pp contract.balanceOf
-pp contract.state_proxy.serialize
+pp contract.serialize
 
 
 alice   = '0x'+'a'*40 # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
@@ -94,8 +102,9 @@ contract.mint( 10 )
 
 
 pp contract.totalSupply
-## pp contract.balanceOf
-pp contract.state_proxy.serialize
+pp contract.balanceOf( alice )
+pp contract.balanceOf( bob )
+pp contract.serialize
 
 
 ##
@@ -114,11 +123,10 @@ contract.transfer( to: charlie, amount: 111 )
 
 
 
-pp contract.s.totalSupply
-pp contract.s.balanceOf
-pp contract.s.balanceOf[ alice ]
-pp contract.s.balanceOf[ bob ]
-pp contract.s.balanceOf[ charlie ]
-pp contract.state_proxy.serialize
+pp contract.totalSupply
+pp contract.balanceOf( alice )
+pp contract.balanceOf( bob )
+pp contract.balanceOf( charlie )
+pp contract.serialize
 
 puts "bye"

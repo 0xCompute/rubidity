@@ -46,10 +46,19 @@ class ContractBase
     linearize_contracts( self )[1..-1]
   end
 
+  class << self
+     ## note: for now the same (might change with support for module?)
+     alias_method :parent_contracts, :linearized_parents 
+  end
+
 
  ####
  # events
  def self.event( name, args )
+    ## todo/fix:
+    ## assume pairs of symbol and hash (args)
+    ##   allow declarations of more than one event !!!
+
     @events ||= {}
     name = name.to_sym  ## note: make sure name is ALWAYS a symbol
     @events[name] = args
@@ -78,7 +87,8 @@ class ContractBase
     end
 
     ## check for visibility  - internal/private/public
-    visibility = :internal    ## make :public default - why? why not?
+    ##  note: make :public default and :internal only if name starting with underscore (_) - why? why not?
+    visibility = name.start_with?( '_' ) ? :internal  : :public    
     immutable  = false
     constant   = false
 
@@ -109,33 +119,36 @@ class ContractBase
   end
 
 
-  Type.value_types.each do |type|
-    define_singleton_method(type) do |*args|
-      type = Type.create( type )
-      define_state_variable(type, args)
+  def self.storage( **kwargs )
+    ## note: assume keys are names and values are types for storage
+    ## note: allow multiple calls of storage!!!
+    
+    ## todo/fix:  add support for passing in typed classes!!!
+    ##                     e.g.  TypedString alias => String in  class Contract
+    ##                           TypedBool   alias => Bool in  class  Contract 
+    ##                             etc.
+    kwargs.each do |name, type|
+       type  = Type.create( type )  
+             
+       ## add support for more args - e.g. visibility or such - why? why not?
+       args = [name] 
+       define_state_variable( type, args )                       
     end
-  end
+  end 
+ 
   
-  def self.mapping(*args)
-    # note: REMOVE first item from array (use Array#shift)
-    key_type, value_type = args.shift.first
+  def self.mapping( key_type, value_type )
     type = Type.create( :mapping, key_type: key_type, 
                                   value_type: value_type )
     
-    if args.last.is_a?(Symbol)
-      define_state_variable(type, args)
-    else
-      type
-    end
+    type
   end
   
-  def self.array(*args)
-    # note: REMOVE first item from array (use Array#shift)
-    sub_type = args.shift
+  def self.array( sub_type )
     type = Type.create(:array, sub_type: sub_type )
-    
-    define_state_variable(type, args)
+    type
   end
+
 
 
 ####
@@ -159,6 +172,19 @@ def self.sig( name, args=[], *options, returns: nil )
   @sigs ||= {}
   name = name.to_sym  ## note: make sure name is ALWAYS a symbol
   ## use inputs for args) and outputs for returns  - why? why not?
+
+  ## check if include explicit visibility in options
+  if  options.include?( :public ) ||
+      options.include?( :private ) ||
+      options.include?( :internal )
+      # do nothing / pass-along as is
+  else
+      # auto-add default up-front - :public or :internal if name starting with underscore (_)
+      visibility =  name.start_with?( '_' )  ? :internal : :public
+      options.unshift( visibility )
+  end
+
+
   @sigs[name] = { inputs:  args,
                   outputs: returns,
                   options: options }

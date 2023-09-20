@@ -5,55 +5,61 @@
 ##  Here is how the SimpleToken Dumb Contract might be implemented in Rubidity
 
 
-
 class SimpleToken < ContractImplementation
 
-    event :Transfer, { from: :addressOrDumbContract, 
-                       to: :addressOrDumbContract, 
+    event :Transfer, { from:   :addressOrDumbContract, 
+                       to:     :addressOrDumbContract, 
                        amount: :uint256 }
   
-  string :public, :name
-  string :public, :symbol
+    storage  name:         :string,
+             symbol:       :string, 
+             maxSupply:    :uint256,
+             perMintLimit: :uint256,  
+             totalSupply:  :uint256,
+             balanceOf:    mapping( :addressOrDumbContract, :uint256 )
+
   
-  uint256 :public, :maxSupply
-  uint256 :public, :perMintLimit
+  sig :constructor, [:string, :string, :uint256, :uint256] 
+  def constructor(
+         name:,
+         symbol:,
+         maxSupply:,
+         perMintLimit: )
+    @name = name
+    @symbol = symbol
+    @maxSupply = maxSupply
+    @perMintLimit = perMintLimit
+  end
   
-  uint256 :public, :totalSupply
-  
-  mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
-  
-  constructor(
-    name: :string,
-    symbol: :string,
-    maxSupply: :uint256,
-    perMintLimit: :uint256,
-  ) {
-    s.name = name
-    s.symbol = symbol
-    s.maxSupply = maxSupply
-    s.perMintLimit = perMintLimit
-  }
-  
-  function :mint, { amount: :uint256 }, :public do
-    assert(amount > 0, 'Amount must be positive')
-    assert(amount <= s.perMintLimit, 'Exceeded mint limit')
+  sig :mint, [:uint256]
+  def  mint( amount: )
+    puts "==> mint amount: #{amount.pretty_print_inspect}"
+
+    assert amount > 0, 'Amount must be positive' 
+    pp @perMintLimit
+    assert amount <= @perMintLimit, 'Exceeded mint limit' 
     
-    assert(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
+    assert @totalSupply + amount <= @maxSupply, 'Exceeded max supply' 
     
-    s.totalSupply += amount
-    s.balanceOf[msg.sender] += amount
+    @totalSupply += amount
+    @balanceOf[msg.sender] += amount
     
-    # emit :Transfer, from: address(0), to: msg.sender, amount: amount
+    log :Transfer, from: address(0), to: msg.sender, amount: amount
   end
 
-  function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public do
-    assert(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
-    
-    s.balanceOf[msg.sender] -= amount
-    s.balanceOf[to] += amount
 
-    # emit :Transfer, from: msg.sender, to: to, amount: amount
+  sig :transfer, [:addressOrDumbContract, :uint256]
+  def transfer( to:, 
+                amount: )
+    puts "==> transfer to: #{to.pretty_print_inspect}, amount: #{amount.pretty_print_inspect}"
+
+    assert @balanceOf[msg.sender] >= amount, 'Insufficient balance'
     
-    return true
+    @balanceOf[msg.sender] -= amount
+    @balanceOf[to] += amount
+
+    log :Transfer, from: msg.sender, to: to, amount: amount
+    
+    true
   end
 end

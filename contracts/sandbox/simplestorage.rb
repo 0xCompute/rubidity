@@ -28,23 +28,22 @@ pp SimpleStorage.public_abi
 contract = SimpleStorage.create
 pp contract
 
-pp contract.constructor()
+
+pp contract.constructor
 pp contract
 
-pp contract.state_proxy.serialize
+pp contract.serialize
 
 pp contract.get
 
 pp contract.set( 123 )
-pp contract.state_proxy.serialize
+pp contract.serialize
 
 pp contract.get
 pp contract.set( 456 )
-pp contract.state_proxy.serialize
+pp contract.serialize
 
 pp contract.get
-
-
 
 
 puts "bye"

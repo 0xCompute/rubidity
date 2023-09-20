@@ -63,7 +63,7 @@ class TestSimpleToken < MiniTest::Test
     contract = SimpleToken.create
     pp contract
 
-    assert_equal STATE_ZERO, contract.state_proxy.serialize
+    assert_equal STATE_ZERO, contract.serialize
 
     ###
     # double check zero init values machinery
@@ -73,14 +73,15 @@ class TestSimpleToken < MiniTest::Test
     assert_equal TypedUint256.zero, TypedUint256.new(0)
 
     assert_equal TypedString.zero, contract.name  ## call public function
-    assert_equal TypedString.zero, contract.s.name  
-
     assert_equal TypedString.zero, contract.symbol ## call public function
-    assert_equal TypedString.zero, contract.s.symbol
-
     assert_equal TypedUint256.zero, contract.maxSupply ## call public function
-    assert_equal TypedUint256.zero, contract.s.maxSupply
-
+ 
+    pp contract.instance_variable_get( :@name )
+    pp contract.instance_variable_get( :@symbol )
+    pp contract.instance_variable_get( :@maxSupply )
+    pp contract.instance_variable_get( :@perMintLimit )
+    pp contract.instance_variable_get( :@balanceOf )
+ 
 
     contract.constructor(
       name: 'My Fun Token', # string
@@ -89,22 +90,22 @@ class TestSimpleToken < MiniTest::Test
       perMintLimit: 1000   # uint256
     ) 
 
-    assert_equal STATE_INIT, contract.state_proxy.serialize 
+    assert_equal STATE_INIT, contract.serialize 
 
-    contract.state_proxy.deserialize( STATE_ZERO )
-    assert_equal STATE_ZERO, contract.state_proxy.serialize
+    contract.deserialize( STATE_ZERO )
+    assert_equal STATE_ZERO, contract.serialize
 
-    contract.state_proxy.deserialize( STATE_INIT )
-    assert_equal STATE_INIT, contract.state_proxy.serialize
+    contract.deserialize( STATE_INIT )
+    assert_equal STATE_INIT, contract.serialize
 
-    pp contract.s.name
-    pp contract.s.symbol
-    pp contract.s.maxSupply
-    pp contract.s.perMintLimit
-    pp contract.s.balanceOf
+    pp contract.instance_variable_get( :@name )
+    pp contract.instance_variable_get( :@symbol )
+    pp contract.instance_variable_get( :@maxSupply )
+    pp contract.instance_variable_get( :@perMintLimit )
+    pp contract.instance_variable_get( :@balanceOf )
     
     
-    pp contract.name   ## todo/check: allow access WITHOUT .s(.state_proxy) - why? why not?
+    pp contract.name 
     pp contract.symbol
     pp contract.maxSupply
     pp contract.totalSupply
@@ -112,7 +113,7 @@ class TestSimpleToken < MiniTest::Test
     #  mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
     # pp contract.balanceOf
     
-    pp contract.state_proxy.serialize
+    pp contract.serialize
     
       
     alice   = '0x'+'a'*40 # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
@@ -142,9 +143,9 @@ class TestSimpleToken < MiniTest::Test
     
     
     pp contract.totalSupply
-    pp contract.s.balanceOf
+    pp contract.balanceOf( alice )
     
-    state = contract.state_proxy.serialize
+    state = contract.serialize
     pp state
     assert_equal STATE_ONE, state
   
@@ -162,17 +163,12 @@ class TestSimpleToken < MiniTest::Test
     contract.transfer( to: alice, amount: 11 )
     contract.transfer( to: charlie, amount: 111 )
         
-    pp contract.s.totalSupply
-    pp contract.s.balanceOf
-    pp contract.s.balanceOf[ alice ]
-    pp contract.s.balanceOf[ bob ]
-    pp contract.s.balanceOf[ charlie ]
     
     pp contract.balanceOf( alice )
     pp contract.balanceOf( bob )
     pp contract.balanceOf( charlie )
 
-    state = contract.state_proxy.serialize
+    state = contract.serialize
     pp state
     assert_equal STATE_TWO, state
   end

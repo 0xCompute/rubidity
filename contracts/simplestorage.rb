@@ -1,16 +1,23 @@
 
+
 class SimpleStorage <  ContractImplementation
-    uint256 :storedData
+     
+    storage storedData: :uint256
     
-    function :set, { x: :uint256 }, :public do
-      s.storedData = x
+    sig :set, [:uint256]
+    def set( x: )
+      @storedData = x
+    end
+
+    sig :get, [], :view, returns: :uint256
+    def get
+      @storedData
     end
     
-    function :get, {}, :public, :view, returns: :uint256 do
-      return s.storedData
+    ## empty constructor required - double check - why? why not?
+    sig :constructor, []
+    def constructor
     end
-    
-    constructor() {}
-  end
+end
 
 
