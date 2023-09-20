@@ -52,6 +52,8 @@ contract.constructor(
     decimals:     18,      #  :uint256
   ) 
 
+__END__
+
 state = contract.serialize
 pp state
 =begin

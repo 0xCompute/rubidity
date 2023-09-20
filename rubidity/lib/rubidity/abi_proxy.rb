@@ -44,12 +44,16 @@ def _generate_functions( contract_class )
    pp sigs
    sigs.each do |name, definition|
       ## must? find matching method in class
-      exists = contract_class.instance_methods.include?( name )
+      ## todo/fix:  use methods( false) if available (do NOT look-up in subclasses or such)
+      exists = contract_class.instance_methods( false ).include?( name )
       if !exists
         error_message = "[ERRRO] no method #{name} found for sig in class #{contract_class.name}"
         puts error_message
         raise NameError, error_message
       end
+
+      ## m = contract_class.method( name )
+      ## puts "  bingo! #{name} - #{m.owner}"
       puts "  bingo! #{name}"
   
       ##
@@ -61,10 +65,11 @@ def _generate_functions( contract_class )
       inputs = definition[:inputs] 
       contract_class.class_eval do
          define_method :"#{name}_typed" do |*args_unsafe,**kwargs_unsafe|
-            puts "==> calling #{name}_typed"
+            puts "==> calling #{name}_typed - #{contract_class.name}"
   
-            params = method( "#{name}_unsafe" ).parameters
-            puts "params:"
+            m = method( "#{name}_unsafe" )
+            params = m.parameters
+            puts "params for #{m} - #{m.owner}:"
             pp params
             ## e.g.
             ## [[:keyreq, :name], 
@@ -112,9 +117,11 @@ def _generate_functions( contract_class )
             puts "kwargs:"
             pp kwargs
 
+            ## todo/fix:  MUST add class name here - otherwise derived gets called!!
             ret = send( "#{name}_unsafe", **kwargs )
             ret
          end 
+         ## todo/fix: must add class name here!!  
          alias_method :"#{name}_unsafe", :"#{name}"
          alias_method :"#{name}",        :"#{name}_typed"
       end

@@ -3,84 +3,106 @@ class ERC20 < ContractImplementation
   
   abstract
   
-  event :Transfer, { from: :addressOrDumbContract, to: :addressOrDumbContract, amount: :uint256 }
-  event :Approval, { owner: :addressOrDumbContract, spender: :addressOrDumbContract, amount: :uint256 }
+  event :Transfer, { from:    :addressOrDumbContract, 
+                     to:      :addressOrDumbContract, 
+                     amount:  :uint256 }
+  event :Approval, { owner:   :addressOrDumbContract, 
+                     spender: :addressOrDumbContract, 
+                     amount:  :uint256 }
 
-  string :public, :name
-  string :public, :symbol
-  uint256 :public, :decimals
-  
-  uint256 :public, :totalSupply
+  storage name:        :string, 
+          symbol:      :string,  
+          decimals:    :uint256, 
+          totalSupply: :uint256, 
+          balanceOf:   mapping( :addressOrDumbContract, :uint256 ), 
+          allowance:   mapping( :addressOrDumbContract, mapping( :addressOrDumbContract, :uint256 ))
+          
 
-  mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
-  mapping ({ addressOrDumbContract: mapping(addressOrDumbContract: :uint256) }), :public, :allowance
-  
-  constructor(name: :string, symbol: :string, decimals: :uint256) {
-    s.name = name
-    s.symbol = symbol
-    s.decimals = decimals
-  }
+  sig :constructor, [:string, :string, :uint256] 
+  def constructor(name:, 
+                  symbol:, 
+                  decimals:) 
+    puts "==> ERC20.construct name:#{name.pretty_print_inspect},"+
+                             "symbol: #{symbol.pretty_print_inspect},"+
+                             "decimals: #{decimals.pretty_print_inspect})"              
+    @name = name
+    @symbol = symbol
+    @decimals = decimals
+  end
 
-  function :approve, { spender: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
-    s.allowance[msg.sender][spender] = amount
+
+  sig :approve, [:addressOrDumbContract, :uint256], :virtual, returns: :bool
+  def approve( spender:, 
+               amount: ) 
+    @allowance[msg.sender][spender] = amount
     
-    emit :Approval, owner: msg.sender, spender: spender, amount: amount
+    log :Approval, owner: msg.sender, spender: spender, amount: amount
     
-    return true
+    true
   end
   
-  function :decreaseAllowanceUntilZero, { spender: :addressOrDumbContract, difference: :uint256 }, :public, :virtual, returns: :bool do
-    allowed = s.allowance[msg.sender][spender]
+
+  sig :decreaseAllowanceUntilZero, [:addressOrDumbContract, :uint256], :virtual, returns: :bool
+  def decreaseAllowanceUntilZero( spender:, 
+                                  difference: )
+    allowed = @allowance[msg.sender][spender]
     
     newAllowed = allowed > difference ? allowed - difference : 0
     
     approve(spender: spender, amount: newAllowed)
     
-    return true
+    true
   end
-  
-  function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
-    assert(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
-    
-    s.balanceOf[msg.sender] -= amount
-    s.balanceOf[to] += amount
 
-    emit :Transfer, from: msg.sender, to: to, amount: amount
+
+  sig :transfer, [:addressOrDumbContract, :uint256], :virtual, returns: :bool
+  def transfer( to:, 
+                amount: )
+    assert @balanceOf[msg.sender] >= amount, 'Insufficient balance'
     
-    return true
+    @balanceOf[msg.sender] -= amount
+    @balanceOf[to] += amount
+
+    log :Transfer, from: msg.sender, to: to, amount: amount
+    
+    true
   end
   
-  function :transferFrom, {
-    from: :addressOrDumbContract,
-    to: :addressOrDumbContract,
-    amount: :uint256
-  }, :public, :virtual, returns: :bool do
-    allowed = s.allowance[from][msg.sender]
+  sig :transferFrom, [:addressOrDumbContract, :addressOrDumbContract, :uint256], :virtual, returns: :bool
+  def transferFrom( 
+       from:,
+       to:,
+       amount:)
+    allowed = @allowance[from][msg.sender]
     
-    assert(s.balanceOf[from] >= amount, 'Insufficient balance')
-    assert(allowed >= amount, 'Insufficient allowance')
+    assert @balanceOf[from] >= amount, 'Insufficient balance'
+    assert allowed >= amount, 'Insufficient allowance'
     
-    s.allowance[from][msg.sender] = allowed - amount
+    @allowance[from][msg.sender] = allowed - amount
     
-    s.balanceOf[from] -= amount
-    s.balanceOf[to] += amount
+    @balanceOf[from] -= amount
+    @balanceOf[to] += amount
     
-    emit :Transfer, from: from, to: to, amount: amount
+    log :Transfer, from: from, to: to, amount: amount
     
-    return true
+    true
   end
   
-  function :_mint, { to: :addressOrDumbContract, amount: :uint256 }, :internal, :virtual do
-    s.totalSupply += amount
-    s.balanceOf[to] += amount
+  sig :_mint, [:addressOrDumbContract, :uint256], :virtual
+  def _mint( to:,
+             amount: )
+    @totalSupply += amount
+    @balanceOf[to] += amount
     
-    emit :Transfer, from: address(0), to: to, amount: amount
+    log :Transfer, from: address(0), to: to, amount: amount
   end
   
-  function :_burn, { from: :addressOrDumbContract, amount: :uint256 }, :internal, :virtual do
-    s.balanceOf[from] -= amount
-    s.totalSupply -= amount
+  sig :_burn, [:addressOrDumbContract, :uint256], :virtual
+  def _burn( from:, 
+             amount: )
+     @balanceOf[from] -= amount
+     @totalSupply -= amount
     
-    emit :Transfer, from: from, to: address(0), amount: amount
+     log :Transfer, from: from, to: address(0), amount: amount
   end
 end

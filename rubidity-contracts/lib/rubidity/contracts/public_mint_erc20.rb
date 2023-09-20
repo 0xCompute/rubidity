@@ -1,7 +1,7 @@
 class PublicMintERC20 < ERC20
   
-  uint256 :public, :maxSupply
-  uint256 :public, :perMintLimit
+  storage maxSupply:    :uint256,
+          perMintLimit: :uint256 
   
   sig :constructor, [:string, :string, :uint256, :uint256, :uint256]
   def constructor(
@@ -11,18 +11,36 @@ class PublicMintERC20 < ERC20
     perMintLimit:,
     decimals:
   ) 
-    ERC20(name: name, symbol: symbol, decimals: decimals)
-    s.maxSupply = maxSupply
-    s.perMintLimit = perMintLimit
+
+  puts "==> PublicMintERC20.construct name:#{name.pretty_print_inspect},"+
+                                     "symbol: #{symbol.pretty_print_inspect},"+
+                                     "maxSupply: #{maxSupply.pretty_print_inspect},"+
+                                     "perMintLimit: #{perMintLimit.pretty_print_inspect},"+
+                                     "decimals: #{decimals.pretty_print_inspect})"              
+
+
+## fix - call to super constructor - keep "classic" syntax style - why? why not? 
+## undefined method __ERC20__constructor  
+##  send("__#{parent.name.demodulize}__constructor", *args, **kwargs)
+
+    # super( name: name, symbol: symbol, decimals: decimals )
+    #  note: ruby super only works with positional arguments (NOT keywords)
+    ##   add a ERC21 (super wrapper) method  - why? why not?
+    super.construct( name: name, 
+                     symbol: symbol, 
+                     decimals: decimals )
+
+    @maxSupply    = maxSupply
+    @perMintLimit = perMintLimit
   end
  
 
   sig :mint, [:uint256], :public
   def mint( amount: )
     assert(amount > 0, 'Amount must be positive')
-    assert(amount <= s.perMintLimit, 'Exceeded mint limit')
+    assert(amount <= @perMintLimit, 'Exceeded mint limit')
     
-    assert(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
+    assert( @totalSupply + amount <= @maxSupply, 'Exceeded max supply')
     
     _mint(to: msg.sender, amount: amount)
   end
@@ -30,9 +48,9 @@ class PublicMintERC20 < ERC20
   sig :airdrop, [:addressOrDumbContract, :uint256], :public
   def airdrop( to:, amount: ) 
     assert(amount > 0, 'Amount must be positive')
-    assert(amount <= s.perMintLimit, 'Exceeded mint limit')
+    assert(amount <= @perMintLimit, 'Exceeded mint limit')
     
-    assert(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
+    assert(@totalSupply + amount <= @maxSupply, 'Exceeded max supply')
     
     _mint(to: to, amount: amount)
   end
