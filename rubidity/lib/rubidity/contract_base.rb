@@ -209,63 +209,121 @@ end
 #  add public getters helpers
   def self.create_public_getter_function(  name, type, constant: false,
                                                        immutable: false )
-    
+  
+     contract_class = self
+   
     if type.mapping?
       create_mapping_getter_function( name, type, constant: constant,
                                                   immutable: immutable )
     elsif type.array?
-        puts "[debug] auto-generate public array getter - #{name} : #{type}:"
+      puts "[debug] auto-generate public array getter - #{name} : #{type}:"
+=begin      
         function( name, {index: :uint256},
                        :public, :view, returns: type.sub_type.name) do
           puts "[debug] call public (state) array getter for #{name} : #{type} with index #{send(:index)}"
           puts "[debug]  self -> #{self}"
-          puts "[debug]  self.this -> #{this}"
-          value = this.instance_variable_get( "@#{name}" )
+          ## puts "[debug]  self.this -> #{this}"
+          value = instance_variable_get( "@#{name}" )
           value[send(:index)]    ## check if value[index] works???
       end
-    else
+=end
+
+    ## note: hack: must use kwargs for now!!! index: (not index) for now
+    sig( name, [:uint256], :view, returns: type.sub_type.name )
+    define_method :"#{name}" do |index:|
+      puts "[debug] call public (state) array getter for #{name} : #{type} with index #{index} (#{contract_class.name})"
+      puts "[debug]  self -> #{self}"
+      ## puts "[debug]  self.this -> #{this}"
+      value = instance_variable_get( :"@#{name}" )
+      value[index]   
+    end
+   else
       puts "[debug] auto-generate public getter - #{name} : #{type}:"
-      function( name, {}, 
+=begin      function( name, {}, 
                        :public, :view, returns: type.name) do
           puts "[debug] call public (state) getter for #{name} : #{type}"
           puts "[debug]  self -> #{self}"
-          puts "[debug]  self.this -> #{this}"
-          value = this.instance_variable_get( "@#{name}" )
+          ## puts "[debug]  self.this -> #{this}"
+          value = instance_variable_get( "@#{name}" )
           value
        end
-    end
+=end
+       sig( name, [], :view, returns: type.name )
+       define_method :"#{name}" do
+         puts "[debug] call public (state) getter for #{name} : #{type} (#{contract_class.name})"
+         puts "[debug]  self -> #{self}"
+         ## puts "[debug]  self.this -> #{this}"
+         value = instance_variable_get( :"@#{name}" )
+         value
+       end
+   end
+
+     puts "after - instance_methods:"
+     pp contract_class.instance_methods( false )
   end
   
 
   def self.create_mapping_getter_function( name, type, constant: false,
                                                        immutable: false)
+
+    contract_class = self
+    ## contract_class.class_eval do
+    
     arguments = {}
     index = 0
     current_type = type
 
+    sig_args = []
     while current_type.name == :mapping
       arguments["arg#{index}".to_sym] = current_type.key_type.name
+      sig_args << current_type.key_type.name
       current_type = current_type.value_type
       index += 1
     end
+
     
-    puts "[debug] auto-generate public mapping getter - #{name} : #{type}:"
+    ## auto-add sig too
+    puts "sig_args:"
+    pp sig_args
+    sig( name, sig_args, :view, returns: current_type.name )
+    
+    puts "[debug]  auto-generate public mapping getter - #{name} : #{type} (#{self.name}):"
     puts "    arguments:"
     pp   arguments
     puts "    index: #{index}"
 # {:arg0=>:addressOrDumbContract}
 #    index: 1
+  
+      ## note: hack: must use kwargs for now!!! arg0, arg1, arg2, for now
+      define_method :"#{name}" do |arg0:, arg1: nil, arg2: nil, arg3: nil|
+       puts "[debug] call public (state) mapping getter for #{name} : #{type} (#{contract_class.name})"
+       puts "[debug]  self -> #{self}"
+       args = [arg0, arg1, arg2, arg3]
+       puts "[debug]  args -> #{args.inspect}"
+     
+       ## raise ArgumentError, "expected #{index} argument(s); got #{args.size}" if args.size != index
 
+       value = instance_variable_get( "@#{name}" )
+       (0...index).each do |i|
+         value = value[ args[i] ]
+       end
+      value
+     end
+##    end
+ 
+=begin
     function( name, arguments, :public, :view, returns: current_type.name) do
         puts "[debug] call public (state) mapping getter for #{name} : #{type}"
         puts "[debug]  self -> #{self}"
-        puts "[debug]  self.this -> #{this}"
-        value = this.instance_variable_get( "@#{name}" )
+        ## puts "[debug]  self.this -> #{this}"
+        value = instance_variable_get( "@#{name}" )
         (0...index).each do |i|
           value = value[send("arg#{i}".to_sym)]
         end
         value
     end
-  end
+=end
+
+end
 end  # classContractBase
 

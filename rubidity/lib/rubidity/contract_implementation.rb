@@ -25,6 +25,8 @@ class ContractImplementation  < ContractBase
   
 
   def generate_state
+    puts "==> generate_state (ivars) #{self.class.name}"
+
     self.class.state_variable_definitions.each do |name, definition|
       type      = definition[:type]
       # constant  = definition[:constant] 
@@ -40,6 +42,7 @@ class ContractImplementation  < ContractBase
     self.class.state_variable_definitions.keys.reduce({}) do |h, name|
       ivar = instance_variable_get("@#{name}")
       ## todo/fix: make sure ivar is_a? Typed!!!!
+      puts "WARN!! no ivar @#{name} found!!! - #{instance_variables}"   if ivar.nil?
       h[name] = ivar.serialize
       h
     end

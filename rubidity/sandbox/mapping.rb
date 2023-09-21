@@ -4,21 +4,21 @@ require_relative 'helper'
 class TestMapping < ContractImplementation    
 
   ## from ERC20
-  mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
-  mapping ({ addressOrDumbContract: mapping(addressOrDumbContract: :uint256) }), :public, :allowance
+  storage  balanceOf: mapping( :addressOrDumbContract, :uint256 ),  
+           allowance: mapping( :addressOrDumbContract, mapping( :addressOrDumbContract, :uint256))
 
-  ## from ERC721
-  mapping ({ uint256: :addressOrDumbContract }), :internal, :_ownerOf
-  mapping ({ addressOrDumbContract: :uint256 }), :internal, :_balanceOf
+  ## from ERC721         
+  storage  _ownerOf:  mapping( :uint256, :addressOrDumbContract ),   
+            _balanceOf: mapping( :addressOrDumbContract, :uint256 ),  
+            getApproved: mapping( :uint256, :addressOrDumbContract ), 
+            isApprovedForAll: mapping( :addressOrDumbContract, mapping( :addressOrDumbContract, :bool))
+          
+  ## from GenerativeERC721          
+  storage  tokenIdToSeed: mapping( :uint256, :uint256 )  
   
-  mapping ({ uint256: :addressOrDumbContract }), :public, :getApproved
-  mapping ({ addressOrDumbContract: mapping(addressOrDumbContract: :bool) }), :public, :isApprovedForAll
-  
-  ## from GenerativeERC721
-  mapping ({ uint256: :uint256 }), :public, :tokenIdToSeed
-  
-
-    constructor() {}
+  sig :constructor, []        
+  def constructor
+  end  
 end  # class TestMapping  
   
 

@@ -4,10 +4,12 @@ require_relative 'helper'
 
 class TestArray < ContractImplementation    
 
-     array :string,  :public, :names
-     array :uint256, :public, :numbers
+    storage names:   array( :string ), 
+            numbers: array( :uint256 ) 
   
-    constructor() { }
+    sig :constructor, []        
+    def constructor
+    end  
 end  # class TestArray  
   
 

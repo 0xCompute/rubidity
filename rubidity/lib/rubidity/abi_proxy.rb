@@ -5,12 +5,11 @@ class AbiProxy
   ## todo: make data private!!!
   ##  make  read access available via #each !!!
 
-
   attr_accessor :data, :contract_class
   
   def initialize(contract_class)
     @contract_class = contract_class
-    @data = HashWithIndifferentAccess.new     ## was {}.with.with_indifferent_access
+    @data = {}    ## was {}.with.with_indifferent_access
      
 
     parents = contract_class.linearized_parents 
@@ -120,7 +119,6 @@ def _generate_functions( contract_class )
             puts "kwargs:"
             pp kwargs
 
-            ## todo/fix:  MUST add class name here - otherwise derived gets called!!
             ret = send( "__#{contract_name}__#{name}_unsafe", **kwargs )
             ret
          end 
@@ -134,6 +132,110 @@ def _generate_functions( contract_class )
       end
    end
 end
+
+
+## build a function from scratch (no wrapper/"unsafe"method body)
+def define_function( contract_class, name, args, *options, returns: nil, &block  )
+   ## note: make sure name is a symbol
+   name = name.to_sym
+
+   ## must? find matching method in class
+   ## todo/fix:  use methods( false) if available (do NOT look-up in subclasses or such)
+   exists = contract_class.instance_methods( false ).include?( name )
+    if exists
+       error_message = "[ERRRO] method #{name} already exists and found in class #{contract_class.name}; cannot redefine; sorry"
+        puts error_message
+        raise ArgumentError, error_message
+    end
+
+
+      contract_class.class_eval do
+         ## note: make sure contract_name is a symbol
+         contract_name = contract_class.name.demodulize.to_sym
+       
+         ## define "plain" unsafe first
+         define_method :"__#{contract_name}__#{name}_unsafe" do |**kwargs_unsafe|
+            puts "kwargs (unsafe):"
+            pp kwargs_unsafe
+            self.instance_exec( **kwargs_unsafe, &block ) 
+         end
+
+
+         define_method :"__#{contract_name}__#{name}" do |*args_unsafe,**kwargs_unsafe|
+            puts "==> calling __#{contract_name}__#{name} - #{contract_class.name}"
+  
+            ## get keys
+            keys = args.keys
+            puts "keys:"
+            pp keys
+
+            inputs = args.values.map { |val| Type.create( val ) } 
+            puts "input types:"
+            pp inputs
+
+            kwargs =  if !args_unsafe.empty? 
+              values = inputs.zip( args_unsafe ).map do |type, value|
+                ## todo/check:  change create to cast/try_cast or such - why? why not?
+                ##                might already be proper type? no?
+                 TypedVariable.create(type, value)
+              end
+              puts "args:"
+              pp values
+
+              keys.zip( values ).map do |key,value|
+                                                 [key,value]
+              end.to_h
+            elsif !kwargs_unsafe.empty?
+               types = keys.zip( inputs ).map do |key,type|
+                                                 [key,type]
+               end.to_h
+               puts "types:"
+               pp types
+               kwargs_unsafe.map do |key,value|
+                    type = types[key]
+                    raise ArgumentError, "unknown kwarg #{key}; sorry"   if type.nil?
+                    [key, TypedVariable.create( type, value)]
+               end.to_h
+            else
+              ## assume no args - e.g. construct - double check for empty input spec/def!!!
+              if inputs.empty?
+                 {}   
+              else
+                raise ArgumentError, "Array (args) or Hash (kwargs) required for func call; sorry"
+              end
+            end
+
+            puts "kwargs:"
+            pp kwargs
+
+            ## puts "self:" 
+            ## pp self
+            ret = send( "__#{contract_name}__#{name}_unsafe", **kwargs )
+            puts "returns:"
+            pp ret
+            ret
+         end # define_method
+
+         ## note: must add class/contract name here!!  
+         alias_method name,  :"__#{contract_name}__#{name}"
+         if name == :constructor  ### add ERC20() or such
+            alias_method contract_name, :"__#{contract_name}__#{name}"
+         end
+      end  # class_eval
+end # method define_function
+
+
+
+def create_and_add_function(name, args, *options, returns: nil, &block)
+  puts "==> generate function for contract #{@contract_class}"
+  puts "   name: #{name}, args: #{args.inspect}," + 
+                        "options: #{options.inspect},"+
+                        "returns: #{returns}"
+
+  define_function( @contract_class,
+                   name, args, *options, returns: returns, &block )
+end
+
 
   ### todo/check -- where used? check for parent_contracts
   # def parent_contracts
@@ -217,17 +319,14 @@ end
     define_function_method(name, new_function, contract_class)
   end
 
-  def create_and_add_function(name, args, *options, returns: nil, &block)
+
+
+  def create_and_add_function_v0(name, args, *options, returns: nil, &block)
     new_function = FunctionProxy.create(name, args, *options, returns: returns, &block)
     add_function(name, new_function)
   end
 
-  def create_and_add_function(name, args, *options, returns: nil, &block)
-    new_function = FunctionProxy.create(name, args, *options, returns: returns, &block)
-    add_function(name, new_function)
-  end
   
-
 
   
   private

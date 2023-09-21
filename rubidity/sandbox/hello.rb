@@ -70,15 +70,16 @@ end
 
 
 
+
 pp contract.name
-
-
-
 pp contract.symbol
 pp contract.decimals    
 pp contract.totalSupply
 
+## pp contract.balanceOf
 pp contract.balanceOf( alice )
+
+
 
 
 

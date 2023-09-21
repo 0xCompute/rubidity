@@ -66,9 +66,10 @@ def test_meta
   def test_contract
     contract = GenerativeERC721.create
     pp contract
-    
+  
     state = contract.serialize
     pp state
+
     assert_equal STATE_ZERO, state
 
     contract.constructor(
