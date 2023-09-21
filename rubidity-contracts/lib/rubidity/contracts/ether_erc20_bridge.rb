@@ -4,49 +4,52 @@ class EtherERC20Bridge < ERC20
   event :InitiateWithdrawal, { from: :address, amount: :uint256 }
   event :WithdrawalComplete, { to: :address, amount: :uint256 }
 
-  address :public, :trustedSmartContract
-  mapping ({ address: :uint256 }), :public, :pendingWithdrawals
+  storage trustedSmartContract: :address, 
+         pendingWithdrawals:     mapping( :address, :uint256 ) 
   
-  constructor(
-    name: :string,
-    symbol: :string,
-    trustedSmartContract: :address
-  ) {
+  sig :constructor, [:string, :string, :address]
+  def constructor(
+    name:,
+    symbol:,
+    trustedSmartContract:) 
     ERC20(name: name, symbol: symbol, decimals: 18)
     
-    s.trustedSmartContract = trustedSmartContract
-  }
+    @trustedSmartContract = trustedSmartContract
+  end
   
-  function :bridgeIn, { to: :address, amount: :uint256 }, :public do
+  sig :bridgeIn, [:address, :uint256]
+  def bridgeIn( to:, amount: )
     assert(
-      address(msg.sender) == s.trustedSmartContract,
+      address(msg.sender) == @trustedSmartContract,
       "Only the trusted smart contract can bridge in tokens"
     )
     
     _mint(to: to, amount: amount)
   end
   
-  function :bridgeOut, { amount: :uint256 }, :public do
+  sig :bridgeOut, [:uint256]
+  def bridgeOut( amount: )
     _burn(from: msg.sender, amount: amount)
     
-    s.pendingWithdrawals[address(msg.sender)] += amount
+    @pendingWithdrawals[address(msg.sender)] += amount
     
-    emit :InitiateWithdrawal, from: address(msg.sender), amount: amount
+    log :InitiateWithdrawal, from: address(msg.sender), amount: amount
   end
   
-  function :markWithdrawalComplete, { to: :address, amount: :uint256 }, :public do
+  sig :markWithdrawalComplete, [:address, :uint256] 
+  def markWithdrawalComplete( to:, amount: )
     assert(
-      address(msg.sender) == s.trustedSmartContract,
+      address(msg.sender) == @trustedSmartContract,
       'Only the trusted smart contract can mark withdrawals as complete'
     )
     
     assert(
-      s.pendingWithdrawals[to] >= amount,
+      @pendingWithdrawals[to] >= amount,
       'Insufficient pending withdrawal'
     )
     
-    s.pendingWithdrawals[to] -= amount
+    @pendingWithdrawals[to] -= amount
     
-    emit :WithdrawalComplete, to: to, amount: amount
+    log :WithdrawalComplete, to: to, amount: amount
   end
 end

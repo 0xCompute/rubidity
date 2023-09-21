@@ -1,65 +1,67 @@
 class GenerativeERC721 < ERC721
   
-  string :public, :generativeScript
-  mapping ({ uint256: :uint256 }), :public, :tokenIdToSeed
+  storage generativeScript: :string,
+          tokenIdToSeed:    mapping( :uint256, :uint256 ),  
+          totalSupply:      :uint256, 
+          maxSupply:        :uint256, 
+          maxPerAddress:    :uint256, 
+          description:      :string 
   
-  uint256 :public, :totalSupply
-  uint256 :public, :maxSupply
-  uint256 :public, :maxPerAddress
-  string :public, :description
-  
-  constructor(
-    name: :string,
-    symbol: :string,
-    generativeScript: :string,
-    maxSupply: :uint256,
-    description: :string,
-    maxPerAddress: :uint256
-  ) {
+  sig :constructor, [ :string, :string, :string, :uint256, :string, :uint256]  
+  def constructor(
+    name:,
+    symbol:,
+    generativeScript:,
+    maxSupply:,
+    description:,
+    maxPerAddress: )
     ERC721(name: name, symbol: symbol)
     
-    s.maxSupply = maxSupply
-    s.maxPerAddress = maxPerAddress
-    s.description = description
-    s.generativeScript = generativeScript
-  }
+    @maxSupply = maxSupply
+    @maxPerAddress = maxPerAddress
+    @description = description
+    @generativeScript = generativeScript
+  end
   
-  function :mint, { amount: :uint256 }, :public do
+  sig :mint, [:uint256]
+  def mint( amount )
     assert(amount > 0, 'Amount must be positive')
-    assert(amount + s._balanceOf[msg.sender] <= s.maxPerAddress, 'Exceeded mint limit')
-    assert(amount + s.totalSupply <= s.maxSupply, 'Exceeded max supply')
+    assert(amount + @_balanceOf[msg.sender] <= @maxPerAddress, 'Exceeded mint limit')
+    assert(amount + @totalSupply <= @maxSupply, 'Exceeded max supply')
     
     hash = block.blockhash(block.number).cast(:uint256) % (2 ** 48)
     
     amount.times do |id|
-      tokenId = s.totalSupply + id
+      tokenId = @totalSupply + id
       seed = hash + tokenId
       
-      s.tokenIdToSeed[tokenId] = seed
+      @tokenIdToSeed[tokenId] = seed
       
       _mint(to: msg.sender, id: tokenId)
     end
     
-    s.totalSupply += amount
+    @totalSupply += amount
   end
   
-  function :tokenURI, { id: :uint256 }, :public, :view, :override, returns: :string do
-    assert(_exists(id: id), 'ERC721Metadata: URI query for nonexistent token')
+  sig :tokenURI, [:uint256], :view, :override, returns: :string
+  def tokenURI( id )
+    assert( _exists(id: id), 'ERC721Metadata: URI query for nonexistent token')
     
-    html = getHTML(seed: s.tokenIdToSeed[id])
+    html = getHTML(seed: @tokenIdToSeed[id])
     
     html_as_base_64_data_uri = "data:text/html;base64,#{Base64.strict_encode64(html)}"
     
     json_data = {
-      name: "#{s.name} ##{string(id)}",
-      description: s.description,
+      name: "#{@name} ##{string(id)}",
+      description: @description,
       animation_url: html_as_base_64_data_uri,
     }.to_json
     
-    return "data:application/json,#{json_data}"
+    "data:application/json,#{json_data}"
   end
   
-  function :getHTML, { seed: :uint256 }, :public, :view, returns: :string do
+  sig :getHTML, [:uint256], :view, returns: :string
+  def getHTML( seed )
     %{<!DOCTYPE html>
     <html>
       <head>
@@ -84,7 +86,7 @@ class GenerativeERC721 < ERC721
       </body>
       <script>
         window.SEED = #{string(seed)};
-        #{s.generativeScript}
+        #{@generativeScript}
       </script>
     </html>}
   end

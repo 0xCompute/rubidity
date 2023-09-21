@@ -3,101 +3,122 @@ class ERC721 < ContractImplementation
 
   abstract
   
-  event :Transfer, { from: :addressOrDumbContract, to: :addressOrDumbContract, id: :uint256 }
-  event :Approval, { owner: :addressOrDumbContract, spender: :addressOrDumbContract, id: :uint256 }
-  event :ApprovalForAll, { owner: :addressOrDumbContract, operator: :addressOrDumbContract, approved: :bool }
+  event :Transfer, { from: :addressOrDumbContract, 
+                     to:   :addressOrDumbContract, 
+                     id:   :uint256 }
+  event :Approval, { owner:   :addressOrDumbContract, 
+                     spender: :addressOrDumbContract, 
+                     id:      :uint256 }
+  event :ApprovalForAll, { owner:    :addressOrDumbContract, 
+                           operator: :addressOrDumbContract, 
+                           approved: :bool }
 
-  string :public, :name
-  string :public, :symbol
-  
-  mapping ({ uint256: :addressOrDumbContract }), :internal, :_ownerOf
-  mapping ({ addressOrDumbContract: :uint256 }), :internal, :_balanceOf
-  
-  mapping ({ uint256: :addressOrDumbContract }), :public, :getApproved
-  mapping ({ addressOrDumbContract: mapping(addressOrDumbContract: :bool) }), :public, :isApprovedForAll
+  storage  name:             :string,
+           symbol:           :string,
+           _ownerOf:         mapping( :uint256, :addressOrDumbContract ),
+           _balanceOf:       mapping( :addressOrDumbContract, :uint256 ),
+           getApproved:      mapping( :uint256, :addressOrDumbContract ), 
+           isApprovedForAll: mapping( :addressOrDumbContract, mapping( :addressOrDumbContract, :bool))
 
-  constructor(name: :string, symbol: :string) {
-    s.name = name
-    s.symbol = symbol
-  }
-  
-  function :ownerOf, { id: :uint256 }, :public, :view, :virtual, returns: :addressOrDumbContract do
-    owner = s._ownerOf[id]
-    assert(owner != addressOrDumbContract(0), "ERC721: owner query for nonexistent token")
+  sig :constructor, [:string, :string]           
+  def constructor( name:, 
+                   symbol: ) 
+    @name   = name
+    @symbol = symbol
+  end
+
+
+  sig :ownerOf, [ :uint256 ], :view, :virtual, returns: :addressOrDumbContract 
+  def ownerOf( id )
+    owner = @_ownerOf[id]
+    assert owner != addressOrDumbContract(0), "ERC721: owner query for nonexistent token"
     
-    return owner
+    owner
   end
   
-  function :balanceOf, { owner: :addressOrDumbContract }, :public, :view, :virtual, returns: :uint256 do
-    assert(owner != addressOrDumbContract(0), "ERC721: balance query for nonexistent owner")
+  sig :balanceOf, [ :addressOrDumbContract ], :view, :virtual, returns: :uint256
+  def balanceOf( owner: ) 
+    assert owner != addressOrDumbContract(0), "ERC721: balance query for nonexistent owner"
     
-    return s._balanceOf[owner]
+    @_balanceOf[owner]
   end
   
-  function :approve, { spender: :addressOrDumbContract, id: :uint256 }, :public, :virtual do
-    owner = s._ownerOf[id];
+  sig :approve, [ :addressOrDumbContract, :uint256], :virtual
+  def approve( spender:, 
+               id: )
+    owner = @_ownerOf[id]
     
-    assert(msg.sender == owner || s.isApprovedForAll[owner][msg.sender], "NOT_AUTHORIZED");
+    assert msg.sender == owner || @isApprovedForAll[owner][msg.sender], "NOT_AUTHORIZED"
     
-    s.getApproved[id] = spender;
+    @getApproved[id] = spender;
 
-    emit :Approval, owner: owner, spender: spender, id: id
+    log :Approval, owner: owner, spender: spender, id: id
   end
   
-  function :setApprovalForAll, { operator: :addressOrDumbContract, bool: :approved }, :public, :virtual do
-    s.isApprovedForAll[msg.sender][operator] = approved;
+  sig :setApprovalForAll, [:addressOrDumbContract, :bool], :virtual
+  def setApprovalForAll( operator:,
+                         approved: ) 
+    @isApprovedForAll[msg.sender][operator] = approved;
 
-    emit :ApprovalForAll, owner: msg.sender, operator: operator, approved: approved
+    log :ApprovalForAll, owner: msg.sender, operator: operator, approved: approved
   end
   
-  function :transferFrom, { from: :addressOrDumbContract, to: :addressOrDumbContract, id: :uint256 }, :public, :virtual do
-    assert(from == s._ownerOf[id], "ERC721: transfer of token that is not own");
-    assert(to != addressOrDumbContract(0), "ERC721: transfer to the zero address");
+  sig :transferFrom, [ :addressOrDumbContract, :addressOrDumbContract, :uint256], :virtual
+  def transferFrom( from:, 
+                    to:, 
+                    id: )
+    assert from == @_ownerOf[id], "ERC721: transfer of token that is not own"
+    assert to != addressOrDumbContract(0), "ERC721: transfer to the zero address"
     
     assert(
       msg.sender == from ||
-      s.getApproved[id] == msg.sender ||
-      isApprovedForAll[from][msg.sender],
+      @getApproved[id] == msg.sender ||
+      @isApprovedForAll[from][msg.sender],
       "NOT_AUTHORIZED"
-    );
+    )
     
-    s._balanceOf[from] -= 1;
-    s._balanceOf[to] += 1;
+    @_balanceOf[from] -= 1
+    @_balanceOf[to] += 1
     
-    s._ownerOf[id] = to;
+    @_ownerOf[id] = to
     
-    s.getApproved[id] = addressOrDumbContract(0);
+    @getApproved[id] = addressOrDumbContract(0)
   end
   
-  function :_exists, { id: :uint256 }, :internal, :virtual do
-    return s._ownerOf[id] != addressOrDumbContract(0)
+  sig :_exists, [:uint256], :virtual
+  def _exists( id )
+    @_ownerOf[id] != addressOrDumbContract(0)
+  end
+ 
+  sig :_mint, [:addressOrDumbContract, :uint256], :virtual
+  def _mint( to:, 
+             id: )
+    assert to != addressOrDumbContract(0), "ERC721: mint to the zero address"
+    assert @_ownerOf[id] == addressOrDumbContract(0), "ERC721: token already minted"
+    
+    @_balanceOf[to] += 1
+
+    @_ownerOf[id] = to
+    
+    log :Transfer, from: addressOrDumbContract(0), to: to, id: id
   end
   
-  function :_mint, { to: :addressOrDumbContract, id: :uint256 }, :internal, :virtual do
-    assert(to != addressOrDumbContract(0), "ERC721: mint to the zero address");
-    assert(s._ownerOf[id] == addressOrDumbContract(0), "ERC721: token already minted");
+  sig :_burn, [:uint256], :virtual
+  def _burn( id: )
+    owner = @_ownerOf[id]
     
-    s._balanceOf[to] += 1;
+    assert owner != addressOrDumbContract(0), "ERC721: burn of nonexistent token"
     
-    s._ownerOf[id] = to;
+    @_balanceOf[owner] -= 1
     
-    emit :Transfer, from: addressOrDumbContract(0), to: to, id: id
+    @_ownerOf[id] = addressOrDumbContract(0)
+    
+    @getApproved[id] = addressOrDumbContract(0)
+    
+    log :Transfer, from: owner, to: addressOrDumbContract(0), id: id
   end
   
-  function :_burn, { id: :uint256 }, :internal, :virtual do
-    owner = s._ownerOf[id];
-    
-    assert(owner != addressOrDumbContract(0), "ERC721: burn of nonexistent token");
-    
-    s._balanceOf[owner] -= 1;
-    
-    s._ownerOf[id] = addressOrDumbContract(0);
-    
-    s.getApproved[id] = addressOrDumbContract(0);
-    
-    emit :Transfer, from: owner, to: addressOrDumbContract(0), id: id
-  end
-  
-  function :tokenURI, { id: :uint256 }, :public, :view, :virtual, returns: :string do
+  sig :tokenURI, [:uint256], :view, :virtual, returns: :string
+  def tokenURI( id: )
   end
 end

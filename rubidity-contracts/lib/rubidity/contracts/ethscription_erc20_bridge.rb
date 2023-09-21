@@ -4,51 +4,52 @@ class EthscriptionERC20Bridge < ERC20
   event :InitiateWithdrawal, { from: :address, escrowedId: :ethscriptionId }
   event :WithdrawalComplete, { to: :address, escrowedId: :ethscriptionId }
 
-  string :public, :ethscriptionsTicker
-  uint256 :public, :ethscriptionMintAmount
-  uint256 :public, :ethscriptionMaxSupply
-  ethscriptionId :public, :ethscriptionDeployId
-  
-  address :public, :trustedSmartContract
-  mapping ({ ethscriptionId: :address }), :public, :pendingWithdrawalEthscriptionToOwner
-  mapping ({ ethscriptionId: :address }), :public, :bridgedEthscriptionToOwner
-  
-  constructor(
-    name: :string,
-    symbol: :string,
-    trustedSmartContract: :address,
-    ethscriptionDeployId: :ethscriptionId
-  ) {
+  storage ethscriptionsTicker:     :string, 
+          ethscriptionMintAmount:  :uint256, 
+          ethscriptionMaxSupply:   :uint256, 
+          ethscriptionDeployId:    :ethscriptionId, 
+          trustedSmartContract:    :address, 
+          pendingWithdrawalEthscriptionToOwner: mapping( :ethscriptionId, :address ),
+          bridgedEthscriptionToOwner:   mapping( :ethscriptionId, :address )
+          
+  sig :constructor, [:string, :string, :address, :ethscriptionId]           
+  def constructor(
+    name:,
+    symbol:,
+    trustedSmartContract:,
+    ethscriptionDeployId:) 
     ERC20(name: name, symbol: symbol, decimals: 18)
     
-    s.trustedSmartContract = trustedSmartContract
-    s.ethscriptionDeployId = ethscriptionDeployId
+    @trustedSmartContract = trustedSmartContract
+    @ethscriptionDeployId = ethscriptionDeployId
     
-    deploy = esc.findEthscriptionById(ethscriptionDeployId)
+    deploy = esc.findEthscriptionById( ethscriptionDeployId )
     uri = deploy.contentUri
     parsed = JSON.parse(uri.split("data:,").last)
     
     assert(parsed['op'] == 'deploy', "Invalid ethscription deploy id")
     assert(parsed['p'] == 'erc-20', "Invalid protocol")
     
-    s.ethscriptionsTicker = parsed['tick']
-    s.ethscriptionMintAmount = parsed['lim']
-    s.ethscriptionMaxSupply = parsed['max']
-  }
+    @ethscriptionsTicker = parsed['tick']
+    @ethscriptionMintAmount = parsed['lim']
+    @ethscriptionMaxSupply = parsed['max']
+  end
+
   
-  function :bridgeIn, { to: :address, escrowedId: :ethscriptionId }, :public do
+  sig :bridgeIn, [:address, :ethscriptionId]
+  def bridgeIn( to:, escrowedId: )
     assert(
-      address(msg.sender) == s.trustedSmartContract,
+      address(msg.sender) == @trustedSmartContract,
       "Only the trusted smart contract can bridge in tokens"
     )
     
     assert(
-      s.bridgedEthscriptionToOwner[escrowedId] == address(0),
+      @bridgedEthscriptionToOwner[escrowedId] == address(0),
       "Ethscription already bridged in"
     )
     
     assert(
-      s.pendingWithdrawalEthscriptionToOwner[escrowedId] == address(0),
+      @pendingWithdrawalEthscriptionToOwner[escrowedId] == address(0),
       "Ethscription withdrawal initiated"
     )
     
@@ -65,16 +66,16 @@ class EthscriptionERC20Bridge < ERC20
     id = id.cast(:uint256)
     amt = amt.cast(:uint256)
     
-    assert(tick == s.ethscriptionsTicker, "Invalid ethscription ticker")
-    assert(amt == s.ethscriptionMintAmount, "Invalid ethscription mint amount")
+    assert(tick == @ethscriptionsTicker, "Invalid ethscription ticker")
+    assert(amt == @ethscriptionMintAmount, "Invalid ethscription mint amount")
 
-    maxId = s.ethscriptionMaxSupply / s.ethscriptionMintAmount
+    maxId = @ethscriptionMaxSupply / @ethscriptionMintAmount
     
     assert(id > 0 && id <= maxId, "Invalid token id")
     
     assert(
-      ethscription.currentOwner == s.trustedSmartContract,
-      "Ethscription not owned by recipient. Observed owner: #{ethscription.currentOwner}, expected owner: #{s.trustedSmartContract}"
+      ethscription.currentOwner == @trustedSmartContract,
+      "Ethscription not owned by recipient. Observed owner: #{ethscription.currentOwner}, expected owner: #{@trustedSmartContract}"
     )
     
     assert(
@@ -82,34 +83,38 @@ class EthscriptionERC20Bridge < ERC20
       "Ethscription not previously owned by to. Observed previous owner: #{ethscription.previousOwner}, expected previous owner: #{to}"
     )
     
-    s.bridgedEthscriptionToOwner[escrowedId] = to
-    _mint(to: to, amount: s.ethscriptionMintAmount * (10 ** decimals))
+    @bridgedEthscriptionToOwner[escrowedId] = to
+    _mint(to: to, amount: @ethscriptionMintAmount * (10 ** decimals))
   end
   
-  function :bridgeOut, { escrowedId: :ethscriptionId }, :public do
-    assert(s.bridgedEthscriptionToOwner[escrowedId] == address(msg.sender), "Ethscription not owned by sender")
+
+  sig :bridgeOut, [:ethscriptionId]    
+  def bridgeOut( escrowedId )
+    assert( @bridgedEthscriptionToOwner[escrowedId] == address(msg.sender), "Ethscription not owned by sender")
     
-    _burn(from: msg.sender, amount: s.ethscriptionMintAmount * (10 ** decimals))
+    _burn(from: msg.sender, amount: @ethscriptionMintAmount * (10 ** decimals))
     
-    s.bridgedEthscriptionToOwner[escrowedId] = address(0)
-    s.pendingWithdrawalEthscriptionToOwner[escrowedId] = address(msg.sender)
+    @bridgedEthscriptionToOwner[escrowedId] = address(0)
+    @pendingWithdrawalEthscriptionToOwner[escrowedId] = address(msg.sender)
     
-    emit :InitiateWithdrawal, from: address(msg.sender), escrowedId: :ethscriptionId
+    log :InitiateWithdrawal, from: address(msg.sender), escrowedId: :ethscriptionId
   end
   
-  function :markWithdrawalComplete, { to: :address, escrowedId: :ethscriptionId }, :public do
+
+  sig :markWithdrawalComplete, [:address, :ethscriptionId] 
+  def markWithdrawalComplete( to:, escrowedId: )
     assert(
-      address(msg.sender) == s.trustedSmartContract,
+      address(msg.sender) == @trustedSmartContract,
       'Only the trusted smart contract can mark withdrawals as complete'
     )
     
     assert(
-      s.pendingWithdrawalEthscriptionToOwner[escrowedId] == to,
+      @pendingWithdrawalEthscriptionToOwner[escrowedId] == to,
       "Withdrawal not initiated"
     )
     
-    s.pendingWithdrawalEthscriptionToOwner[escrowedId] = address(0)
+    @pendingWithdrawalEthscriptionToOwner[escrowedId] = address(0)
     
-    emit :WithdrawalComplete, to: to, escrowedId: :ethscriptionId
+    log :WithdrawalComplete, to: to, escrowedId: :ethscriptionId
   end
 end

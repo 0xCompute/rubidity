@@ -117,12 +117,13 @@ STATE_TWO = {
     assert_equal TypedUint256.new( 1000),          contract.perMintLimit
     assert_equal TypedUint256.new( 18 ),          contract.decimals
         
-    assert_equal TypedString.new('My Fun Token'), contract.s.name
-    assert_equal TypedString.new('FUN'),          contract.s.symbol
-    assert_equal TypedUint256.new( 21000000),          contract.s.maxSupply
-    assert_equal TypedUint256.new( 1000),          contract.s.perMintLimit
-    assert_equal TypedUint256.new( 18 ),          contract.s.decimals
+    assert_equal TypedString.new('My Fun Token'), contract.instance_variable_get( :@name )
+    assert_equal TypedString.new('FUN'),          contract.instance_variable_get( :@symbol )
+    assert_equal TypedUint256.new( 21000000),     contract.instance_variable_get( :@maxSupply )
+    assert_equal TypedUint256.new( 1000),         contract.instance_variable_get( :@perMintLimit )
+    assert_equal TypedUint256.new( 18 ),          contract.instance_variable_get( :@decimals )
 
+    
     alice   = '0x'+'a'*40 # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 bob     = '0x'+'b'*40 # e.g. '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
 charlie = '0x'+'c'*40 # e.g. '0xcccccccccccccccccccccccccccccccccccccccc'

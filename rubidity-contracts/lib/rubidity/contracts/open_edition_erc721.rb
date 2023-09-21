@@ -1,53 +1,54 @@
 class OpenEditionERC721 < ERC721
   
-  string :public, :contentURI
-  uint256 :public, :maxPerAddress
-  uint256 :public, :totalSupply
-  string :public, :description
-  
-  datetime :public, :mintStart
-  datetime :public, :mintEnd
-  
-  constructor(
-    name: :string,
-    symbol: :string,
-    contentURI: :string,
-    maxPerAddress: :uint256,
-    description: :string,
-    mintStart: :datetime,
-    mintEnd: :datetime
-  ) {
+  storage contentURI:    :string, 
+          maxPerAddress: :uint256,
+          totalSupply:   :uint256,
+          description:   :string,
+          mintStart:     :datetime,
+          mintEnd:       :datetime
+
+  sig :constructor, [:string, :string, :string, :uint256, :string, :datetime, :datetime]        
+  def constructor(
+    name:,
+    symbol:,
+    contentURI:,
+    maxPerAddress:,
+    description:,
+    mintStart:,
+    mintEnd: )
     ERC721(name: name, symbol: symbol)
     
-    s.maxPerAddress = maxPerAddress
-    s.description = description
-    s.contentURI = contentURI
-    s.mintStart = mintStart
-    s.mintEnd = mintEnd
-  }
-  
-  function :mint, { amount: :uint256 }, :public do
+    @maxPerAddress = maxPerAddress
+    @description = description
+    @contentURI = contentURI
+    @mintStart = mintStart
+    @mintEnd = mintEnd
+  end
+
+  sig :mint, [:uint256]
+  def mint( amount: )
     assert(amount > 0, 'Amount must be positive')
-    assert(amount + s._balanceOf[msg.sender] <= s.maxPerAddress, 'Exceeded mint limit')
-    assert(block.timestamp >= s.mintStart, 'Minting has not started')
-    assert(block.timestamp < s.mintEnd, 'Minting has ended')
+    assert(amount + @_balanceOf[msg.sender] <= @maxPerAddress, 'Exceeded mint limit')
+    assert(block.timestamp >= @mintStart, 'Minting has not started')
+    assert(block.timestamp < @mintEnd, 'Minting has ended')
     
     amount.times do |id|
-      _mint(to: msg.sender, id: s.totalSupply + id)
+      _mint(to: msg.sender, id: @totalSupply + id)
     end
     
-    s.totalSupply += amount
+    @totalSupply += amount
   end
   
-  function :tokenURI, { id: :uint256 }, :public, :view, :override, returns: :string do
+  sig :tokenURI, [:uint256], :view, :override, returns: :string
+  def tokenURI( id: ) 
     assert(_exists(id: id), 'ERC721Metadata: URI query for nonexistent token')
 
     json_data = {
-      name: "#{s.name} ##{string(id)}",
-      description: s.description,
-      image: s.contentURI,
+      name: "#{@name} ##{string(id)}",
+      description: @description,
+      image: @contentURI,
     }.to_json
     
-    return "data:application/json,#{json_data}"
+    "data:application/json,#{json_data}"
   end
 end

@@ -3,7 +3,7 @@ require 'hoe'
 
 Hoe.spec 'rubidity-contracts' do
 
-  self.version =   '0.2.1'  ##Pixelart::Module::Ordgen::VERSION
+  self.version =   '0.2.2'  ##Pixelart::Module::Ordgen::VERSION
 
   self.summary = 'rubidity-contracts - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer'
   self.description = summary
