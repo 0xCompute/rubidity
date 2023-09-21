@@ -19,16 +19,15 @@ class PublicMintERC20 < ERC20
                                      "decimals: #{decimals.pretty_print_inspect})"              
 
 
-## fix - call to super constructor - keep "classic" syntax style - why? why not? 
-## undefined method __ERC20__constructor  
-##  send("__#{parent.name.demodulize}__constructor", *args, **kwargs)
-
-    # super( name: name, symbol: symbol, decimals: decimals )
-    #  note: ruby super only works with positional arguments (NOT keywords)
-    ##   add a ERC21 (super wrapper) method  - why? why not?
-    super.construct( name: name, 
-                     symbol: symbol, 
-                     decimals: decimals )
+    #super( name: name, 
+    #       symbol: symbol, 
+    #       decimals: decimals )
+    ERC20( name: name, 
+           symbol: symbol, 
+           decimals: decimals)
+    #__ERC20__constructor( name: name, 
+    #                      symbol: symbol, 
+    #                      decimals: decimals)
 
     @maxSupply    = maxSupply
     @perMintLimit = perMintLimit

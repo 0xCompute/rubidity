@@ -64,10 +64,13 @@ def _generate_functions( contract_class )
       ##   alias_method :name,        :name_typed
       inputs = definition[:inputs] 
       contract_class.class_eval do
-         define_method :"#{name}_typed" do |*args_unsafe,**kwargs_unsafe|
-            puts "==> calling #{name}_typed - #{contract_class.name}"
+         ## note: make sure contract_name is a symbol
+         contract_name = contract_class.name.demodulize.to_sym
+
+         define_method :"__#{contract_name}__#{name}" do |*args_unsafe,**kwargs_unsafe|
+            puts "==> calling __#{contract_name}__#{name} - #{contract_class.name}"
   
-            m = method( "#{name}_unsafe" )
+            m = method( "__#{contract_name}__#{name}_unsafe" )
             params = m.parameters
             puts "params for #{m} - #{m.owner}:"
             pp params
@@ -118,12 +121,16 @@ def _generate_functions( contract_class )
             pp kwargs
 
             ## todo/fix:  MUST add class name here - otherwise derived gets called!!
-            ret = send( "#{name}_unsafe", **kwargs )
+            ret = send( "__#{contract_name}__#{name}_unsafe", **kwargs )
             ret
          end 
-         ## todo/fix: must add class name here!!  
-         alias_method :"#{name}_unsafe", :"#{name}"
-         alias_method :"#{name}",        :"#{name}_typed"
+
+         ## note: must add class/contract name here!!  
+         alias_method :"__#{contract_name}__#{name}_unsafe", name
+         alias_method name,  :"__#{contract_name}__#{name}"
+         if name == :constructor  ### add ERC20() or such
+            alias_method contract_name, :"__#{contract_name}__#{name}"
+         end
       end
    end
 end
