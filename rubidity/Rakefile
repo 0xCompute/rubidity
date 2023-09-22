@@ -3,9 +3,9 @@ require 'hoe'
 
 Hoe.spec 'rubidity' do
 
-  self.version =   '0.2.0'  ##Pixelart::Module::Ordgen::VERSION
+  self.version =   '0.3.0'  ##Pixelart::Module::Ordgen::VERSION
 
-  self.summary = 'Rubidity - Ruby for Layer 1 (L1) Contracts with "Off-Chain" Indexer'
+  self.summary = 'rubidity - ruby for (blockchain) layer 1 (l1) contracts / protocols with "off-chain" indexer; 100% compatible with solidity datatypes and abis'
   self.description = summary
 
   self.urls    = { home: 'https://github.com/s6ruby/rubidity' }

@@ -1,12 +1,13 @@
 # Rubidity 
 
-rubidity - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer
+rubidity - ruby for (blockchain) layer 1 (l1) contracts / protocols with "off-chain" indexer; 100% compatible with solidity datatypes and abis
 
 
 * home  :: [github.com/s6ruby/rubidity](https://github.com/s6ruby/rubidity)
 * bugs  :: [github.com/s6ruby/rubidity/issues](https://github.com/s6ruby/rubidity/issues)
 * gem   :: [rubygems.org/gems/rubidity](https://rubygems.org/gems/rubidity)
 * rdoc  :: [rubydoc.info/gems/rubidity](http://rubydoc.info/gems/rubidity)
+
 
 
 
