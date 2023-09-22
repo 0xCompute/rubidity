@@ -95,4 +95,25 @@ pp contract.balanceOf( alice )
 pp contract.balanceOf( bob )
 
 
+
+###
+#  try another "deploy" of contract
+contract2 = TestToken.create
+pp contract2
+pp contract2.serialize
+
+contract2.constructor(
+               'My Doge Token',
+               'DOG',
+               9,
+               42000000 )
+
+pp contract2.serialize
+
+##
+# check old state
+pp contract.serialize
+
+
+
 puts "bye"

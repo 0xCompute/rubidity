@@ -13,14 +13,17 @@ class ContractImplementation  < ContractBase
   def_delegators :current_transaction, :block, :tx, :esc
 
 
+
   def initialize(contract_record)
     @contract_record = contract_record
 
+    unless self.class.abi.generated?   
+       ## only generate once? double check
+       self.class.abi.generate_functions
+    end
+
     ## rename to generate_storage or such - why? why not?
     generate_state
- 
-    ## only generate once? double check
-     self.class.abi.generate_functions
   end
   
 
