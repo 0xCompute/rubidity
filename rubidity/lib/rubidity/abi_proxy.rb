@@ -20,7 +20,13 @@ class AbiProxy
       _merge_abis( parents )  
     end
   end
-  
+
+###
+##  keep a list of generated classes (only needed/possible to generatae once)
+def self.contract_classes() @classes ||= []; end
+def _contract_classes() self.class.contract_classes; end
+
+
 ## generated? - use flag to keep track of code generation (only one time needed/required)  
 def generated?() @generated; end
 def generate_functions
@@ -42,11 +48,20 @@ def _generate_functions( contract_class )
    sigs = contract_class.sigs
    puts "#{sigs.size} function signatures in #{contract_class.name}:"
    pp sigs
-   sigs.each do |name, definition|
-      Generator.typed_function( contract_class, name, 
-                                    inputs: definition[:inputs] )
+
+   ## note: only generate once for now!!!!
+   ##        maybe check later if new sigs?? possible? why? why not?
+   if _contract_classes.include?( contract_class )
+       puts "   already generated!"
+   else
+     sigs.each do |name, definition|
+        Generator.typed_function( contract_class, name, 
+                                      inputs: definition[:inputs] )
+     end
+     _contract_classes << contract_class
    end
 end
+
 
   ### todo/check -- where used? check for parent_contracts
   # def parent_contracts
