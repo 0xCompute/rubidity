@@ -116,13 +116,40 @@ class Type
   def check_and_normalize_literal( literal )
      ### todo/check - split up and move to type classes - why? why not?
 
+## fix fix fix:  allow typed passed in as literals here?
+##    if literal.is_a?(TypedVariable)
+##     raise TypeError, "Only literals can be passed to check_and_normalize_literal: #{literal.inspect}"
+##    end
+
+
     if is_a?(AddressType)
+ ##  fix fix fix: add contract support     
+ #     if literal.is_a?(ContractType::Proxy)
+ #       return literal.address
+ #     end
+ 
       unless literal.is_a?(String) && literal.match?(/\A0x[a-f0-9]{40}\z/i)
         raise_type_error(literal)
       end
       
       ## note: always downcase & freeze address - why? why not?
       return literal == ADDRESS_ZERO ? literal : literal.downcase.freeze
+    elsif is_a?( ContractType )  
+      ## elsif is_contract_type?
+      ##   uses in original. 
+      ##     def is_contract_type?
+      ##       ContractImplementation.valid_contract_types.include?(name)
+      ##     end
+    
+      ## todo/check - use a different base class for contracts - why? why not?
+      ##   fix fix fix: check matching contract type/class too - why? why not?
+       if literal.is_a?( ContractBase )
+         return literal
+       else
+         raise TypeError, "No literals allowed for contract types  got: #{literal}; sorry"
+       end
+ 
+
     elsif is_a?(Uint256Type)
       if literal.is_a?(String)
         literal = parse_integer(literal)
@@ -161,6 +188,7 @@ class Type
       end
 
       ## note: always downcase & freeze address - why? why not?
+      ##  fix - fix -fix - remove CONTRACT_ZERO - use BYTES32_ZERO - why? why not?
       return literal == CONTRACT_ZERO ? literal : literal.downcase.freeze
 
     elsif is_a?( BytesType )
@@ -227,14 +255,6 @@ class Type
       end
 
       return data    
-  ## elsif is_contract_type?
-    elsif is_a?( ContractType )
-      ## todo/check - use a different base class for contracts - why? why not?
-       if literal.is_a?( ContractBase )
-         return literal
-       else
-         raise TypeError, "No literals allowed for contract types  got: #{literal}; sorry"
-       end
     end
 
 
