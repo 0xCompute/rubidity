@@ -11,10 +11,9 @@ require 'rubidity/typed'
 
 string       =  Type.create( :string )
 address      =  Type.create( :address ) 
-dumbContract =  Type.create( :dumbContract )
-
-addressOrDumbContract =  Type.create( :addressOrDumbContract )
 ethscriptionId   =  Type.create( :ethscriptionId ) 
+bytes32      =  Type.create( :bytes32 )
+bytes      =  Type.create( :bytes )
 bool    =   Type.create( :bool ) 
 uint256 =   Type.create( :uint256 )
 int256  =   Type.create( :int256 )
@@ -22,17 +21,18 @@ datetime =  Type.create( :datetime )
 
 pp string
 pp address
-pp dumbContract
+pp bytes32
+pp bytes
 
 pp string.format
 pp address.format
-pp dumbContract.format
-pp dumbContract.is_value_type?
+pp bytes32.format
+pp bytes32.is_value_type?
 
 
 
-#=>     mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
-mapping = Type.create( :mapping, key_type: :addressOrDumbContract, 
+#=>     mapping ({ address: :uint256 }), :public, :balanceOf
+mapping = Type.create( :mapping, key_type: :address, 
                                  value_type: :uint256 )
 pp mapping
 pp mapping.format
@@ -56,7 +56,7 @@ pp t
 pp t.format
 pp t.is_value_type?
 
-t = Type.create( :mapping, key_type:   :addressOrDumbContract,
+t = Type.create( :mapping, key_type:   :address,
                            value_type: :uint256 )
 pp t
 pp t.format

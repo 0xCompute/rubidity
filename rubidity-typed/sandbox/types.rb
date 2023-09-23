@@ -54,7 +54,7 @@ pp t.zero
 
 pp t.name
 
-t = Type.create( :mapping, key_type: :addressOrDumbContract,
+t = Type.create( :mapping, key_type: :address,
                            value_type: :uint256 )
 # pp t.metadata 
 pp t.name
@@ -182,7 +182,7 @@ pp totalSupply.serialize
 
 
 
-balanceOf = TypedVariable.create :mapping, key_type:   :addressOrDumbContract,
+balanceOf = TypedVariable.create :mapping, key_type:   :address,
                                            value_type: :uint256
 
 

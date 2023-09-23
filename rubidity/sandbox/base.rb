@@ -7,7 +7,7 @@ class TestBase < ContractBase
             symbol: :string, 
             decimals: :uint256,    
             totalSupply: :uint256, 
-            balanceOf: mapping( :addressOrDumbContract, :uint256 )
+            balanceOf: mapping( :address, :uint256 )
 end  # class TestBase
   
 

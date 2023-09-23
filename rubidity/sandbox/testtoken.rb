@@ -1,15 +1,15 @@
 
 class TestToken < ContractImplementation   
   
-    event :Transfer, { from:   :addressOrDumbContract, 
-                       to:     :addressOrDumbContract, 
+    event :Transfer, { from:   :address, 
+                       to:     :address, 
                        amount: :uint256 }
 
     storage name:         :string, 
             symbol:       :string, 
             decimals:     :uint256,     
             totalSupply:  :uint256,
-            balanceOf:    mapping( :addressOrDumbContract, :uint256 )
+            balanceOf:    mapping( :address, :uint256 )
 
 
     ## or @sig constructor( string, string, uint256, uint256)
@@ -28,9 +28,9 @@ class TestToken < ContractImplementation
         puts "hello from contructor"
     end
 
-    ## or @sig transfer (addressOrDumbContract, uint256 ) public virtual returns bool
-    ## function :transfer, [:addressOrDumbContract, :uint256], :public, :virtual, returns: :bool 
-    sig :transfer, [:addressOrDumbContract, :uint256], :public, :virtual, returns: :bool
+    ## or @sig transfer (address, uint256 ) public virtual returns bool
+    ## function :transfer, [:address, :uint256], :public, :virtual, returns: :bool 
+    sig :transfer, [:address, :uint256], :public, :virtual, returns: :bool
     def transfer( to:, amount: )
         puts "[debug] transfer"
         pp @balanceOf[msg.sender]

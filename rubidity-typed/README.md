@@ -24,13 +24,17 @@ Value Types
 
 * `:string`: Text-based data. Rubidity strings are immutable (frozen).
 * `:address`: Ethereum address (in hexadecimal).
-* `:dumbContract`: A specific type of contract ID (hexadecimal).
-* `:addressOrDumbContract`: Either an Ethereum address or a specific type of contract ID.
 * `:ethscriptionId`: Unique identifiers for Ethscriptions (hexadecimal).
 * `:bool`: Boolean values (true or false).
 * `:uint256`: Unsigned 256-bit integers.
 * `:int256`: Signed 256-bit integers.
 * `:datetime`: Date and time (stored as unsigned 256-bit integers).
+
+<!--
+* `:dumbContract`: A specific type of contract ID (hexadecimal).
+* `:addressOrDumbContract`: Either an Ethereum address or a specific type of contract ID.
+-->
+
 
 Reference Types
 
@@ -46,8 +50,8 @@ Understanding these defaults is crucial for avoiding unintended behavior in your
 Here is the rundown:
 
 * **Integers (:int256, :uint256, :datetime)**: Default to `0`.
-* **Address Types (:address, :addressOrDumbContract)**: Default to a zero-address, which is `0x0000000000000000000000000000000000000000`.
-* **Contract Identifiers (:dumbContract, :ethscriptionId)**: Default to a zero-identifier, `0x0000000000000000000000000000000000000000000000000000000000000000`.
+* **Address Types (:address)**: Default to a zero-address, which is `0x0000000000000000000000000000000000000000`.
+* **Contract Identifiers (:ethscriptionId)**: Default to a zero-identifier, `0x0000000000000000000000000000000000000000000000000000000000000000`.
 * **String (:string)**: Default to an empty string `''`.
 * **Boolean (:bool)**: Default to `false`.
 * **Mapping (:mapping)**: Default to an empty mapping object. The key and value types are set according to your specifications.
@@ -65,8 +69,7 @@ Here's a brief rundown of Rubidity's type coercion rules:
 * **:uint256 and :int256**: These types accept both integer and string representations. Strings are attempted to be coerced into integers. uint256 and int256 cannot be out of the range of their Solidity counterparts.
 * **:string**: Only accepts string literals. Note: strings are immutable (frozen).
 * **:bool**: Accepts only `true` or `false`.
-* **:dumbContract and :ethscriptionId**: Accepts hexadecimal strings matching specific patterns (`0x` followed by 64 hexadecimal characters).
-* **:addressOrDumbContract**: Accepts either an address or a `:dumbContract`, again matching the relevant hexadecimal patterns.
+* **:ethscriptionId**: Accepts hexadecimal strings matching specific patterns (`0x` followed by 64 hexadecimal characters).
 * **:datetime**: Relies on `:uint256` type coercion, as it's represented as an unsigned integer internally.
 * **:mapping**: Accepts a Hash and ensures that keys and values match the specified types. Coerces these into a typed mapping object (`TypedMapping`).
 * **:array**: Accepts an array and ensures that the values match the specified type. Coerces these into a typed array object (`TypedArray`).
@@ -86,8 +89,6 @@ pp Type::TYPES
 #=> [:string,
 #    :mapping,
 #    :address,
-#    :dumbContract,
-#    :addressOrDumbContract,
 #    :ethscriptionId,
 #    :bool,
 #    :address,
@@ -100,8 +101,6 @@ pp Type::TYPES
 pp Type.value_types   ## excludes mapping & array
 #=> [:string,
 #    :address,
-#    :dumbContract,
-#    :addressOrDumbContract,
 #    :ethscriptionId,
 #    :bool,
 #    :address,
@@ -127,7 +126,7 @@ pp t.zero
 
 pp t.name
 
-t = Type.create( :mapping, key_type: :addressOrDumbContract,
+t = Type.create( :mapping, key_type: :address,
                            value_type: :uint256 )
 # pp t.metadata 
 pp t.name
@@ -235,7 +234,7 @@ pp totalSupply
 pp totalSupply.serialize
 
 
-balanceOf = TypedVariable.create :mapping, key_type:   :addressOrDumbContract,
+balanceOf = TypedVariable.create :mapping, key_type:   :address,
                                            value_type: :uint256
 
 

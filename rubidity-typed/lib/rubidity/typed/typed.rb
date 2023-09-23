@@ -1,5 +1,9 @@
 
+
 class Object   ### move to core_ext/object - why? why not?
+  ## check -  add ContractBase here too - why? why not?
+  ##           e.g. is_a?( Typed ) || is_a?( ContractBase )
+  ##             or add a TypedContract delagate class or such - why? why not?
   def typed?() is_a?( Typed ); end
 end
 
@@ -10,12 +14,15 @@ def typed( type, initial_value = nil, **kwargs)
     return type.create( initial_value )   if type.is_a?( Type )    ## already a type(def) object
 
     ## check - allow strings too (onyl symbols now) - why? why not?
+
+    ## check how to deal with :contract (only internal use) ???
+
     case type
     when :string                then  TypedString.new( initial_value )
     when :address               then  TypedAddress.new( initial_value ) 
-    when :dumbContract          then  TypedDumbContract.new( initial_value )
-    when :addressOrDumbContract then  TypedAddressOrDumbContract.new( initial_value ) 
     when :ethscriptionId        then  TypedEthscriptionId.new( initial_value )
+    when :bytes32               then  TypedBytes32.new( initial_value )
+    when :bytes                 then  TypedBytes.new( initial_value )
     when :bool                  then  TypedBool.new( initial_value ) 
     when :uint256               then  TypedUint256.new( initial_value )
     when :int256                then  TypedInt256.new( initial_value )
@@ -58,7 +65,7 @@ end  # class Typed
 class TypedVariable  < Typed   ## old "legacy" class for create - do NOT use  
   def self.create(  type, initial_value = nil, **kwargs ) 
      typed( type, initial_value, **kwargs ); 
-   end
+  end
 end # class TypedVariable
 
 
@@ -78,13 +85,9 @@ class TypedValue < TypedVariable
   def replace(new_value)
     @value = if new_value.is_a?( Typed )
                if new_value.type != type
-                 if type.is_a?( AddressOrDumbContractType ) &&
-                     (new_value.type.is_a?( AddressType ) ||
-                      new_value.type.is_a?( DumbContractType ))           
-                   new_value.value
-                 else
+                ## todo/check: add special handing for contracts here 
+                ##                 why? why not?
                    raise TypeError, "expected type #{type}; got #{new_value.type} : #{new_value.value}"
-                 end
                end
                new_value.value
             else
@@ -120,10 +123,10 @@ class TypedReference < TypedVariable
         other.is_a?(self.class) &&
         type == other.type &&
         data == other.data 
-      end
+    end
       
-      def hash()       [data, type].hash; end
-      def eql?(other)  hash == other.hash;  end
+    def hash()       [data, type].hash; end
+    def eql?(other)  hash == other.hash;  end
 end 
 
 
@@ -159,21 +162,6 @@ class TypedAddress < TypedValue
    end
 end   # class TypedAddress
 
-class TypedDumbContract < TypedValue
-    def type() DumpContractType.instance; end  
-  
-    def initialize( initial_value = nil)
-       replace( initial_value || type.zero )
-    end 
-end  # class TypedDumbContract
-
-class TypedAddressOrDumbContract < TypedValue
-    def type() AddressOrDumbContractType.instance; end  
-  
-    def initialize( initial_value = nil)
-       replace( initial_value || type.zero )
-    end 
-end  # class TypedAddressOrDumbContract
 
 class TypedEthscriptionId < TypedValue
     def type() EthscriptionIdType.instance; end  
@@ -182,7 +170,27 @@ class TypedEthscriptionId < TypedValue
        replace( initial_value || type.zero )
     end 
 end  # class TypedEthscriptionId
-   
+
+
+
+class TypedBytes32 < TypedValue
+  def type() Bytes32Type.instance; end  
+
+  def initialize( initial_value = nil )
+    replace( initial_value || type.zero )
+  end
+end
+
+class TypedBytes < TypedValue
+  def type() BytesType.instance; end  
+
+  def initialize( initial_value = nil )
+    replace( initial_value || type.zero )
+  end
+end
+
+
+
 class TypedBool < TypedValue
     def type() BoolType.instance; end  
   
@@ -241,33 +249,4 @@ end  # class TypedDatetime
 
 
 
-
-
-
-__END__
-  
-  def method_missing(name, *args, &block)
-    if value.respond_to?(name)
-      result = value.send(name, *args, &block)
-      
-      if result.class == value.class
-        result = type.check_and_normalize_literal(result)
-      end
-      
-      if name.to_s.end_with?("=") && !%w[>= <=].include?(name.to_s[-2..])
-        self.value = result if type.is_value_type?
-        self
-      else
-        result
-      end
-    else
-      binding.pry
-      super
-    end
-  end
-
-  def respond_to_missing?(name, include_private = false)
-    value.respond_to?(name, include_private) || super
-  end
-  
   

@@ -35,10 +35,10 @@ def test_create
     assert      !t != t2
 end
 
-def test_addressOrDumbContract
-    a1 = Type.create( :addressOrDumbContract )
+def test_address
+    a1 = Type.create( :address )
     pp a1
-    a2 = Type.create( :addressOrDumbContract )
+    a2 = Type.create( :address )
     pp a2
 
     assert_equal a1.class, a2.class

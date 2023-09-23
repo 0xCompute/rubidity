@@ -8,13 +8,19 @@ class TypedArray < TypedReference
     attr_reader :type 
     def sub_type() @type.sub_type; end
 
-   def initialize( initial_value = nil, sub_type: )
-    @type = ArrayType.instance( sub_type )
-    unless @type.sub_type.is_value_type?
-      raise ArgumentError, "Only value types for array elements supported for now; sorry" 
-    end
 
-    replace( initial_value || [] )            
+  def initialize( initial_value = nil, sub_type: )
+    ## add convenience sub_type helper here - why? why not?
+      sub_type = Type.create( sub_type )  if sub_type.is_a?( Symbol ) ||
+                                             sub_type.is_a?( String )
+
+      unless sub_type.is_value_type?
+        raise ArgumentError, "Only value types for array elements supported for now; sorry" 
+      end
+
+      @type = ArrayType.instance( sub_type )
+ 
+      replace( initial_value || [] )            
   end
   def zero?() @data == []; end  ## use @data.empty? - why? why not?
 

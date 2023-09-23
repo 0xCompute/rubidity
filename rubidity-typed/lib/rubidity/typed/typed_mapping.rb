@@ -9,6 +9,12 @@ class TypedMapping < TypedReference
     def value_type() @type.value_type; end
 
     def initialize( initial_value = nil, key_type:, value_type: )
+      key_type   = Type.create( key_type )    if key_type.is_a?( Symbol ) ||
+                                                 key_type.is_a?( String )
+      value_type = Type.create( value_type )  if value_type.is_a?( Symbol ) ||
+                                                 value_type.is_a?( String )
+
+
       @type = MappingType.instance(  key_type, value_type )
       # puts
       # puts "[debug] TypedMapping#initialize - #{type.inspect}, #{value.inspect}"
@@ -33,7 +39,7 @@ class TypedMapping < TypedReference
                         ]
                       end.to_h
                 end
-      end
+    end
 
       ## change to ref or reference - why? why not?
       ##  or better remove completely? why? why not?
@@ -46,7 +52,7 @@ class TypedMapping < TypedReference
   ## add more Hash forwards here!!!!
   def_delegators :@data, :size, :empty?, :clear
 
-   def [](key)
+  def [](key)
     puts "[debug] TypedMapping#[]( #{key} )"
     key_var =  key.is_a?( Typed ) ? key : key_type.create( key )
     obj = @data[key_var]

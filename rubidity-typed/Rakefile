@@ -3,7 +3,7 @@ require 'hoe'
 
 Hoe.spec 'rubidity-typed' do
 
-  self.version =   '0.2.0'  ##Pixelart::Module::Ordgen::VERSION
+  self.version =   '0.4.0'  ##Pixelart::Module::Ordgen::VERSION
 
 
   self.summary = 'rubidity-typed - "zero-dependency" type machinery incl. (frozen) string, address, uint256, contract and more for rubidity - ruby for layer 1 (l1) contracts with "off-chain" indexer'

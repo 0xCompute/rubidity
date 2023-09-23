@@ -46,7 +46,7 @@ pp totalSupply.serialize
 
 
 
-balanceOf = TypedMapping.new key_type: :addressOrDumbContract,
+balanceOf = TypedMapping.new key_type: :address,
                              value_type: :uint256
 
 
@@ -79,6 +79,17 @@ pp balanceOf.serialize
 
 balanceOf.deserialize( {} )
 pp balanceOf.serialize
+
+
+
+b = TypedBytes.new
+pp b
+
+b = TypedBytes.new( '0x00AABB')
+pp b
+
+b = TypedBytes32.new
+pp b
 
 
 

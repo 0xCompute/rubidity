@@ -1,5 +1,13 @@
 
 
+## note:
+##   make bytes a reference type?
+##     bytes NOT like string frozen?
+##    more like a stringbuffer / bytesbuffer - 
+##   double check if "in-place" updates to value possible!!!
+
+
+
 class Type
      ## change format to type or typesig/type_sig 
      ##       or sig or signature or typespec   - why? why not?   
@@ -24,11 +32,15 @@ class Type
 
 
 
-    TYPES = [:string,  :address, :dumbContract,
-             :addressOrDumbContract, :ethscriptionId,
-             :bool, :address, :uint256, :int256, :datetime,
-             :array, :mapping]
 
+    TYPES = [:string,  
+             :address, :ethscriptionId,
+             :bytes32, :bytes,
+             :bool, 
+             :uint256, :int256, 
+             :datetime,
+             :array, :mapping]
+            
              
   TYPES.each do |type|  ## legacy - use classes e.g is_a?( ArrayType ) - why? why not?
      define_method( "#{type}?" ) do
@@ -43,13 +55,11 @@ class Type
   def self.value_types
     ## note: use shared single (type) instances
     [:string,   
-     :address,
-     :dumbContract,
-     :addressOrDumbContract,
-     :ethscriptionId,
+     :address, :ethscriptionId,
+     :bytes32,
+     :bytes,   ### fix: see notes on bytes - is dynamic?? (reference value) double-check!!
      :bool,
-     :uint256,
-     :int256, 
+     :uint256, :int256, 
      :datetime, 
     ]
   end
@@ -63,9 +73,9 @@ class Type
     case type_name
     when :string                 then StringType.instance   ## share single (type) instance
     when :address                then AddressType.instance
-    when :dumbContract           then DumbContractType.instance
-    when :addressOrDumbContract  then AddressOrDumbContractType.instance 
     when :ethscriptionId         then EthscriptionIdType.instance
+    when :bytes32                then Bytes32Type.instance
+    when :bytes                  then BytesType.instance
     when :bool                   then BoolType.instance 
     when :uint256                then Uint256Type.instance 
     when :int256                 then Int256Type.instance 
@@ -85,8 +95,6 @@ class Type
   end
 
 
-
-
  
   def raise_type_error(literal)
     ## change to typeerror or such - why? why not?
@@ -99,8 +107,8 @@ class Type
     
     begin
       Integer(literal, base)
-    rescue ArgumentError => e
-      raise_type_error(literal)
+    rescue ArgumentError 
+      raise_type_error( literal )
     end
   end
 
@@ -109,7 +117,7 @@ class Type
      ### todo/check - split up and move to type classes - why? why not?
 
     if is_a?(AddressType)
-      unless literal.is_a?(String) && literal.match?(/^0x[a-f0-9]{40}$/i)
+      unless literal.is_a?(String) && literal.match?(/\A0x[a-f0-9]{40}\z/i)
         raise_type_error(literal)
       end
       
@@ -147,26 +155,37 @@ class Type
       end
       
       return literal
-    elsif is_a?( DumbContractType ) || is_a?( EthscriptionIdType )
-      unless literal.is_a?(String) && literal.match?(/^0x[a-f0-9]{64}$/i)
+    elsif is_a?( EthscriptionIdType ) || is_a?( Bytes32Type )
+      unless literal.is_a?(String) && literal.match?(/\A0x[a-f0-9]{64}\z/i)
         raise_type_error(literal)
       end
 
       ## note: always downcase & freeze address - why? why not?
       return literal == CONTRACT_ZERO ? literal : literal.downcase.freeze
-    elsif is_a?( AddressOrDumbContractType )
-      unless literal.is_a?(::String) && (literal.match?(/^0x[a-f0-9]{64}$/i) || literal.match?(/^0x[a-f0-9]{40}$/i))
-        raise_type_error(literal)
-      end
 
-      ## note: always downcase & freeze address - why? why not?
-      return [ADDRESS_ZERO, CONTRACT_ZERO].include?( literal ) ? literal : literal.downcase.freeze
+    elsif is_a?( BytesType )
+      ## note:  assume empty string is bytes literal!!!
+      if literal.is_a?(String) && literal.length == 0
+        return literal
+      end
+      
+      unless literal.is_a?(String) && 
+              literal.match?(/\A0x[a-fA-F0-9]*\z/)  && 
+              literal.size.even?
+        raise_type_error( literal )
+      end
+      
+      ##
+      ##  check if dynamic? (like bytebuffer) - freeze? why? why not?
+      return literal.downcase
+
+
     elsif is_a?( DatetimeType )
       dummy_uint = Uint256.instance
       
       begin
         return dummy_uint.check_and_normalize_literal(literal)
-      rescue TypeError => e
+      rescue TypeError   ## TypeError => e
         raise_type_error(literal)
       end
     elsif is_a?( MappingType )
@@ -207,9 +226,18 @@ class Type
         sub_type.check_and_normalize_literal( value )
       end
 
-      return data
+      return data    
+  ## elsif is_contract_type?
+    elsif is_a?( ContractType )
+      ## todo/check - use a different base class for contracts - why? why not?
+       if literal.is_a?( ContractBase )
+         return literal
+       else
+         raise TypeError, "No literals allowed for contract types  got: #{literal}; sorry"
+       end
     end
-    
+
+
     raise TypeError, "invalid type; expected #{self.format}; got #{literal.inspect}"
   end
 
@@ -288,52 +316,11 @@ class AddressType < ValueType
 end
 
 
+
+
 CONTRACT_ZERO = ('0x'+'0'*64).freeze 
 DUMP_CONTRACT_ZERO = DUMPCONTRACT_ZERO = CONTRACT_ZERO
 ETHSCRIPTION_ID_ZERO = ETHSCRIPTIONID_ZERO = CONTRACT_ZERO
-class DumbContractType < ValueType
-    def name() :dumbContract; end
-    def format() 'dumbContract'; end
-    def ==(other)  other.is_a?( DumbContractType ); end
-    def zero() CONTRACT_ZERO; end
-    
-    alias_method :to_s,          :format
-    alias_method :default_value, :zero
-
-    def self.instance()  @instance ||= new; end
-
-    #####
-    #  add create helper - why? why not?    
-    def create( initial_value=CONTRACT_ZERO ) TypedDumbContract.new( initial_value ); end 
-end
-
-
-
-class AddressOrDumbContractType < ValueType  ## note: use "generic" "union" type???
-    def name() :addressOrDumbContract; end
-    def format() 'addressOrDumbContract'; end
-   
-## todo: check what to do for AddressOrDumbContract
-##       allow union? (e.g. Address and DumbContract) too
-##            or only AddressOrDumbContract???
-      def ==(other)
-        other.is_a?( AddressOrDumbContractType ) 
-        ##  other.is_a?( AddressOrDumbContractType ) ||
-        ##  other.is_a?( AddressType ) || 
-        ##  other.is_a?( DumbContractType ) 
-      end
-    def zero()  ADDRESS_ZERO;  end  # note: default is address(0)
-    
-    alias_method :to_s,          :format
-    alias_method :default_value, :zero
-
-    def self.instance()  @instance ||= new; end
-
-    #####
-    #  add create helper - why? why not?    
-    def create( initial_value=ADDRESS_ZERO ) TypedAddressOrDumbContract.new( initial_value ); end 
-end
-
 
 class EthscriptionIdType < ValueType      ## todo/check: rename to inscripeId or inscriptionId
     def name() :ethscriptionId; end
@@ -350,6 +337,42 @@ class EthscriptionIdType < ValueType      ## todo/check: rename to inscripeId or
     #  add create helper - why? why not?    
     def create( initial_value=ETHSCRIPTION_ID_ZERO ) TypedEthscriptionId.new( initial_value ); end 
 end
+
+
+class Bytes32Type < ValueType  
+  def name() :bytes32; end
+  def format() 'bytes32'; end
+  def ==(other)  other.is_a?( Bytes32Type ); end
+  def zero()  ETHSCRIPTION_ID_ZERO; end
+  
+  alias_method :to_s,          :format
+  alias_method :default_value, :zero
+
+  def self.instance()  @instance ||= new; end
+
+  #####
+  #  add create helper - why? why not?    
+  def create( initial_value=ETHSCRIPTION_ID_ZERO ) TypedBytes32.new( initial_value ); end 
+end
+
+
+BYTES_ZERO = String.new().freeze   ## string with binary encoding
+class BytesType < ValueType       ### fix: see comments above - is bytes dynamic? or frozen?
+  def name() :bytes; end
+  def format() 'bytes'; end
+  def ==(other)  other.is_a?( BytesType ); end
+  def zero()  BYTES_ZERO; end
+  
+  alias_method :to_s,          :format
+  alias_method :default_value, :zero
+
+  def self.instance()  @instance ||= new; end
+
+  #####
+  #  add create helper - why? why not?    
+  def create( initial_value=BYTES_ZERO ) TypedBytes.new( initial_value ); end 
+end
+
 
 
 class BoolType < ValueType
@@ -480,17 +503,60 @@ class MappingType < ReferenceType
     def create( initial_value={} ) TypedMapping.new( initial_value, key_type: key_type,
                                                          value_type: value_type ); end 
 end # class MappingType
+
+
+
+
+## todo/check
+##    keep (internal) contract type??
+##      -  raise error on create?  
+##      - check what operations to support
+##      - is like address (value type??)
+
+
+
+class ContractType < ValueType
+  attr_reader :contract_type
+  ## note: assume for now contract_type is a (contract) class!!!!!
+  def initialize( contract_type )
+    raise ArgumentError, "[ContractType#initialize] class expected for contract_type arg"  unless contract_type.is_a?( Class )
+    @contract_type = contract_type
+  end
+
+  def name() :contract; end
+  def format() "contract(#{@contract_type.name})"; end
+ 
+  def ==(other)
+    other.is_a?( ContractType ) && 
+    @contract_type  == other.contract_type
+  end
+
+  ## fix!! double check - what to return/use here?
+  def zero 
+    ##  CONTRACT_ZERO; 
+    ##  TypedMapping.new( key_type: @key_type, value_type: @value_type )    
+     ## not possible??
+     raise NameError, "no method zero for ContractType; sorry"
+  end
   
+  alias_method :to_s,          :format
+  alias_method :default_value, :zero
 
 
-
+  def self.instance( contract_type ) 
+    raise ArgumentError, "[ContractType.insntance] class expected for contract_type arg"  unless contract_type.is_a?( Class )
+    @instances ||= {}
+    @instances[ contract_type.name ] ||= new( contract_type ) 
+  end
 
 #####
-#  todo/check:   use AddressType.try_convert( literal_or_obj ) or such - why? why not?
+#  add create helper - why? why not?
+   ## add support with passed in address - why? why not?    
+   def create( initial_value ) 
+     raise NameError, "no method create for ContractType; sorry"
+   end
+end  # class ContractType
 
-def address( literal='0' )
-  ## hack for now support  address(0) 
-  ##  todo/fix:  address( '0x0' ) too!!!!
-  literal = ADDRESS_ZERO     if literal.is_a?(Integer) && literal == 0
-  AddressType.instance.check_and_normalize_literal( literal )
-end  # methdod address 
+
+
+

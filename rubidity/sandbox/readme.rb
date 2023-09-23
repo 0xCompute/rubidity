@@ -4,15 +4,15 @@ require_relative 'helper'
 
 class TestToken < ContractImplementation    
  
-    event :Transfer, { from:   :addressOrDumbContract, 
-                       to:     :addressOrDumbContract, 
+    event :Transfer, { from:   :address, 
+                       to:     :address, 
                        amount: :uint256 }
  
     storage  name:        :string, 
              symbol:      :string, 
              decimals:    :uint256,      
              totalSupply: :uint256, 
-             balanceOf:    mapping( :addressOrDumbContract, :uint256 )
+             balanceOf:    mapping( :address, :uint256 )
 
 
     sig :constructor, [:string, :string, :uint256, :uint256]
@@ -28,7 +28,7 @@ class TestToken < ContractImplementation
         @balanceOf[msg.sender] = totalSupply
     end
 
-    sig :transfer, [:addressOrDumbContract, :uint256], :public, :virtual, returns: :bool 
+    sig :transfer, [:address, :uint256], :public, :virtual, returns: :bool 
     def transfer( to:, 
                   amount: )
         assert @balanceOf[msg.sender] >= amount, 'Insufficient balance'
@@ -44,7 +44,7 @@ end  # class TestToken
 
 
 pp TestToken.state_variable_definitions
-## pp TestToken.parent_contracts 
+pp TestToken.parent_contracts 
 pp TestToken.events 
 pp TestToken.is_abstract_contract
 

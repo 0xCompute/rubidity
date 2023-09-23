@@ -8,7 +8,7 @@ $LOAD_PATH.unshift( "./lib" )
 require 'rubidity/typed'
 
 
-balanceOf  = TypedMapping.new( key_type: :addressOrDumbContract,
+balanceOf  = TypedMapping.new( key_type:   :address,
                                value_type: :uint256 )
 
 t = balanceOf.type                      

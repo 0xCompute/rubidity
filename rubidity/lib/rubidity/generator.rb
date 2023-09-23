@@ -212,7 +212,7 @@ def self.mapping_getter_function( contract_class, name, type,
     puts "    arguments:"
     pp   arguments
     puts "    index: #{index}"
-# {:arg0=>:addressOrDumbContract}
+# {:arg0=>:address}
 #    index: 1
   
       contract_class.class_eval do

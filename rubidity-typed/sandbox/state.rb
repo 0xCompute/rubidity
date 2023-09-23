@@ -60,7 +60,7 @@ statevars = [
   [:symbol,      TypedVariable.create( :string )],
   [:decimals,    TypedVariable.create( :uint256 )],    
   [:totalSupply, TypedVariable.create( :uint256 )],
-  [:balanceOf,   TypedVariable.create( :mapping, key_type: :addressOrDumbContract,
+  [:balanceOf,   TypedVariable.create( :mapping, key_type: :address,
                                                  value_type: :uint256) ],
 ]
 
