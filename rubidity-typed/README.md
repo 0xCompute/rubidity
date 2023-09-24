@@ -92,8 +92,8 @@ require 'rubidity/typed'
 #   frozen (immutable ) value types
 
 
-## note: (typed) strings always use utf-8 encoding AND
-##               are frozen/immutable!!!
+#  note: (typed) strings always use utf-8 encoding AND
+#               are frozen/immutable!!!
 a = TypedString.new                    #=> <val string:"">
 a = TypedString.new( "hello, world!" ) #=> <val string:"hello, world!">
 
@@ -103,23 +103,23 @@ a = TypedUint256.new(100)              #=> <val uint256:100>
 a += 100                               #=> <val uint256:200>
 a -= 100                               #=> <val uint256:100>
 
-## use/add TypedNat(ural) (natural integer number) alias - why? why not?
-##   check if natural numbers start at 0 (or exclude 0 ????)
+#  use/add TypedNat(ural) (natural integer number) alias - why? why not?
+#    check if natural numbers start at 0 (or exclude 0 ????)
 
 a = TypedInt.new                       #=> <val int256:0>
 a = TypedInt.new( 100 )                #=> <val int256:100>
 a += 100                               #=> <val int256:200>
 a -= 100                               #=> <val int256:100>
 
-##
-## idea  - use "plain" integer as TypedInt - why? why not?
+# 
+#  idea  - use "plain" integer as TypedInt - why? why not?
 
 
 a  = TypedBool.new                    #=> <val bool:false>
 a  = TypedBool.new( true )            #=> <val bool:true>
 
-##
-## idea - use "plain" true|false  as TypedBool (frozen|typed)
+# 
+#  idea - use "plain" true|false  as TypedBool (frozen|typed)
 
 
 a = TypedAddress.new
@@ -141,18 +141,18 @@ a = TypedBytes32.new( '0x'+'ab'*32 )
 
 a = TypedDatetime.new               #=> <val datetime:0>
 
-## use/change/rename to Timestamp - why? why not?
-##   ALWAYS uses epoch time starting at 0 (no time zone or such)
+#  use/change/rename to Timestamp - why? why not?
+#    ALWAYS uses epoch time starting at 0 (no time zone or such)
 
 
 
-###
-## todo/check:  is bytes a (mutabale)bytebuffer or a frozen/immutable?
+#
+#  todo/check:  is bytes a (mutabale)bytebuffer or a frozen/immutable?
 a = TypedBytes.new                 #=> <val bytes:""> 
 
 
 ###########################
-### reference types
+# reference types
 
 a = TypedArray.new( sub_type: :string )
 #=> <ref string[]:[]>
@@ -172,8 +172,8 @@ a[4]                  #=> <val string:"four">
 a.length              #=> 5
 a.serialize           #=> ["zero", "one", "two", "three", "four"]
 
-## todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
-##                 use special unicode-chars for <>??
+#  todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
+#                  use special unicode-chars for <>??
 
 a = TypedArray.new( sub_type: :uint256 )
 #=> <ref uint256[]:[]>
@@ -193,8 +193,8 @@ a[4]               #=> <val uint256:4>
 a.length           #=> 5
 a.serialize        #=> [0, 1, 2, 3, 4]
 
-## todo/check:  add a "convenience" TypedUintArray or TypedArray<Uint>
-##                 use special unicode-chars for <>??
+#  todo/check:  add a "convenience" TypedUintArray or TypedArray<Uint>
+#                  use special unicode-chars for <>??
 
 
 alice   = '0x'+ 'aa'*20

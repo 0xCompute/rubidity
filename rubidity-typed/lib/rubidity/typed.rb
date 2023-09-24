@@ -9,6 +9,7 @@ class ContractBase
 end
    
 ## our own code
+require_relative 'typed/version'
 require_relative 'typed/types'
 require_relative 'typed/typed'
 require_relative 'typed/typed_array'
@@ -25,3 +26,6 @@ def address( literal='0' )
     AddressType.instance.check_and_normalize_literal( literal )
 end  # methdod address 
   
+
+
+puts Rubidity::Module::Typed.banner    ## say hello

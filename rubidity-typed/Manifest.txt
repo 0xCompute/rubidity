@@ -7,3 +7,4 @@ lib/rubidity/typed/typed.rb
 lib/rubidity/typed/typed_array.rb
 lib/rubidity/typed/typed_mapping.rb
 lib/rubidity/typed/types.rb
+lib/rubidity/typed/version.rb
