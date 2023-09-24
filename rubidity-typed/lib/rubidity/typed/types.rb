@@ -209,7 +209,7 @@ class Type
 
 
     elsif is_a?( DatetimeType )
-      dummy_uint = Uint256.instance
+      dummy_uint = Uint256Type.instance
       
       begin
         return dummy_uint.check_and_normalize_literal(literal)

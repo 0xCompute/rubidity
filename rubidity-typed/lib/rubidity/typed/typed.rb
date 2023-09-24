@@ -236,7 +236,15 @@ class TypedInt256 < TypedValue
        replace( initial_value || type.zero )
     end 
 
+    include Comparable
+    def <=>(other)  @value <=> other.to_int; end
+
+    def +(other ) TypedInt256.new( @value + other.to_int); end
+    def -(other)  TypedInt256.new( @value - other.to_int); end
+
+
     def to_int() @value; end  ## "automagilally" support implicit integer conversion - why? why not?
+    def to_i() @value; end
 end  # class TypedInt256
     
 class TypedDatetime < TypedValue

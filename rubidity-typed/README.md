@@ -76,197 +76,153 @@ Here's a brief rundown of Rubidity's type coercion rules:
 
 
 
+
 ## Usage
 
 
-Let's try some random low-level use:
+Let's try some random use:
+
+
 
 
 ``` ruby
 require 'rubidity/typed'
 
-pp Type::TYPES
-#=> [:string,
-#    :mapping,
-#    :address,
-#    :ethscriptionId,
-#    :bool,
-#    :address,
-#    :uint256,
-#    :int256,
-#    :array,
-#    :datetime]
+#####################################
+#   frozen (immutable ) value types
 
 
-pp Type.value_types   ## excludes mapping & array
-#=> [:string,
-#    :address,
-#    :ethscriptionId,
-#    :bool,
-#    :address,
-#    :uint256,
-#    :int256,
-#    :datetime]
+## note: (typed) strings always use utf-8 encoding AND
+##               are frozen/immutable!!!
+a = TypedString.new                    #=> <val string:"">
+a = TypedString.new( "hello, world!" ) #=> <val string:"hello, world!">
 
 
+a = TypedUint256.new                   #=> <val uint256:0>
+a = TypedUint256.new(100)              #=> <val uint256:100>
+a += 100                               #=> <val uint256:200>
+a -= 100                               #=> <val uint256:100>
+
+## use/add TypedNat(ural) (natural integer number) alias - why? why not?
+##   check if natural numbers start at 0 (or exclude 0 ????)
+
+a = TypedInt.new                       #=> <val int256:0>
+a = TypedInt.new( 100 )                #=> <val int256:100>
+a += 100                               #=> <val int256:200>
+a -= 100                               #=> <val int256:100>
+
+##
+## idea  - use "plain" integer as TypedInt - why? why not?
 
 
-t = Type.create( :string )
-pp t
-t = Type.create( :string )
-pp t
-t = Type.create( :string )
-pp t
+a  = TypedBool.new                    #=> <val bool:false>
+a  = TypedBool.new( true )            #=> <val bool:true>
 
-t = Type.create( :address )
-pp t
-pp t.default_value
-pp t.zero
+##
+## idea - use "plain" true|false  as TypedBool (frozen|typed)
 
 
-pp t.name
-
-t = Type.create( :mapping, key_type: :address,
-                           value_type: :uint256 )
-# pp t.metadata 
-pp t.name
-pp t.format
-pp t.key_type 
-pp t.value_type
+a = TypedAddress.new
+#=> <val address:"0x0000000000000000000000000000000000000000">
+a = TypedAddress.new( '0x'+ 'aa'*20 )
+#=> <val address:"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
 
 
-pp t.address?
-pp t.array?
-pp t.mapping?
-pp t.uint256?
-pp t.string?
+a = TypedEthscriptionId.new
+#=> <val ethscriptionId:"0x0000000000000000000000000000000000000000000000000000000000000000">
+a = TypedEthscriptionId.new( '0x'+'ab'*32 )
+#=> <val ethscriptionId:"0xabababababababababababababababababababababababababababababababab">
 
 
-t = StringType.instance 
-pp t
-pp t.format
-pp t.to_s
-pp t.name
-pp t.inspect
+a = TypedBytes32.new
+#=> <val bytes32:"0x0000000000000000000000000000000000000000000000000000000000000000">
+a = TypedBytes32.new( '0x'+'ab'*32 )
+#=> <val bytes32:"0xabababababababababababababababababababababababababababababababab">
 
-t = BoolType.instance
-pp t    ## uses t.pretty_print_inspect
-p  t    ## uses t.inspect
-pp t.format
-pp t.to_s
-pp t.name
-pp t.zero
-pp t.default_value
+a = TypedDatetime.new               #=> <val datetime:0>
 
-puts "hash:"
-pp t.hash
-pp t.hash
-pp t.hash
-pp t.inspect
-pp t.is_value_type?
-pp t.bool?
-pp t.uint256?
-
-pp BoolType.instance == BoolType.instance
-pp BoolType.instance == Uint256Type.instance
+## use/change/rename to Timestamp - why? why not?
+##   ALWAYS uses epoch time starting at 0 (no time zone or such)
 
 
 
-str  =  TypedVariable.create(:string, 'hello, world!')
-pp str
-pp str.type
-pp str.value
-pp str.value.frozen?
-
-str  =  TypedVariable.create(:string )
-pp str
-pp str.type
-pp str.value
-pp str.value.frozen?
-
-addr =  TypedVariable.create(:address)  ## zero(0) / default address
-pp addr
-pp addr.type
-pp addr.value
-pp addr.value.frozen?
-
-pp ADDRESS_ZERO
-pp ADDRESS_ZERO.frozen?
+###
+## todo/check:  is bytes a (mutabale)bytebuffer or a frozen/immutable?
+a = TypedBytes.new                 #=> <val bytes:""> 
 
 
+###########################
+### reference types
 
-name   = TypedVariable.create( :string ) 
-symbol = TypedVariable.create( :string ) 
+a = TypedArray.new( sub_type: :string )
+#=> <ref string[]:[]>
+a.type    #=> <type string[]>
 
-pp name
-pp name.type
-pp name.value
-pp name.downcase
-pp name.index( 'hello' )
+a = TypedArray.new( ['zero', 'one', 'two'], sub_type: :string )
+#=>  <ref string[]:
+#       [<val string:"zero">, <val string:"one">, <val string:"two">]>
+a[0]                  #=> <val string:"zero">
+a[1]                  #=> <val string:"one">
+a[2]                  #=> <val string:"two"> 
+a.length              #=> 3
+a.push( 'three' )
+a[3]                  #=> <val string:"three">
+a[4] = 'four'
+a[4]                  #=> <val string:"four">
+a.length              #=> 5
+a.serialize           #=> ["zero", "one", "two", "three", "four"]
 
+## todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
+##                 use special unicode-chars for <>??
 
-puts
-pp symbol
-pp symbol.type
-pp symbol.value
+a = TypedArray.new( sub_type: :uint256 )
+#=> <ref uint256[]:[]>
+a.type             #=> <type uint256[]>
 
-name.value = 'hello'
-pp name
-pp name.value
-pp name.value.frozen?
+a = TypedArray.new( [0,1,2], sub_type: :uint256 )
+#=> <ref uint256[]:
+#      [<val uint256:0>, <val uint256:1>, <val uint256:2>]> 
+a[0]               #=> <val uint256:0>
+a[1]               #=> <val uint256:1>
+a[2]               #=> <val uint256:2>
+a.length           #=> 3
+a.push( 3 )
+a[3]               #=> <val uint256:3>
+a[4] = 4
+a[4]               #=> <val uint256:4>
+a.length           #=> 5
+a.serialize        #=> [0, 1, 2, 3, 4]
 
-puts "symbol:<" + symbol + ">- name:<" + name + ">"
-puts "symbol:<#{symbol}>- name:<#{name}>"
-
-
-
-decimals     = TypedVariable.create( :uint256 )
-totalSupply  = TypedVariable.create( :uint256 )
-pp decimals
-pp totalSupply
-
-decimals.value = 18
-totalSupply.value = 21000000
-
-
-pp decimals
-pp totalSupply
-pp totalSupply.serialize
-
-
-balanceOf = TypedVariable.create :mapping, key_type:   :address,
-                                           value_type: :uint256
-
-
-pp balanceOf
-
+## todo/check:  add a "convenience" TypedUintArray or TypedArray<Uint>
+##                 use special unicode-chars for <>??
 
 
-balanceOf.value['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 21000000
-balanceOf['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 21000000
+alice   = '0x'+ 'aa'*20
+bob     = '0x'+ 'bb'*20
+charlie = '0x'+ 'cc'*20
 
-pp balanceOf
+a = TypedMapping.new( key_type: :address, value_type: :uint256 )
+#=> <ref mapping(address=>uint256):{}>
+a.type                #=> <type mapping(address=>uint256)>
 
+a = TypedMapping.new( { alice   =>  100,
+                        bob     =>  200 },
+                       key_type: :address, value_type: :uint256 )
+#=> <ref mapping(address=>uint256):
+#     {<val address:"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">=><val uint256:100>, 
+#      <val address:"0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb">=><val uint256:200>}>
 
-old_state = balanceOf.serialize
-puts old_state.class.name  
-#=> Hash
+a[ alice ]            #=> <val uint256:100>
+a[ bob ]              #=> <val uint256:200> 
+a[ charlie ]          #=> <val uint256:0>
+a[ charlie ] = 300
+a[ charlie ]          #=> <val uint256:300>
 
+a.serialize
+#=> {"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"=>100,
+#    "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"=>200,
+#    "0xcccccccccccccccccccccccccccccccccccccccc"=>300}
 
-balanceOf['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 0
-pp balanceOf.serialize
-
-puts "old_state:"
-pp old_state
-
-balanceOf.value = old_state
-
-
-pp balanceOf.serialize
-
-
-balanceOf.deserialize( {} )
-pp balanceOf.serialize
 ```
 
 
