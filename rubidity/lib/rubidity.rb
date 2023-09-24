@@ -48,12 +48,22 @@ end
 
 class ContractImplementation
     def self.create
-
-        abi = self.public_abi   ## hack: abi now used for "merged" state/events/ etc.
-
-        puts "[debug] Contract.create  - klass -> #{self.name}"
+        puts "[debug] Contract.create  - class -> #{self.name}"
         rec = ContractRecord.new( self )
         new( rec ) 
+    end
+
+    def self.construct( *args, **kwargs )
+      ## todo/fix: check either args or kwargs MUST be empty
+      ##   can only use one format
+      puts "[debug] Contract.construct  - class -> #{self.name}"
+      puts "           args: #{args.inspect}"      unless args.empty?
+      puts "           kwargs: #{kwargs.inspect}"  unless kwargs.empty?
+
+      rec = ContractRecord.new( self )
+      contract = new( rec )
+      contract.constructor( *args, **kwargs )
+      contract
     end
 end  # class ContractImplementation
   

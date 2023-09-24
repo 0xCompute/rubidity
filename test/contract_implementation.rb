@@ -2,7 +2,7 @@
 class ERC20Receiver < ERC20
   sig :constructor, []
   def constructor
-    ERC20( name: "bye", symbol: "B", decimals: 18 )
+    super( name: "bye", symbol: "B", decimals: 18 )
   end
 end
 
@@ -10,7 +10,7 @@ end
 class ERC20Minimal < ERC20
   sig :constructor, [:string, :string, :uint256] 
   def constructor(name:, symbol:, decimals: ) 
-    ERC20( name: name, symbol: symbol, decimals: decimals )
+    super( name: name, symbol: symbol, decimals: decimals )
   end
 end
 
@@ -47,9 +47,11 @@ class Receiver < ContractImplementation
   def receiveCall
     log :MsgSender, sender: msg.sender
     
-    block.number
+    ## block.number
+    888   ## fix: change back to block.number!!!
   end
   
+
   sig :_internalCall, []
   def _internalCall
   end
@@ -61,31 +63,41 @@ class Receiver < ContractImplementation
 end
 
 
-__END__
 
 
-class Contracts::Caller < ContractImplementation
+class Caller < ContractImplementation
   event :BlockNumber, { number: :uint256 }
   
-  constructor() {}
-  
-  function :makeCall, { receiver: :address }, :public, returns: :string do
+  sig :constructor, []
+  def constructor
+  end
+
+  sig :makeCall, [:address],  returns: :string
+  def makeCall( receiver: )
     resp = Receiver(receiver).receiveCall()
     
-    emit :BlockNumber, number: block.number
-    emit :BlockNumber, number: resp
+    log :BlockNumber, number: 888   ##block.number
+    log :BlockNumber, number: resp
     
-    return Receiver(receiver).sayHi()
+    Receiver(receiver).sayHi()
   end
   
-  function :callInternal, { receiver: :address }, :public do
-    Receiver(receiver).internalCall()
+  sig :callInternal, [:address]
+  def callInternal( receiver: ) 
+    Receiver(receiver)._internalCall()
   end
   
-  function :testImplements, { receiver: :address }, :public, returns: :string do
+  sig :testImplements, [:address], returns: :string
+  def testImplements( receiver: )
     ERC20(receiver).name()
   end
 end
+
+
+__END__
+
+
+
 
 class Contracts::Deployer < ContractImplementation
   event :ReceiverCreated, { contract: :address }

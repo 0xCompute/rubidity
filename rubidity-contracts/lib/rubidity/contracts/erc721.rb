@@ -1,24 +1,22 @@
 class ERC721 < ContractImplementation
-  pragma :rubidity, "1.0.0"
-
   abstract
   
-  event :Transfer, { from: :addressOrDumbContract, 
-                     to:   :addressOrDumbContract, 
+  event :Transfer, { from: :address, 
+                     to:   :address, 
                      id:   :uint256 }
-  event :Approval, { owner:   :addressOrDumbContract, 
-                     spender: :addressOrDumbContract, 
+  event :Approval, { owner:   :address, 
+                     spender: :address, 
                      id:      :uint256 }
-  event :ApprovalForAll, { owner:    :addressOrDumbContract, 
-                           operator: :addressOrDumbContract, 
+  event :ApprovalForAll, { owner:    :address, 
+                           operator: :address, 
                            approved: :bool }
 
   storage  name:             :string,
            symbol:           :string,
-           _ownerOf:         mapping( :uint256, :addressOrDumbContract ),
-           _balanceOf:       mapping( :addressOrDumbContract, :uint256 ),
-           getApproved:      mapping( :uint256, :addressOrDumbContract ), 
-           isApprovedForAll: mapping( :addressOrDumbContract, mapping( :addressOrDumbContract, :bool))
+           _ownerOf:         mapping( :uint256, :address ),
+           _balanceOf:       mapping( :address, :uint256 ),
+           getApproved:      mapping( :uint256, :address ), 
+           isApprovedForAll: mapping( :address, mapping( :address, :bool))
 
   sig :constructor, [:string, :string]           
   def constructor( name:, 
@@ -28,22 +26,22 @@ class ERC721 < ContractImplementation
   end
 
 
-  sig :ownerOf, [ :uint256 ], :view, :virtual, returns: :addressOrDumbContract 
+  sig :ownerOf, [ :uint256 ], :view, :virtual, returns: :address 
   def ownerOf( id )
     owner = @_ownerOf[id]
-    assert owner != addressOrDumbContract(0), "ERC721: owner query for nonexistent token"
+    assert owner != address(0), "ERC721: owner query for nonexistent token"
     
     owner
   end
   
-  sig :balanceOf, [ :addressOrDumbContract ], :view, :virtual, returns: :uint256
+  sig :balanceOf, [ :address ], :view, :virtual, returns: :uint256
   def balanceOf( owner: ) 
-    assert owner != addressOrDumbContract(0), "ERC721: balance query for nonexistent owner"
+    assert owner != address(0), "ERC721: balance query for nonexistent owner"
     
     @_balanceOf[owner]
   end
   
-  sig :approve, [ :addressOrDumbContract, :uint256], :virtual
+  sig :approve, [ :address, :uint256], :virtual
   def approve( spender:, 
                id: )
     owner = @_ownerOf[id]
@@ -55,7 +53,7 @@ class ERC721 < ContractImplementation
     log :Approval, owner: owner, spender: spender, id: id
   end
   
-  sig :setApprovalForAll, [:addressOrDumbContract, :bool], :virtual
+  sig :setApprovalForAll, [:address, :bool], :virtual
   def setApprovalForAll( operator:,
                          approved: ) 
     @isApprovedForAll[msg.sender][operator] = approved;
@@ -63,12 +61,12 @@ class ERC721 < ContractImplementation
     log :ApprovalForAll, owner: msg.sender, operator: operator, approved: approved
   end
   
-  sig :transferFrom, [ :addressOrDumbContract, :addressOrDumbContract, :uint256], :virtual
+  sig :transferFrom, [ :address, :address, :uint256], :virtual
   def transferFrom( from:, 
                     to:, 
                     id: )
     assert from == @_ownerOf[id], "ERC721: transfer of token that is not own"
-    assert to != addressOrDumbContract(0), "ERC721: transfer to the zero address"
+    assert to != address(0), "ERC721: transfer to the zero address"
     
     assert(
       msg.sender == from ||
@@ -82,40 +80,40 @@ class ERC721 < ContractImplementation
     
     @_ownerOf[id] = to
     
-    @getApproved[id] = addressOrDumbContract(0)
+    @getApproved[id] = address(0)
   end
   
   sig :_exists, [:uint256], :virtual
   def _exists( id )
-    @_ownerOf[id] != addressOrDumbContract(0)
+    @_ownerOf[id] != address(0)
   end
  
-  sig :_mint, [:addressOrDumbContract, :uint256], :virtual
+  sig :_mint, [:address, :uint256], :virtual
   def _mint( to:, 
              id: )
-    assert to != addressOrDumbContract(0), "ERC721: mint to the zero address"
-    assert @_ownerOf[id] == addressOrDumbContract(0), "ERC721: token already minted"
+    assert to != address(0), "ERC721: mint to the zero address"
+    assert @_ownerOf[id] == address(0), "ERC721: token already minted"
     
     @_balanceOf[to] += 1
 
     @_ownerOf[id] = to
     
-    log :Transfer, from: addressOrDumbContract(0), to: to, id: id
+    log :Transfer, from: address(0), to: to, id: id
   end
   
   sig :_burn, [:uint256], :virtual
   def _burn( id: )
     owner = @_ownerOf[id]
     
-    assert owner != addressOrDumbContract(0), "ERC721: burn of nonexistent token"
+    assert owner != address(0), "ERC721: burn of nonexistent token"
     
     @_balanceOf[owner] -= 1
     
-    @_ownerOf[id] = addressOrDumbContract(0)
+    @_ownerOf[id] = address(0)
     
-    @getApproved[id] = addressOrDumbContract(0)
+    @getApproved[id] = address(0)
     
-    log :Transfer, from: owner, to: addressOrDumbContract(0), id: id
+    log :Transfer, from: owner, to: address(0), id: id
   end
   
   sig :tokenURI, [:uint256], :view, :virtual, returns: :string

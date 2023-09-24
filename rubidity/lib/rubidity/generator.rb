@@ -76,8 +76,12 @@ def self.params( method, inputs, *args_unsafe, **kwargs_unsafe )
                 end
               end
 
-    puts "kwargs:"
-    pp kwargs
+    unless kwargs.empty?          
+      puts "#{kwargs.size} kwarg(s):"
+      pp kwargs
+    end
+    
+    kwargs
 end
 end  # module Function
 
@@ -128,9 +132,11 @@ def self.typed_function( contract_class, name, inputs: )
                ## rename (unsafe/untyped) method
                alias_method :"__#{contract_name}__#{name}_unsafe", name
                alias_method name,  :"__#{contract_name}__#{name}"
-               if name == :constructor  ### add ERC20() or such
-                  alias_method contract_name, :"__#{contract_name}__#{name}"
-               end
+               ## if name == :constructor  ### add ERC20() or such
+               ##   alias_method contract_name, :"__#{contract_name}__#{name}"
+               ## end
+               ##  - use leading underscore - why? why not? e.g. _ERC20()
+               ##        as alternative to NOT conflict with global conversion function - why? why not?
             end
 end  # method typed_function
 

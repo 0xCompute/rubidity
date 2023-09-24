@@ -13,8 +13,29 @@ class ContractImplementation  < ContractBase
   def_delegators :current_transaction, :block, :tx, :esc
 
 
+  #####################
+  ## quick hack - add contract registry
+  ##                 for lookup by address and class
+  def self.registry() @@registry ||= {}; end
+  def self.register( obj )
+    registry[ obj.address ] = [obj.class, obj] ## fix: in the future store state NOT object ref!!!
+    obj
+  end
 
-  def initialize(contract_record)
+
+  ##########################################
+  ## "read-only" access for address
+  def address()   @__address__; end
+  
+  ## -- use a "number used once" counter for address generation for now
+  ##      note: will count up for now for ALL contracts (uses @@)
+  ##      fix: use a better formula later!!!!
+  def self.nonce() @@nonce ||= 0; end
+  def self.nonce=( value ) @@nonce = value; end
+
+
+
+  def initialize( contract_record )
     @contract_record = contract_record
 
     unless self.class.abi.generated?   
@@ -24,7 +45,15 @@ class ContractImplementation  < ContractBase
 
     ## rename to generate_storage or such - why? why not?
     generate_state
+
+    ## for now use
+    nonce = self.class.nonce += 1  
+    @__address__ = '0x' + 'cc'*16 + ('%08d' % nonce ) ## count
+    puts "   new #{self.class.name} contract @ address #{@__address__}"
+  
+    self.class.register( self )
   end
+
   
 
   def generate_state
@@ -117,6 +146,10 @@ end
   
   protected
 
+
+##
+##  fix: move to typed!!!
+##  fix:  change typed/types.rb to type.rb !!!  
   def string(i)
     if i.is_a?(TypedVariable) && i.type.is_value_type?
       return TypedVariable.create(:string, i.value.to_s)
@@ -125,6 +158,7 @@ end
     end
   end
   
+=begin  
   def address(i)
     return TypedVariable.create(:address) if i == 0
 
@@ -148,4 +182,7 @@ end
     return contract_id if i == self
     raise "Not implemented"
   end
+=end
+
+
 end

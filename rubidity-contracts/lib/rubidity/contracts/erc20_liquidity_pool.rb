@@ -1,9 +1,9 @@
 class ERC20LiquidityPool < ContractImplementation
 
-  storage token0: :dumbContract,
-          token1: :dumbContract
+  storage token0: :address,
+          token1: :address
 
-  sig :constructor, [:dumbContract, :dumbContract]           
+  sig :constructor, [:address, :address]           
   def constructor( token0:, 
                    token1: ) 
     @token0 = token0
@@ -13,42 +13,43 @@ class ERC20LiquidityPool < ContractImplementation
   sig :addLiquidity, [:uint256, :uint256]
   def addLiquidity( token0Amount:, 
                     token1Amount: )
-    DumbContract(@token0).transferFrom(
+    ERC20(@token0).transferFrom(
       from: msg.sender,
-      to: dumbContractId( this ),   ## note: add support for this (alias for self ??)
+      to: address( this ),   ## note: add support for this (alias for self ??)
       amount: token0Amount
     )
     
-    DumbContract(@token1).transferFrom(
+    ERC20(@token1).transferFrom(
       from: msg.sender,
-      to: dumbContractId(this),
+      to: address(this),
       amount: token1Amount
     )
   end
   
 
-  sig :reserves, [], :view, returns: :string
+  sig :reserves, [], :view, returns: [:uint256, :uint256]
   def reserves
-    jsonData = {
-      token0: DumbContract(@token0).balanceOf(dumbContractId(this)),
-      token1: DumbContract(@token1).balanceOf(dumbContractId(this))
-    }.to_json
-    
-    "data:application/json,#{jsonData}"
+    {
+      token0: ERC20(@token0).balanceOf(address(this)),
+      token1: ERC20(@token1).balanceOf(address(this))
+    }
   end
+
  
-  sig :calculateOutputAmount, [:dumbContract, :dumbContract, :uint256], :view, returns: :uint256
+
+
+  sig :calculateOutputAmount, [:address, :address, :uint256], :view, returns: :uint256
   def calculateOutputAmount( inputToken:,
                              outputToken:,
                              inputAmount: )
-    inputReserve  = DumbContract(inputToken).balanceOf(dumbContractId(this))
-    outputReserve = DumbContract(outputToken).balanceOf(dumbContractId(this))
+    inputReserve  = ERC20(inputToken).balanceOf(address(this))
+    outputReserve = ERC20(outputToken).balanceOf(address(this))
     
     ((inputAmount * outputReserve) / (inputReserve + inputAmount)).to_i
   end
 
 
-  sig :swap, [:dumbContract, :dumbContract, :uint256], returns: :uint256
+  sig :swap, [:address, :address, :uint256], returns: :uint256
   def swap(
     inputToken:,
     outputToken:,
@@ -64,17 +65,17 @@ class ERC20LiquidityPool < ContractImplementation
       inputAmount: inputAmount
     )
     
-    outputReserve = DumbContract(outputToken).balanceOf(dumbContractId(this))
+    outputReserve = ERC20(outputToken).balanceOf( address(this))
     
     assert outputAmount <= outputReserve, "Insufficient output reserve"
   
-    DumbContract(inputToken).transferFrom(
+    ERC20(inputToken).transferFrom(
       from: msg.sender,
       to: dumbContractId(this),
       amount: inputAmount
     )
   
-    DumbContract(outputToken).transfer(
+    ERC20(outputToken).transfer(
       msg.sender,
       outputAmount
     )
