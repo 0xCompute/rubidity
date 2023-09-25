@@ -31,6 +31,7 @@ def _contract_classes() self.class.contract_classes; end
 def generated?() @generated; end
 def generate_functions
   @generated = true
+
   puts "==> generate (typed) functions for #{@contract_class.name}"
   
   parents = @contract_class.linearized_parents 
@@ -54,6 +55,9 @@ def _generate_functions( contract_class )
    if _contract_classes.include?( contract_class )
        puts "   already generated!"
    else
+     ## generate global function (e.g. ERC20() or such)
+     Generator.global_function( contract_class )
+
      sigs.each do |name, definition|
         Generator.typed_function( contract_class, name, 
                                       inputs: definition[:inputs] )

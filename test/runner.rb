@@ -57,80 +57,23 @@ pp receiver.serialize
 caller = Caller.construct 
 pp caller
 
-
-pp receiver.address
-
-
-puts "contracts registry:"
-pp ContractImplementation.registry
-
-
-
-###
-## todo/fix: auto-generate "global" contract lookup
-##   use/delegate to   Receiver.at( address )   !!!!!!
-
-class ContractImplementation
-  def self.at( address )
-    klass = self
-    puts "==> calling #{klass.name}.at( #{address.pretty_print_inspect })"
-    addr_key = address.is_a?( TypedAddress ) ? address.serialize : address
-    rec  = ContractImplementation.registry[ addr_key ] 
-    ## note: support plain strings and typed address for now
-    ##   use serialize to get "raw" string value of address
-    
-    if rec
-      obj_klass = rec[0]
-      ## raise type error if not match class type
-      if obj_klass == klass || obj_klass.parent_contracts.include?( klass )
-        obj = rec[1]
-        obj
-      else
-        raise TypeError, "#{obj_klass.name} contract found BUT is NOT of type #{klass.name}; sorry"
-      end
-    else
-        nil  # nothing found
-    end
-  end
-end
-
-
-
-def Receiver( address )
-    klass = Receiver
-    puts "==> calling #{klass.name}( #{address.pretty_print_inspect })"
-    obj = klass.at( address )
-    raise ArgumentError, "no #{klass.name} contract @ addreess #{address} found; sorry"   if obj.nil?
-    puts "  bingo! #{obj.class.name} (#{obj.class.parent_contracts}) contract found @ #{address}"
-    obj
-end
-
-def ERC20( address )
-    klass = ERC20
-    puts "==> calling #{klass.name}( #{address.pretty_print_inspect })"
-    obj = klass.at( address )
-    raise ArgumentError, "no #{klass.name} contract @ addreess #{address} found; sorry"   if obj.nil?
-    puts "  bingo! #{obj.class.name} (#{obj.class.parent_contracts}) contract found @ #{address}"
-    obj
-end  
-
-
-
-c = Receiver( receiver.address )
-pp c
-pp c.class.instance_methods
-pp c.class.instance_methods( false )
-
-pp c.receiveCall
-pp c.sayHi
-
-
 caller.makeCall( receiver.address )
 caller.callInternal( receiver.address )
 caller.testImplements( erc20receiver.address )
 
 
+deployer = Deployer.construct
+erc20 = deployer.createReceiver( name: 'Yet Another Token', 
+                                 symbol: 'YET',
+                                 decimals: 18 )
+pp erc20
 
+
+
+puts "contracts registry:"
+pp ContractImplementation.registry
+
+puts "contract classes:"
 pp AbiProxy.contract_classes
 
 

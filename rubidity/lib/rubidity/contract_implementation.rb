@@ -22,6 +22,31 @@ class ContractImplementation  < ContractBase
     obj
   end
 
+  def self.at( address )
+    klass = self
+    puts "==> calling #{klass.name}.at( #{address.pretty_print_inspect })"
+  
+    ## note: support plain strings and typed address for now
+    ##   use serialize to get "raw" string value of address
+    addr_key = address.is_a?( TypedAddress ) ? address.serialize : address
+    rec = registry[ addr_key ] 
+    
+    if rec
+      obj_klass = rec[0]
+      ## raise type error if not matching class type
+      if obj_klass == klass || obj_klass.parent_contracts.include?( klass )
+        obj = rec[1]
+        obj
+      else
+        raise TypeError, "#{obj_klass.name} contract found; is NOT a type of #{klass.name}; sorry"
+      end
+    else
+        nil   # nothing found
+    end
+  end
+
+
+
 
   ##########################################
   ## "read-only" access for address
@@ -90,12 +115,17 @@ class ContractImplementation  < ContractBase
   end
   alias_method :load, :deserialize
 
-  
 
+  ## note: for now this is just the solidity alias/used name
+  ##  for ruby's self  - anything missing - why? why not?
+  def this()  self; end
+  
   def msg
     @msg ||= ContractTransactionGlobals::Message.new
   end
   
+
+
   def log(event_name, args = {})
     event_name = event_name.to_sym  ## note: make sure event_name is ALWAYS as symbol
     unless self.class.events.key?( event_name)

@@ -162,7 +162,7 @@ def self.getter_function(  contract_class, name, type,
 
       contract_class.class_eval do
         ## note: hack: must use kwargs for now!!! index: (not index) for now
-        define_method :"#{name}" do |index:|
+        define_method name do |index:|
           puts "[debug] call public (state) array getter for #{name} : #{type} with index #{index} (#{contract_class.name})"
           puts "[debug]  self -> #{self}"
           value = instance_variable_get( :"@#{name}" )
@@ -176,7 +176,7 @@ def self.getter_function(  contract_class, name, type,
       contract_class.sig( name, [], :view, returns: type.name )
 
       contract_class.class_eval do
-       define_method :"#{name}" do
+       define_method name do
          puts "[debug] call public (state) getter for #{name} : #{type} (#{contract_class.name})"
          puts "[debug]  self -> #{self}"
          value = instance_variable_get( :"@#{name}" )
@@ -223,7 +223,7 @@ def self.mapping_getter_function( contract_class, name, type,
   
       contract_class.class_eval do
        ## note: hack: must use kwargs for now!!! arg0, arg1, arg2, for now
-       define_method :"#{name}" do |arg0:, arg1: nil, arg2: nil, arg3: nil|
+       define_method name do |arg0:, arg1: nil, arg2: nil, arg3: nil|
         puts "[debug] call public (state) mapping getter for #{name} : #{type} (#{contract_class.name})"
         puts "[debug]  self -> #{self}"
         args = [arg0, arg1, arg2, arg3]
@@ -240,4 +240,43 @@ def self.mapping_getter_function( contract_class, name, type,
     end # class_eval
 end  # method mapping_getter_function
 
+
+
+##
+#  add global contract function to lookup AND typecheck
+##          contracts using  Contract.at 
+##   add via Module and Kernel - why? why not?        
+module Globals
+end  # module Globals
+
+## todo/check: move Kernel include to  rubidity.rb script (with requires) - why? why not?
+::Kernel.include( Globals )
+
+def self.global_function( contract_class )
+  ## todo/check: check if method exists already - why? why not?
+
+  contract_name = _demodulize( contract_class.name ).to_sym   
+
+  ## use module_eval if exists? why? why not?
+  ## example:
+  ##  def ERC20( address )
+  ##    klass = ERC20
+  ##    puts "==> calling #{klass.name}( #{address.pretty_print_inspect })"
+  ##    obj = klass.at( address )
+  ##    raise ArgumentError, "no #{klass.name} contract @ addreess #{address} found; sorry"   if obj.nil?
+  ##    puts "  bingo! #{obj.class.name} (#{obj.class.parent_contracts}) contract found @ #{address}"
+  ##    obj
+  ##  end  
+  Globals.class_eval do
+   define_method contract_name do |address|
+      klass = contract_class
+      puts "==> calling #{klass.name}( #{address.pretty_print_inspect })"
+      obj = klass.at( address )
+      raise ArgumentError, "no #{klass.name} contract @ address #{address} found; sorry"   if obj.nil?
+      puts "  bingo! #{obj.class.name} (#{obj.class.parent_contracts}) contract found @ #{address}"
+      obj
+   end
+  end
+end
 end  # module Generator
+
