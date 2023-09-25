@@ -8,6 +8,19 @@ require 'forwardable'  ## def_delegate
 class ContractBase 
 end
    
+
+#######
+##   global constantes
+STRING_ZERO          = ''.freeze             ## string with utf-8 encoding 
+BYTES_ZERO           = String.new().freeze   ## string with binary encoding
+BYTES20_ZERO         = ('0x'+'00'*20).freeze   ## 20 bytes (40 hexchars)  ## care about string encoding here - why? why not?
+BYTES32_ZERO         = ('0x'+'00'*32).freeze   ## 32 bytes (64 hexchars)
+
+ADDRESS_ZERO         = BYTES20_ZERO
+ETHSCRIPTION_ID_ZERO = ETHSCRIPTIONID_ZERO = BYTES32_ZERO
+
+
+
 ## our own code
 require_relative 'typed/version'
 require_relative 'typed/types'
@@ -16,16 +29,10 @@ require_relative 'typed/typed_array'
 require_relative 'typed/typed_mapping'
 
 
+require_relative 'typed/conversion'
 
-#####
-#  todo/check:   use AddressType.try_convert( literal_or_obj ) or such - why? why not?
-def address( literal='0' )
-    ## hack for now support  address(0) 
-    ##  todo/fix:  address( '0x0' ) too!!!!
-    literal = ADDRESS_ZERO     if literal.is_a?(Integer) && literal == 0
-    AddressType.instance.check_and_normalize_literal( literal )
-end  # methdod address 
-  
+
+
 
 
 puts Rubidity::Module::Typed.banner    ## say hello

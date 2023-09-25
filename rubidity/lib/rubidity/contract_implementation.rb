@@ -162,57 +162,12 @@ end
       raise error_message
     end
   end
-  
-  
-  
-  
-  
+   
   
   def keccak256(input)
     str = TypedVariable.create(:string, input)
     
     "0x" + Digest::Keccak256.new.hexdigest(str.value)
   end
-  
-  protected
-
-
-##
-##  fix: move to typed!!!
-##  fix:  change typed/types.rb to type.rb !!!  
-  def string(i)
-    if i.is_a?(TypedVariable) && i.type.is_value_type?
-      return TypedVariable.create(:string, i.value.to_s)
-    else
-      raise "Input must be typed"
-    end
-  end
-  
-=begin  
-  def address(i)
-    return TypedVariable.create(:address) if i == 0
-
-    if i.is_a?(TypedVariable) && i.type == Type.create(:addressOrDumbContract)
-      return TypedVariable.create(:address, i.value)
-    end
-    
-    raise "Not implemented"
-  end
-  
-  def addressOrDumbContract(i)
-    return TypedVariable.create(:addressOrDumbContract) if i == 0
-    raise "Not implemented"
-  end
-  
-  def DumbContract(contract_id)
-    current_transaction.create_execution_context_for_call(contract_id, self.contract_id)
-  end
-  
-  def dumbContractId(i)
-    return contract_id if i == self
-    raise "Not implemented"
-  end
-=end
-
-
-end
+ 
+end    # class ContractImplementation

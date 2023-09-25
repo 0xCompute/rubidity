@@ -3,6 +3,17 @@
 
 ## Todos
 
+
+1.  add ERRORS.md  page
+    - list all ruby errors/exceptions
+    - ask what and if (custom) errors to add
+
+2.  add  export to_abi_json (or such!!)
+3.  add more conversion.rb  global conversion functions e.g. address(), string(), etc.
+
+
+---
+
 - [ ]  change TypedVariable to "stand-alone" legacy creator only
        and use new Typed class for base, is_a?(Typed)
        and all .new MUST be per class (no "generic") available for now - why? why not?

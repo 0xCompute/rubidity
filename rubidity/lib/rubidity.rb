@@ -60,8 +60,7 @@ class ContractImplementation
       puts "           args: #{args.inspect}"      unless args.empty?
       puts "           kwargs: #{kwargs.inspect}"  unless kwargs.empty?
 
-      rec = ContractRecord.new( self )
-      contract = new( rec )
+      contract = create
       contract.constructor( *args, **kwargs )
       contract
     end

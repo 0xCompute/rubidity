@@ -188,8 +188,8 @@ class Type
       end
 
       ## note: always downcase & freeze address - why? why not?
-      ##  fix - fix -fix - remove CONTRACT_ZERO - use BYTES32_ZERO - why? why not?
-      return literal == CONTRACT_ZERO ? literal : literal.downcase.freeze
+      ##   fix-fix-fix - check - use BYTES32_ZERO - why? why not?
+      return literal == ETHSCRIPTION_ID_ZERO ? literal : literal.downcase.freeze
 
     elsif is_a?( BytesType )
       ## note:  assume empty string is bytes literal!!!
@@ -299,7 +299,7 @@ class ReferenceType < Type; end
 ## ruby note:  is_a? and kind_of? are alias - the same
 ##            for "strict" checking use instance_of?()
 
-STRING_ZERO   = ''.freeze 
+
 class StringType < ValueType  ## note: strings are frozen / immutable - check again!!
     def name() :string; end     ## change name to type or symbol  or - why? why not???
     def format() 'string'; end
@@ -318,7 +318,6 @@ end
 
 
 
-ADDRESS_ZERO  = ('0x'+'0'*40).freeze
 class AddressType < ValueType
     def name() :address; end
     def format() 'address'; end
@@ -336,11 +335,6 @@ class AddressType < ValueType
 end
 
 
-
-
-CONTRACT_ZERO = ('0x'+'0'*64).freeze 
-DUMP_CONTRACT_ZERO = DUMPCONTRACT_ZERO = CONTRACT_ZERO
-ETHSCRIPTION_ID_ZERO = ETHSCRIPTIONID_ZERO = CONTRACT_ZERO
 
 class EthscriptionIdType < ValueType      ## todo/check: rename to inscripeId or inscriptionId
     def name() :ethscriptionId; end
@@ -363,7 +357,7 @@ class Bytes32Type < ValueType
   def name() :bytes32; end
   def format() 'bytes32'; end
   def ==(other)  other.is_a?( Bytes32Type ); end
-  def zero()  ETHSCRIPTION_ID_ZERO; end
+  def zero()  BYTES32_ZERO; end
   
   alias_method :to_s,          :format
   alias_method :default_value, :zero
@@ -372,11 +366,10 @@ class Bytes32Type < ValueType
 
   #####
   #  add create helper - why? why not?    
-  def create( initial_value=ETHSCRIPTION_ID_ZERO ) TypedBytes32.new( initial_value ); end 
+  def create( initial_value=BYTES32_ZERO ) TypedBytes32.new( initial_value ); end 
 end
 
 
-BYTES_ZERO = String.new().freeze   ## string with binary encoding
 class BytesType < ValueType       ### fix: see comments above - is bytes dynamic? or frozen?
   def name() :bytes; end
   def format() 'bytes'; end
@@ -552,8 +545,7 @@ class ContractType < ValueType
   end
 
   ## fix!! double check - what to return/use here?
-  def zero 
-    ##  CONTRACT_ZERO; 
+  def zero  
     ##  TypedMapping.new( key_type: @key_type, value_type: @value_type )    
      ## not possible??
      raise NameError, "no method zero for ContractType; sorry"
