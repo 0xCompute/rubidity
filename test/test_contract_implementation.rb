@@ -6,9 +6,7 @@ require_relative 'contract_implementation'
 class TestContractImplemenation < MiniTest::Test
 
 
-# it "sets msg.sender correctly when one contract calls another"
-def test_call
- 
+test "sets msg.sender correctly when one contract calls another" do 
 =begin
     caller_deploy_receipt = trigger_contract_interaction_and_expect_success(
       command: 'deploy',
@@ -90,8 +88,8 @@ pp last_call = caller.makeCall( receiver: receiver.address )
   pp caller.callInternal( receiver: receiver.address )
 end
 
-#  it "raises an error when trying to cast a non-ERC20 contract as ERC20" 
-def test_call2
+
+test "raises an error when trying to cast a non-ERC20 contract as ERC20" do
 =begin
     caller_deploy_receipt = trigger_contract_interaction_and_expect_success(
       command: 'deploy',
@@ -167,8 +165,8 @@ def test_call2
    }
 end
 
-#   it 'creates contract from another contract' 
-def test_call3
+
+test 'creates contract from another contract' do
 =begin
     deployer_deploy_receipt = trigger_contract_interaction_and_expect_success(
       command: 'deploy',
@@ -205,8 +203,7 @@ def test_call3
 end
 
 
-#  it 'fails to create a contract with invalid constructor arguments'
-def test_call4
+test 'fails to create a contract with invalid constructor arguments' do 
 =begin
     deployer_deploy_receipt = trigger_contract_interaction_and_expect_success(
       command: 'deploy',
@@ -236,8 +233,8 @@ def test_call4
    }
 end
 
-##  it 'creates contract with address argument without ambiguity'
-def test_call5
+
+test 'creates contract with address argument without ambiguity' do 
 =begin
     # First, we deploy an arbitrary contract to get an address
     dummy_deploy_receipt = trigger_contract_interaction_and_expect_success(
@@ -321,8 +318,7 @@ def test_call5
 end
 
 
-# it 'creates and invokes contracts in complex nested operations'
-def test_call6
+test 'creates and invokes contracts in complex nested operations' do
 =begin
     # first, we need a Deployer that can be used by Candidate to create new tokens
     deployer_deploy_receipt = trigger_contract_interaction_and_expect_success(
