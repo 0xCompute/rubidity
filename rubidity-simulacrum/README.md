@@ -1,7 +1,7 @@
 # Rubidity Simulacrum
 
 
-rubidity-simulacrum - run (dumb) blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home (for free) for fun & profit
+rubidity-simulacrum - run (dumb) blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free)
  
 
 * home  :: [github.com/s6ruby/rubidity](https://github.com/s6ruby/rubidity)

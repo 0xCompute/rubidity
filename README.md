@@ -196,6 +196,11 @@ The first published modules / gems include:
 
 
 
+More:
+
+- [**rubidity-simulacrum**](rubidity-simulacrum) - run (dumb) blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free)
+
+
 
 ## Bonus - More Blockchain (Crypto) Tools, Libraries & Scripts In Ruby
 
