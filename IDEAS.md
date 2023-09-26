@@ -1,6 +1,22 @@
 # Ideas (Big, Small, Blue Sky, ...)
 
 
+## True, False
+
+use True, False for constants for TypedBool.new( true )
+and TypedBool.new( false )  - why? why not?
+
+check if True, False Used already??
+or alias to TRUE, FALSE too - why? why not?
+
+
+or (better ???) "monkey-patch"  the TrueClass, FalseClass or such 
+in a TypedBool or such - why? why not?  
+
+check what instance methods are built into standard true|false ??
+
+
+
 
 
 ## events as types / constants
