@@ -216,7 +216,8 @@ class TypedUint256 < TypedValue
 
      def +(other ) TypedUint256.new( @value + other.to_int); end
      def -(other)  TypedUint256.new( @value - other.to_int); end
-   
+     def *(other)  TypedUint256.new( @value * other.to_int); end
+     def /(other)  TypedUint256.new( @value / other.to_int); end
       ## add more Integer forwards here!!!!
      ##def_delegators :@value, :+, :-
 
@@ -241,8 +242,10 @@ class TypedInt256 < TypedValue
 
     def +(other ) TypedInt256.new( @value + other.to_int); end
     def -(other)  TypedInt256.new( @value - other.to_int); end
+    def *(other)  TypedInt256.new( @value * other.to_int); end
+    def /(other)  TypedInt256.new( @value / other.to_int); end
 
-
+      
     def to_int() @value; end  ## "automagilally" support implicit integer conversion - why? why not?
     def to_i() @value; end
 end  # class TypedInt256

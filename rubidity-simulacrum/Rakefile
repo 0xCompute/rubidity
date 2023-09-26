@@ -1,0 +1,31 @@
+require 'hoe'
+require './lib/rubidity/simulacrum/version.rb'
+
+
+
+Hoe.spec 'rubidity-simulacrum' do
+
+  self.version =   Rubidity::Module::Simulacrum::VERSION
+
+  self.summary = 'rubidity-simulacrum gem - run (dumb) blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home (for free) for fun & profit'
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/s6ruby/rubidity' }
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'gerald.bauer@gmail.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = [
+    ['rubidity'],
+  ]
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.3'
+  }
+end
