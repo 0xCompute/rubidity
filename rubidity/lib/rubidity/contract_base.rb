@@ -1,4 +1,11 @@
 
+##
+#  todo/fix:
+#    always auto-add (default) constructor 
+#      CAN get redefined
+#       if not redefined
+#         is empty BUT will call super construct (if has parent)!!!!
+
 
 class ContractBase
 
@@ -190,7 +197,7 @@ def self.sig( name, args=[], *options, returns: nil )
 end
 
 def self.sigs
-  @sigs || {}
+  @sigs ||= {}
 end
 
 end  # classContractBase

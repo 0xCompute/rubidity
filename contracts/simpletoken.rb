@@ -7,8 +7,8 @@
 
 class SimpleToken < ContractImplementation
 
-    event :Transfer, { from:   :addressOrDumbContract, 
-                       to:     :addressOrDumbContract, 
+    event :Transfer, { from:   :address, 
+                       to:     :address, 
                        amount: :uint256 }
   
     storage  name:         :string,
@@ -16,7 +16,7 @@ class SimpleToken < ContractImplementation
              maxSupply:    :uint256,
              perMintLimit: :uint256,  
              totalSupply:  :uint256,
-             balanceOf:    mapping( :addressOrDumbContract, :uint256 )
+             balanceOf:    mapping( :address, :uint256 )
 
   
   sig :constructor, [:string, :string, :uint256, :uint256] 
@@ -48,7 +48,7 @@ class SimpleToken < ContractImplementation
   end
 
 
-  sig :transfer, [:addressOrDumbContract, :uint256]
+  sig :transfer, [:address, :uint256]
   def transfer( to:, 
                 amount: )
     puts "==> transfer to: #{to.pretty_print_inspect}, amount: #{amount.pretty_print_inspect}"

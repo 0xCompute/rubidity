@@ -15,7 +15,7 @@ class GenerativeERC721 < ERC721
     maxSupply:,
     description:,
     maxPerAddress: )
-    ERC721(name: name, symbol: symbol)
+    super(name: name, symbol: symbol)
     
     @maxSupply = maxSupply
     @maxPerAddress = maxPerAddress

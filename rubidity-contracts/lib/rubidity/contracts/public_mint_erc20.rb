@@ -19,10 +19,10 @@ class PublicMintERC20 < ERC20
                                      "decimals: #{decimals.pretty_print_inspect})"              
 
 
-    #super( name: name, 
+    #ERC20( name: name, 
     #       symbol: symbol, 
     #       decimals: decimals )
-    ERC20( name: name, 
+    super( name: name, 
            symbol: symbol, 
            decimals: decimals)
     #__ERC20__constructor( name: name, 

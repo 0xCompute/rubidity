@@ -1,0 +1,276 @@
+[
+  {
+    "type": "function",
+    "name": "name",
+    "stateMutability": "view",
+    "inputs": [
+
+    ],
+    "outputs": [
+      {
+        "type": "string",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "symbol",
+    "stateMutability": "view",
+    "inputs": [
+
+    ],
+    "outputs": [
+      {
+        "type": "string",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "decimals",
+    "stateMutability": "view",
+    "inputs": [
+
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "totalSupply",
+    "stateMutability": "view",
+    "inputs": [
+
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "balanceOf",
+    "stateMutability": "view",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "allowance",
+    "stateMutability": "view",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_"
+      },
+      {
+        "type": "address",
+        "name": "_"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "constructor",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      {
+        "type": "string",
+        "name": "_"
+      },
+      {
+        "type": "string",
+        "name": "_"
+      },
+      {
+        "type": "uint256",
+        "name": "_"
+      },
+      {
+        "type": "uint256",
+        "name": "_"
+      },
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "approve",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_"
+      },
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "decreaseAllowanceUntilZero",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_"
+      },
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "transfer",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_"
+      },
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "transferFrom",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      {
+        "type": "address",
+        "name": "_"
+      },
+      {
+        "type": "address",
+        "name": "_"
+      },
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "bool",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "maxSupply",
+    "stateMutability": "view",
+    "inputs": [
+
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "perMintLimit",
+    "stateMutability": "view",
+    "inputs": [
+
+    ],
+    "outputs": [
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "mint",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "",
+        "name": "_"
+      }
+    ]
+  },
+  {
+    "type": "function",
+    "name": "airdrop",
+    "stateMutability": "nonpayable",
+    "inputs": [
+      {
+        "type": "addressOrDumbContract",
+        "name": "_"
+      },
+      {
+        "type": "uint256",
+        "name": "_"
+      }
+    ],
+    "outputs": [
+      {
+        "type": "",
+        "name": "_"
+      }
+    ]
+  }
+]

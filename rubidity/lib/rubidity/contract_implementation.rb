@@ -47,11 +47,16 @@ class ContractImplementation  < ContractBase
 
 
 
-
   ##########################################
   ## "read-only" access for address
+  ##   todo/fix: change to  __address__ - why? why not?
   def address()   @__address__; end
+
+  ##
+  ##  check - conflicts with global conversion function
+  ##            when used in contract code e.g. address(0) or such
   
+
   ## -- use a "number used once" counter for address generation for now
   ##      note: will count up for now for ALL contracts (uses @@)
   ##      fix: use a better formula later!!!!
@@ -165,8 +170,9 @@ end
    
   
   def keccak256(input)
-    str = TypedVariable.create(:string, input)
-    
+    str = TypedString.new( input )
+
+    ## fix: change to "100% ruby" (alternate) keccak gem !!!!
     "0x" + Digest::Keccak256.new.hexdigest(str.value)
   end
  

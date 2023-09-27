@@ -2,6 +2,10 @@
 # note: for now rubidity/typed gem pulls in
 #    require 'forwardable'  ## def_delegate
 
+##
+## move require json to rubidity/typed ??
+require 'json'   ##  use in public_abi_to_json
+
 
 require 'rubidity/typed'
 ## replaces:
