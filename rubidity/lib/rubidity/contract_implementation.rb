@@ -50,6 +50,14 @@ class ContractImplementation  < ContractBase
   def self.nonce() @@nonce ||= 0; end
   def self.nonce=( value ) @@nonce = value; end
 
+  def __autoregister__
+    ## for now use
+    nonce =  self.class.nonce += 1  
+    @__address__ = '0x' + 'cc'*16 + ('%08d' % nonce )   ## count
+    puts "   new #{self.class.name} contract @ address #{@__address__}"
+    
+    self.class.register( self )  
+  end
 
 
   
@@ -61,16 +69,8 @@ class ContractImplementation  < ContractBase
 
     ## rename to generate_storage or such - why? why not?
     generate_state
-
-    ## for now use
-    nonce = self.class.nonce += 1  
-    @__address__ = '0x' + 'cc'*16 + ('%08d' % nonce ) ## count
-    puts "   new #{self.class.name} contract @ address #{@__address__}"
-  
-    self.class.register( self )
   end
 
-  
 
   def generate_state
     puts "==> generate_state (ivars) #{self.class.name}"

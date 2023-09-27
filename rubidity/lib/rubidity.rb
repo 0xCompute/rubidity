@@ -32,10 +32,6 @@ require_relative 'rubidity/runtime'
 #  add extra setup helpers
 
 class ContractImplementation
-    def self.create
-        puts "[debug] Contract.create  - class -> #{self.name}"
-        new 
-    end
 
     def self.construct( *args, **kwargs )
       ## todo/fix: check either args or kwargs MUST be empty
@@ -44,11 +40,20 @@ class ContractImplementation
       puts "           args: #{args.inspect}"      unless args.empty?
       puts "           kwargs: #{kwargs.inspect}"  unless kwargs.empty?
 
-      contract = create
+      contract = new
+      
+      ## (auto-)register before or after calling constructor  - why? why not?
+      contract.__autoregister__
+ 
       contract.constructor( *args, **kwargs )
       contract
     end
+    ## note: create is only an alias for construct !!!!
+    ##         to create an empty contract to load with state use new!!!
+    class << self
+      alias_method :create, :construct
+    end
 end  # class ContractImplementation
-  
+
 
 puts Rubidity::Module::Lang.banner     ## say hello

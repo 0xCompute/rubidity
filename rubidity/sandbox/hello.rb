@@ -31,7 +31,11 @@ pp TestToken.public_abi
 
 
 
-contract = TestToken.create
+##
+## creates "empty" contract
+##   use TestToken#constructor for new "deploy" or
+##   use TestToken#deserialize/load for  restore (state) from storage
+contract = TestToken.new
 pp contract
 
 
@@ -98,15 +102,15 @@ pp contract.balanceOf( bob )
 
 ###
 #  try another "deploy" of contract
-contract2 = TestToken.create
+contract2 = TestToken.construct(
+                       'My Doge Token',
+                       'DOG',
+                       9,
+                       42000000 )
 pp contract2
 pp contract2.serialize
 
-contract2.constructor(
-               'My Doge Token',
-               'DOG',
-               9,
-               42000000 )
+contract2
 
 pp contract2.serialize
 

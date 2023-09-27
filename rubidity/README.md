@@ -80,7 +80,7 @@ abi = TestToken.abi
 pp TestToken.public_abi
   
 
-contract = TestToken.create
+contract = TestToken.new
 pp contract
 
 
