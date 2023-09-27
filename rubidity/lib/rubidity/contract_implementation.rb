@@ -154,12 +154,22 @@ class ContractImplementation  < ContractBase
     end
   end
    
+
   
-  def keccak256(input)
+###
+#  Digest::KeccakLite.new( 256 ).hexdigest( 'abc' )   # or
+#  Digest::KeccakLite.hexdigest( 'abc', 256 )
+#  #=> "4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45"  
+
+  def keccak256( input )
+  ## todo/fix: check if input is binary string 
+  ##    (convert to bytes - why? why not?)
+  ##    should really always use hex_to_bin !!! 
+  ##    and convert the result in the end only - why? why not??
+
     str = TypedString.new( input )
 
-    ## fix: change to "100% ruby" (alternate) keccak gem !!!!
-    '0x' + Digest::Keccak256.new.hexdigest(str.value)
+    '0x' + Digest::KeccakLite.hexdigest( str.serialize, 256  )
   end
  
 end    # class ContractImplementation

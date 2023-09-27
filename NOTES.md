@@ -3,6 +3,10 @@
 
 ## Todos
 
+- [ ]  add (type) alias for :uint, :int (for uint256 and int256)
+
+
+---
 
 1.  add ERRORS.md  page
     - list all ruby errors/exceptions

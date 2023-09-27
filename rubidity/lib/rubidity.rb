@@ -7,6 +7,8 @@
 require 'json'   ##  use in public_abi_to_json
 
 
+
+require 'digest-lite'      ### pulls in keccak256
 require 'rubidity/typed'
 ## replaces:
 ##    - type.rb
@@ -16,6 +18,7 @@ require 'rubidity/typed'
 
 
 ## our own code
+require_relative 'rubidity/version'
 require_relative 'rubidity/generator'
 
 require_relative 'rubidity/contract_base'
@@ -47,3 +50,5 @@ class ContractImplementation
     end
 end  # class ContractImplementation
   
+
+puts Rubidity::Module::Lang.banner     ## say hello

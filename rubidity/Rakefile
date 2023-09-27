@@ -1,9 +1,10 @@
 require 'hoe'
-## require './lib/rubidity/version.rb'
+require './lib/rubidity/version.rb'
+
 
 Hoe.spec 'rubidity' do
 
-  self.version =   '0.4.0'  ##Pixelart::Module::Ordgen::VERSION
+  self.version =   Rubidity::Module::Lang::VERSION
 
   self.summary = 'rubidity - ruby for (blockchain) layer 1 (l1) contracts / protocols with "off-chain" indexer; 100% compatible with solidity datatypes and abis'
   self.description = summary
@@ -19,7 +20,9 @@ Hoe.spec 'rubidity' do
 
   self.extra_deps = [
     ['rubidity-typed'],
+    ['digest-lite'],      ## pulls in keccak256
   ]
+
 
   self.licenses = ['Public Domain']
 
