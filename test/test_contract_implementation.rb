@@ -48,7 +48,7 @@ pp receiver = Receiver.construct
     )
 =end
 
-pp last_call = caller.makeCall( receiver: receiver.address )
+pp last_call = caller.makeCall( receiver: receiver.__address__ )
 
 =begin
     last_call = call_receipt.contract_transaction.contract_calls.last
@@ -85,7 +85,7 @@ pp last_call = caller.makeCall( receiver: receiver.address )
 =end  
 
   ## todo/fix:  make _callInternal  private!!!
-  pp caller.callInternal( receiver: receiver.address )
+  pp caller.callInternal( receiver: receiver.__address__ )
 end
 
 
@@ -143,7 +143,7 @@ test "raises an error when trying to cast a non-ERC20 contract as ERC20" do
     )
 =end
 
-  pp caller.testImplements( receiver: erc20_receiver.address )
+  pp caller.testImplements( receiver: erc20_receiver.__address__ )
 
 
 =begin
@@ -161,7 +161,7 @@ test "raises an error when trying to cast a non-ERC20 contract as ERC20" do
 =end
 
    assert_raises(TypeError) { 
-       pp caller.testImplements( receiver: receiver.address ) 
+       pp caller.testImplements( receiver: receiver.__address__ ) 
    }
 end
 
@@ -277,7 +277,7 @@ test 'creates contract with address argument without ambiguity' do
     )
 =end
 
-    pp receiver_deploy = deployer.createAddressArgContract( dummy_deploy.address )
+    pp receiver_deploy = deployer.createAddressArgContract( dummy_deploy.__address__ )
 
 
 =begin
@@ -303,7 +303,7 @@ test 'creates contract with address argument without ambiguity' do
 =end
 
   pp response = deployer.createAddressArgContractAndRespond( 
-                        dummy_deploy.address, 
+                        dummy_deploy.__address__, 
                         'Hello' )
 
 =begin
@@ -358,7 +358,7 @@ test 'creates and invokes contracts in complex nested operations' do
       }
     )
 =end
-   pp deploy_contracts = multi_deployer.deployContracts( deployer.address ) 
+   pp deploy_contracts = multi_deployer.deployContracts( deployer.__address__ ) 
 
 =begin    
     # there should be a ContractCreated event which indicates that a new contract was created

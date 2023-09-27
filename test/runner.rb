@@ -57,9 +57,9 @@ pp receiver.serialize
 caller = Caller.construct 
 pp caller
 
-caller.makeCall( receiver.address )
-caller.callInternal( receiver.address )
-caller.testImplements( erc20receiver.address )
+caller.makeCall( receiver.__address__ )
+caller.callInternal( receiver.__address__ )
+caller.testImplements( erc20receiver.__address__ )
 
 
 deployer = Deployer.construct

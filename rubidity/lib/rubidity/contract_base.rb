@@ -16,9 +16,6 @@ class ContractBase
                   :is_abstract_contract
   end
 
-  def self.pragma(*args)
-    # Do nothing for now
-  end
   
 ##################
 # parent contracts  

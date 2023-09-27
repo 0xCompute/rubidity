@@ -109,33 +109,33 @@ class Deployer < ContractImplementation
                       decimals: )
     erc20 = ERC20Minimal.construct(name, symbol, decimals)
     
-    log :ReceiverCreated, contract: erc20.address
+    log :ReceiverCreated, contract: erc20.__address__
     
-    erc20.address
+    erc20.__address__
   end
 
   sig :createMalformedReceiver, [:string], returns: :address
   def createMalformedReceiver( name: )
     erc20 = ERC20Minimal.construct(name)
 
-    log :ReceiverCreated, contract: erc20.address
+    log :ReceiverCreated, contract: erc20.__address__
     
-    erc20.address
+    erc20.__address__
   end
   
   sig :createAddressArgContract, [:address], returns: :address
   def createAddressArgContract( testAddress: )
     contract = AddressArg.construct( testAddress )
 
-    log :ReceiverCreated, contract: contract.address
+    log :ReceiverCreated, contract: contract.__address__
 
-    contract.address
+    contract.__address__
   end
   
   sig :createAddressArgContractAndRespond, [:address, :string]
   def createAddressArgContractAndRespond( testAddress:, greeting: )
     contract = AddressArg.construct( testAddress )
-    log :ReceiverCreated, contract: contract.address
+    log :ReceiverCreated, contract: contract.__address__
     contract.respond(greeting)
   end
   
@@ -143,9 +143,9 @@ class Deployer < ContractImplementation
   def createERC20Minimal( name:, symbol:, decimals: )
     contract = ERC20Minimal.construct(name, symbol, decimals)
     
-    log :ContractCreated, contract: contract.address
+    log :ContractCreated, contract: contract.__address__
     
-    contract.address
+    contract.__address__
   end
   
   sig :callRespond, [:address, :string]

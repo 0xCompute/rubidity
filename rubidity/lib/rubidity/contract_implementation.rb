@@ -1,24 +1,13 @@
 class ContractImplementation  < ContractBase
  
-  attr_reader :contract_record
   
- 
-  extend Forwardable   ## pulls in def_delegators
-
-  ## delegate :block, :tx, :esc, to: :current_transaction
-  ## delegate :current_transaction, :contract_id, to: :contract_record
-  def_delegators :contract_record,  :current_transaction,
-                                    :contract_id 
-  
-  def_delegators :current_transaction, :block, :tx, :esc
-
 
   #####################
   ## quick hack - add contract registry
   ##                 for lookup by address and class
   def self.registry() @@registry ||= {}; end
   def self.register( obj )
-    registry[ obj.address ] = [obj.class, obj] ## fix: in the future store state NOT object ref!!!
+    registry[ obj.__address__ ] = [obj.class, obj]   ## fix: in the future store state NOT object ref!!!
     obj
   end
 
@@ -49,13 +38,11 @@ class ContractImplementation  < ContractBase
 
   ##########################################
   ## "read-only" access for address
-  ##   todo/fix: change to  __address__ - why? why not?
-  def address()   @__address__; end
-
-  ##
-  ##  check - conflicts with global conversion function
-  ##            when used in contract code e.g. address(0) or such
-  
+  ##   note: MUST use  __address__ - why? why not?
+  ##    otherwise will conflicts with global conversion function
+  ##        when used in contract code e.g. address(0) or such
+ 
+  def __address__()   @__address__; end
 
   ## -- use a "number used once" counter for address generation for now
   ##      note: will count up for now for ALL contracts (uses @@)
@@ -65,9 +52,8 @@ class ContractImplementation  < ContractBase
 
 
 
-  def initialize( contract_record )
-    @contract_record = contract_record
-
+  
+  def initialize
     unless self.class.abi.generated?   
        ## only generate once? double check
        self.class.abi.generate_functions
@@ -124,44 +110,44 @@ class ContractImplementation  < ContractBase
   ## note: for now this is just the solidity alias/used name
   ##  for ruby's self  - anything missing - why? why not?
   def this()  self; end
-  
-  def msg
-    @msg ||= ContractTransactionGlobals::Message.new
-  end
-  
 
 
-  def log(event_name, args = {})
+  
+  def current_transaction()  Runtime.current_transaction; end
+  def msg()                  Runtime.msg; end
+  def block()                Runtime.block; end
+
+  def log( event_name, args = {} )
     event_name = event_name.to_sym  ## note: make sure event_name is ALWAYS as symbol
     unless self.class.events.key?( event_name)
       raise NameError, "Event #{event_name} is not defined in this contract."
     end
 
-  expected_args = self.class.events[event_name]
-  missing_args = expected_args.keys - args.keys
-  extra_args   = args.keys - expected_args.keys
+    expected_args = self.class.events[event_name]
+    missing_args = expected_args.keys - args.keys
+    extra_args   = args.keys - expected_args.keys
 
-  if missing_args.any? || extra_args.any?
-    error_messages = []
-    error_messages << "Missing arguments for #{event_name} event: #{missing_args.join(', ')}." if missing_args.any?
-    error_messages << "Unexpected arguments provided for #{event_name} event: #{extra_args.join(', ')}." if extra_args.any?
-    raise ArgumentError, error_messages.join(' ')
-  end
+    if missing_args.any? || extra_args.any?
+      error_messages = []
+      error_messages << "Missing arguments for #{event_name} event: #{missing_args.join(', ')}." if missing_args.any?
+      error_messages << "Unexpected arguments provided for #{event_name} event: #{extra_args.join(', ')}." if extra_args.any?
+      raise ArgumentError, error_messages.join(' ')
+    end
 
   
-  current_transaction.log_event({ event: event_name, data: args })
-end
+    current_transaction.log_event({ event: event_name, data: args })
+  end
   
 
   ## note: change from require to assert
   ##         to avoid confusion with ruby require - why? why not?
   def assert(condition, message)
     unless condition
-      caller_location = caller_locations.detect { |l| l.path.include?('/app/models/contracts') }
-      file = caller_location.path.gsub(%r{.*app/models/contracts/}, '')
-      line = caller_location.lineno
+      # caller_location = caller_locations.detect { |l| l.path.include?('/app/models/contracts') }
+      # file = caller_location.path.gsub(%r{.*app/models/contracts/}, '')
+      # line = caller_location.lineno
       
-      error_message = "#{message}. (#{file}:#{line})"
+      error_message = "#{message}"     ##. (#{file}:#{line})"
       ## todo/fix: change to (built-in) ???Error, ....
       ##  check for error to raise for assertion fail??
       raise error_message
@@ -173,7 +159,7 @@ end
     str = TypedString.new( input )
 
     ## fix: change to "100% ruby" (alternate) keccak gem !!!!
-    "0x" + Digest::Keccak256.new.hexdigest(str.value)
+    '0x' + Digest::Keccak256.new.hexdigest(str.value)
   end
  
 end    # class ContractImplementation

@@ -1,6 +1,5 @@
 class EtherERC20Bridge < ERC20
-  pragma :rubidity, "1.0.0"
-  
+ 
   event :InitiateWithdrawal, { from: :address, amount: :uint256 }
   event :WithdrawalComplete, { to: :address, amount: :uint256 }
 
