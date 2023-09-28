@@ -4,8 +4,8 @@ require_relative 'helper'
 
 class TestArray < Contract   
 
-    storage names:   array( :string ), 
-            numbers: array( :uint256 ) 
+    storage names:   array( String ), 
+            numbers: array( UInt ) 
   
     sig :constructor, []        
     def constructor

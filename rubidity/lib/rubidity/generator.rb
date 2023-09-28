@@ -28,6 +28,20 @@ end
 module Function
 ####
 ##  rename to pack_params/args or cook_params or typed_params or ???
+
+
+def self.typecheck( type, value )
+    ##   check if value is already typed?
+    if value.is_a?( Typed )
+       ## type check
+       raise TypeError, "type #{type} expected; got #{value.pretty_print_inspect}"  unless type == value.type
+       value
+    else
+        ## assume "literal" value
+        type.create( value )
+    end
+end
+
 def self.params( method, inputs, *args_unsafe, **kwargs_unsafe )
     m = method
     params = m.parameters
@@ -46,9 +60,7 @@ def self.params( method, inputs, *args_unsafe, **kwargs_unsafe )
  
     kwargs =  if !args_unsafe.empty? 
                  values = inputs.zip( args_unsafe ).map do |type, value|
-                            ## todo/check:  change create to cast/try_cast or such - why? why not?
-                            ##                might already be proper type? no?
-                            TypedVariable.create(type, value)
+                              typecheck( type, value )
                           end
                  ## puts "args:"
                  ## puts values.pretty_print_inspect
@@ -65,7 +77,7 @@ def self.params( method, inputs, *args_unsafe, **kwargs_unsafe )
                  kwargs_unsafe.map do |key,value|
                     type = types[key]
                     raise ArgumentError, "unknown kwarg #{key}; sorry"   if type.nil?
-                    [key, TypedVariable.create( type, value)]
+                    [key, typecheck( type, value)]
                 end.to_h
               else
                 ## assume no args - e.g. construct - double check for empty input spec/def!!!
@@ -158,7 +170,7 @@ def self.getter_function(  contract_class, name, type,
 
     
       ## auto-add/register sig(nature) in here - why? why not?
-      contract_class.sig( name, [:uint256], :view, returns: type.sub_type.name )
+      contract_class.sig( name, [UIntType.instance], :view, returns: type.sub_type )
 
       contract_class.class_eval do
         ## note: hack: must use kwargs for now!!! index: (not index) for now
@@ -173,7 +185,7 @@ def self.getter_function(  contract_class, name, type,
       puts "[debug] auto-generate public getter - #{name} : #{type}:"
 
       ## auto-add/register sig(nature) in here - why? why not?
-      contract_class.sig( name, [], :view, returns: type.name )
+      contract_class.sig( name, [], :view, returns: type )
 
       contract_class.class_eval do
        define_method name do
@@ -196,27 +208,22 @@ def self.mapping_getter_function( contract_class, name, type,
     ## note: make sure name is always a symbol
     name          = name.to_sym
     
-    arguments = {}
     index = 0
     current_type = type
 
     sig_args = []
     while current_type.name == :mapping do
-      arguments["arg#{index}".to_sym] = current_type.key_type.name
-      sig_args << current_type.key_type.name
+      sig_args << current_type.key_type
       current_type = current_type.value_type
       index += 1
     end
 
-
-    ## auto-add/register sig(nature) in here - why? why not?
-    puts "sig_args:"
-    pp sig_args
-    contract_class.sig( name, sig_args, :view, returns: current_type.name )
     
     puts "[debug]  auto-generate public mapping getter - #{name} : #{type} (#{contract_class.name}):"
-    puts "    arguments:"
-    pp   arguments
+    puts "sig_args:"
+    pp sig_args
+    ## auto-add/register sig(nature) in here - why? why not?
+    contract_class.sig( name, sig_args, :view, returns: current_type)
     puts "    index: #{index}"
 # {:arg0=>:address}
 #    index: 1

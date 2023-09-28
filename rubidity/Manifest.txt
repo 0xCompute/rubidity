@@ -4,8 +4,8 @@ README.md
 Rakefile
 lib/rubidity.rb
 lib/rubidity/abi_proxy.rb
-lib/rubidity/contract_base.rb
 lib/rubidity/contract.rb
+lib/rubidity/contract_base.rb
 lib/rubidity/generator.rb
 lib/rubidity/runtime.rb
 lib/rubidity/version.rb

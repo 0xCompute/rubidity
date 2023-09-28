@@ -65,7 +65,16 @@ class ContractBase
 
     @events ||= {}
     name = name.to_sym  ## note: make sure name is ALWAYS a symbol
-    @events[name] = args
+    ## note assume args is a hash
+    ##     change typedclasses to type (defs)
+    @events[name] = args.map do |key,value|  
+                             [
+                               key,
+                               value.is_a?( Type ) ? value : typedclass_to_type( value )
+                             ]  
+                           end.to_h
+
+
   end
 
   def self.events
@@ -127,14 +136,10 @@ class ContractBase
 
   def self.storage( **kwargs )
     ## note: assume keys are names and values are types for storage
-    ## note: allow multiple calls of storage!!!
+    ## note:  allow multiple calls of storage!!!
     
-    ## todo/fix:  add support for passing in typed classes!!!
-    ##                     e.g.  TypedString alias => String in  class Contract
-    ##                           TypedBool   alias => Bool in  class  Contract 
-    ##                             etc.
     kwargs.each do |name, type|
-       type  = Type.create( type )  
+       type = type.is_a?( Type ) ? type : typedclass_to_type( type )  
              
        ## add support for more args - e.g. visibility or such - why? why not?
        args = [name] 
@@ -143,19 +148,6 @@ class ContractBase
   end 
  
   
-  def self.mapping( key_type, value_type )
-    type = Type.create( :mapping, key_type: key_type, 
-                                  value_type: value_type )
-    
-    type
-  end
-  
-  def self.array( sub_type )
-    type = Type.create(:array, sub_type: sub_type )
-    type
-  end
-
-
 
 ####
 #  functions / abis
@@ -187,6 +179,16 @@ def self.sig( name, args=[], *options, returns: nil )
       options.unshift( visibility )
   end
 
+
+####  
+#  auto-convert args (inputs), returns (outputs) to type (defs)
+  args = args.map do |value|  
+       value.is_a?( Type ) ? value : typedclass_to_type( value )
+  end
+
+  if returns
+    returns = returns.is_a?( Type ) ? returns : typedclass_to_type( returns )
+  end
 
   @sigs[name] = { inputs:  args,
                   outputs: returns,

@@ -3,11 +3,11 @@ require_relative 'helper'
 
 
 class TestBase < ContractBase    
-    storage name: :string, 
-            symbol: :string, 
-            decimals: :uint256,    
-            totalSupply: :uint256, 
-            balanceOf: mapping( :address, :uint256 )
+    storage name:   String, 
+            symbol: String, 
+            decimals: UInt,    
+            totalSupply: UInt, 
+            balanceOf: mapping( Address, UInt )
 end  # class TestBase
   
 

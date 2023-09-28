@@ -56,7 +56,8 @@ pp contract.msg.sender
 initial_state = contract.serialize
 pp initial_state  
 
-      
+
+
 
 contract.constructor(
                'My Fun Token',

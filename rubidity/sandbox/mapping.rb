@@ -4,17 +4,17 @@ require_relative 'helper'
 class TestMapping < Contract    
 
   ## from ERC20
-  storage  balanceOf: mapping( :address, :uint256 ),  
-           allowance: mapping( :address, mapping( :address, :uint256))
+  storage  balanceOf: mapping( Address, UInt ),  
+           allowance: mapping( Address, mapping( Address, UInt))
 
   ## from ERC721         
-  storage  _ownerOf:  mapping( :uint256, :address ),   
-            _balanceOf: mapping( :address, :uint256 ),  
-            getApproved: mapping( :uint256, :address ), 
-            isApprovedForAll: mapping( :address, mapping( :address, :bool))
+  storage  _ownerOf:  mapping( UInt, Address ),   
+            _balanceOf: mapping( Address, UInt ),  
+            getApproved: mapping( UInt, Address ), 
+            isApprovedForAll: mapping( Address, mapping( Address, Bool))
           
   ## from GenerativeERC721          
-  storage  tokenIdToSeed: mapping( :uint256, :uint256 )  
+  storage  tokenIdToSeed: mapping( UInt, UInt )  
   
   sig :constructor, []        
   def constructor
