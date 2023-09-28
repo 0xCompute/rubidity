@@ -20,13 +20,13 @@ def typed( type, initial_value = nil, **kwargs)
     case type
     when :string                then  TypedString.new( initial_value )
     when :address               then  TypedAddress.new( initial_value ) 
-    when :ethscriptionId        then  TypedEthscriptionId.new( initial_value )
+    when :inscriptionId         then  TypedInscriptionId.new( initial_value )
     when :bytes32               then  TypedBytes32.new( initial_value )
     when :bytes                 then  TypedBytes.new( initial_value )
     when :bool                  then  TypedBool.new( initial_value ) 
-    when :uint256               then  TypedUint256.new( initial_value )
-    when :int256                then  TypedInt256.new( initial_value )
-    when :datetime              then  TypedDatatime.new( initial_value )
+    when :uint                  then  TypedUInt.new( initial_value )
+    when :int                   then  TypedInt.new( initial_value )
+    when :timestamp             then  TypedTimestamp.new( initial_value )
     when :array                 then  TypedArray.new( initial_value, **kwargs )
     when :mapping               then  TypedMapping.new( initial_value, **kwargs )
     else
@@ -163,13 +163,13 @@ class TypedAddress < TypedValue
 end   # class TypedAddress
 
 
-class TypedEthscriptionId < TypedValue
-    def type() EthscriptionIdType.instance; end  
+class TypedInscriptionId < TypedValue
+    def type() InscriptionIdType.instance; end  
   
     def initialize( initial_value = nil)
        replace( initial_value || type.zero )
     end 
-end  # class TypedEthscriptionId
+end  # class TypedInscriptionId
 
 
 
@@ -200,11 +200,11 @@ class TypedBool < TypedValue
 end  # class TypedBool
 
 
-class TypedUint256 < TypedValue
+class TypedUInt < TypedValue
     ## todo/check -- use self.zero or such - why? why not?
     def self.zero() @zero ||= new; end
 
-    def type() Uint256Type.instance; end  
+    def type() UIntType.instance; end  
   
     def initialize( initial_value = nil)
        replace( initial_value || type.zero )
@@ -214,24 +214,24 @@ class TypedUint256 < TypedValue
      include Comparable
      def <=>(other)  @value <=> other.to_int; end
 
-     def +(other ) TypedUint256.new( @value + other.to_int); end
-     def -(other)  TypedUint256.new( @value - other.to_int); end
-     def *(other)  TypedUint256.new( @value * other.to_int); end
-     def /(other)  TypedUint256.new( @value / other.to_int); end
+     def +(other ) TypedUInt.new( @value + other.to_int); end
+     def -(other)  TypedUInt.new( @value - other.to_int); end
+     def *(other)  TypedUInt.new( @value * other.to_int); end
+     def /(other)  TypedUInt.new( @value / other.to_int); end
       ## add more Integer forwards here!!!!
      ##def_delegators :@value, :+, :-
 
 ## 
-## undefined method `>=' for #<TypedUint256 @value=21000000> (NoMethodError)
-## undefined method `-' for #<TypedUint256 @value=21000000> (NoMethodError)
+## undefined method `>=' for #<TypedUInt @value=21000000> (NoMethodError)
+## undefined method `-' for #<TypedUInt @value=21000000> (NoMethodError)
     ## def to_i() @value; end
     def to_int() @value; end  ## "automagilally" support implicit integer conversion - why? why not?
     def to_i() @value; end
-end  # class TypedUint256
+end  # class TypedUInt
 
 
-class TypedInt256 < TypedValue
-    def type() Int256Type.instance; end  
+class TypedInt < TypedValue
+    def type() IntType.instance; end  
   
     def initialize( initial_value = nil)
        replace( initial_value || type.zero )
@@ -240,23 +240,23 @@ class TypedInt256 < TypedValue
     include Comparable
     def <=>(other)  @value <=> other.to_int; end
 
-    def +(other ) TypedInt256.new( @value + other.to_int); end
-    def -(other)  TypedInt256.new( @value - other.to_int); end
-    def *(other)  TypedInt256.new( @value * other.to_int); end
-    def /(other)  TypedInt256.new( @value / other.to_int); end
+    def +(other ) TypedInt.new( @value + other.to_int); end
+    def -(other)  TypedInt.new( @value - other.to_int); end
+    def *(other)  TypedInt.new( @value * other.to_int); end
+    def /(other)  TypedInt.new( @value / other.to_int); end
 
       
     def to_int() @value; end  ## "automagilally" support implicit integer conversion - why? why not?
     def to_i() @value; end
-end  # class TypedInt256
+end  # class TypedInt
     
-class TypedDatetime < TypedValue
-    def type() DatetimeType.instance; end  
+class TypedTimestamp < TypedValue
+    def type() TimestampType.instance; end  
   
     def initialize( initial_value = nil)
        replace( initial_value || type.zero )
     end 
-end  # class TypedDatetime
+end  # class TypedTimestamp
 
 
 

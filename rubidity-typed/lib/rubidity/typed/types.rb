@@ -34,15 +34,16 @@ class Type
 
 
     TYPES = [:string,  
-             :address, :ethscriptionId,
+             :address, :inscriptionId,
              :bytes32, :bytes,
              :bool, 
-             :uint256, :int256, 
-             :datetime,
+             :uint, :int, 
+             :timestamp,
              :array, :mapping]
             
              
-  TYPES.each do |type|  ## legacy - use classes e.g is_a?( ArrayType ) - why? why not?
+  ## legacy - use classes e.g is_a?( ArrayType ) - why? why not?
+  TYPES.each do |type|  
      define_method( "#{type}?" ) do
          ## note: must be symbols both (symbol != string!!!)
          self.name == type
@@ -55,12 +56,12 @@ class Type
   def self.value_types
     ## note: use shared single (type) instances
     [:string,   
-     :address, :ethscriptionId,
+     :address, :inscriptionId,
      :bytes32,
      :bytes,   ### fix: see notes on bytes - is dynamic?? (reference value) double-check!!
      :bool,
-     :uint256, :int256, 
-     :datetime, 
+     :uint, :int, 
+     :timestamp, 
     ]
   end
  
@@ -73,13 +74,13 @@ class Type
     case type_name
     when :string                 then StringType.instance   ## share single (type) instance
     when :address                then AddressType.instance
-    when :ethscriptionId         then EthscriptionIdType.instance
+    when :inscriptionId          then InscriptionIdType.instance
     when :bytes32                then Bytes32Type.instance
     when :bytes                  then BytesType.instance
     when :bool                   then BoolType.instance 
-    when :uint256                then Uint256Type.instance 
-    when :int256                 then Int256Type.instance 
-    when :datetime               then DatetimeType.instance 
+    when :uint                   then UIntType.instance 
+    when :int                    then IntType.instance 
+    when :timestamp              then TimestampType.instance 
     when :array
       ## todo: fix - find metadata format
       sub_type = create( kwargs[:sub_type] )  
@@ -150,7 +151,7 @@ class Type
        end
  
 
-    elsif is_a?(Uint256Type)
+    elsif is_a?(UIntType)
       if literal.is_a?(String)
         literal = parse_integer(literal)
       end
@@ -160,7 +161,7 @@ class Type
       end
       
       raise_type_error(literal)
-    elsif is_a?( Int256Type )
+    elsif is_a?( IntType )
       if literal.is_a?(String)
         literal = parse_integer(literal)
       end
@@ -182,14 +183,14 @@ class Type
       end
       
       return literal
-    elsif is_a?( EthscriptionIdType ) || is_a?( Bytes32Type )
+    elsif is_a?( InscriptionIdType ) || is_a?( Bytes32Type )
       unless literal.is_a?(String) && literal.match?(/\A0x[a-f0-9]{64}\z/i)
         raise_type_error(literal)
       end
 
       ## note: always downcase & freeze address - why? why not?
       ##   fix-fix-fix - check - use BYTES32_ZERO - why? why not?
-      return literal == ETHSCRIPTION_ID_ZERO ? literal : literal.downcase.freeze
+      return literal == INSCRIPTION_ID_ZERO ? literal : literal.downcase.freeze
 
     elsif is_a?( BytesType )
       ## note:  assume empty string is bytes literal!!!
@@ -208,8 +209,8 @@ class Type
       return literal.downcase
 
 
-    elsif is_a?( DatetimeType )
-      dummy_uint = Uint256Type.instance
+    elsif is_a?( TimestampType )
+      dummy_uint = UIntType.instance
       
       begin
         return dummy_uint.check_and_normalize_literal(literal)
@@ -336,11 +337,11 @@ end
 
 
 
-class EthscriptionIdType < ValueType      ## todo/check: rename to inscripeId or inscriptionId
-    def name() :ethscriptionId; end
-    def format() 'ethscriptionId'; end
-    def ==(other)  other.is_a?( EthscriptionIdType ); end
-    def zero()  ETHSCRIPTION_ID_ZERO; end
+class InscriptionIdType < ValueType      ## todo/check: rename to inscripeId or inscriptionId
+    def name() :inscriptionId; end
+    def format() 'inscriptionId'; end
+    def ==(other)  other.is_a?( InscriptionIdType ); end
+    def zero()  INSCRIPTION_ID_ZERO; end
     
     alias_method :to_s,          :format
     alias_method :default_value, :zero
@@ -349,7 +350,7 @@ class EthscriptionIdType < ValueType      ## todo/check: rename to inscripeId or
 
     #####
     #  add create helper - why? why not?    
-    def create( initial_value=ETHSCRIPTION_ID_ZERO ) TypedEthscriptionId.new( initial_value ); end 
+    def create( initial_value=INSCRIPTION_ID_ZERO ) TypedInscriptionId.new( initial_value ); end 
 end
 
 
@@ -404,10 +405,10 @@ class BoolType < ValueType
     def create( initial_value=false ) TypedBool.new( initial_value ); end 
 end
 
-class Uint256Type < ValueType
-    def name() :uint256; end
-    def format() 'uint256'; end
-    def ==(other)  other.is_a?( Uint256Type ); end
+class UIntType < ValueType
+    def name() :uint; end
+    def format() 'uint'; end
+    def ==(other)  other.is_a?( UIntType ); end
     def zero()   0; end
      
     alias_method :to_s,          :format
@@ -417,14 +418,14 @@ class Uint256Type < ValueType
 
     #####
     #  add create helper - why? why not?    
-    def create( initial_value=0 ) TypedUint256.new( initial_value ); end 
+    def create( initial_value=0 ) TypedUInt.new( initial_value ); end 
 end
 
 
-class Int256Type < ValueType
-    def name() :int256; end
-    def format() 'int256'; end
-    def ==(other)  other.is_a?( Int256Type ); end
+class IntType < ValueType
+    def name() :int; end
+    def format() 'int'; end
+    def ==(other)  other.is_a?( IntType ); end
     def zero()   0; end
         
     alias_method :to_s,          :format
@@ -434,13 +435,13 @@ class Int256Type < ValueType
 
     #####
     #  add create helper - why? why not?    
-    def create( initial_value=0 ) TypedInt256.new( initial_value ); end 
+    def create( initial_value=0 ) TypedInt.new( initial_value ); end 
 end
 
-class DatetimeType < ValueType   ## note: datetime is int (epoch time since 1970 in seconds in utc)
-    def name() :datetime; end
-    def format() 'datetime'; end
-    def ==(other)  other.is_a?( DatetimeType ); end
+class TimestampType < ValueType   ## note: datetime is int (epoch time since 1970 in seconds in utc)
+    def name() :timestamp; end
+    def format() 'timestamp'; end
+    def ==(other)  other.is_a?( TimestampType ); end
     def zero()   0; end
         
     alias_method :to_s,          :format
@@ -450,7 +451,7 @@ class DatetimeType < ValueType   ## note: datetime is int (epoch time since 1970
 
     #####
     #  add create helper - why? why not?    
-    def create( initial_value=0 ) TypedDatetime.new( initial_value ); end 
+    def create( initial_value=0 ) TypedTimestamp.new( initial_value ); end 
 end 
 
 

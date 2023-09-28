@@ -1,6 +1,13 @@
 # Notes & Todos
 
 
+## Changelog
+
+-  change Uint256, Int256 to Uint, Int for now!!
+-  change Uint to UInt (same in swift, c#, ...)
+-  change ethscriptionId to inscription id
+
+
 ## Todos
 
 - [ ]  add (type) alias for :uint, :int (for uint256 and int256)

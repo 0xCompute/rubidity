@@ -31,8 +31,8 @@ pp name.value
 ## name.replace( 123 )
 
 
-decimals     = TypedUint256.new
-totalSupply  = TypedUint256.new
+decimals     = TypedUInt.new
+totalSupply  = TypedUInt.new
 pp decimals
 pp totalSupply
 
@@ -47,7 +47,7 @@ pp totalSupply.serialize
 
 
 balanceOf = TypedMapping.new key_type: :address,
-                             value_type: :uint256
+                             value_type: :uint
 
 
 

@@ -13,28 +13,24 @@ pp Type::TYPES
 #=> [:string,
 #    :mapping,
 #    :address,
-#    :dumbContract,
-#    :addressOrDumbContract,
-#    :ethscriptionId,
+#    :inscriptionId,
 #    :bool,
 #    :address,
-#    :uint256,
-#    :int256,
+#    :uint,
+#    :int,
 #    :array,
-#    :datetime]
+#    :timestamp]
 
 
 pp Type.value_types   ## excludes mapping & array
 #=> [:string,
 #    :address,
-#    :dumbContract,
-#    :addressOrDumbContract,
-#    :ethscriptionId,
+#    :inscriptionId,
 #    :bool,
 #    :address,
-#    :uint256,
-#    :int256,
-#    :datetime]
+#    :uint,
+#    :int,
+#    :timestamp]
 
 
 
@@ -55,7 +51,7 @@ pp t.zero
 pp t.name
 
 t = Type.create( :mapping, key_type: :address,
-                           value_type: :uint256 )
+                           value_type: :uint )
 # pp t.metadata 
 pp t.name
 pp t.format
@@ -66,7 +62,7 @@ pp t.value_type
 pp t.address?
 pp t.array?
 pp t.mapping?
-pp t.uint256?
+pp t.uint?
 pp t.string?
 
 
@@ -93,10 +89,10 @@ pp t.hash
 pp t.inspect
 pp t.is_value_type?
 pp t.bool?
-pp t.uint256?
+pp t.uint?
 
 pp BoolType.instance == BoolType.instance
-pp BoolType.instance == Uint256Type.instance
+pp BoolType.instance == UIntType.instance
 
 
 
@@ -166,8 +162,8 @@ puts "symbol:<#{symbol}>- name:<#{name}>"
 
 
 
-decimals     = TypedVariable.create( :uint256 )
-totalSupply  = TypedVariable.create( :uint256 )
+decimals     = TypedVariable.create( :uint )
+totalSupply  = TypedVariable.create( :uint )
 pp decimals
 pp totalSupply
 
@@ -183,7 +179,7 @@ pp totalSupply.serialize
 
 
 balanceOf = TypedVariable.create :mapping, key_type:   :address,
-                                           value_type: :uint256
+                                           value_type: :uint
 
 
 pp balanceOf

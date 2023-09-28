@@ -58,10 +58,10 @@ end
 statevars = [ 
   [:name,        TypedVariable.create( :string )],
   [:symbol,      TypedVariable.create( :string )],
-  [:decimals,    TypedVariable.create( :uint256 )],    
-  [:totalSupply, TypedVariable.create( :uint256 )],
+  [:decimals,    TypedVariable.create( :uint )],    
+  [:totalSupply, TypedVariable.create( :uint )],
   [:balanceOf,   TypedVariable.create( :mapping, key_type: :address,
-                                                 value_type: :uint256) ],
+                                                 value_type: :uint) ],
 ]
 
 pp statevars

@@ -17,7 +17,7 @@ BYTES20_ZERO         = ('0x'+'00'*20).freeze   ## 20 bytes (40 hexchars)  ## car
 BYTES32_ZERO         = ('0x'+'00'*32).freeze   ## 32 bytes (64 hexchars)
 
 ADDRESS_ZERO         = BYTES20_ZERO
-ETHSCRIPTION_ID_ZERO = ETHSCRIPTIONID_ZERO = BYTES32_ZERO
+INSCRIPTION_ID_ZERO  = INSCRIPTIONID_ZERO = BYTES32_ZERO
 
 
 

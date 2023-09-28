@@ -58,11 +58,11 @@ class TypedMapping < TypedReference
     obj = @data[key_var]
 
     if value_type.is_a?( MappingType ) && obj.nil?
-      obj = value_type.create( value_type.zero ) 
+      obj = value_type.create
       @data[key_var] = obj
     end
 
-    obj || value_type.create( value_type.zero ) 
+    obj || value_type.create 
   end
 
 
@@ -90,6 +90,8 @@ class TypedMapping < TypedReference
   def serialize
     puts "[debug] TypedMapping#serialize"
     @data.reduce({}) do |h, (k, v)|
+      ## todo/fix:
+      ##   check if value is zero/ do not serialize zero - why? why not?
         h[k.serialize] = v.serialize
         h
     end

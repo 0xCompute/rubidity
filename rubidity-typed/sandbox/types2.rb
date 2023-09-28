@@ -11,13 +11,13 @@ require 'rubidity/typed'
 
 string       =  Type.create( :string )
 address      =  Type.create( :address ) 
-ethscriptionId   =  Type.create( :ethscriptionId ) 
+inscriptionId   =  Type.create( :inscriptionId ) 
 bytes32      =  Type.create( :bytes32 )
 bytes      =  Type.create( :bytes )
 bool    =   Type.create( :bool ) 
-uint256 =   Type.create( :uint256 )
-int256  =   Type.create( :int256 )
-datetime =  Type.create( :datetime )
+uint  =   Type.create( :uint )
+int   =   Type.create( :int )
+timestamp =  Type.create( :timestamp )
 
 pp string
 pp address
@@ -33,7 +33,7 @@ pp bytes32.is_value_type?
 
 #=>     mapping ({ address: :uint256 }), :public, :balanceOf
 mapping = Type.create( :mapping, key_type: :address, 
-                                 value_type: :uint256 )
+                                 value_type: :uint )
 pp mapping
 pp mapping.format
 pp mapping.is_value_type?
@@ -45,7 +45,7 @@ pp t
 t = Type.create( t )
 pp t
 
-t = Type.create( :uint256 )
+t = Type.create( :uint )
 pp t
 pp t.format
 pp t.is_value_type?
@@ -57,7 +57,7 @@ pp t.format
 pp t.is_value_type?
 
 t = Type.create( :mapping, key_type:   :address,
-                           value_type: :uint256 )
+                           value_type: :uint )
 pp t
 pp t.format
 pp t.is_value_type?
@@ -84,7 +84,7 @@ pp var.serialize
 
 
 var =  TypedVariable.create( :array, 
-                             sub_type: :uint256 )
+                             sub_type: :uint )
 pp var
 puts "serialize:"
 pp var.serialize

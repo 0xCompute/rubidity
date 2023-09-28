@@ -9,7 +9,7 @@ require 'rubidity/typed'
 
 
 balanceOf  = TypedMapping.new( key_type:   :address,
-                               value_type: :uint256 )
+                               value_type: :uint )
 
 t = balanceOf.type                      
 # pp t.metadata 
@@ -21,7 +21,7 @@ pp t.value_type
 pp t.address?
 pp t.array?
 pp t.mapping?
-pp t.uint256?
+pp t.uint?
 pp t.string?
 
 pp t.zero

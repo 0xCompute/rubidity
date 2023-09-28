@@ -13,16 +13,16 @@ pp a = TypedString.new
 pp a = TypedString.new( "hello, world!" )
 
 
-pp a = TypedUint256.new    
-pp a = TypedUint256.new(100)   
+pp a = TypedUInt.new    
+pp a = TypedUInt.new(100)   
 pp a += 100
 pp a -= 100
 
 ## use/add TypedNat(ural) (natural integer number) alias - why? why not?
 ##   check if natural numbers start at 0 (or exclude 0 ????)
 
-pp a = TypedInt256.new
-pp a = TypedInt256.new( 100 )
+pp a = TypedInt.new
+pp a = TypedInt.new( 100 )
 pp a += 100
 pp a -= 100
 
@@ -41,15 +41,15 @@ pp a = TypedAddress.new
 pp a = TypedAddress.new( '0x'+ 'aa'*20 )
 
 
-pp a = TypedEthscriptionId.new
-pp a = TypedEthscriptionId.new( '0x'+'ab'*32 )
+pp a = TypedInscriptionId.new
+pp a = TypedInscriptionId.new( '0x'+'ab'*32 )
 
 
 pp a = TypedBytes32.new
 pp a = TypedBytes32.new( '0x'+'ab'*32 )
 
 
-pp a = TypedDatetime.new
+pp a = TypedTimestamp.new
 ## use/change/rename to Timestamp - why? why not?
 ##   ALWAYS uses epoch time starting at 0 (no time zone or such)
 
@@ -59,7 +59,6 @@ pp a = TypedDatetime.new
 ## todo/check:  is bytes a (mutabale)bytebuffer or a frozen/immutable?
 pp a = TypedBytes.new    
 
-__END__
 
 
 ###########################
@@ -82,9 +81,9 @@ pp a.serialize
 ## todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
 ##                 use special unicode-chars for <>??
 
-pp a = TypedArray.new( sub_type: :uint256 )
+pp a = TypedArray.new( sub_type: :uint )
 pp a.type
-pp a = TypedArray.new( [0,1,2], sub_type: :uint256 )
+pp a = TypedArray.new( [0,1,2], sub_type: :uint )
 pp a[0]
 pp a[1]
 pp a[2]
@@ -105,11 +104,11 @@ alice   = '0x'+ 'aa'*20
 bob     = '0x'+ 'bb'*20
 charlie = '0x'+ 'cc'*20
 
-pp a = TypedMapping.new( key_type: :address, value_type: :uint256 )
+pp a = TypedMapping.new( key_type: :address, value_type: :uint )
 pp a.type
 pp a = TypedMapping.new( { alice   =>  100,
                         bob     =>  200 },
-                       key_type: :address, value_type: :uint256 )
+                       key_type: :address, value_type: :uint )
 
 pp a[ alice ]
 pp a[ bob ]

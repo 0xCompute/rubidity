@@ -1,6 +1,6 @@
 # Rubidity Typed
 
-rubidity-typed - "zero-dependency" type machinery incl. (frozen) string, address, uint256, contract and more for rubidity - ruby for layer 1 (l1) contracts with "off-chain" indexer
+rubidity-typed - "zero-dependency" type machinery incl. (frozen) string, address, uint, contract and more for rubidity - ruby for layer 1 (l1) contracts with "off-chain" indexer
 
 
 * home  :: [github.com/s6ruby/rubidity](https://github.com/s6ruby/rubidity)
@@ -18,17 +18,18 @@ See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" I
 
 ## Data Types
 
+
 ### Available Value & Reference Types
 
 Value Types
 
-* `:string`: Text-based data. Rubidity strings are immutable (frozen).
-* `:address`: Ethereum address (in hexadecimal).
-* `:ethscriptionId`: Unique identifiers for Ethscriptions (hexadecimal).
+* `:string`: Text-based data (in utf8). Rubidity strings are immutable (frozen).
+* `:address`: Ethereum address (in hexadecimal) - 20 bytes (40 hexchars).
+* `:inscriptionId`: Unique identifiers for Inscriptions (hexadecimal) - 32 bytes (64 hexchars).
 * `:bool`: Boolean values (true or false).
-* `:uint256`: Unsigned 256-bit integers.
-* `:int256`: Signed 256-bit integers.
-* `:datetime`: Date and time (stored as unsigned 256-bit integers).
+* `:uint`: Unsigned 256-bit integers.
+* `:int`: Signed 256-bit integers.
+* `:timestamp`: Date and time (stored as unsigned 256-bit integers. unix epoch starting in 1970).
 
 <!--
 * `:dumbContract`: A specific type of contract ID (hexadecimal).
@@ -49,9 +50,9 @@ that gets assigned when a variable is declared but not initialized.
 Understanding these defaults is crucial for avoiding unintended behavior in your code. 
 Here is the rundown:
 
-* **Integers (:int256, :uint256, :datetime)**: Default to `0`.
+* **Integers (:int, :uint, :timestamp)**: Default to `0`.
 * **Address Types (:address)**: Default to a zero-address, which is `0x0000000000000000000000000000000000000000`.
-* **Contract Identifiers (:ethscriptionId)**: Default to a zero-identifier, `0x0000000000000000000000000000000000000000000000000000000000000000`.
+* **Inscription Identifiers (:inscriptionId)**: Default to a zero-identifier, `0x0000000000000000000000000000000000000000000000000000000000000000`.
 * **String (:string)**: Default to an empty string `''`.
 * **Boolean (:bool)**: Default to `false`.
 * **Mapping (:mapping)**: Default to an empty mapping object. The key and value types are set according to your specifications.
@@ -66,11 +67,11 @@ Rubidity employs a strong system of type validation and coercion to ensure that 
 Here's a brief rundown of Rubidity's type coercion rules:
 
 * **:address**: Accepts hexadecimal strings that match the Ethereum address format (`0x` followed by 40 hexadecimal characters). The address is then normalized to lowercase.
-* **:uint256 and :int256**: These types accept both integer and string representations. Strings are attempted to be coerced into integers. uint256 and int256 cannot be out of the range of their Solidity counterparts.
+* **:uint and :int**: These types accept both integer and string representations. Strings are attempted to be coerced into integers. uint and int cannot be out of the range of their Solidity counterparts.
 * **:string**: Only accepts string literals. Note: strings are immutable (frozen).
 * **:bool**: Accepts only `true` or `false`.
-* **:ethscriptionId**: Accepts hexadecimal strings matching specific patterns (`0x` followed by 64 hexadecimal characters).
-* **:datetime**: Relies on `:uint256` type coercion, as it's represented as an unsigned integer internally.
+* **:inscriptionId**: Accepts hexadecimal strings matching specific patterns (`0x` followed by 64 hexadecimal characters).
+* **:timestamp**: Relies on `:uint` type coercion, as it's represented as an unsigned integer internally.
 * **:mapping**: Accepts a Hash and ensures that keys and values match the specified types. Coerces these into a typed mapping object (`TypedMapping`).
 * **:array**: Accepts an array and ensures that the values match the specified type. Coerces these into a typed array object (`TypedArray`).
 
@@ -98,18 +99,18 @@ a = TypedString.new                    #=> <val string:"">
 a = TypedString.new( "hello, world!" ) #=> <val string:"hello, world!">
 
 
-a = TypedUint256.new                   #=> <val uint256:0>
-a = TypedUint256.new(100)              #=> <val uint256:100>
-a += 100                               #=> <val uint256:200>
-a -= 100                               #=> <val uint256:100>
+a = TypedUInt.new                      #=> <val uint:0>
+a = TypedUInt.new(100)                 #=> <val uint:100>
+a += 100                               #=> <val uint:200>
+a -= 100                               #=> <val uint:100>
 
 #  use/add TypedNat(ural) (natural integer number) alias - why? why not?
 #    check if natural numbers start at 0 (or exclude 0 ????)
 
-a = TypedInt.new                       #=> <val int256:0>
-a = TypedInt.new( 100 )                #=> <val int256:100>
-a += 100                               #=> <val int256:200>
-a -= 100                               #=> <val int256:100>
+a = TypedInt.new                       #=> <val int:0>
+a = TypedInt.new( 100 )                #=> <val int:100>
+a += 100                               #=> <val int:200>
+a -= 100                               #=> <val int:100>
 
 # 
 #  idea  - use "plain" integer as TypedInt - why? why not?
@@ -128,10 +129,10 @@ a = TypedAddress.new( '0x'+ 'aa'*20 )
 #=> <val address:"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
 
 
-a = TypedEthscriptionId.new
-#=> <val ethscriptionId:"0x0000000000000000000000000000000000000000000000000000000000000000">
-a = TypedEthscriptionId.new( '0x'+'ab'*32 )
-#=> <val ethscriptionId:"0xabababababababababababababababababababababababababababababababab">
+a = TypedInscriptionId.new
+#=> <val inscriptionId:"0x0000000000000000000000000000000000000000000000000000000000000000">
+a = TypedInscriptionId.new( '0x'+'ab'*32 )
+#=> <val inscriptionId:"0xabababababababababababababababababababababababababababababababab">
 
 
 a = TypedBytes32.new
@@ -139,7 +140,7 @@ a = TypedBytes32.new
 a = TypedBytes32.new( '0x'+'ab'*32 )
 #=> <val bytes32:"0xabababababababababababababababababababababababababababababababab">
 
-a = TypedDatetime.new               #=> <val datetime:0>
+a = TypedTimestamp.new               #=> <val timestamp:0>
 
 #  use/change/rename to Timestamp - why? why not?
 #    ALWAYS uses epoch time starting at 0 (no time zone or such)
@@ -175,25 +176,25 @@ a.serialize           #=> ["zero", "one", "two", "three", "four"]
 #  todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
 #                  use special unicode-chars for <>??
 
-a = TypedArray.new( sub_type: :uint256 )
-#=> <ref uint256[]:[]>
-a.type             #=> <type uint256[]>
+a = TypedArray.new( sub_type: :uint )
+#=> <ref uint[]:[]>
+a.type             #=> <type uint[]>
 
-a = TypedArray.new( [0,1,2], sub_type: :uint256 )
-#=> <ref uint256[]:
-#      [<val uint256:0>, <val uint256:1>, <val uint256:2>]> 
-a[0]               #=> <val uint256:0>
-a[1]               #=> <val uint256:1>
-a[2]               #=> <val uint256:2>
+a = TypedArray.new( [0,1,2], sub_type: :uint )
+#=> <ref uint[]:
+#      [<val uint:0>, <val uint:1>, <val uint:2>]> 
+a[0]               #=> <val uint:0>
+a[1]               #=> <val uint:1>
+a[2]               #=> <val uint:2>
 a.length           #=> 3
 a.push( 3 )
-a[3]               #=> <val uint256:3>
+a[3]               #=> <val uint:3>
 a[4] = 4
-a[4]               #=> <val uint256:4>
+a[4]               #=> <val uint:4>
 a.length           #=> 5
 a.serialize        #=> [0, 1, 2, 3, 4]
 
-#  todo/check:  add a "convenience" TypedUintArray or TypedArray<Uint>
+#  todo/check:  add a "convenience" TypedUIntArray or TypedArray<UInt>
 #                  use special unicode-chars for <>??
 
 
@@ -201,22 +202,22 @@ alice   = '0x'+ 'aa'*20
 bob     = '0x'+ 'bb'*20
 charlie = '0x'+ 'cc'*20
 
-a = TypedMapping.new( key_type: :address, value_type: :uint256 )
-#=> <ref mapping(address=>uint256):{}>
-a.type                #=> <type mapping(address=>uint256)>
+a = TypedMapping.new( key_type: :address, value_type: :uint )
+#=> <ref mapping(address=>uint):{}>
+a.type                #=> <type mapping(address=>uint)>
 
 a = TypedMapping.new( { alice   =>  100,
                         bob     =>  200 },
-                       key_type: :address, value_type: :uint256 )
-#=> <ref mapping(address=>uint256):
-#     {<val address:"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">=><val uint256:100>, 
-#      <val address:"0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb">=><val uint256:200>}>
+                       key_type: :address, value_type: :uint )
+#=> <ref mapping(address=>uint):
+#     {<val address:"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">=><val uint:100>, 
+#      <val address:"0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb">=><val uint:200>}>
 
-a[ alice ]            #=> <val uint256:100>
-a[ bob ]              #=> <val uint256:200> 
-a[ charlie ]          #=> <val uint256:0>
+a[ alice ]            #=> <val uint:100>
+a[ bob ]              #=> <val uint:200> 
+a[ charlie ]          #=> <val uint:0>
 a[ charlie ] = 300
-a[ charlie ]          #=> <val uint256:300>
+a[ charlie ]          #=> <val uint:300>
 
 a.serialize
 #=> {"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"=>100,

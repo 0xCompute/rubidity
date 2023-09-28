@@ -5,7 +5,7 @@ require 'rubidity/typed'
 
 ## check if += or -= is type checked??
 
-a = TypedUint256.new( 100 )
+a = TypedUInt.new( 100 )
 pp a
 
 a = a + 10
@@ -27,7 +27,7 @@ pp a
 
 
 
-b = TypedUint256.new( 200 )
+b = TypedUInt.new( 200 )
 pp b
 
 puts "bye"
