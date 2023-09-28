@@ -22,7 +22,7 @@ require_relative 'rubidity/version'
 require_relative 'rubidity/generator'
 
 require_relative 'rubidity/contract_base'
-require_relative 'rubidity/contract_implementation'
+require_relative 'rubidity/contract'
 require_relative 'rubidity/abi_proxy'
 
 require_relative 'rubidity/runtime'
@@ -31,7 +31,7 @@ require_relative 'rubidity/runtime'
 ##
 #  add extra setup helpers
 
-class ContractImplementation
+class Contract
 
     def self.construct( *args, **kwargs )
       ## todo/fix: check either args or kwargs MUST be empty
@@ -53,7 +53,8 @@ class ContractImplementation
     class << self
       alias_method :create, :construct
     end
-end  # class ContractImplementation
+end  # class Contract
+
 
 
 puts Rubidity::Module::Lang.banner     ## say hello

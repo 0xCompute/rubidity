@@ -35,7 +35,7 @@ puts "  #{abi.size} abi(s)"
 ## todo/check:
 ##   double-check if on first create some (more) functions added???
 
-contract = TestToken.create
+contract = TestToken.new
 pp contract
 
 

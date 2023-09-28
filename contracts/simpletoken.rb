@@ -5,7 +5,7 @@
 ##  Here is how the SimpleToken Dumb Contract might be implemented in Rubidity
 
 
-class SimpleToken < ContractImplementation
+class SimpleToken < Contract
 
     event :Transfer, { from:   :address, 
                        to:     :address, 

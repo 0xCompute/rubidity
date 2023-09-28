@@ -1,6 +1,6 @@
 
 
-class SimpleStorage <  ContractImplementation
+class SimpleStorage <  Contract
      
     storage storedData: :uint256
     

@@ -26,15 +26,15 @@ class ContractBase
 
   def self.linearize_contracts( contract )
    ## for now 
-    ##    include all classes before ContractImplementation
+    ##    include all classes before Contract
     ##    cache result - why? why not?
 
     ##
-    ## todo/fix: check if include? ContractImplementation
+    ## todo/fix: check if include? Contract
     ##                    if not raise error - CANNOT linearize (no contract base found)
     classes = []
     contract.ancestors.each do |ancestor|
-        break if ancestor == ContractImplementation ||
+        break if ancestor == Contract ||
                  ancestor == ContractBase
         if ancestor.instance_of?( Class )
             classes << ancestor 

@@ -1,5 +1,5 @@
 
-class TestToken < ContractImplementation   
+class TestToken < Contract  
   
     event :Transfer, { from:   :address, 
                        to:     :address, 

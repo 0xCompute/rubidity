@@ -25,7 +25,7 @@ pp SimpleStorage.public_abi
 ##
 # test drive
 
-contract = SimpleStorage.create
+contract = SimpleStorage.new
 pp contract
 
 

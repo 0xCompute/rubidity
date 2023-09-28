@@ -28,7 +28,7 @@ pp SimpleToken.public_abi
 ####
 # test drive
 
-contract = SimpleToken.create
+contract = SimpleToken.new
 pp contract
 
 

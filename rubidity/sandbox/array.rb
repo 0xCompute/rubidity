@@ -2,7 +2,7 @@ require_relative 'helper'
 
 
 
-class TestArray < ContractImplementation    
+class TestArray < Contract   
 
     storage names:   array( :string ), 
             numbers: array( :uint256 ) 
@@ -24,7 +24,7 @@ abi = TestArray.abi
 pp TestArray.public_abi
   
 
-contract = TestArray.create
+contract = TestArray.new
 pp contract
 
 

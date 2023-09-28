@@ -1,7 +1,7 @@
 require_relative 'helper'
 
 
-class TestMapping < ContractImplementation    
+class TestMapping < Contract    
 
   ## from ERC20
   storage  balanceOf: mapping( :address, :uint256 ),  

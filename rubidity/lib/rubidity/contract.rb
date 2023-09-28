@@ -1,4 +1,4 @@
-class ContractImplementation  < ContractBase
+class Contract  < ContractBase
  
   
 
@@ -172,4 +172,4 @@ class ContractImplementation  < ContractBase
     '0x' + Digest::KeccakLite.hexdigest( str.serialize, 256  )
   end
  
-end    # class ContractImplementation
+end    # class Contract
