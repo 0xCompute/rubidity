@@ -15,7 +15,7 @@ class Simulacrum    ## make it an module - why? why not?
           @sender = TypedAddress.new( address )
         end
         def value=( value )
-          @value = TypedUint256.new( value )
+          @value = TypedUInt.new( value )
         end
       end # (nested) class Message
 
@@ -28,11 +28,11 @@ class Simulacrum    ## make it an module - why? why not?
         end
         
         def number=(number)
-          @number = TypedUint256.new( number )
+          @number = TypedUInt.new( number )
         end
         
         def timestamp=(timestamp)
-          @timestamp = TypedDatetime.new( timestamp )
+          @timestamp = TypedTimestamp.new( timestamp )
         end
       end
 
@@ -97,7 +97,7 @@ Simula = Simulacrum
 # (monkey) patch  - by simply replace (overwrite) - built-in msg && block  
 #                                                    to use Simulacrum!!!
 
-class ContractImplementation
+class Contract
   def msg()    Simulacrum.msg; end
   def block()  Simulacrum.block; end
 end
@@ -122,7 +122,7 @@ class TypedAddress
      to   =  _account
 
      ## check for more datatypes or (simply) use to_int or to_i - why? why not?
-     value = value.is_a?( TypedUint256 ) ? value.serialize : value
+     value = value.is_a?( TypedUInt ) ? value.serialize : value
 
      ## check for below 0 - why? why not?        
      if value > from.balance

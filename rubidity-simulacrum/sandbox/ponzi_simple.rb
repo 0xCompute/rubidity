@@ -3,10 +3,10 @@
 #   last investor (or sucker) HODLing the bag
 
 
-class SimplePonzi < ContractImplementation
+class SimplePonzi < Contract
 
-    storage current_investor:    :address,
-            current_investment:  :uint256
+    storage current_investor:    Address,
+            current_investment:  UInt
 
 
     sig :constructor, []
