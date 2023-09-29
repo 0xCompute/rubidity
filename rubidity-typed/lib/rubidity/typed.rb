@@ -28,6 +28,9 @@ require_relative 'typed/typed'
 require_relative 'typed/typed_array'
 require_relative 'typed/typed_mapping'
 
+require_relative 'typed/typed_struct'
+require_relative 'typed/typed_struct_builder'
+
 
 require_relative 'typed/conversion'
 
