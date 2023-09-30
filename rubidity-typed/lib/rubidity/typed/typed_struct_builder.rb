@@ -26,6 +26,8 @@ def self.build_class( class_name, **attributes )
                         ]
                     end.to_h
 
+
+
   klass = Class.new( TypedStruct ) do
     define_method( :initialize ) do |*args|
       attributes.zip( args ).each do |(key, type), arg|
@@ -33,7 +35,7 @@ def self.build_class( class_name, **attributes )
                 ## fix-fix-fix - check type match here!!!
                  arg
               else 
-                 type.create( arg )
+                 type.new( arg )
               end
         instance_variable_set( "@#{key}", arg )
       end
@@ -60,13 +62,15 @@ def self.build_class( class_name, **attributes )
                   ## fix-fix-fix - check type match here!!!
                   arg
               else 
-                type.create( arg )
+                type.new( arg )
               end
 
         instance_variable_set( "@#{key}", arg )
       end
     end
 
+
+ 
     
     alias_method :old_freeze, :freeze   # note: store "old" orginal version of freeze
     define_method( :freeze ) do
@@ -78,6 +82,11 @@ def self.build_class( class_name, **attributes )
     end
   end
 
+
+  type = StructType.new( class_name, klass )
+  klass.define_singleton_method( :type ) do
+    @type ||= type       
+  end
 
   ## add attributes (with keys / types) class method 
   klass.define_singleton_method( :attributes ) do
@@ -131,6 +140,7 @@ RUBY
 
  ## note: use ContractBase (module) and NOT Object for namespacing
  ##   use include Safe to make all structs global
+ ##  fix-fix-fix - make class_name unique across contracts (e.g. reuse same name in different contract)
   ContractBase.const_set( class_name, klass )   ## returns klass (plus sets global constant class name)
 end # method build_class
 

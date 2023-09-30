@@ -2,14 +2,14 @@
 
 class SimpleStorage <  Contract
      
-    storage storedData: :uint256
+    storage storedData: UInt
     
-    sig :set, [:uint256]
+    sig :set, [UInt]
     def set( x: )
       @storedData = x
     end
 
-    sig :get, [], :view, returns: :uint256
+    sig :get, [], :view, returns: UInt
     def get
       @storedData
     end
@@ -19,5 +19,4 @@ class SimpleStorage <  Contract
     def constructor
     end
 end
-
 

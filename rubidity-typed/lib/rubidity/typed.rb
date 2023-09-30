@@ -10,7 +10,7 @@ end
    
 
 #######
-##   global constantes
+##   global constants
 STRING_ZERO          = ''.freeze             ## string with utf-8 encoding 
 BYTES_ZERO           = String.new().freeze   ## string with binary encoding
 BYTES20_ZERO         = ('0x'+'00'*20).freeze   ## 20 bytes (40 hexchars)  ## care about string encoding here - why? why not?
@@ -26,7 +26,9 @@ require_relative 'typed/version'
 require_relative 'typed/types'
 require_relative 'typed/typed'
 require_relative 'typed/typed_array'
+require_relative 'typed/typed_array_builder'
 require_relative 'typed/typed_mapping'
+require_relative 'typed/typed_mapping_builder'
 
 require_relative 'typed/typed_struct'
 require_relative 'typed/typed_struct_builder'

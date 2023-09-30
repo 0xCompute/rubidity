@@ -81,11 +81,13 @@ class Contract  < ContractBase
       # immutable = definition[:immutable]
      
       puts "[debug] add ivar @#{name} - #{type}"
-      ### note. create  TypedVariable instance here (via Type#create)
+      ### note. create Typed instance here (via Type#create)
+      ##    fix-fix-fix  use type.new_zero !!!!
       instance_variable_set("@#{name}", type.create ) 
     end
   end 
 
+  
   def serialize
     self.class.state_variable_definitions.keys.reduce({}) do |h, name|
       ivar = instance_variable_get("@#{name}")

@@ -21,50 +21,17 @@ class Type
     ##            mapping(address=>uint256)
     ##            string[]
     ##       and so on...
-    alias_method :to_s, :format 
     def pretty_print( printer ) printer.text( "<type #{format}>" ); end
 
-    def zero
-    #    ## check/todo: what error to raise for not implemented / method not defined???
-    #    raise ArgumentError, "no required zero method defined for Type subclass #{self.class.name}; sorry"
+    def zero   ## change to zero_literal (returns 0, [], {} - NOT typed version) - why? why not?
+      #    ## check/todo: what error to raise for not implemented / method not defined???
+      raise "no required zero method defined for Type subclass #{self.class.name}; sorry"
     end
-    alias_method :default_value, :zero   ## keep default_value alias - why? why not?
 
-
-
-
-    TYPES = [:string,  
-             :address, :inscriptionId,
-             :bytes32, :bytes,
-             :bool, 
-             :uint, :int, 
-             :timestamp,
-             :array, :mapping]
-            
-             
-  ## legacy - use classes e.g is_a?( ArrayType ) - why? why not?
-  TYPES.each do |type|  
-     define_method( "#{type}?" ) do
-         ## note: must be symbols both (symbol != string!!!)
-         self.name == type
-     end
-  end
-
-
+  ##  todo/check - make "dynamic" e.g. structs with all value types still value type? - why? why not?  
   def is_value_type?() is_a?( ValueType ); end    
 
-  def self.value_types
-    ## note: use shared single (type) instances
-    [:string,   
-     :address, :inscriptionId,
-     :bytes32,
-     :bytes,   ### fix: see notes on bytes - is dynamic?? (reference value) double-check!!
-     :bool,
-     :uint, :int, 
-     :timestamp, 
-    ]
-  end
- 
+
 
   def self.create( type_or_name, **kwargs )
     return type_or_name   if type_or_name.is_a?( Type )
@@ -269,23 +236,6 @@ def ==(other)
 end
 
 
-=begin
-def ==(other)
-## todo: check what to do for AddressOrDumbContract
-  ##                               allow union? (e.g. Address and DumbContract) too
-  ##
-  ##
-
-  if is_a?( ValueType )
-     other.is_a?( self.class )
-  else 
-    ## note: also check for matching sub_type or key_type/value_type
-    other.is_a?(self.class) && other.format == format
-  end
-end
-=end
-
-
 def hash()    [format].hash;  end    ## add Type prefix or such - why? why not?  
 def eql?(other)  hash == other.hash; end  ## check eql? used for what?
 end  # class Type
@@ -302,157 +252,171 @@ class ReferenceType < Type; end
 
 
 class StringType < ValueType  ## note: strings are frozen / immutable - check again!!
-    def name() :string; end     ## change name to type or symbol  or - why? why not???
     def format() 'string'; end
+    alias_method :to_s, :format 
+
     def ==(other)  other.is_a?( StringType ); end
     def zero()  STRING_ZERO;  end    
-
-    alias_method :to_s,          :format
-    alias_method :default_value, :zero
-
+ 
+ 
     def self.instance()  @instance ||= new; end
 
-    #####
-    #  add create helper - why? why not?    
-    def create( initial_value=STRING_ZERO ) TypedString.new( initial_value ); end 
+    
+    ## todo: return "shared" TypedString zero - why? why not?
+    def typedclass_name()  TypedString.name; end
+    def typedclass()       TypedString;  end
+    def new_zero()   TypedString.new( STRING_ZERO ); end
+    def new( initial_value=STRING_ZERO ) TypedString.new( initial_value ); end 
+    alias_method :create, :new     ## remove create alias - why? why not?
 end
 
 
 
 class AddressType < ValueType
-    def name() :address; end
     def format() 'address'; end
+    alias_method :to_s, :format 
+
     def ==(other)  other.is_a?( AddressType ); end
     def zero() ADDRESS_ZERO;  end
     
-    alias_method :to_s,          :format
-    alias_method :default_value, :zero
-  
+ 
     def self.instance()  @instance ||= new; end
-
-    #####
-    #  add create helper - why? why not?    
-    def create( initial_value=ADDRESS_ZERO ) TypedAddress.new( initial_value ); end 
+ 
+    ## todo: return "shared" TypedAddress zero - why? why not?
+    def typedclass_name()  TypedAddress.name; end
+    def typedclass()       TypedAddress;  end
+    def new_zero() TypedAddress.new( ADDRESS_ZERO ); end
+    def new( initial_value=ADDRESS_ZERO ) TypedAddress.new( initial_value ); end 
+    alias_method :create, :new     ## remove create alias - why? why not?
 end
 
 
 
 class InscriptionIdType < ValueType      ## todo/check: rename to inscripeId or inscriptionId
-    def name() :inscriptionId; end
     def format() 'inscriptionId'; end
+    alias_method :to_s, :format 
+
     def ==(other)  other.is_a?( InscriptionIdType ); end
     def zero()  INSCRIPTION_ID_ZERO; end
+ 
     
-    alias_method :to_s,          :format
-    alias_method :default_value, :zero
-
     def self.instance()  @instance ||= new; end
-
-    #####
-    #  add create helper - why? why not?    
-    def create( initial_value=INSCRIPTION_ID_ZERO ) TypedInscriptionId.new( initial_value ); end 
+ 
+    def typedclass_name()  TypedInscriptionId.name; end
+    def typedclass()       TypedInscriptionId;  end    
+    def new_zero() TypedInscriptionId.new( INSCRIPTION_ID_ZERO ); end
+    def new( initial_value=INSCRIPTION_ID_ZERO ) TypedInscriptionId.new( initial_value ); end 
+    alias_method :create, :new     ## remove create alias - why? why not?
 end
 
 
 class Bytes32Type < ValueType  
-  def name() :bytes32; end
   def format() 'bytes32'; end
+  alias_method :to_s, :format 
+
   def ==(other)  other.is_a?( Bytes32Type ); end
   def zero()  BYTES32_ZERO; end
-  
-  alias_method :to_s,          :format
-  alias_method :default_value, :zero
 
+  
   def self.instance()  @instance ||= new; end
 
-  #####
-  #  add create helper - why? why not?    
-  def create( initial_value=BYTES32_ZERO ) TypedBytes32.new( initial_value ); end 
+  def typedclass_name()  TypedBytes32.name; end
+  def typedclass()       TypedBytes32;  end    
+  def new_zero() TypedBytes32.new( BYTES32_ZERO ); end
+  def new( initial_value=BYTES32_ZERO ) TypedBytes32.new( initial_value ); end 
+  alias_method :create, :new     ## remove create alias - why? why not?
 end
 
 
 class BytesType < ValueType       ### fix: see comments above - is bytes dynamic? or frozen?
-  def name() :bytes; end
   def format() 'bytes'; end
+  alias_method :to_s, :format 
+
   def ==(other)  other.is_a?( BytesType ); end
   def zero()  BYTES_ZERO; end
   
-  alias_method :to_s,          :format
-  alias_method :default_value, :zero
 
   def self.instance()  @instance ||= new; end
 
-  #####
-  #  add create helper - why? why not?    
-  def create( initial_value=BYTES_ZERO ) TypedBytes.new( initial_value ); end 
+  def typedclass_name()  TypedBytes.name; end
+  def typedclass()       TypedBytes;  end    
+  def new_zero() TypedBytes.new( BYTES_ZERO ); end
+  def new( initial_value=BYTES_ZERO ) TypedBytes.new( initial_value ); end 
+  alias_method :create, :new     ## remove create alias - why? why not?
 end
 
 
 
 class BoolType < ValueType
-    def name() :bool; end
     def format() 'bool'; end
+    alias_method :to_s, :format 
+
     def ==(other)  other.is_a?( BoolType ); end
     def zero()   false; end
     
-    alias_method :to_s,          :format
-    alias_method :default_value, :zero
 
     def self.instance()  @instance ||= new; end
 
-    #####
-    #  add create helper - why? why not?    
-    def create( initial_value=false ) TypedBool.new( initial_value ); end 
+    def typedclass_name()  TypedBool.name; end
+    def typedclass()       TypedBool;  end    
+    def new_zero() TypedBool.new( false ); end
+    def new( initial_value=false ) TypedBool.new( initial_value ); end 
+    alias_method :create, :new     ## remove create alias - why? why not?
 end
 
 class UIntType < ValueType
-    def name() :uint; end
     def format() 'uint'; end
+    alias_method :to_s, :format 
+
     def ==(other)  other.is_a?( UIntType ); end
     def zero()   0; end
-     
-    alias_method :to_s,          :format
-    alias_method :default_value, :zero
-   
+       
+
     def self.instance()  @instance ||= new; end
 
-    #####
-    #  add create helper - why? why not?    
-    def create( initial_value=0 ) TypedUInt.new( initial_value ); end 
+    def typedclass_name()  TypedUInt.name; end
+    def typedclass()       TypedUInt;  end    
+    def new_zero() TypedUInt.new( 0 ); end
+    def new( initial_value=0 ) TypedUInt.new( initial_value ); end 
+    alias_method :create, :new     ## remove create alias - why? why not?
 end
 
 
 class IntType < ValueType
-    def name() :int; end
     def format() 'int'; end
+    alias_method :to_s, :format 
+
     def ==(other)  other.is_a?( IntType ); end
     def zero()   0; end
         
-    alias_method :to_s,          :format
-    alias_method :default_value, :zero
 
     def self.instance()  @instance ||= new; end
 
-    #####
-    #  add create helper - why? why not?    
-    def create( initial_value=0 ) TypedInt.new( initial_value ); end 
+    def typedclass_name()  TypedInt.name; end
+    def typedclass()       TypedInt;  end    
+    def new_zero() TypedInt.new( 0 ); end
+    def new( initial_value=0 ) TypedInt.new( initial_value ); end 
+    alias_method :create, :new     ## remove create alias - why? why not?
 end
 
+
 class TimestampType < ValueType   ## note: datetime is int (epoch time since 1970 in seconds in utc)
-    def name() :timestamp; end
     def format() 'timestamp'; end
+    alias_method :to_s, :format 
+
     def ==(other)  other.is_a?( TimestampType ); end
     def zero()   0; end
         
-    alias_method :to_s,          :format
-    alias_method :default_value, :zero
 
     def self.instance()  @instance ||= new; end
 
-    #####
-    #  add create helper - why? why not?    
-    def create( initial_value=0 ) TypedTimestamp.new( initial_value ); end 
+    def typedclass_name()  TypedTimestamp.name; end
+    def typedclass()       TypedTimestamp;  end    
+    def new_zero() TypedTimestamp.new( 0 ); end
+    def new( initial_value=0 ) TypedTimestamp.new( initial_value ); end 
+    alias_method :create, :new     ## remove create alias - why? why not?
 end 
+
 
 
 class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! - add FixedArray - why? why not?)
@@ -460,29 +424,43 @@ class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! 
     def initialize( sub_type )
       @sub_type = sub_type
     end
-    def name() :array; end
     def format() "#{@sub_type.format}[]"; end
+    alias_method :to_s, :format 
+
     def ==(other)
       other.is_a?( ArrayType ) && @sub_type == other.sub_type
     end
     def zero
-        ## or just return [] - why? why not?
-        TypedArray.new( sub_type: @sub_type )    
+        ## return [] - why? why not?
+        []    
     end
     
-    alias_method :to_s,          :format
-    alias_method :default_value, :zero
-
     def self.instance( sub_type ) 
+       raise ArgumentError, "[ArrayType.instance] sub_type not a type - got #{sub_type}; sorry" unless sub_type.is_a?( Type )
        @instances ||= {}
        @instances[ sub_type.format ] ||= new(sub_type) 
     end
 
-    #####
-    #  add create helper - why? why not?    
-    def create( initial_value=[] ) TypedArray.new( initial_value, sub_type: sub_type ); end 
+    def typedclass_name
+      ## return/use symbol (not string here) - why? why not?
+      ##  or use TypedArrayOf<sub-type.typedclass_name>  - why? why not?
+      sub_name = _sanitize_class_name( sub_type.typedclass_name )
+      "TypedArray‹#{sub_name}›"
+    end
+    def typedclass()  TypedArray.const_get( typedclass_name ); end
+    def new_zero()   typedclass.new( [] ); end  
+    def new( initial_value=[] ) typedclass.new( initial_value ); end 
+    alias_method :create, :new     ## remove create alias - why? why not?
 end # class ArrayType
 
+
+def _sanitize_class_name( name )
+  name = name.sub( /\bContractBase::/, '' )   ## remove contract module from name if present
+  name = name.sub( /\bTypedArray::/, '' )
+  name = name.sub( /\bTypedMapping::/, '' )
+  name = name.gsub( '::', '' )                ## remove module separator if present
+  name
+end
 
 
 class MappingType < ReferenceType
@@ -492,31 +470,79 @@ class MappingType < ReferenceType
        @key_type   = key_type
        @value_type = value_type
      end
-     def name() :mapping; end
      def format() "mapping(#{@key_type.format}=>#{@value_type.format})"; end
+     alias_method :to_s, :format 
+
      def ==(other)
        other.is_a?( MappingType ) && 
        @key_type   == other.key_type &&
        @value_type == other.value_type 
      end
      def zero
-        ## or just return {} - why? why not?
-        TypedMapping.new( key_type: @key_type, value_type: @value_type )    
+        ##  return {} - why? why not?
+        {}    
      end
     
-     alias_method :to_s,          :format
-     alias_method :default_value, :zero
- 
+
      def self.instance( key_type, value_type ) 
+        raise ArgumentError, "[MappingType.instance] key_type not a type - got #{key_type}; sorry" unless key_type.is_a?( Type )
+        raise ArgumentError, "[MappingType.instance] value_type not a type - got #{value_type}; sorry" unless value_type.is_a?( Type )
         @instances ||= {}
         @instances[ key_type.format+"=>"+value_type.format ] ||= new(key_type, value_type) 
      end
 
-    #####
-    #  add create helper - why? why not?    
-    def create( initial_value={} ) TypedMapping.new( initial_value, key_type: key_type,
-                                                         value_type: value_type ); end 
+     def typedclass_name
+      ## return/use symbol (not string here) - why? why not?
+      ##  or use TypedMappingOf<key-type.typedclass_name><value_type...>  - why? why not?
+      key_name   = _sanitize_class_name( key_type.typedclass_name )
+      value_name = _sanitize_class_name( value_type.typedclass_name )
+      "TypedMapping‹#{key_name}→#{value_name}›"
+    end
+    def typedclass()  TypedMapping.const_get( typedclass_name ); end
+    def new_zero() typedclass.new( {} ); end 
+    def new( initial_value={} ) typedclass.new( initial_value ); end 
+    alias_method :create, :new     ## remove create alias - why? why not?
 end # class MappingType
+
+
+
+
+class StructType < ReferenceType
+     attr_reader :struct_name
+     attr_reader :struct_class ## reference struct_class here - why? why not? 
+     def initialize( struct_name, struct_class )
+       @struct_name  = struct_name
+       @struct_class = struct_class
+     end
+     def format
+       ## use tuple here (not struct) - why? why not?
+        named_types = @struct_class.attributes.map  {|key,type| "#{key} #{type.format}" }
+        "#{@struct_name} struct(#{named_types.join(',')})" 
+     end
+     alias_method :to_s, :format 
+     def ==(other)
+       other.is_a?( StructType ) &&
+       @struct_name  == other.struct_name &&  ## check for name too - why? why not? 
+       @struct_class == other.struct_class 
+     end
+     def zero
+        ## return [] - why? why not?
+        ## or
+        ##   raise NameError, "no method zero for StructType; sorry"
+        []    
+     end
+    
+
+     def typedclass_name() struct_class.name;  end
+     def typedclass() struct_class;  end
+    def new_zero() struct_class.new_zero; end 
+    def new( initial_value=[] )  ## todo/check: change to values with splat - why? why not?  
+         ## note: use "splat" here - must be empty or matching number of fields/attributes
+         ##  change - why? why not?
+        struct_class.new( *initial_value ) 
+    end 
+    alias_method :create, :new     ## remove create alias - why? why not?
+end # class StructType
 
 
 
@@ -537,8 +563,8 @@ class ContractType < ValueType
     @contract_type = contract_type
   end
 
-  def name() :contract; end
   def format() "contract(#{@contract_type.name})"; end
+  alias_method :to_s, :format 
  
   def ==(other)
     other.is_a?( ContractType ) && 
@@ -551,9 +577,6 @@ class ContractType < ValueType
      ## not possible??
      raise NameError, "no method zero for ContractType; sorry"
   end
-  
-  alias_method :to_s,          :format
-  alias_method :default_value, :zero
 
 
   def self.instance( contract_type ) 
@@ -562,14 +585,10 @@ class ContractType < ValueType
     @instances[ contract_type.name ] ||= new( contract_type ) 
   end
 
-#####
-#  add create helper - why? why not?
    ## add support with passed in address - why? why not?    
-   def create( initial_value ) 
+   def new( initial_value ) 
      raise NameError, "no method create for ContractType; sorry"
    end
+   alias_method :create, :new     ## remove create alias - why? why not?
 end  # class ContractType
-
-
-
 

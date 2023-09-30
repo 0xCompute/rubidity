@@ -2,23 +2,14 @@
 
 class TypedMapping < TypedReference
 
+    ## add short-cut helpers why? why not?
+    def key_type() self.class.type.key_type; end
+    def value_type() self.class.type.value_type; end
+
     ## todo/check: make "internal" data/hash available? why? why not?
     attr_reader :data   
-    attr_reader :type 
-    def key_type() @type.key_type; end
-    def value_type() @type.value_type; end
 
-    def initialize( initial_value = nil, key_type:, value_type: )
-      key_type   = Type.create( key_type )    if key_type.is_a?( Symbol ) ||
-                                                 key_type.is_a?( String )
-      value_type = Type.create( value_type )  if value_type.is_a?( Symbol ) ||
-                                                 value_type.is_a?( String )
-
-
-      @type = MappingType.instance(  key_type, value_type )
-      # puts
-      # puts "[debug] TypedMapping#initialize - #{type.inspect}, #{value.inspect}"
-
+    def initialize( initial_value = nil )
       replace( initial_value || {} )            
       # puts "[debug] data: #{@data.inspect}"
     end
@@ -34,8 +25,8 @@ class TypedMapping < TypedReference
                 else
                     type.check_and_normalize_literal( new_value ).map do |key, value|
                         [
-                          type.key_type.create( key ),
-                          type.value_type.create( value )
+                          type.key_type.new( key ),
+                          type.value_type.new( value )
                         ]
                       end.to_h
                 end
@@ -54,24 +45,25 @@ class TypedMapping < TypedReference
 
   def [](key)
     puts "[debug] TypedMapping#[]( #{key} )"
-    key_var =  key.is_a?( Typed ) ? key : key_type.create( key )
+    key_var =  key.is_a?( Typed ) ? key : key_type.new( key )
     obj = @data[key_var]
 
     if value_type.is_a?( MappingType ) && obj.nil?
-      obj = value_type.create
+      obj = value_type.new_zero
       @data[key_var] = obj
     end
 
-    obj || value_type.create 
+    ## todo/fix-fix-fix:  access allows to ref to struct and than update change to assign !!=!!!!!!
+    obj || value_type.new_zero 
   end
 
 
   def []=(key, new_value)
     puts "[debug] TypedMapping#[]=( #{key}:#{key.class.name}, #{new_value}:#{new_value.class.name})"
     pp type.key_type
-    key_var = key.is_a?( Typed ) ? key : key_type.create( key )
+    key_var = key.is_a?( Typed ) ? key : key_type.new( key )
     pp key_var
-    obj     = new_value.is_a?( Typed ) ? new_value : value_type.create( new_value )
+    obj     = new_value.is_a?( Typed ) ? new_value : value_type.new( new_value )
     pp obj
 
     if value_type.is_a?( MappingType )

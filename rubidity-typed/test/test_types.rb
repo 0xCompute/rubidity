@@ -15,7 +15,6 @@ def test_create
     pp t
 
     assert_equal StringType.instance, t
-    assert_equal :string, t.name
     assert_equal 'string', t.format
     assert_equal true, t.string?
     assert_equal true, t.is_a?( StringType )
@@ -23,8 +22,7 @@ def test_create
     assert_equal true, t.is_a?( ValueType )
 
     assert_equal ''.freeze, t.zero
-    assert_equal ''.freeze, t.default_value
-
+  
     t2 = Type.create( :string )
     pp t
     pp t2

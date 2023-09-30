@@ -4,56 +4,28 @@ class Object   ### move to core_ext/object - why? why not?
   ## check -  add ContractBase here too - why? why not?
   ##           e.g. is_a?( Typed ) || is_a?( ContractBase )
   ##             or add a TypedContract delagate class or such - why? why not?
+  ##    fix - check for class has singelton method type - why? why not?
   def typed?() is_a?( Typed ); end
 end
 
 
 
-def typed( type, initial_value = nil, **kwargs)   
-    ## rename type to type_or_name or such - why? why not?
-    return type.create( initial_value )   if type.is_a?( Type )    ## already a type(def) object
-
-    ## check - allow strings too (onyl symbols now) - why? why not?
-
-    ## check how to deal with :contract (only internal use) ???
-
-    case type
-    when :string                then  TypedString.new( initial_value )
-    when :address               then  TypedAddress.new( initial_value ) 
-    when :inscriptionId         then  TypedInscriptionId.new( initial_value )
-    when :bytes32               then  TypedBytes32.new( initial_value )
-    when :bytes                 then  TypedBytes.new( initial_value )
-    when :bool                  then  TypedBool.new( initial_value ) 
-    when :uint                  then  TypedUInt.new( initial_value )
-    when :int                   then  TypedInt.new( initial_value )
-    when :timestamp             then  TypedTimestamp.new( initial_value )
-    when :array                 then  TypedArray.new( initial_value, **kwargs )
-    when :mapping               then  TypedMapping.new( initial_value, **kwargs )
-    else
-      raise ArgumentError, "unknown type #{type}:#{type.class.name}; sorry"
-    end
-end
-
-
-
-
-
 class Typed 
+  ### fix-fix-fix-  move Forward to where it's used only; not here - why? why not?
    extend Forwardable   ## pulls in def_delegator
 
-  def type      
-    raise "no required typed accessor/ getter method defined for Typed subclass #{self.class.name}; sorry"
+  def self.type      
+    raise "no required typed class accessor/ getter method defined for Typed subclass #{self.class.name}; sorry"
   end
+  def type() self.class.type; end
 
-  def as_json(args = {}) 
-    serialize
-  end
+
+  def as_json( args={} )  serialize; end
   def serialize      
     raise "no required serialize method defined for Typed subclass #{self.class.name}; sorry"
   end  
-  def deserialize( serialized_value )
-    replace( serialized_value )
-  end
+
+  def deserialize( serialized_value )  replace( serialized_value ); end
   def replace( new_value )      
     raise "no required replace method defined for Typed subclass #{self.class.name}; sorry"
   end  
@@ -61,19 +33,8 @@ end  # class Typed
 
 
 
-### note: for "legacy" use TypedVariable as legacy base - remove? SOON? why? why not?
-class TypedVariable  < Typed   ## old "legacy" class for create - do NOT use  
-  def self.create(  type, initial_value = nil, **kwargs ) 
-     typed( type, initial_value, **kwargs ); 
-  end
-end # class TypedVariable
-
-
-
-
-
 ## add value & reference type base - why? why not?
-class TypedValue < TypedVariable
+class TypedValue < Typed
     
   ## todo/check: make "internal" value (string/integer) available? why? why not?
   attr_reader :value   
@@ -117,7 +78,7 @@ end  # TypedValue
 
 
 
-class TypedReference < TypedVariable
+class TypedReference < Typed
 
     def ==(other)
         other.is_a?(self.class) &&
@@ -132,12 +93,10 @@ end
 
 
 class TypedString < TypedValue
+  def self.type() StringType.instance; end  
 
   ## todo/check -- use self.zero or such - why? why not?
   def self.zero() @zero ||= new; end
-
-
-  def type() StringType.instance; end  
 
   def initialize( initial_value = nil )
     replace( initial_value || type.zero )
@@ -155,7 +114,7 @@ end
 
 
 class TypedAddress < TypedValue
-   def type() AddressType.instance; end  
+  def self.type() AddressType.instance; end  
  
    def initialize( initial_value = nil)
       replace( initial_value || type.zero )
@@ -164,7 +123,7 @@ end   # class TypedAddress
 
 
 class TypedInscriptionId < TypedValue
-    def type() InscriptionIdType.instance; end  
+    def self.type() InscriptionIdType.instance; end  
   
     def initialize( initial_value = nil)
        replace( initial_value || type.zero )
@@ -174,7 +133,7 @@ end  # class TypedInscriptionId
 
 
 class TypedBytes32 < TypedValue
-  def type() Bytes32Type.instance; end  
+  def self.type() Bytes32Type.instance; end  
 
   def initialize( initial_value = nil )
     replace( initial_value || type.zero )
@@ -182,7 +141,7 @@ class TypedBytes32 < TypedValue
 end
 
 class TypedBytes < TypedValue
-  def type() BytesType.instance; end  
+  def self.type() BytesType.instance; end  
 
   def initialize( initial_value = nil )
     replace( initial_value || type.zero )
@@ -192,7 +151,7 @@ end
 
 
 class TypedBool < TypedValue
-    def type() BoolType.instance; end  
+    def self.type() BoolType.instance; end  
   
     def initialize( initial_value = nil)
        replace( initial_value || type.zero )
@@ -201,11 +160,11 @@ end  # class TypedBool
 
 
 class TypedUInt < TypedValue
+    def self.type() UIntType.instance; end  
+
     ## todo/check -- use self.zero or such - why? why not?
     def self.zero() @zero ||= new; end
 
-    def type() UIntType.instance; end  
-  
     def initialize( initial_value = nil)
        replace( initial_value || type.zero )
     end 
@@ -231,7 +190,7 @@ end  # class TypedUInt
 
 
 class TypedInt < TypedValue
-    def type() IntType.instance; end  
+    def self.type() IntType.instance; end  
   
     def initialize( initial_value = nil)
        replace( initial_value || type.zero )
@@ -251,7 +210,7 @@ class TypedInt < TypedValue
 end  # class TypedInt
     
 class TypedTimestamp < TypedValue
-    def type() TimestampType.instance; end  
+    def self.type() TimestampType.instance; end  
   
     def initialize( initial_value = nil)
        replace( initial_value || type.zero )
