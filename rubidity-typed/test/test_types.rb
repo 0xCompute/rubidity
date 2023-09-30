@@ -16,7 +16,6 @@ def test_create
 
     assert_equal StringType.instance, t
     assert_equal 'string', t.format
-    assert_equal true, t.string?
     assert_equal true, t.is_a?( StringType )
     assert_equal true, t.is_value_type?
     assert_equal true, t.is_a?( ValueType )

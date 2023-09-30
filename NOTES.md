@@ -1,5 +1,10 @@
 # Notes & Todos
 
+## Todos
+
+- [ ] move tests over from  universum safe structs!!!!
+- [ ] convert uniswap familiy to (more ruby-ish) rubidity 
+
 
 ## Changelog
 

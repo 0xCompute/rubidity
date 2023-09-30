@@ -96,11 +96,11 @@ require 'rubidity/typed'
 #  note: (typed) strings always use utf-8 encoding AND
 #               are frozen/immutable!!!
 a = TypedString.new                    #=> <val string:"">
-a = TypedString.new( "hello, world!" ) #=> <val string:"hello, world!">
+a = TypedString.new( 'hello, world!' ) #=> <val string:"hello, world!">
 
 
 a = TypedUInt.new                      #=> <val uint:0>
-a = TypedUInt.new(100)                 #=> <val uint:100>
+a = TypedUInt.new( 100 )               #=> <val uint:100>
 a += 100                               #=> <val uint:200>
 a -= 100                               #=> <val uint:100>
 
@@ -155,11 +155,14 @@ a = TypedBytes.new                 #=> <val bytes:"">
 ###########################
 # reference types
 
-a = TypedArray.new( sub_type: :string )
-#=> <ref string[]:[]>
-a.type    #=> <type string[]>
 
-a = TypedArray.new( ['zero', 'one', 'two'], sub_type: :string )
+# todo/check:  make build_class alias to new?
+TypedArray‹TypedString› = TypedArray.build_class( :string )    
+TypedArray‹TypedString›.type      #=> <type string[]>
+
+a = TypedArray‹TypedString›.new   #=> <ref string[]:[]>
+
+a = TypedArray‹TypedString›.new( ['zero', 'one', 'two'] )
 #=>  <ref string[]:
 #       [<val string:"zero">, <val string:"one">, <val string:"two">]>
 a[0]                  #=> <val string:"zero">
@@ -176,11 +179,12 @@ a.serialize           #=> ["zero", "one", "two", "three", "four"]
 #  todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
 #                  use special unicode-chars for <>??
 
-a = TypedArray.new( sub_type: :uint )
-#=> <ref uint[]:[]>
-a.type             #=> <type uint[]>
+TypedArray‹TypedUInt› = TypedArray.build_class( :uint )
+TypedArray‹TypedUInt›.type      #=> <type uint[]>
 
-a = TypedArray.new( [0,1,2], sub_type: :uint )
+a = TypedArray‹TypedUInt›.new   #=> <ref uint[]:[]>
+
+a = TypedArray‹TypedUInt›.new( [0,1,2] )
 #=> <ref uint[]:
 #      [<val uint:0>, <val uint:1>, <val uint:2>]> 
 a[0]               #=> <val uint:0>
@@ -202,13 +206,16 @@ alice   = '0x'+ 'aa'*20
 bob     = '0x'+ 'bb'*20
 charlie = '0x'+ 'cc'*20
 
-a = TypedMapping.new( key_type: :address, value_type: :uint )
-#=> <ref mapping(address=>uint):{}>
-a.type                #=> <type mapping(address=>uint)>
 
-a = TypedMapping.new( { alice   =>  100,
-                        bob     =>  200 },
-                       key_type: :address, value_type: :uint )
+TypedMapping‹TypedAddress→TypedUInt›  = TypedMapping.build_class( :address, :uint )
+TypedMapping‹TypedAddress→TypedUInt›.type    #=> <type mapping(address=>uint)>
+
+a = TypedMapping‹TypedAddress→TypedUInt›.new
+#=> <ref mapping(address=>uint):{}>
+
+a = TypedMapping‹TypedAddress→TypedUInt›.new( { alice   =>  100,
+                                                bob     =>  200 },
+                                            )
 #=> <ref mapping(address=>uint):
 #     {<val address:"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">=><val uint:100>, 
 #      <val address:"0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb">=><val uint:200>}>
