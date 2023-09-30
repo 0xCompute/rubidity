@@ -21,11 +21,11 @@ def self.build_class( class_name, **attributes )
    ##   to type for now "by hand" here
 
    attributes = attributes.map do |key,type|
-                        [key,
-                         type.is_a?( Symbol ) || type.is_a?( String ) ?  Type.create(type )  : type
-                        ]
-                    end.to_h
-
+                  t = type
+                  t = Type.create( t )   if t.is_a?( Symbol ) || t.is_a?( String ) 
+                  t = t.type             if t.is_a?( Class ) && t.ancestors.include?( Typed )
+                  [key,t]
+                end.to_h
 
 
   klass = Class.new( TypedStruct ) do

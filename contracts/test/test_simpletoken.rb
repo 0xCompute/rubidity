@@ -60,7 +60,7 @@ class TestSimpleToken < MiniTest::Test
   end
 
   def test_contract
-    contract = SimpleToken.create
+    contract = SimpleToken.new
     pp contract
 
     assert_equal STATE_ZERO, contract.serialize
@@ -69,12 +69,12 @@ class TestSimpleToken < MiniTest::Test
     # double check zero init values machinery
     assert_equal TypedString.zero, TypedString.new
     assert_equal TypedString.zero, TypedString.new('')
-    assert_equal TypedUint256.zero, TypedUint256.new
-    assert_equal TypedUint256.zero, TypedUint256.new(0)
+    assert_equal TypedUInt.zero, TypedUInt.new
+    assert_equal TypedUInt.zero, TypedUInt.new(0)
 
     assert_equal TypedString.zero, contract.name  ## call public function
     assert_equal TypedString.zero, contract.symbol ## call public function
-    assert_equal TypedUint256.zero, contract.maxSupply ## call public function
+    assert_equal TypedUInt.zero, contract.maxSupply ## call public function
  
     pp contract.instance_variable_get( :@name )
     pp contract.instance_variable_get( :@symbol )
@@ -85,9 +85,9 @@ class TestSimpleToken < MiniTest::Test
 
     contract.constructor(
       name: 'My Fun Token', # string
-      symbol: 'FUN', # string
-      maxSupply: 21000000, # uint256
-      perMintLimit: 1000   # uint256
+      symbol: 'FUN',        # string
+      maxSupply: 21000000,  # uint
+      perMintLimit: 1000    # uint
     ) 
 
     assert_equal STATE_INIT, contract.serialize 
@@ -127,14 +127,12 @@ class TestSimpleToken < MiniTest::Test
     
     ## 
     #   function :mint, { amount: :uint256 }, :public  
-    contract.msg.sender = alice
-    pp contract.msg.sender
+    Simulacrum.msg.sender = alice
     
     contract.mint( 1000 )   
     contract.mint( 100 )   
     
-    contract.msg.sender = bob
-    pp contract.msg.sender
+    Simulacrum.msg.sender = bob
     
     contract.mint( 500 )   
     contract.mint( 10 )   
@@ -151,14 +149,12 @@ class TestSimpleToken < MiniTest::Test
   
     ##
     # function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public
-    contract.msg.sender = alice
-    pp contract.msg.sender
+    Simulacrum.msg.sender = alice
     
     contract.transfer( to: bob, amount: 111 )
     contract.transfer( to: charlie, amount: 11 )
       
-    contract.msg.sender = bob
-    pp contract.msg.sender
+    Simulacrum.msg.sender = bob
     
     contract.transfer( to: alice, amount: 11 )
     contract.transfer( to: charlie, amount: 111 )

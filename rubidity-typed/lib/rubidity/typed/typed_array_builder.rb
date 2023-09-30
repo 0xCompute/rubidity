@@ -6,6 +6,8 @@ def self.build_class( sub_type: )
   sub_type = Type.create( sub_type )  if sub_type.is_a?( Symbol ) ||
                                          sub_type.is_a?( String )
 
+
+                                         
   unless sub_type.is_value_type?
        raise ArgumentError, "Only value types for array elements supported for now; sorry" 
   end

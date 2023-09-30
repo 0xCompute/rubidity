@@ -86,14 +86,12 @@ pp charlie
 
 ## 
 #   function :mint, { amount: :uint256 }, :public  
-contract.msg.sender = alice
-pp contract.msg.sender
+Simulacrum.msg.sender = alice
 
 contract.mint( 1000 )   
 contract.mint( 100 )   
 
-contract.msg.sender = bob
-pp contract.msg.sender
+Simulacrum.msg.sender = bob
 
 contract.mint( 500 )   
 contract.mint( 10 )   
@@ -109,14 +107,13 @@ pp contract.serialize
 
 ##
 # function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public
-contract.msg.sender = alice
-pp contract.msg.sender
+Simulacrum.msg.sender = alice
 
 contract.transfer( to: bob, amount: 111 )
 contract.transfer( to: charlie, amount: 11 )
-  
-contract.msg.sender = bob
-pp contract.msg.sender
+
+
+Simulacrum.msg.sender = bob
 
 contract.transfer( to: alice, amount: 11 )
 contract.transfer( to: charlie, amount: 111 )

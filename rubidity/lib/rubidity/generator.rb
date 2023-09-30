@@ -161,11 +161,11 @@ def self.getter_function(  contract_class, name, type,
     ## note: make sure name is always a symbol
     name          = name.to_sym
 
-    if type.mapping?
+    if type.is_a?( MappingType )  ## was: mapping?
         mapping_getter_function( contract_class, name, type, 
                                             constant: constant,
                                             immutable: immutable )
-    elsif type.array?
+    elsif type.is_a?( ArrayType )  ## was: array?
       puts "[debug] auto-generate public array getter - #{name} : #{type}:"
 
     
@@ -212,7 +212,7 @@ def self.mapping_getter_function( contract_class, name, type,
     current_type = type
 
     sig_args = []
-    while current_type.name == :mapping do
+    while current_type.is_a?( MappingType ) do
       sig_args << current_type.key_type
       current_type = current_type.value_type
       index += 1
