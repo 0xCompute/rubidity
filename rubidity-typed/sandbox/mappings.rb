@@ -8,21 +8,21 @@ $LOAD_PATH.unshift( "./lib" )
 require 'rubidity/typed'
 
 
-balanceOf  = TypedMapping.new( key_type:   :address,
-                               value_type: :uint )
 
+TypedMapping‹TypedAddress→TypedUInt› = TypedMapping.build_class( 
+                                                      TypedAddress,
+                                                      TypedUInt )
+
+pp TypedMapping‹TypedAddress→TypedUInt›.type
+
+balanceOf  = TypedMapping‹TypedAddress→TypedUInt›.new
 t = balanceOf.type                      
-# pp t.metadata 
-pp t.name
 pp t.format
 pp t.key_type 
 pp t.value_type
 
-pp t.address?
 pp t.array?
 pp t.mapping?
-pp t.uint?
-pp t.string?
 
 pp t.zero
 

@@ -1,13 +1,13 @@
 
 class TypedArray
 
-def self.build_class( sub_type: )
+def self.build_class( sub_type )
   ## add convenience sub_type helper here - why? why not?
-  sub_type = Type.create( sub_type )  if sub_type.is_a?( Symbol ) ||
-                                         sub_type.is_a?( String )
+  ## sub_type = Type.create( sub_type )  if sub_type.is_a?( Symbol ) ||
+  ##                                       sub_type.is_a?( String )
+  sub_type = sub_type.type   if sub_type.is_a?( Class ) && sub_type.ancestors.include?( Typed )
+      
 
-
-                                         
   unless sub_type.is_value_type?
        raise ArgumentError, "Only value types for array elements supported for now; sorry" 
   end
@@ -30,6 +30,9 @@ def self.build_class( sub_type: )
 
       ## add to cache for later (re)use
       cache[ class_name ] = klass
+
+      ## for default scope use Kernel - why? why not?
+      ##   or Globals  or Typed - why? why not?
       TypedArray.const_set( class_name, klass )
     end
 

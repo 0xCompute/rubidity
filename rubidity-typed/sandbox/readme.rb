@@ -61,12 +61,15 @@ pp a = TypedBytes.new
 
 
 
+
 ###########################
 ### reference types
 
-pp a = TypedArray.new( sub_type: :string )
-pp a.type
-pp a = TypedArray.new( ['zero', 'one', 'two'], sub_type: :string )
+TypedArray‹TypedString› = TypedArray.build_class( TypedString )
+pp TypedArray‹TypedString›.type
+
+pp a = TypedArray‹TypedString›.new
+pp a = TypedArray‹TypedString›.new( ['zero', 'one', 'two'] )
 pp a[0]
 pp a[1]
 pp a[2]
@@ -78,12 +81,16 @@ pp a[4]
 pp a.length
 pp a.serialize
 
+
 ## todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
 ##                 use special unicode-chars for <>??
 
-pp a = TypedArray.new( sub_type: :uint )
-pp a.type
-pp a = TypedArray.new( [0,1,2], sub_type: :uint )
+TypedArray‹TypedUInt› = TypedArray.build_class( TypedUInt )
+pp TypedArray‹TypedUInt›.type
+
+
+pp a = TypedArray‹TypedUInt›.new
+pp a = TypedArray‹TypedUInt›.new( [0,1,2] )
 pp a[0]
 pp a[1]
 pp a[2]
@@ -104,11 +111,17 @@ alice   = '0x'+ 'aa'*20
 bob     = '0x'+ 'bb'*20
 charlie = '0x'+ 'cc'*20
 
-pp a = TypedMapping.new( key_type: :address, value_type: :uint )
-pp a.type
-pp a = TypedMapping.new( { alice   =>  100,
-                        bob     =>  200 },
-                       key_type: :address, value_type: :uint )
+
+TypedMapping‹TypedAddress→TypedUInt› = TypedMapping.build_class( 
+                                                      TypedAddress,
+                                                      TypedUInt )
+
+pp TypedMapping‹TypedAddress→TypedUInt›.type
+
+
+pp a = TypedMapping‹TypedAddress→TypedUInt›.new
+pp a = TypedMapping‹TypedAddress→TypedUInt›.new( { alice   =>  100,
+                                                   bob     =>  200 } )
 
 pp a[ alice ]
 pp a[ bob ]
@@ -116,7 +129,6 @@ pp a[ charlie ]
 pp a[ charlie ] = 300
 pp a[ charlie ]      
 pp a.serialize
-
 
 
 puts "bye"

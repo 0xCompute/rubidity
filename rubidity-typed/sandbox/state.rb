@@ -55,13 +55,16 @@ end
 ###
 # try state proxy-lke
 
+TypedMapping‹TypedAddress→TypedUInt› = TypedMapping.build_class( 
+                                                      TypedAddress,
+                                                      TypedUInt )
+
 statevars = [ 
-  [:name,        TypedVariable.create( :string )],
-  [:symbol,      TypedVariable.create( :string )],
-  [:decimals,    TypedVariable.create( :uint )],    
-  [:totalSupply, TypedVariable.create( :uint )],
-  [:balanceOf,   TypedVariable.create( :mapping, key_type: :address,
-                                                 value_type: :uint) ],
+  [:name,        TypedString.new ],
+  [:symbol,      TypedString.new ],
+  [:decimals,    TypedUInt.new ],    
+  [:totalSupply, TypedUInt.new ],
+  [:balanceOf,   TypedMapping‹TypedAddress→TypedUInt›.new ],
 ]
 
 pp statevars

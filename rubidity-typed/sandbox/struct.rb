@@ -15,20 +15,20 @@ require 'rubidity/typed'
 #   amount: TypedUInt   
 #
 
-klassbet = TypedStruct.build_class( :Bet, 
-                      user:    :address,
-                      block:   :uint,
-                      cap:     :uint,
-                      amount:  :uint  )
+Bet = TypedStruct.build_class( :Bet, 
+                      user:    TypedAddress,
+                      block:   TypedUInt,
+                      cap:     TypedUInt,
+                      amount:  TypedUInt  )
 
 
-pp klassbet
-pp klassbet.attributes
+pp Bet
+pp Bet.attributes
 
 
 
 
-bet = ContractBase::Bet.new
+bet = Bet.new
 pp bet
 pp bet.user
 pp bet.amount
@@ -53,7 +53,7 @@ pp bet.serialize
 
 
 
-bet2  = ContractBase::Bet.new
+bet2  = Bet.new
 pp bet2
 puts "serialize:"
 pp bet2.serialize
@@ -69,14 +69,14 @@ puts "serialize:"
 pp bet2.serialize
 
 
-bet3 = ContractBase::Bet.zero
+bet3 = Bet.zero
 bet3.zero?
 pp bet3
 puts "serialize:"
 pp bet3.serialize
 
 
-bet4 = ContractBase::Bet.new( '0x'+'cc'*20,  0, 0, 456, )
+bet4 = Bet.new( '0x'+'cc'*20,  0, 0, 456 )
 pp bet4
 puts "serialize:"
 pp bet4.serialize

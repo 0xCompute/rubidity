@@ -25,7 +25,7 @@ def self.build_class( class_name, scope: ContractBase, **attributes )
 
    attributes = attributes.map do |key,type|
                   t = type
-                  t = Type.create( t )   if t.is_a?( Symbol ) || t.is_a?( String ) 
+  ##                t = Type.create( t )   if t.is_a?( Symbol ) || t.is_a?( String ) 
                   t = t.type             if t.is_a?( Class ) && t.ancestors.include?( Typed )
                   [key,t]
                 end.to_h

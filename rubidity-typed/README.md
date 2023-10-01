@@ -1,6 +1,7 @@
 # Rubidity Typed
 
-rubidity-typed - "zero-dependency" type machinery incl. (frozen) string, address, uint, contract and more for rubidity - ruby for layer 1 (l1) contracts with "off-chain" indexer
+rubidity-typed - "zero-dependency" 100%-solidity compatible data type machinery incl. (frozen) string, address, uint, int, enum, struct, array, mapping, and more for rubidity - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer
+
 
 
 * home  :: [github.com/s6ruby/rubidity](https://github.com/s6ruby/rubidity)
@@ -157,7 +158,7 @@ a = TypedBytes.new                 #=> <val bytes:"">
 
 
 # todo/check:  make build_class alias to new?
-TypedArray‹TypedString› = TypedArray.build_class( :string )    
+TypedArray‹TypedString› = TypedArray.build_class( TypedString )    
 TypedArray‹TypedString›.type      #=> <type string[]>
 
 a = TypedArray‹TypedString›.new   #=> <ref string[]:[]>
@@ -179,7 +180,7 @@ a.serialize           #=> ["zero", "one", "two", "three", "four"]
 #  todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
 #                  use special unicode-chars for <>??
 
-TypedArray‹TypedUInt› = TypedArray.build_class( :uint )
+TypedArray‹TypedUInt› = TypedArray.build_class(  TypedUInt )
 TypedArray‹TypedUInt›.type      #=> <type uint[]>
 
 a = TypedArray‹TypedUInt›.new   #=> <ref uint[]:[]>
@@ -207,7 +208,7 @@ bob     = '0x'+ 'bb'*20
 charlie = '0x'+ 'cc'*20
 
 
-TypedMapping‹TypedAddress→TypedUInt›  = TypedMapping.build_class( :address, :uint )
+TypedMapping‹TypedAddress→TypedUInt›  = TypedMapping.build_class( TypedAddress, TypedUInt )
 TypedMapping‹TypedAddress→TypedUInt›.type    #=> <type mapping(address=>uint)>
 
 a = TypedMapping‹TypedAddress→TypedUInt›.new
@@ -231,9 +232,55 @@ a.serialize
 #    "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"=>200,
 #    "0xcccccccccccccccccccccccccccccccccccccccc"=>300}
 
+
+#
+# more - enums, structs, etc.
+
+Color = TypedEnum.build_class( :Color, :red, :green, :blue )
+Color.type     #=> <type Color enum(red,green,blue)>
+
+Color::RED     #=> <val Color enum(red,green,blue):red(0)>
+Color.red      #=> <val Color enum(red,green,blue):red(0)>
+
+Color::GREEN   #=> <val Color enum(red,green,blue):red(0)>
+Color.green    #=> <val Color enum(red,green,blue):red(0)>
+
+Color.min      #=> <val Color enum(red,green,blue):red(0)>
+Color.max      #=> <val Color enum(red,green,blue):blue(2)>
+
+color = Color.green
+color.serialize   #=> 1 
+
+color = Color.red
+color.serialize   #=> 0
+
+
+
+Bet = TypedStruct.build_class( :Bet, 
+                                 user:    TypedAddress,
+                                 block:   TypedUInt,
+                                 cap:     TypedUInt,
+                                 amount:  TypedUInt  )
+Bet.type
+
+
+bet = Bet.new
+bet.user
+bet.amount
+
+bet.user   = TypedAddress.new( '0x'+'aa'*20 )
+bet.amount = TypedUInt.new( 123 )
+
+bet.user   = '0x'+'bb'*20    ## literal assign (with typecheck)
+bet.amount = 234             ## literal assign (with typecheck)
+
+bet.serialize
+
+bet = Bet.new( '0x'+'cc'*20,  0, 0, 456, 
+bet.serialize
+
+# ...
 ```
-
-
 
 And so on.  To be continued ...
 

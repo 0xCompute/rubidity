@@ -11,7 +11,7 @@ alice   = '0x'+ 'aa'*20
 bob     = '0x'+ 'bb'*20
 charlie = '0x'+ 'cc'*20
 
-typedclass = TypedMapping.build_class( key_type: :address, value_type: :uint )
+typedclass = TypedMapping.build_class( TypedAddress, TypedUInt )
 pp typedclass
 
 ## sames as
@@ -44,10 +44,10 @@ pp a.serialize
 #   amount: TypedUInt   
 #
 Bet = TypedStruct.build_class( :Bet, 
-                      user:    :address,
-                      block:   :uint,
-                      cap:     :uint,
-                      amount:  :uint  )
+                      user:    TypedAddress,
+                      block:   TypedUInt,
+                      cap:     TypedUInt,
+                      amount:  TypedUInt  )
 
 
 pp Bet
@@ -60,7 +60,7 @@ bet = Bet.new
 pp bet
 
 
-typedclass = TypedMapping.build_class( key_type: :uint, value_type: Bet.type )
+typedclass = TypedMapping.build_class( TypedUInt, Bet )
 pp typedclass
 pp typedclass.type
 

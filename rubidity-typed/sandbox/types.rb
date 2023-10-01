@@ -1,6 +1,6 @@
 ##
 # to run use:
-#   $ ruby sandbox/types.rb
+#   $ ruby sandbox/types2.rb
 
 
 
@@ -9,224 +9,69 @@ require 'rubidity/typed'
 
 
 
-pp Type::TYPES
-#=> [:string,
-#    :mapping,
-#    :address,
-#    :inscriptionId,
-#    :bool,
-#    :address,
-#    :uint,
-#    :int,
-#    :array,
-#    :timestamp]
-
-
-pp Type.value_types   ## excludes mapping & array
-#=> [:string,
-#    :address,
-#    :inscriptionId,
-#    :bool,
-#    :address,
-#    :uint,
-#    :int,
-#    :timestamp]
-
-
-
-
-t = Type.create( :string )
-pp t
-t = Type.create( :string )
-pp t
-t = Type.create( :string )
-pp t
+string       =  Typed::StringType.instance
+address      =  Typed::AddressType.instance 
+inscriptionId   =  Typed::InscriptionIdType.instance 
+bytes32      =  Typed::Bytes32Type.instance
+bytes      =  Typed::BytesType.instance
+bool    =   Typed::BoolType.instance 
+uint  =   Typed::UIntType.instance
+int   =   Typed::IntType.instance
+timestamp =  Typed::TimestampType.instance
 
-t = Type.create( :address )
-pp t
-pp t.default_value
-pp t.zero
-
+pp string
+pp address
+pp bytes32
+pp bytes
 
-pp t.name
+pp string.format
+pp address.format
+pp bytes32.format
+pp bytes32.is_value_type?
 
-t = Type.create( :mapping, key_type: :address,
-                           value_type: :uint )
-# pp t.metadata 
-pp t.name
-pp t.format
-pp t.key_type 
-pp t.value_type
 
-
-pp t.address?
-pp t.array?
-pp t.mapping?
-pp t.uint?
-pp t.string?
+##########
+# try typed
 
+var =  TypedString.new( 'Hello, World!')
+pp var
+puts "serialize:"
+pp var.serialize
 
-t = StringType.instance 
-pp t
-pp t.format
-pp t.to_s
-pp t.name
-pp t.inspect
+var =  TypedString.new
+pp var
+puts "serialize:"
+pp var.serialize
 
-t = BoolType.instance
-pp t    ## uses t.pretty_print_inspect
-p  t    ## uses t.inspect
-pp t.format
-pp t.to_s
-pp t.name
-pp t.zero
-pp t.default_value
 
-puts "hash:"
-pp t.hash
-pp t.hash
-pp t.hash
-pp t.inspect
-pp t.is_value_type?
-pp t.bool?
-pp t.uint?
+TypedArray‹TypedString› = TypedArray.build_class( TypedString )
+TypedArray‹TypedUInt›   = TypedArray.build_class( TypedUInt )
+TypedMapping‹TypedString→TypedString› = TypedMapping.build_class( TypedString, TypedString )
 
-pp BoolType.instance == BoolType.instance
-pp BoolType.instance == UIntType.instance
 
 
+var =  TypedArray‹TypedString›.new( ['one', 'two' ] )
+pp var
+puts "serialize:"
+pp var.serialize
 
-str  =  TypedVariable.create( :string, 'hello, world!')
-pp str
-pp str.type
-pp str.value
-pp str.value.frozen?
 
-str  =  TypedString.new( 'hello, world!' )
-pp str
-pp str.type
-pp str.value
-pp str.value.frozen?
-pp str.zero?
+var =  TypedArray‹TypedUInt›.new
+pp var
+puts "serialize:"
+pp var.serialize
 
 
-str  =  TypedVariable.create( :string )
-pp str
-pp str.type
-pp str.value
-pp str.value.frozen?
+var =  TypedMapping‹TypedString→TypedString›.new( {'one'=> 'two' } )
+pp var
+puts "serialize:"
+pp var.serialize
 
-str  =  TypedString.new
-pp str
-pp str.type
-pp str.value
-pp str.value.frozen?
-pp str.zero?
 
+var =  TypedMapping‹TypedString→TypedString›.new
+pp var
+puts "serialize:"
+pp var.serialize
 
-
-
-addr =  TypedVariable.create(:address)  ## zero(0) / default address
-pp addr
-pp addr.type
-pp addr.value
-pp addr.value.frozen?
-
-pp ADDRESS_ZERO
-pp ADDRESS_ZERO.frozen?
-
-
-
-name   = TypedVariable.create( :string ) 
-symbol = TypedVariable.create( :string ) 
-
-pp name
-pp name.type
-pp name.value
-pp name.downcase
-pp name.index( 'hello' )
-
-
-puts
-pp symbol
-pp symbol.type
-pp symbol.value
-
-name.replace( 'hello' )
-pp name
-pp name.value
-pp name.value.frozen?
-
-puts "symbol:<" + symbol + ">- name:<" + name + ">"
-puts "symbol:<#{symbol}>- name:<#{name}>"
-
-
-
-decimals     = TypedVariable.create( :uint )
-totalSupply  = TypedVariable.create( :uint )
-pp decimals
-pp totalSupply
-
-decimals.replace( 18 )
-totalSupply.replace( 21000000 )
-
-
-pp decimals
-pp totalSupply
-pp totalSupply.serialize
-
-
-
-
-balanceOf = TypedVariable.create :mapping, key_type:   :address,
-                                           value_type: :uint
-
-
-pp balanceOf
-
-balanceOf['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 21000000
-
-pp balanceOf
-
-
-old_state = balanceOf.serialize
-puts old_state.class.name  
-#=> Hash
-
-
-balanceOf['0xC2172a6315c1D7f6855768F843c420EbB36eDa97'] = 0
-pp balanceOf.serialize
-
-puts "old_state:"
-pp old_state
-
-balanceOf.replace( old_state )
-
-
-pp balanceOf.serialize
-
-
-balanceOf.deserialize( {} )
-pp balanceOf.serialize
-
-
-
-
-ary = TypedVariable.create( :array, sub_type: :string )
-pp ary
-pp ary.zero?
-
-pp ary.replace( ['one', 'two'] )
-pp ary
-
-ary.push( 'three' )
-pp ary[0]
-pp ary[1]
-pp ary[2]
-pp ary.size
-pp ary
-
-pp ary.serialize
-pp ary.deserialize( ary.serialize )
 
 puts "bye"

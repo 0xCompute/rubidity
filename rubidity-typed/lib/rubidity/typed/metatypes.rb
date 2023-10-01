@@ -1,4 +1,8 @@
 
+###  
+#  Metatype classes like Class in ruby 
+#    every Typed<> has a (Meta)Type class singleton (shared) instance that is_a?( Type )
+
 
 ## note:
 ##   make bytes a reference type?
@@ -8,6 +12,21 @@
 
 
 
+###
+# global helper(s) - move to ??? - why? why not?
+
+def _sanitize_class_name( name )
+  name = name.sub( /\bContractBase::/, '' )   ## remove contract module from name if present
+  name = name.sub( /\bContract::/, '' )   ## remove contract module from name if present
+  name = name.sub( /\bTyped::/, '' )
+  name = name.sub( /\bTypedArray::/, '' )
+  name = name.sub( /\bTypedMapping::/, '' )
+  name = name.gsub( '::', '' )                ## remove module separator if present
+  name
+end
+
+
+class Typed  ## note: use class Typed as namespace (all metatype etc. nested here - the beginning)
 class Type
      ## change format to type or typesig/type_sig 
      ##       or sig or signature or typespec   - why? why not?   
@@ -32,38 +51,12 @@ class Type
   def is_value_type?() is_a?( ValueType ); end    
 
 
-
-  def self.create( type_or_name, **kwargs )
-    return type_or_name   if type_or_name.is_a?( Type )
-  
-    type_name = type_or_name.to_sym
-  
-    case type_name
-    when :string                 then StringType.instance   ## share single (type) instance
-    when :address                then AddressType.instance
-    when :inscriptionId          then InscriptionIdType.instance
-    when :bytes32                then Bytes32Type.instance
-    when :bytes                  then BytesType.instance
-    when :bool                   then BoolType.instance 
-    when :uint                   then UIntType.instance 
-    when :int                    then IntType.instance 
-    when :timestamp              then TimestampType.instance 
-    when :array
-      ## todo: fix - find metadata format
-      sub_type = create( kwargs[:sub_type] )  
-      ArrayType.instance( sub_type )
-    when :mapping 
-      # e.g. mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf    
-      key_type  =  create( kwargs[:key_type] )
-      value_type = create( kwargs[:value_type] )
-      MappingType.instance( key_type, value_type )
-    else
-      raise ArgumentError, "unknown type #{type_name}; sorry"
-    end    
-  end
-
-
+  def mapping?()  is_a?( MappingType ); end
+  def array?()    is_a?( ArrayType ); end
+  ## add more metatype helpers here - why? why not?
  
+
+
   def raise_type_error(literal)
     ## change to typeerror or such - why? why not?
     raise TypeError, "expected type #{self.format}; got #{literal.inspect}"
@@ -247,8 +240,9 @@ end  # class Type
 
 
 
-class ValueType < Type; end       ## add value & reference type base - why? why not?
-class ReferenceType < Type; end
+
+   class ValueType < Type; end       ## add value & reference type base - why? why not?
+   class ReferenceType < Type; end
 
 
 ##
@@ -459,15 +453,6 @@ class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! 
 end # class ArrayType
 
 
-def _sanitize_class_name( name )
-  name = name.sub( /\bContractBase::/, '' )   ## remove contract module from name if present
-  name = name.sub( /\bTypedArray::/, '' )
-  name = name.sub( /\bTypedMapping::/, '' )
-  name = name.gsub( '::', '' )                ## remove module separator if present
-  name
-end
-
-
 class MappingType < ReferenceType
     attr_reader :key_type
     attr_reader :value_type
@@ -634,4 +619,8 @@ class ContractType < ValueType
    end
    alias_method :create, :new     ## remove create alias - why? why not?
 end  # class ContractType
+
+
+## note: use class Typed as namespace (all metatype etc. nested here - the end)
+end  #  class Typed  
 

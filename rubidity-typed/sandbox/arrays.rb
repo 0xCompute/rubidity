@@ -9,7 +9,10 @@ require 'rubidity/typed'
 
 
 
-ary = TypedArray.new( sub_type: :string )
+TypedArray‹TypedString› = TypedArray.build_class( TypedString )
+pp TypedArray‹TypedString›.type
+
+ary = TypedArray‹TypedString›.new
 pp ary
 pp ary.zero?
 

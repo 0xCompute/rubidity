@@ -19,11 +19,18 @@ BYTES32_ZERO         = ('0x'+'00'*32).freeze   ## 32 bytes (64 hexchars)
 ADDRESS_ZERO         = BYTES20_ZERO
 INSCRIPTION_ID_ZERO  = INSCRIPTIONID_ZERO = BYTES32_ZERO
 
+##
+# note:
+#  use class Typed as namespace  for metatypes e.g. Type, StringType, AddressType,
+#     the idea is to avoid confusion about metatypes and typed classes
+#           by "hiding" metatypes from top-level (inside typed)
+class Typed; end
+
 
 
 ## our own code
 require_relative 'typed/version'
-require_relative 'typed/types'
+require_relative 'typed/metatypes'
 require_relative 'typed/typed'
 require_relative 'typed/typed_array'
 require_relative 'typed/typed_array_builder'

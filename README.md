@@ -190,7 +190,7 @@ contracts samples and database (SQL) and runtime modules or such.
 
 The first published modules / gems include:
 
-- [**rubidity-typed**](rubidity-typed) - "zero-dependency" type machinery incl. (frozen) string, address, uint256, (dumb) contract and more for rubidity - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer
+- [**rubidity-typed**](rubidity-typed) - "zero-dependency" 100%-solidity compatible data type machinery incl. (frozen) string, address, uint, int, enum, struct, array, mapping, and more for rubidity - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer
 - [**rubidity**](rubidity) - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer 
 - [**rubidity-contracts**](rubidity-contracts) - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer
 

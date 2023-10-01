@@ -9,7 +9,7 @@ require 'rubidity/typed'
 
 
 
-typedclass = TypedArray.build_class( sub_type: :string )
+typedclass = TypedArray.build_class( TypedString )
 pp typedclass
 
 ## sames as
@@ -36,7 +36,7 @@ pp ary.deserialize( ary.serialize )
 
 
 
-typedclass = TypedArray.build_class( sub_type: :uint )
+typedclass = TypedArray.build_class( TypedUInt )
 pp typedclass
 
 ## sames as

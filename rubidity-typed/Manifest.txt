@@ -4,8 +4,14 @@ README.md
 Rakefile
 lib/rubidity/typed.rb
 lib/rubidity/typed/conversion.rb
+lib/rubidity/typed/metatypes.rb
 lib/rubidity/typed/typed.rb
 lib/rubidity/typed/typed_array.rb
+lib/rubidity/typed/typed_array_builder.rb
+lib/rubidity/typed/typed_enum.rb
+lib/rubidity/typed/typed_enum_builder.rb
 lib/rubidity/typed/typed_mapping.rb
-lib/rubidity/typed/types.rb
+lib/rubidity/typed/typed_mapping_builder.rb
+lib/rubidity/typed/typed_struct.rb
+lib/rubidity/typed/typed_struct_builder.rb
 lib/rubidity/typed/version.rb

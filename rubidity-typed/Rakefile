@@ -6,7 +6,7 @@ Hoe.spec 'rubidity-typed' do
   self.version =  Rubidity::Module::Typed::VERSION
 
 
-  self.summary = 'rubidity-typed - "zero-dependency" type machinery incl. (frozen) string, address, uint256, contract and more for rubidity - ruby for layer 1 (l1) contracts with "off-chain" indexer'
+  self.summary = 'rubidity-typed - "zero-dependency" 100%-solidity compatible data type machinery incl. (frozen) string, address, uint, int, enum, struct, array, mapping, and more for rubidity - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer'
   self.description = summary
 
   self.urls    = { home: 'https://github.com/s6ruby/rubidity' }

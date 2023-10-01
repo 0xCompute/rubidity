@@ -11,7 +11,7 @@ def address( literal=ADDRESS_ZERO )
     ## hack for now support  address(0) 
     ##  todo/fix:  address( '0x0' ) too!!!!
     literal = ADDRESS_ZERO     if literal.is_a?(Integer) && literal == 0
-    AddressType.instance.check_and_normalize_literal( literal )
+    Typed::AddressType.instance.check_and_normalize_literal( literal )
 end  # methdod address 
 
 
