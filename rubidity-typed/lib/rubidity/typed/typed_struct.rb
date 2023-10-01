@@ -14,6 +14,7 @@ def serialize
    end
 end
 
+
 def replace( new_value )    ## note: used for (same as) deserialize!!!
    ## note: assume new_value is an array (of literal values)
    self.class.attributes.zip( new_value ).each do |(key, type), value|
@@ -21,8 +22,13 @@ def replace( new_value )    ## note: used for (same as) deserialize!!!
         ##          deprecate create without args - why? why not?
         ## fix-fix-fix:  also use type.create.deserialize in array and hash!!!
         ##                                       might be a struct too (or enum) !!!!!
-        var = type.create   ## create zero var
-        var.deserialize( value )
+        var = nil
+        if type.is_a?( EnumType )
+            var = type.new( value )
+        else
+            var = type.new_zero   ## create zero var
+            var.deserialize( value )
+        end
         instance_variable_set( "@#{key}", var )
     end
     self  ## note: return reference to self for chaining method calls

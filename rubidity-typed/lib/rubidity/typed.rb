@@ -33,6 +33,8 @@ require_relative 'typed/typed_mapping_builder'
 require_relative 'typed/typed_struct'
 require_relative 'typed/typed_struct_builder'
 
+require_relative 'typed/typed_enum'
+require_relative 'typed/typed_enum_builder'
 
 require_relative 'typed/conversion'
 

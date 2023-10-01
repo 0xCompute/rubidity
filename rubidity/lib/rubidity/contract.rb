@@ -1,6 +1,17 @@
 class Contract  < ContractBase
  
   
+  def self.struct( class_name, **attributes )
+    typedclass = TypedStruct.build_class( class_name, scope: self, **attributes )
+    typedclass    ## what to return here??
+  end
+
+  def self.enum( class_name, *args )
+    typedclass = TypedEnum.build_class( class_name, *args, scope: self  )
+    typedclass    ## what to return here??
+  end
+
+
 
   #####################
   ## quick hack - add contract registry
@@ -99,11 +110,25 @@ class Contract  < ContractBase
   end
   alias_method :dump, :serialize  ### use dump as alias - why? why not?
  
+  
   def deserialize(state_data)  
     state_data.each do |name, value|
       ## todo/fix: make sure ivar is_a? Typed!!!!
-      ivar = instance_variable_get("@#{name}")
-      ivar.deserialize( value )
+      ## lookup type info
+      definition = self.class.state_variable_definitions[ name ]
+      type  = definition[:type]
+      
+      #### todo/check:
+      ###   can replace integer inlince in ruby?? 
+      ##   if not?   change deserialize to always use type.new !!!
+      ##      why? why not?
+      ##
+      if type.is_a?( EnumType )  ## note: (abstract) data types (like enum) CANNOT get replaced; use new ref
+         instance_variable_set( "@#{name}", type.new( value ) )
+      else
+        ivar = instance_variable_get("@#{name}")
+        ivar.deserialize( value )
+      end
     end
   end
   alias_method :load, :deserialize

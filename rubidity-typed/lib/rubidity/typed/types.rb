@@ -138,6 +138,11 @@ class Type
       end
       
       raise_type_error(literal)
+    elsif is_a?( EnumType )
+       if literal.is_a?( Integer )  ## todo - check literal is withing min/max
+          return literal
+       end
+       raise_type_error(literal)
     elsif is_a?( StringType )
       unless literal.is_a?(String)
         raise_type_error(literal)
@@ -506,6 +511,44 @@ end # class MappingType
 
 
 
+### note:  for bool and enum use DataType or AbstractDataType (ADT)
+##             values must always be from existing set (CANNOT create new values/ones)
+##               all instances are immutable/frozen and shared
+class EnumType < Type
+  attr_reader :enum_name
+  attr_reader :enum_class ## reference enum_class here - why? why not? 
+  def initialize( enum_name, enum_class )
+    @enum_name  = enum_name
+    @enum_class = enum_class
+  end
+  def format
+     "#{enum_name} enum(#{enum_class.keys.join(',')})" 
+  end
+  alias_method :to_s, :format 
+  def ==(other)
+    other.is_a?( EnumType ) &&
+    @enum_name  == other.enum_name &&  ## check for name too - why? why not? 
+    @enum_class == other.enum_class 
+  end
+  def zero
+     ## return 0 - why? why not?
+     ## or
+     ##   raise NameError, "no method zero for EnumType; sorry"
+     0    
+  end
+ 
+
+  def typedclass_name() @enum_class.name;  end
+  def typedclass() @enum_class;  end
+ def new_zero() @enum_class.new_zero; end 
+ def new( initial_value=0 ) 
+     ## allow new use here - why? why not?
+     @enum_class.members[ initial_value ] 
+ end 
+ alias_method :create, :new     ## remove create alias - why? why not?
+end
+
+
 
 class StructType < ReferenceType
      attr_reader :struct_name
@@ -533,13 +576,13 @@ class StructType < ReferenceType
      end
     
 
-     def typedclass_name() struct_class.name;  end
-     def typedclass() struct_class;  end
-    def new_zero() struct_class.new_zero; end 
+     def typedclass_name() @struct_class.name;  end
+     def typedclass() @struct_class;  end
+    def new_zero() @struct_class.new_zero; end 
     def new( initial_value=[] )  ## todo/check: change to values with splat - why? why not?  
          ## note: use "splat" here - must be empty or matching number of fields/attributes
          ##  change - why? why not?
-        struct_class.new( *initial_value ) 
+        @struct_class.new( *initial_value ) 
     end 
     alias_method :create, :new     ## remove create alias - why? why not?
 end # class StructType

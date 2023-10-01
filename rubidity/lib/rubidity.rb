@@ -45,10 +45,6 @@ def mapping( key_type, value_type )
     typedclass.type    ## fix-fix-fix - return typedclass in future - why? why not?
 end
 
-def struct( class_name, **attributes )
-    typedclass = TypedStruct.build_class( class_name, **attributes )
-    typedclass    ## what to return here??
-end
 
 
 

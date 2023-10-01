@@ -1,8 +1,11 @@
 
 class TypedStruct
 
+  
+# todo/fix:  scope: keep empty by default
+#              (remove ContractBase) - why? why not?
 
-def self.build_class( class_name, **attributes )
+def self.build_class( class_name, scope: ContractBase, **attributes )
 
  ## todo/fix:
  ##    add  self.class.type  class method
@@ -141,7 +144,7 @@ RUBY
  ## note: use ContractBase (module) and NOT Object for namespacing
  ##   use include Safe to make all structs global
  ##  fix-fix-fix - make class_name unique across contracts (e.g. reuse same name in different contract)
-  ContractBase.const_set( class_name, klass )   ## returns klass (plus sets global constant class name)
+  scope.const_set( class_name, klass )   ## returns klass (plus sets global constant class name)
 end # method build_class
 
 
