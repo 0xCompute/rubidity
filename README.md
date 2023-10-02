@@ -200,6 +200,18 @@ More:
 
 - [**rubidity-simulacrum**](rubidity-simulacrum) - run (dumb) blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free)
 
+- [**redpaper/**] - Yes, you can. it's just ruby. Run the sample contracts from the [Red Paper](https://github.com/s6ruby/redpaper)
+with rubidity and simulacrum!
+
+
+
+
+For some ongoing (or historic) 
+rubidity discussions & comments from 
+the discord (chat server), see the [Changelong  - Good Morning](CHANGELOG.md).
+
+
+
 
 
 ## Bonus - More Blockchain (Crypto) Tools, Libraries & Scripts In Ruby

@@ -1,6 +1,7 @@
-#  Red Paper
+#  Red Paper - Run Sample Contracts w/ Rubidity and Simulacrum! 
 
-Yes, you can. Run the sample contract from the Red Paper
+
+Yes, you can. it's just ruby.  Run the sample contracts from the [Red Paper](https://github.com/s6ruby/redpaper)
 with Rubidity and Simulacrum!
 
 

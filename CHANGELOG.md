@@ -1,4 +1,4 @@
-# Changelong  - Good Morning (gm)
+# Changelong  - Good Morning 
 
 copy pasted from the #vm-dumb-contracts channel in the ethscriptions discord for reference - reverse order (latest first)
 
