@@ -3,26 +3,28 @@ $LOAD_PATH.unshift( "./lib" )
 require 'rubidity/typed'
 
 
+module Sandbox
+
 #####################################
 #   frozen (immutable ) value types
 
 
 ## note: (typed) strings always use utf-8 encoding AND
 ##               are frozen/immutable!!!
-pp a = TypedString.new
-pp a = TypedString.new( "hello, world!" )
+pp a = String.new
+pp a = String.new( "hello, world!" )
 
 
-pp a = TypedUInt.new    
-pp a = TypedUInt.new(100)   
+pp a = UInt.new    
+pp a = UInt.new(100)   
 pp a += 100
 pp a -= 100
 
 ## use/add TypedNat(ural) (natural integer number) alias - why? why not?
 ##   check if natural numbers start at 0 (or exclude 0 ????)
 
-pp a = TypedInt.new
-pp a = TypedInt.new( 100 )
+pp a = Int.new
+pp a = Int.new( 100 )
 pp a += 100
 pp a -= 100
 
@@ -30,26 +32,26 @@ pp a -= 100
 ## idea  - use "plain" integer as TypedInt - why? why not?
 
 
-pp a  = TypedBool.new
-pp a  = TypedBool.new( true )
+pp a  = Bool.new
+pp a  = Bool.new( true )
 
 ##
 ## idea - use "plain" true|false  as TypedBool (frozen|typed)
 
 
-pp a = TypedAddress.new
-pp a = TypedAddress.new( '0x'+ 'aa'*20 )
+pp a = Address.new
+pp a = Address.new( '0x'+ 'aa'*20 )
 
 
-pp a = TypedInscriptionId.new
-pp a = TypedInscriptionId.new( '0x'+'ab'*32 )
+pp a = InscriptionId.new
+pp a = InscriptionId.new( '0x'+'ab'*32 )
 
 
-pp a = TypedBytes32.new
-pp a = TypedBytes32.new( '0x'+'ab'*32 )
+pp a = Bytes32.new
+pp a = Bytes32.new( '0x'+'ab'*32 )
 
 
-pp a = TypedTimestamp.new
+pp a = Timestamp.new
 ## use/change/rename to Timestamp - why? why not?
 ##   ALWAYS uses epoch time starting at 0 (no time zone or such)
 
@@ -57,7 +59,7 @@ pp a = TypedTimestamp.new
 
 ###
 ## todo/check:  is bytes a (mutabale)bytebuffer or a frozen/immutable?
-pp a = TypedBytes.new    
+pp a = Bytes.new    
 
 
 
@@ -65,11 +67,11 @@ pp a = TypedBytes.new
 ###########################
 ### reference types
 
-TypedArray‹TypedString› = TypedArray.build_class( TypedString )
-pp TypedArray‹TypedString›.type
+Array‹String› = Array.build_class( String )
+pp Array‹String›.type
 
-pp a = TypedArray‹TypedString›.new
-pp a = TypedArray‹TypedString›.new( ['zero', 'one', 'two'] )
+pp a = Array‹String›.new
+pp a = Array‹String›.new( ['zero', 'one', 'two'] )
 pp a[0]
 pp a[1]
 pp a[2]
@@ -85,12 +87,12 @@ pp a.serialize
 ## todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
 ##                 use special unicode-chars for <>??
 
-TypedArray‹TypedUInt› = TypedArray.build_class( TypedUInt )
-pp TypedArray‹TypedUInt›.type
+Array‹UInt› = Array.build_class( UInt )
+pp Array‹UInt›.type
 
 
-pp a = TypedArray‹TypedUInt›.new
-pp a = TypedArray‹TypedUInt›.new( [0,1,2] )
+pp a = Array‹UInt›.new
+pp a = Array‹UInt›.new( [0,1,2] )
 pp a[0]
 pp a[1]
 pp a[2]
@@ -112,16 +114,14 @@ bob     = '0x'+ 'bb'*20
 charlie = '0x'+ 'cc'*20
 
 
-TypedMapping‹TypedAddress→TypedUInt› = TypedMapping.build_class( 
-                                                      TypedAddress,
-                                                      TypedUInt )
+Mapping‹Address→UInt› = Mapping.build_class( Address, UInt )
 
-pp TypedMapping‹TypedAddress→TypedUInt›.type
+pp Mapping‹Address→UInt›.type
 
 
-pp a = TypedMapping‹TypedAddress→TypedUInt›.new
-pp a = TypedMapping‹TypedAddress→TypedUInt›.new( { alice   =>  100,
-                                                   bob     =>  200 } )
+pp a = Mapping‹Address→UInt›.new
+pp a = Mapping‹Address→UInt›.new( { alice   =>  100,
+                                    bob     =>  200 } )
 
 pp a[ alice ]
 pp a[ bob ]
@@ -132,3 +132,6 @@ pp a.serialize
 
 
 puts "bye"
+
+
+end  # module Sandbox

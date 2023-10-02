@@ -1,5 +1,6 @@
 
-class TypedArray
+module Types
+class Array
 
 def self.build_class( sub_type )
   ## add convenience sub_type helper here - why? why not?
@@ -23,7 +24,7 @@ def self.build_class( sub_type )
     ## fix-fix-fix - check if const klass defined for cache (no cache needed)!!!!!!!!
   
     if klass.nil?
-      klass = Class.new( TypedArray )
+      klass = Class.new( Array )
       klass.define_singleton_method( :type ) do
         @type  ||= type
       end
@@ -33,10 +34,11 @@ def self.build_class( sub_type )
 
       ## for default scope use Kernel - why? why not?
       ##   or Globals  or Typed - why? why not?
-      TypedArray.const_set( class_name, klass )
+      Types.const_set( class_name, klass )
     end
 
     klass
 end   # method self.build_class 
-end   # class TypedArray
+end   # class Array
+end  # module Types
 

@@ -19,13 +19,14 @@ def _sanitize_class_name( name )
   name = name.sub( /\bContractBase::/, '' )   ## remove contract module from name if present
   name = name.sub( /\bContract::/, '' )   ## remove contract module from name if present
   name = name.sub( /\bTyped::/, '' )
+  name = name.sub( /\bTypes::/, '' )
   name = name.sub( /\bTypedArray::/, '' )
   name = name.sub( /\bTypedMapping::/, '' )
   name = name.gsub( '::', '' )                ## remove module separator if present
   name
 end
 
-
+module Types
 class Typed  ## note: use class Typed as namespace (all metatype etc. nested here - the beginning)
 class Type
      ## change format to type or typesig/type_sig 
@@ -89,7 +90,7 @@ class Type
  #       return literal.address
  #     end
  
-      unless literal.is_a?(String) && literal.match?(/\A0x[a-f0-9]{40}\z/i)
+      unless literal.is_a?(::String) && literal.match?(/\A0x[a-f0-9]{40}\z/i)
         raise_type_error(literal)
       end
       
@@ -112,32 +113,32 @@ class Type
  
 
     elsif is_a?(UIntType)
-      if literal.is_a?(String)
+      if literal.is_a?(::String)
         literal = parse_integer(literal)
       end
         
-      if literal.is_a?(Integer) && literal.between?(0, 2 ** 256 - 1)
+      if literal.is_a?(::Integer) && literal.between?(0, 2 ** 256 - 1)
         return literal
       end
       
       raise_type_error(literal)
     elsif is_a?( IntType )
-      if literal.is_a?(String)
+      if literal.is_a?(::String)
         literal = parse_integer(literal)
       end
         
-      if literal.is_a?(Integer) && literal.between?(-2 ** 255, 2 ** 255 - 1)
+      if literal.is_a?(::Integer) && literal.between?(-2 ** 255, 2 ** 255 - 1)
         return literal
       end
       
       raise_type_error(literal)
     elsif is_a?( EnumType )
-       if literal.is_a?( Integer )  ## todo - check literal is withing min/max
+       if literal.is_a?( ::Integer )  ## todo - check literal is withing min/max
           return literal
        end
        raise_type_error(literal)
     elsif is_a?( StringType )
-      unless literal.is_a?(String)
+      unless literal.is_a?( ::String)
         raise_type_error(literal)
       end
       
@@ -149,7 +150,7 @@ class Type
       
       return literal
     elsif is_a?( InscriptionIdType ) || is_a?( Bytes32Type )
-      unless literal.is_a?(String) && literal.match?(/\A0x[a-f0-9]{64}\z/i)
+      unless literal.is_a?( ::String) && literal.match?(/\A0x[a-f0-9]{64}\z/i)
         raise_type_error(literal)
       end
 
@@ -159,11 +160,11 @@ class Type
 
     elsif is_a?( BytesType )
       ## note:  assume empty string is bytes literal!!!
-      if literal.is_a?(String) && literal.length == 0
+      if literal.is_a?( ::String) && literal.length == 0
         return literal
       end
       
-      unless literal.is_a?(String) && 
+      unless literal.is_a?( ::String) && 
               literal.match?(/\A0x[a-fA-F0-9]*\z/)  && 
               literal.size.even?
         raise_type_error( literal )
@@ -183,7 +184,7 @@ class Type
         raise_type_error(literal)
       end
     elsif is_a?( MappingType )
-      if literal.is_a?(TypedMapping)   ## todo - check if possible (literal) typed mapping
+      if literal.is_a?( TypedMapping)   ## todo - check if possible (literal) typed mapping
         return literal    
       end
  
@@ -211,7 +212,7 @@ class Type
         return literal    ## .data   ## note: return nested (inside) data e.g. array!!!
       end
       
-      unless literal.is_a?(Array)
+      unless literal.is_a?(::Array)
         raise_type_error(literal)
       end
       
@@ -261,11 +262,12 @@ class StringType < ValueType  ## note: strings are frozen / immutable - check ag
     def self.instance()  @instance ||= new; end
 
     
-    ## todo: return "shared" TypedString zero - why? why not?
-    def typedclass_name()  TypedString.name; end
-    def typedclass()       TypedString;  end
-    def new_zero()   TypedString.new( STRING_ZERO ); end
-    def new( initial_value=STRING_ZERO ) TypedString.new( initial_value ); end 
+    ## todo: return "shared" String zero - why? why not?
+    ##   note: use Types::String here to avoid confusion with ::String - why? why not?
+    def typedclass_name()  Types::String.name; end
+    def typedclass()       Types::String;  end
+    def new_zero()   Types::String.new( STRING_ZERO ); end
+    def new( initial_value=STRING_ZERO ) Types::String.new( initial_value ); end 
     alias_method :create, :new     ## remove create alias - why? why not?
 end
 
@@ -281,11 +283,11 @@ class AddressType < ValueType
  
     def self.instance()  @instance ||= new; end
  
-    ## todo: return "shared" TypedAddress zero - why? why not?
-    def typedclass_name()  TypedAddress.name; end
-    def typedclass()       TypedAddress;  end
-    def new_zero() TypedAddress.new( ADDRESS_ZERO ); end
-    def new( initial_value=ADDRESS_ZERO ) TypedAddress.new( initial_value ); end 
+    ## todo: return "shared" Address zero - why? why not?
+    def typedclass_name()  Address.name; end
+    def typedclass()       Address;  end
+    def new_zero() Address.new( ADDRESS_ZERO ); end
+    def new( initial_value=ADDRESS_ZERO ) Address.new( initial_value ); end 
     alias_method :create, :new     ## remove create alias - why? why not?
 end
 
@@ -301,10 +303,10 @@ class InscriptionIdType < ValueType      ## todo/check: rename to inscripeId or 
     
     def self.instance()  @instance ||= new; end
  
-    def typedclass_name()  TypedInscriptionId.name; end
-    def typedclass()       TypedInscriptionId;  end    
-    def new_zero() TypedInscriptionId.new( INSCRIPTION_ID_ZERO ); end
-    def new( initial_value=INSCRIPTION_ID_ZERO ) TypedInscriptionId.new( initial_value ); end 
+    def typedclass_name()  InscriptionId.name; end
+    def typedclass()       InscriptionId;  end    
+    def new_zero() InscriptionId.new( INSCRIPTION_ID_ZERO ); end
+    def new( initial_value=INSCRIPTION_ID_ZERO ) InscriptionId.new( initial_value ); end 
     alias_method :create, :new     ## remove create alias - why? why not?
 end
 
@@ -319,10 +321,10 @@ class Bytes32Type < ValueType
   
   def self.instance()  @instance ||= new; end
 
-  def typedclass_name()  TypedBytes32.name; end
-  def typedclass()       TypedBytes32;  end    
-  def new_zero() TypedBytes32.new( BYTES32_ZERO ); end
-  def new( initial_value=BYTES32_ZERO ) TypedBytes32.new( initial_value ); end 
+  def typedclass_name()  Bytes32.name; end
+  def typedclass()       Bytes32;  end    
+  def new_zero() Bytes32.new( BYTES32_ZERO ); end
+  def new( initial_value=BYTES32_ZERO ) Bytes32.new( initial_value ); end 
   alias_method :create, :new     ## remove create alias - why? why not?
 end
 
@@ -337,10 +339,10 @@ class BytesType < ValueType       ### fix: see comments above - is bytes dynamic
 
   def self.instance()  @instance ||= new; end
 
-  def typedclass_name()  TypedBytes.name; end
-  def typedclass()       TypedBytes;  end    
-  def new_zero() TypedBytes.new( BYTES_ZERO ); end
-  def new( initial_value=BYTES_ZERO ) TypedBytes.new( initial_value ); end 
+  def typedclass_name()  Bytes.name; end
+  def typedclass()       Bytes;  end    
+  def new_zero() Bytes.new( BYTES_ZERO ); end
+  def new( initial_value=BYTES_ZERO ) Bytes.new( initial_value ); end 
   alias_method :create, :new     ## remove create alias - why? why not?
 end
 
@@ -356,10 +358,10 @@ class BoolType < ValueType
 
     def self.instance()  @instance ||= new; end
 
-    def typedclass_name()  TypedBool.name; end
-    def typedclass()       TypedBool;  end    
-    def new_zero() TypedBool.new( false ); end
-    def new( initial_value=false ) TypedBool.new( initial_value ); end 
+    def typedclass_name()  Bool.name; end
+    def typedclass()       Bool;  end    
+    def new_zero() Bool.new( false ); end
+    def new( initial_value=false ) Bool.new( initial_value ); end 
     alias_method :create, :new     ## remove create alias - why? why not?
 end
 
@@ -373,10 +375,10 @@ class UIntType < ValueType
 
     def self.instance()  @instance ||= new; end
 
-    def typedclass_name()  TypedUInt.name; end
-    def typedclass()       TypedUInt;  end    
-    def new_zero() TypedUInt.new( 0 ); end
-    def new( initial_value=0 ) TypedUInt.new( initial_value ); end 
+    def typedclass_name()  UInt.name; end
+    def typedclass()       UInt;  end    
+    def new_zero() UInt.new( 0 ); end
+    def new( initial_value=0 ) UInt.new( initial_value ); end 
     alias_method :create, :new     ## remove create alias - why? why not?
 end
 
@@ -391,10 +393,10 @@ class IntType < ValueType
 
     def self.instance()  @instance ||= new; end
 
-    def typedclass_name()  TypedInt.name; end
-    def typedclass()       TypedInt;  end    
-    def new_zero() TypedInt.new( 0 ); end
-    def new( initial_value=0 ) TypedInt.new( initial_value ); end 
+    def typedclass_name()  Int.name; end
+    def typedclass()       Int;  end    
+    def new_zero() Int.new( 0 ); end
+    def new( initial_value=0 ) Int.new( initial_value ); end 
     alias_method :create, :new     ## remove create alias - why? why not?
 end
 
@@ -409,10 +411,10 @@ class TimestampType < ValueType   ## note: datetime is int (epoch time since 197
 
     def self.instance()  @instance ||= new; end
 
-    def typedclass_name()  TypedTimestamp.name; end
-    def typedclass()       TypedTimestamp;  end    
-    def new_zero() TypedTimestamp.new( 0 ); end
-    def new( initial_value=0 ) TypedTimestamp.new( initial_value ); end 
+    def typedclass_name()  Timestamp.name; end
+    def typedclass()       Timestamp;  end    
+    def new_zero() Timestamp.new( 0 ); end
+    def new( initial_value=0 ) Timestamp.new( initial_value ); end 
     alias_method :create, :new     ## remove create alias - why? why not?
 end 
 
@@ -444,9 +446,9 @@ class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! 
       ## return/use symbol (not string here) - why? why not?
       ##  or use TypedArrayOf<sub-type.typedclass_name>  - why? why not?
       sub_name = _sanitize_class_name( sub_type.typedclass_name )
-      "TypedArray‹#{sub_name}›"
+      "Array‹#{sub_name}›"
     end
-    def typedclass()  TypedArray.const_get( typedclass_name ); end
+    def typedclass()  Types.const_get( typedclass_name ); end
     def new_zero()   typedclass.new( [] ); end  
     def new( initial_value=[] ) typedclass.new( initial_value ); end 
     alias_method :create, :new     ## remove create alias - why? why not?
@@ -486,9 +488,9 @@ class MappingType < ReferenceType
       ##  or use TypedMappingOf<key-type.typedclass_name><value_type...>  - why? why not?
       key_name   = _sanitize_class_name( key_type.typedclass_name )
       value_name = _sanitize_class_name( value_type.typedclass_name )
-      "TypedMapping‹#{key_name}→#{value_name}›"
+      "Mapping‹#{key_name}→#{value_name}›"
     end
-    def typedclass()  TypedMapping.const_get( typedclass_name ); end
+    def typedclass()  Types.const_get( typedclass_name ); end
     def new_zero() typedclass.new( {} ); end 
     def new( initial_value={} ) typedclass.new( initial_value ); end 
     alias_method :create, :new     ## remove create alias - why? why not?
@@ -624,3 +626,4 @@ end  # class ContractType
 ## note: use class Typed as namespace (all metatype etc. nested here - the end)
 end  #  class Typed  
 
+end  ## module Types

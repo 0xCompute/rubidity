@@ -90,26 +90,29 @@ Let's try some random use:
 ``` ruby
 require 'rubidity/typed'
 
+
+module Sandbox   ## note: "wrap" in sandbox (auto-)incl. (rubidity) types 
+
 #####################################
 #   frozen (immutable ) value types
 
 
 #  note: (typed) strings always use utf-8 encoding AND
 #               are frozen/immutable!!!
-a = TypedString.new                    #=> <val string:"">
-a = TypedString.new( 'hello, world!' ) #=> <val string:"hello, world!">
+a = String.new                    #=> <val string:"">
+a = String.new( 'hello, world!' ) #=> <val string:"hello, world!">
 
 
-a = TypedUInt.new                      #=> <val uint:0>
-a = TypedUInt.new( 100 )               #=> <val uint:100>
+a = UInt.new                      #=> <val uint:0>
+a = UInt.new( 100 )               #=> <val uint:100>
 a += 100                               #=> <val uint:200>
 a -= 100                               #=> <val uint:100>
 
 #  use/add TypedNat(ural) (natural integer number) alias - why? why not?
 #    check if natural numbers start at 0 (or exclude 0 ????)
 
-a = TypedInt.new                       #=> <val int:0>
-a = TypedInt.new( 100 )                #=> <val int:100>
+a = Int.new                       #=> <val int:0>
+a = Int.new( 100 )                #=> <val int:100>
 a += 100                               #=> <val int:200>
 a -= 100                               #=> <val int:100>
 
@@ -117,31 +120,31 @@ a -= 100                               #=> <val int:100>
 #  idea  - use "plain" integer as TypedInt - why? why not?
 
 
-a  = TypedBool.new                    #=> <val bool:false>
-a  = TypedBool.new( true )            #=> <val bool:true>
+a  = Bool.new                    #=> <val bool:false>
+a  = Bool.new( true )            #=> <val bool:true>
 
 # 
 #  idea - use "plain" true|false  as TypedBool (frozen|typed)
 
 
-a = TypedAddress.new
+a = Address.new
 #=> <val address:"0x0000000000000000000000000000000000000000">
-a = TypedAddress.new( '0x'+ 'aa'*20 )
+a = Address.new( '0x'+ 'aa'*20 )
 #=> <val address:"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">
 
 
-a = TypedInscriptionId.new
+a = InscriptionId.new
 #=> <val inscriptionId:"0x0000000000000000000000000000000000000000000000000000000000000000">
-a = TypedInscriptionId.new( '0x'+'ab'*32 )
+a = InscriptionId.new( '0x'+'ab'*32 )
 #=> <val inscriptionId:"0xabababababababababababababababababababababababababababababababab">
 
 
-a = TypedBytes32.new
+a = Bytes32.new
 #=> <val bytes32:"0x0000000000000000000000000000000000000000000000000000000000000000">
-a = TypedBytes32.new( '0x'+'ab'*32 )
+a = Bytes32.new( '0x'+'ab'*32 )
 #=> <val bytes32:"0xabababababababababababababababababababababababababababababababab">
 
-a = TypedTimestamp.new               #=> <val timestamp:0>
+a = Timestamp.new               #=> <val timestamp:0>
 
 #  use/change/rename to Timestamp - why? why not?
 #    ALWAYS uses epoch time starting at 0 (no time zone or such)
@@ -150,7 +153,7 @@ a = TypedTimestamp.new               #=> <val timestamp:0>
 
 #
 #  todo/check:  is bytes a (mutabale)bytebuffer or a frozen/immutable?
-a = TypedBytes.new                 #=> <val bytes:""> 
+a = Bytes.new                 #=> <val bytes:""> 
 
 
 ###########################
@@ -158,12 +161,12 @@ a = TypedBytes.new                 #=> <val bytes:"">
 
 
 # todo/check:  make build_class alias to new?
-TypedArray‹TypedString› = TypedArray.build_class( TypedString )    
-TypedArray‹TypedString›.type      #=> <type string[]>
+Array‹String› = Array.build_class( String )    
+Array‹String›.type      #=> <type string[]>
 
-a = TypedArray‹TypedString›.new   #=> <ref string[]:[]>
+a = Array‹String›.new   #=> <ref string[]:[]>
 
-a = TypedArray‹TypedString›.new( ['zero', 'one', 'two'] )
+a = Array‹String›.new( ['zero', 'one', 'two'] )
 #=>  <ref string[]:
 #       [<val string:"zero">, <val string:"one">, <val string:"two">]>
 a[0]                  #=> <val string:"zero">
@@ -180,12 +183,12 @@ a.serialize           #=> ["zero", "one", "two", "three", "four"]
 #  todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
 #                  use special unicode-chars for <>??
 
-TypedArray‹TypedUInt› = TypedArray.build_class(  TypedUInt )
-TypedArray‹TypedUInt›.type      #=> <type uint[]>
+Array‹UInt› = Array.build_class(  UInt )
+Array‹UInt›.type      #=> <type uint[]>
 
-a = TypedArray‹TypedUInt›.new   #=> <ref uint[]:[]>
+a = Array‹UInt›.new   #=> <ref uint[]:[]>
 
-a = TypedArray‹TypedUInt›.new( [0,1,2] )
+a = Array‹UInt›.new( [0,1,2] )
 #=> <ref uint[]:
 #      [<val uint:0>, <val uint:1>, <val uint:2>]> 
 a[0]               #=> <val uint:0>
@@ -208,13 +211,13 @@ bob     = '0x'+ 'bb'*20
 charlie = '0x'+ 'cc'*20
 
 
-TypedMapping‹TypedAddress→TypedUInt›  = TypedMapping.build_class( TypedAddress, TypedUInt )
-TypedMapping‹TypedAddress→TypedUInt›.type    #=> <type mapping(address=>uint)>
+Mapping‹Address→UInt›  = Mapping.build_class( Address, UInt )
+Mapping‹Address→UInt›.type    #=> <type mapping(address=>uint)>
 
-a = TypedMapping‹TypedAddress→TypedUInt›.new
+a = Mapping‹Address→UInt›.new
 #=> <ref mapping(address=>uint):{}>
 
-a = TypedMapping‹TypedAddress→TypedUInt›.new( { alice   =>  100,
+a = Mapping‹Address→UInt›.new( { alice   =>  100,
                                                 bob     =>  200 },
                                             )
 #=> <ref mapping(address=>uint):
@@ -236,7 +239,7 @@ a.serialize
 #
 # more - enums, structs, etc.
 
-Color = TypedEnum.build_class( :Color, :red, :green, :blue )
+Color = Enum.build_class( :Color, :red, :green, :blue )
 Color.type     #=> <type Color enum(red,green,blue)>
 
 Color::RED     #=> <val Color enum(red,green,blue):red(0)>
@@ -256,11 +259,11 @@ color.serialize   #=> 0
 
 
 
-Bet = TypedStruct.build_class( :Bet, 
-                                 user:    TypedAddress,
-                                 block:   TypedUInt,
-                                 cap:     TypedUInt,
-                                 amount:  TypedUInt  )
+Bet = Struct.build_class( :Bet, 
+                            user:    Address,
+                            block:   UInt,
+                            cap:     UInt,
+                            amount:  UInt  )
 Bet.type
 
 
@@ -268,8 +271,8 @@ bet = Bet.new
 bet.user
 bet.amount
 
-bet.user   = TypedAddress.new( '0x'+'aa'*20 )
-bet.amount = TypedUInt.new( 123 )
+bet.user   = Address.new( '0x'+'aa'*20 )
+bet.amount = UInt.new( 123 )
 
 bet.user   = '0x'+'bb'*20    ## literal assign (with typecheck)
 bet.amount = 234             ## literal assign (with typecheck)
@@ -280,7 +283,10 @@ bet = Bet.new( '0x'+'cc'*20,  0, 0, 456,
 bet.serialize
 
 # ...
+
+end  # module Sandbox
 ```
+
 
 And so on.  To be continued ...
 

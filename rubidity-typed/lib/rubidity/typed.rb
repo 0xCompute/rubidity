@@ -3,6 +3,16 @@
 require 'forwardable'  ## def_delegate
 
 
+##
+###  add more erros - why? why not?
+class ValueError < StandardError; end
+## if type is ok, but value of type not in range (e.g. uint with negative numbers)
+##    or maybe enum out-of-range - why? why not? 
+
+
+
+
+
 ## forward declare contract base (from rubidity)
 ##    for type checking
 class ContractBase 
@@ -32,6 +42,9 @@ class Typed; end
 require_relative 'typed/version'
 require_relative 'typed/metatypes'
 require_relative 'typed/typed'
+require_relative 'typed/typed_values'
+require_relative 'typed/typed_numbers'
+
 require_relative 'typed/typed_array'
 require_relative 'typed/typed_array_builder'
 require_relative 'typed/typed_mapping'
@@ -47,6 +60,45 @@ require_relative 'typed/conversion'
 
 
 
+
+##
+# convenience helpers
+
+TypedBool           = Types::Bool
+TypedString         = Types::String
+TypedAddress        = Types::Address 
+TypedInscriptionId  = Types::InscriptionId
+TypedBytes32        = Types::Bytes32
+TypedBytes          = Types::Bytes
+TypedUInt           = Types::UInt
+TypedInt            = Types::Int
+TypedTimestamp      = Types::Timestamp
+
+TypedArray          = Types::Array
+TypedMapping        = Types::Mapping
+TypedEnum           = Types::Enum
+TypedStruct         = Types::Struct
+
+T = Types   ## make T an alias for Types - why? why not?
+
+
+
+# "sandbox helper"
+ module Sandbox
+  include Types
+ end
+#
+## use like:
+##   module Sandbox
+##           str = String.new
+##           Array‹String› = Array.new( String )
+##           ary = Array‹String›.new
+##           ...
+##
+##     to access "old/classic" string or array use:
+##        str = ::String.new
+##        ary = ::Array.new
+##   end
 
 
 puts Rubidity::Module::Typed.banner    ## say hello

@@ -2,10 +2,11 @@
 $LOAD_PATH.unshift( "./lib" )
 require 'rubidity/typed'
 
+module Sandbox
 
 ## check if += or -= is type checked??
 
-a = TypedUInt.new( 100 )
+a = UInt.new( 100 )
 pp a
 
 a = a + 10
@@ -25,9 +26,10 @@ pp a
 
 
 
-
-
-b = TypedUInt.new( 200 )
+b = UInt.new( 200 )
 pp b
 
 puts "bye"
+
+
+end  # module Sandbox

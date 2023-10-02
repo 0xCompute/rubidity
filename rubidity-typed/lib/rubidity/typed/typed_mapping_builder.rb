@@ -1,6 +1,7 @@
 
+module Types
 
-class TypedMapping
+class Mapping
 
 def self.build_class( key_type, value_type )
 
@@ -23,17 +24,18 @@ def self.build_class( key_type, value_type )
     ## fix-fix-fix - check if const klass defined for cache (no cache needed)!!!!!!!!
   
     if klass.nil?
-      klass = Class.new( TypedMapping )
+      klass = Class.new( Mapping )
       klass.define_singleton_method( :type ) do
         @type  ||= type
       end
 
       ## add to cache for later (re)use
       cache[ class_name ] = klass
-      TypedMapping.const_set( class_name, klass )
+      Types.const_set( class_name, klass )
     end
 
     klass
 end # method self.build_class
 
-end  # class TypedMapping
+end  # class Mapping
+end  # module Types

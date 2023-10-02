@@ -8,12 +8,13 @@ $LOAD_PATH.unshift( "./lib" )
 require 'rubidity/typed'
 
 
+module Sandbox
 
-typedclass = TypedArray.build_class( TypedString )
+typedclass = Array.build_class( String )
 pp typedclass
 
 ## sames as
-typedclass2 = TypedArray::TypedArray‹TypedString›
+typedclass2 = Array‹String›
 pp typedclass2
 
 
@@ -21,7 +22,8 @@ ary = typedclass.new
 pp ary
 pp ary.zero?
 
-pp ary.replace( ['one', 'two'] )
+pp ary.push( 'one' )
+pp ary.push( 'two' )
 pp ary
 
 ary.push( 'three' )
@@ -32,15 +34,15 @@ pp ary.size
 pp ary
 
 pp ary.serialize
-pp ary.deserialize( ary.serialize )
+## pp ary.deserialize( ary.serialize )
 
 
 
-typedclass = TypedArray.build_class( TypedUInt )
+typedclass = Array.build_class( UInt )
 pp typedclass
 
 ## sames as
-typedclass2 = TypedArray::TypedArray‹TypedUInt›
+typedclass2 = Array‹UInt›
 pp typedclass2
 
 
@@ -60,3 +62,5 @@ pp a.serialize
 
 
 puts "bye"
+
+end  # module Sandbox

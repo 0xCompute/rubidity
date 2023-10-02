@@ -7,16 +7,19 @@ $LOAD_PATH.unshift( "./lib" )
 require 'rubidity/typed'
 
 
+module Sandbox
+
+
 types = [
-  TypedString,
-  TypedAddress,
-  TypedInscriptionId,
-  TypedBytes32,
-  TypedBytes,
-  TypedBool,
-  TypedUInt, 
-  TypedInt, 
-  TypedTimestamp,   
+  String,
+  Address,
+  InscriptionId,
+  Bytes32,
+  Bytes,
+  Bool,
+  UInt, 
+  Int, 
+  Timestamp,   
 ]
 
 
@@ -44,3 +47,5 @@ end
 
 
 puts 'bye'
+
+end  # module Sandbox

@@ -8,6 +8,8 @@ $LOAD_PATH.unshift( "./lib" )
 require 'rubidity/typed'
 
 
+module Sandbox
+
 
 string       =  Typed::StringType.instance
 address      =  Typed::AddressType.instance 
@@ -33,45 +35,47 @@ pp bytes32.is_value_type?
 ##########
 # try typed
 
-var =  TypedString.new( 'Hello, World!')
+var =  String.new( 'Hello, World!')
 pp var
 puts "serialize:"
 pp var.serialize
 
-var =  TypedString.new
-pp var
-puts "serialize:"
-pp var.serialize
-
-
-TypedArray‹TypedString› = TypedArray.build_class( TypedString )
-TypedArray‹TypedUInt›   = TypedArray.build_class( TypedUInt )
-TypedMapping‹TypedString→TypedString› = TypedMapping.build_class( TypedString, TypedString )
-
-
-
-var =  TypedArray‹TypedString›.new( ['one', 'two' ] )
+var =  String.new
 pp var
 puts "serialize:"
 pp var.serialize
 
 
-var =  TypedArray‹TypedUInt›.new
+Array‹String› = Array.build_class( String )
+Array‹UInt›   = Array.build_class( UInt )
+Mapping‹String→String› = Mapping.build_class( String, String )
+
+
+
+var =  Array‹String›.new( ['one', 'two' ] )
 pp var
 puts "serialize:"
 pp var.serialize
 
 
-var =  TypedMapping‹TypedString→TypedString›.new( {'one'=> 'two' } )
+var =  Array‹UInt›.new
 pp var
 puts "serialize:"
 pp var.serialize
 
 
-var =  TypedMapping‹TypedString→TypedString›.new
+var =  Mapping‹String→String›.new( {'one'=> 'two' } )
+pp var
+puts "serialize:"
+pp var.serialize
+
+
+var =  Mapping‹String→String›.new
 pp var
 puts "serialize:"
 pp var.serialize
 
 
 puts "bye"
+
+end    # module Sandbox

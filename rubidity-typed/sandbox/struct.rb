@@ -9,17 +9,19 @@ require 'rubidity/typed'
 
 #
 # struct :Bet,
-#   user:   TypedAddress, 
-#   block:  TypedUInt,  
-#   cap:    TypedUInt, 
-#   amount: TypedUInt   
+#   user:   Address, 
+#   block:  UInt,  
+#   cap:    UInt, 
+#   amount: UInt   
 #
 
-Bet = TypedStruct.build_class( :Bet, 
-                      user:    TypedAddress,
-                      block:   TypedUInt,
-                      cap:     TypedUInt,
-                      amount:  TypedUInt  )
+module Sandbox
+
+Bet = Struct.build_class( :Bet, 
+                       user:    Address,
+                       block:   UInt,
+                       cap:     UInt,
+                       amount:  UInt  )
 
 
 pp Bet
@@ -37,8 +39,8 @@ pp bet.serialize
 
 pp bet.zero?
 
-pp bet.user = TypedAddress.new( '0x'+'aa'*20 )
-pp bet.amount = TypedUInt.new( 123 )
+pp bet.user = Address.new( '0x'+'aa'*20 )
+pp bet.amount = UInt.new( 123 )
 
 pp bet
 puts "serialize:"
@@ -60,9 +62,9 @@ pp bet2.serialize
 
 
 
-puts "deserialize:"
-bet2.deserialize( state )
-pp bet2
+# puts "deserialize:"
+# bet2.deserialize( state )
+# pp bet2
 
 
 puts "serialize:"
@@ -83,3 +85,5 @@ pp bet4.serialize
 
 
 puts 'bye'
+
+end   # module Sandbox

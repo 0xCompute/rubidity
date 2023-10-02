@@ -10,7 +10,9 @@ require 'rubidity/typed'
 ## Enum.new( :Color, :red, :green, :blue )
 
 
-Color = TypedEnum.build_class( :Color, :red, :green, :blue )
+module Sandbox
+
+    Color = Enum.build_class( :Color, :red, :green, :blue )
 pp Color
 pp Color::RED
 pp Color.red
@@ -53,7 +55,7 @@ pp type.new( 2 )
 #
 #   enum :ActionChoices :GoLeft, :GoRight, :GoStraight, :SitStill
  
-ActionChoices = TypedEnum.build_class( :ActionChoices, 
+ActionChoices = Enum.build_class( :ActionChoices, 
                             :goLeft, :goRight, :goStraight, :sitStill )
 
 pp ActionChoices
@@ -69,3 +71,5 @@ pp ActionChoices.goLeft
 pp ActionChoices.goRight
 
 puts 'bye'
+
+end # module sandbox 

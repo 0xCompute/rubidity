@@ -8,14 +8,13 @@ $LOAD_PATH.unshift( "./lib" )
 require 'rubidity/typed'
 
 
+module Sandbox
 
-TypedMapping‹TypedAddress→TypedUInt› = TypedMapping.build_class( 
-                                                      TypedAddress,
-                                                      TypedUInt )
+Mapping‹Address→UInt› = Mapping.build_class( Address, UInt )
 
-pp TypedMapping‹TypedAddress→TypedUInt›.type
+pp Mapping‹Address→UInt›.type
 
-balanceOf  = TypedMapping‹TypedAddress→TypedUInt›.new
+balanceOf  = Mapping‹Address→UInt›.new
 t = balanceOf.type                      
 pp t.format
 pp t.key_type 
@@ -45,13 +44,15 @@ pp balanceOf.serialize
 puts "old_state:"
 pp old_state
 
-balanceOf.replace( old_state )
-pp balanceOf.serialize
+# balanceOf.replace( old_state )
+# pp balanceOf.serialize
 
 
-balanceOf.deserialize( {} )
-pp balanceOf.serialize
-
+# balanceOf.deserialize( {} )
+# pp balanceOf.serialize
 
 
 puts "bye"
+
+
+end  # module Sandbox

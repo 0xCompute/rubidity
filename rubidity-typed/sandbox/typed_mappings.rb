@@ -7,15 +7,17 @@ $LOAD_PATH.unshift( "./lib" )
 require 'rubidity/typed'
 
 
+module Sandbox
+
 alice   = '0x'+ 'aa'*20
 bob     = '0x'+ 'bb'*20
 charlie = '0x'+ 'cc'*20
 
-typedclass = TypedMapping.build_class( TypedAddress, TypedUInt )
+typedclass = Mapping.build_class( Address, UInt )
 pp typedclass
 
 ## sames as
-typedclass2 = TypedMapping::TypedMapping‹TypedAddress→TypedUInt›
+typedclass2 = Mapping‹Address→UInt›
 pp typedclass2
 
 
@@ -38,16 +40,16 @@ pp a.serialize
 
 #
 # struct :Bet,
-#   user:   TypedAddress, 
-#   block:  TypedUInt,  
-#   cap:    TypedUInt, 
-#   amount: TypedUInt   
+#   user:   Address, 
+#   block:  UInt,  
+#   cap:    UInt, 
+#   amount: UInt   
 #
-Bet = TypedStruct.build_class( :Bet, 
-                      user:    TypedAddress,
-                      block:   TypedUInt,
-                      cap:     TypedUInt,
-                      amount:  TypedUInt  )
+Bet = Struct.build_class( :Bet, 
+                      user:    Address,
+                      block:   UInt,
+                      cap:     UInt,
+                      amount:  UInt  )
 
 
 pp Bet
@@ -60,7 +62,7 @@ bet = Bet.new
 pp bet
 
 
-typedclass = TypedMapping.build_class( TypedUInt, Bet )
+typedclass = Mapping.build_class( UInt, Bet )
 pp typedclass
 pp typedclass.type
 
@@ -93,3 +95,5 @@ pp bets.serialize
 
 
 puts "bye"
+
+end  # module Sandbox

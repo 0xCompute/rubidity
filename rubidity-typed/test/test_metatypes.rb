@@ -10,6 +10,9 @@ require 'helper'
 class TestMetatypes < MiniTest::Test
 
 
+include Types
+
+
 def test_create
     t = Typed::StringType.instance
     pp t

@@ -1,5 +1,6 @@
 
-class TypedEnum
+module Types
+class Enum
 
 ###################
 ##  meta-programming "macro" - build class (on the fly)
@@ -32,7 +33,7 @@ def self.build_class( class_name, *args, scope: ContractBase )
     end
   end
 
-  klass = Class.new( TypedEnum )
+  klass = Class.new( Enum )
 
   # ## add self.new too - note: call/forward to "old" orginal self.new of Event (base) class
   # klass.define_singleton_method( :new ) do |*new_args|
@@ -96,4 +97,5 @@ end
 # end
 
 
-end   # class TypedEnum
+end   # class Enum
+end   # module Types

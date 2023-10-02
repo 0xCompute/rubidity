@@ -16,7 +16,8 @@
 ##                            no NEW possible!!!
 ##                     thus - deserialize has a switch for TypedData!!
 
-class TypedEnum  < Typed
+module Types
+class Enum  < Typed
 
   ## return a new Enum read-only class
   attr_reader :key
@@ -118,3 +119,4 @@ class TypedEnum  < Typed
     printer.text( "<val #{type}:#{@key}(#{@value})>" ); 
   end
 end  # class Enum
+end  #   module Types

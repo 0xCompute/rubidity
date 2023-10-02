@@ -1,39 +1,32 @@
 
+module Types
+class Struct  < Typed
 
-class TypedStruct  < Typed
+
+def initialize( *initial_values )
+   ## fix-fix-fix: first check for matching args - why? why not?
+   self.class.attributes.zip( initial_values ).each do |(key, type), value|
+     value = if value.is_a?(Typed)
+              ## fix-fix-fix - check type match here!!!
+              value
+           else 
+              type.new( value )
+           end
+     instance_variable_set( "@#{key}", value )
+   end
+   self  ## note: return reference to self for chaining method calls
+end
 
 
-  ## add serialize & deserialize 
-    ##   fix-fix-fix - move into base class (and reuse for all structs!!!) - why? why not?
-def serialize
+def as_data
    self.class.attributes.keys.map do |key|
         ivar = instance_variable_get( "@#{key}" )
         puts "  @#{key}:"
         pp ivar
-        ivar.serialize
+        ivar.as_data
    end
 end
 
-
-def replace( new_value )    ## note: used for (same as) deserialize!!!
-   ## note: assume new_value is an array (of literal values)
-   self.class.attributes.zip( new_value ).each do |(key, type), value|
-        ## todo/check: change type.create   to type.new_zero
-        ##          deprecate create without args - why? why not?
-        ## fix-fix-fix:  also use type.create.deserialize in array and hash!!!
-        ##                                       might be a struct too (or enum) !!!!!
-        var = nil
-        if type.is_a?( EnumType )
-            var = type.new( value )
-        else
-            var = type.new_zero   ## create zero var
-            var.deserialize( value )
-        end
-        instance_variable_set( "@#{key}", var )
-    end
-    self  ## note: return reference to self for chaining method calls
-end
-  
 
 
 def ==(other)
@@ -61,4 +54,5 @@ end
 
 def zero?() self == self.class.zero; end
 
-end # class TypedStruct
+end # class Struct
+end # module Types

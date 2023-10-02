@@ -1,5 +1,6 @@
 
-class TypedStruct
+module Types
+class Struct
 
   
 # todo/fix:  scope: keep empty by default
@@ -31,44 +32,31 @@ def self.build_class( class_name, scope: ContractBase, **attributes )
                 end.to_h
 
 
-  klass = Class.new( TypedStruct ) do
-    define_method( :initialize ) do |*args|
-      attributes.zip( args ).each do |(key, type), arg|
-        arg = if arg.is_a?(Typed)
-                ## fix-fix-fix - check type match here!!!
-                 arg
-              else 
-                 type.new( arg )
-              end
-        instance_variable_set( "@#{key}", arg )
-      end
-      self  ## note: return reference to self for chaining method calls
-    end
-
+  klass = Class.new( Struct ) do
     attributes.each do |key,type|
       define_method( key ) do
         instance_variable_get( "@#{key}" )
       end
       ## note: for Bool auto-add getter with question mark (e.g. voted? etc.)
       ##          why? why not?
-      if type == BoolType  
+      if type == BoolType.instance  
         define_method( "#{key}?" ) do
           instance_variable_get( "@#{key}" )
         end
       end
-      define_method( "#{key}=" ) do |arg|
+      define_method( "#{key}=" ) do |value|
         ## todo/fix:
         ## check if arg is typed && type match?
         ##  if not (assume literal) try to convert to type!!!! 
 
-        arg = if arg.is_a?(Typed)
+        value = if value.is_a?(Typed)
                   ## fix-fix-fix - check type match here!!!
-                  arg
+                  value
               else 
-                type.new( arg )
+                type.new( value )
               end
 
-        instance_variable_set( "@#{key}", arg )
+        instance_variable_set( "@#{key}", value )
       end
     end
 
@@ -106,7 +94,7 @@ def self.build_class( class_name, scope: ContractBase, **attributes )
     else
       if args.size != attributes.size
         ## check for required args/params - all MUST be passed in!!!
-        raise ArgumentError, "[TypedStruct] wrong number of arguments for #{name}.new - #{args.size} for #{attributes.size}"
+        raise ArgumentError, "[Struct] wrong number of arguments for #{name}.new - #{args.size} for #{attributes.size}"
       end
       old_new( *args )
     end
@@ -120,7 +108,7 @@ def self.build_class( class_name, scope: ContractBase, **attributes )
       elsif type.respond_to?( :create )  ## fix-fix-fix - ALWAYS use new_zero!!!!
         type.create
       else
-        raise ArgumentError, "[TypeStruct] no new_zero support for type #{type}; sorry"
+        raise ArgumentError, "[Struct] no new_zero support for type #{type}; sorry"
       end
     end
     old_new( *values )
@@ -155,4 +143,5 @@ class << self
 end
   
 
-end # class TypedStruct
+end # class Struct
+end  # module Types
