@@ -208,7 +208,7 @@ with rubidity and simulacrum!
 
 For some ongoing (or historic) 
 rubidity discussions & comments from 
-the discord (chat server), see the [Changelong  - Good Morning](CHANGELOG.md).
+the discord (chat server), see the [Changelog  - Good Morning](CHANGELOG.md).
 
 
 
