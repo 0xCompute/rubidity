@@ -26,6 +26,8 @@ def _sanitize_class_name( name )
   name
 end
 
+
+
 module Types
 class Typed  ## note: use class Typed as namespace (all metatype etc. nested here - the beginning)
 class Type

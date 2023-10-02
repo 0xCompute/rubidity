@@ -12,6 +12,8 @@ lib/rubidity/typed/typed_enum.rb
 lib/rubidity/typed/typed_enum_builder.rb
 lib/rubidity/typed/typed_mapping.rb
 lib/rubidity/typed/typed_mapping_builder.rb
+lib/rubidity/typed/typed_numbers.rb
 lib/rubidity/typed/typed_struct.rb
 lib/rubidity/typed/typed_struct_builder.rb
+lib/rubidity/typed/typed_values.rb
 lib/rubidity/typed/version.rb

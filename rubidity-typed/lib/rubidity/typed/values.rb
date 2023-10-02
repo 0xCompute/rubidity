@@ -1,55 +1,6 @@
 module Types
 
 
-## add value & reference type base - why? why not?
-class TypedValue < Typed
-    
-  ## todo/check: make "internal" value (string/integer) available? why? why not?
-  ##  attr_reader :value   
-
-  ## todo/check -- use self.zero or such - why? why not?
-  def self.zero() @zero ||= new; end
-
-  def zero?()  @value == type.zero; end
-  def as_data() @value; end  
-
-=begin  
-  def replace(new_value)
-    @value = if new_value.is_a?( Typed )
-               if new_value.type != type
-                ## todo/check: add special handing for contracts here 
-                ##                 why? why not?
-                   raise TypeError, "expected type #{type}; got #{new_value.type} : #{new_value.value}"
-               end
-               new_value.value
-            else
-               type.check_and_normalize_literal( new_value )
-            end
-  end
-=end
-
-  def pretty_print( printer ) printer.text( "<val #{type}:#{@value.inspect}>" ); end
-
-  def to_s
-    if @value.is_a?(::String) || @value.is_a?(::Integer)
-      @value.to_s
-    else
-      raise "no string conversion of value possible; sorry"
-    end
-  end
-
-      def ==(other)
-        other.is_a?(self.class) &&
-        type == other.type &&     ## note: type for no redundant (always the same if same class AND TypedValue)
-        as_data == other.as_data    ## compare value via as_data!!!
-      end
-      
-      def hash()       [@value, type].hash; end
-      ## todo/check - hash == other.hash is default any way??
-      def eql?(other)  hash == other.hash;  end
-end  # TypedValue
-
-
 
 ## fix-fix-fix  - use TypedData - to make Bool into enum like constant!!!
 ##       cannot use new!!!!! (only (re)use true|false instances)
