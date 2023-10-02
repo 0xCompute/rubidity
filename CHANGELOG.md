@@ -37,7 +37,7 @@ not sure if anyone else cares about rubidity here (making great progress but yea
 welcome.  great to have you here. i assume middlemarch is super busy, 
 thus,  happy to help along. i think the best way to start is with the solidity contract code if you have any. if you post a copy i can try to run on the (more ruby-ish) rubidity (great for testing and easy to get started if you got ruby up and running). 
 
-anyways, to conclude for today (yes, i am not 10x or such - progress but slowly) the (rubidity) struct machinery works - see https://github.com/s6ruby/rubidity/blob/master/rubidity-typed/sandbox/struct.rb for some (basic) use / tests and the machinery here  - https://github.com/s6ruby/rubidity/blob/master/rubidity-typed/lib/rubidity/typed/typed_struct_builder.rb  and here - https://github.com/s6ruby/rubidity/blob/master/rubidity-typed/lib/rubidity/typed/typed_struct.rb    the "hard" (or missing) part really is to plug-in structs into arrays and mappings too (and all the way down, that is, recursive).  that's a task for tomorrow.
+anyways, to conclude for today (yes, i am not 10x or such - progress but slowly) the (rubidity) struct machinery works - see https://github.com/s6ruby/rubidity/blob/master/rubidity-typed/sandbox/struct.rb for some (basic) use / tests and the machinery here  - https://github.com/s6ruby/rubidity/blob/master/rubidity-typed/lib/rubidity/typed/struct_builder.rb  and here - https://github.com/s6ruby/rubidity/blob/master/rubidity-typed/lib/rubidity/typed/struct.rb    the "hard" (or missing) part really is to plug-in structs into arrays and mappings too (and all the way down, that is, recursive).  that's a task for tomorrow.
 
 
 gm.
