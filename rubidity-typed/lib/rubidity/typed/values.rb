@@ -13,7 +13,28 @@ class Bool < TypedValue
       
        @value = type.check_and_normalize_literal( initial_value )  
     end 
+
+
+
+    ## return nil if not bool - check if this works with <=>???
+    def _to_bool( other )
+      return other.as_data if other.is_a?( Bool )
+      return other         if other.is_a?( TrueClass ) || other.is_a?( FalseClass )
+      return nil    ## not a bool  - what to return here?
+    end
+
+    def ==(other)
+      puts "[debug] Bool#== self: #{pretty_print_inspect}, other: #{other.pretty_print_inspect}"
+      ## note: yes - nil == false #=> false (only false == false)
+      @value ==  _to_bool( other )
+    end
+
+    include Comparable
+    def <=>(other)  
+      @value <=> _to_bool( other ) 
+    end   
 end  # class Bool
+
 
 
 

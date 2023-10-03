@@ -70,7 +70,7 @@ class TypedValue < Typed
   ##  attr_reader :value   
 
   ## todo/check -- use self.zero or such - why? why not?
-  def self.zero() @zero ||= new; end
+  def self.zero() @zero ||= type.new_zero; end
 
   def zero?()  @value == type.zero; end
   def as_data() @value; end  
@@ -113,6 +113,10 @@ end  # TypedValue
 
 
 class TypedReference < Typed
+
+    ## todo/check -- use self.zero or such - why? why not?
+    def self.zero() @zero ||= type.new_zero; end
+
 
     def ==(other)
         other.is_a?(self.class) &&

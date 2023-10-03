@@ -30,19 +30,31 @@ class Mapping < TypedReference
   ## add more Hash forwards here!!!!
   def_delegators :@data, :size, :empty?, :clear
 
+
+
   def [](key)
     puts "[debug] Mapping#[]( #{key} )"
     key_var =  key.is_a?( Typed ) ? key : key_type.new( key )
     obj = @data[key_var]
 
-    if value_type.is_a?( MappingType ) && obj.nil?
+    ## was:
+    ## if value_type.mapping? && obj.nil?
+    ##  obj = 
+    ##  @data[key_var] = obj
+    ## end
+    ##
+    ## note:
+    ##  change to 
+    ## allow access to ref to struct and than update change to assign !!=!!!!!!
+  
+    if obj.nil?
       obj = value_type.new_zero
-      @data[key_var] = obj
+      @data[ key_var ] = obj
     end
 
-    ## todo/fix-fix-fix:  access allows to ref to struct and than update change to assign !!=!!!!!!
-    obj || value_type.new_zero 
+    obj 
   end
+
 
 
   def []=(key, new_value)
@@ -53,7 +65,7 @@ class Mapping < TypedReference
     obj     = new_value.is_a?( Typed ) ? new_value : value_type.new( new_value )
     pp obj
 
-    if value_type.is_a?( MappingType )
+    if value_type.mapping?
       ## val_var = Proxy.new(keytype: valuetype.keytype, valuetype: valuetype.valuetype)
       raise 'What?'
     end
@@ -61,8 +73,19 @@ class Mapping < TypedReference
     @data[key_var] = obj
   end
 
- 
 
+  def key?( key )
+    key_var =  key.is_a?( Typed ) ? key : key_type.new( key )
+    @data.key?( key_var )
+  end
+  alias_method :has_key?, :key?  
+
+  def delete( key )
+    key_var =  key.is_a?( Typed ) ? key : key_type.new( key )
+    @data.delete( key_var )
+  end
+
+  
   ## note: pass through value!!!!
   ##   in new scheme - only "plain" ruby arrays/hash/string/integer/bool used!!!!
   ##    no wrappers!!! - no need to convert!!!
