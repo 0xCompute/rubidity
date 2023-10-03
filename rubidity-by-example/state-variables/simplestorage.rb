@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: Public Domain
 # pragma: rubidity 0.0.1
 
 class SimpleStorage < Contract  
