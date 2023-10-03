@@ -139,7 +139,7 @@ class ContractBase
     ## note:  allow multiple calls of storage!!!
     
     kwargs.each do |name, type|
-       type = type.is_a?( Types::Typed::Type ) ? type : typedclass_to_type( type )  
+       type = type.is_a?( Typed::Type ) ? type : typedclass_to_type( type )  
              
        ## add support for more args - e.g. visibility or such - why? why not?
        args = [name] 

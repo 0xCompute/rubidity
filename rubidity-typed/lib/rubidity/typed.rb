@@ -74,6 +74,22 @@ T = Types   ## make T an alias for Types - why? why not?
 
 
 
+####
+##  (global) convenience helper -  keep here -  why? why not?
+def typedclass_to_type( typedclass )
+
+    ## todo/check:
+    ##   check for is_a?(Class) and respond_to?( type ) - why? why not?
+    ##   lets you turn "plain" classes in typed (e.g. TrueClass|FalseClass, etc)
+
+   raise ArgumentError, "typedclass expected; got #{typedclass.inspect}"  unless (typedclass.is_a?( Class ) && 
+                                                                                   typedclass.ancestors.include?( Types::Typed ))
+    typedclass.type
+end
+  
+
+
+
 # "sandbox helper"
  module Sandbox
   include Types

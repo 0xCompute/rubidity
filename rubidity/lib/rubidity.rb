@@ -12,14 +12,6 @@ require 'digest-lite'      ### pulls in keccak256
 require 'rubidity/typed'
 
 
-####
-##  move upstream to rubidity-typed - why? why not?
-def typedclass_to_type( typedclass )
-  raise ArgumentError, "typedclass expected; got #{typedclass.inspect}"  unless (typedclass.is_a?( Class ) && 
-                                                                                 typedclass.ancestors.include?( Types::Typed ))
-
-  typedclass.type
-end
 
 
 ## define global Array()  and Mapping(,)  helpers
@@ -27,19 +19,12 @@ end
 ##   or add upstream TypedArray() and TypedMapping(,) 
 ##    and add alias here for Array(), Mapping(,) - why? why not? 
 
-
-
 def array( sub_type ) 
-    sub_type = sub_type.is_a?( Types::Typed::Type ) ? sub_type : typedclass_to_type( sub_type )
-
     typedclass = Types::Array.build_class( sub_type )
     typedclass.type   ## fix-fix-fix - return typedclass in future - why? why not?
 end
 
 def mapping( key_type, value_type ) 
-    key_type   =  typedclass_to_type( key_type ) 
-    value_type =  value_type.is_a?( Types::Typed::Type ) ? value_type : typedclass_to_type( value_type )
-      
     typedclass = Types::Mapping.build_class( key_type, value_type )
     typedclass.type    ## fix-fix-fix - return typedclass in future - why? why not?
 end
