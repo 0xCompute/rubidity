@@ -2,12 +2,12 @@ class Contract  < ContractBase
  
   
   def self.struct( class_name, **attributes )
-    typedclass = TypedStruct.build_class( class_name, scope: self, **attributes )
+    typedclass = Types::Struct.build_class( class_name, scope: self, **attributes )
     typedclass    ## what to return here??
   end
 
   def self.enum( class_name, *args )
-    typedclass = TypedEnum.build_class( class_name, *args, scope: self  )
+    typedclass = Types::Enum.build_class( class_name, *args, scope: self  )
     typedclass    ## what to return here??
   end
 
@@ -28,7 +28,8 @@ class Contract  < ContractBase
   
     ## note: support plain strings and typed address for now
     ##   use serialize to get "raw" string value of address
-    addr_key = address.is_a?( TypedAddress ) ? address.serialize : address
+    ## fix - fix - fix - change back to address?
+    addr_key = address.is_a?( Types::Address ) ? address.serialize : address
     rec = registry[ addr_key ] 
     
     if rec
@@ -194,7 +195,7 @@ class Contract  < ContractBase
   ##    should really always use hex_to_bin !!! 
   ##    and convert the result in the end only - why? why not??
 
-    str = TypedString.new( input )
+    str = Types::String.new( input )
 
     '0x' + Digest::KeccakLite.hexdigest( str.serialize, 256  )
   end

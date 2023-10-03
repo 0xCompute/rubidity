@@ -1,4 +1,4 @@
-# Interfaces - How To Model (Solidity) Interfaces in Rubyidity?
+# Interfaces - How To Model (Solidity) Interfaces in Rubidity?
 
 Option 1)
 

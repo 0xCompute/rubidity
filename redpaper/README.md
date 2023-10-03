@@ -5,6 +5,9 @@ Yes, you can. it's just ruby.  Run the sample contracts from the [Red Paper](htt
 with Rubidity and Simulacrum!
 
 
+
+Win x65 000 - Roll the (Satoshi) Dice, see [satoshidice.rb](satoshidice.rb)
+
 Kick Start Your Project with a Crowd Funder,
 see [crowdfunder.rb](crowdfunder.rb)
 

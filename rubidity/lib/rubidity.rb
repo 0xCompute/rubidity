@@ -16,7 +16,7 @@ require 'rubidity/typed'
 ##  move upstream to rubidity-typed - why? why not?
 def typedclass_to_type( typedclass )
   raise ArgumentError, "typedclass expected; got #{typedclass.inspect}"  unless (typedclass.is_a?( Class ) && 
-                                                                                 typedclass.ancestors.include?( Typed))
+                                                                                 typedclass.ancestors.include?( Types::Typed ))
 
   typedclass.type
 end
@@ -30,18 +30,17 @@ end
 
 
 def array( sub_type ) 
-    sub_type = sub_type.is_a?( Type ) ? sub_type : typedclass_to_type( sub_type )
+    sub_type = sub_type.is_a?( Types::Typed::Type ) ? sub_type : typedclass_to_type( sub_type )
 
-    typedclass = TypedArray.build_class( sub_type: sub_type )
+    typedclass = Types::Array.build_class( sub_type )
     typedclass.type   ## fix-fix-fix - return typedclass in future - why? why not?
 end
 
 def mapping( key_type, value_type ) 
     key_type   =  typedclass_to_type( key_type ) 
-    value_type =  value_type.is_a?( Type ) ? value_type : typedclass_to_type( value_type )
+    value_type =  value_type.is_a?( Types::Typed::Type ) ? value_type : typedclass_to_type( value_type )
       
-    typedclass = TypedMapping.build_class( key_type:   key_type,
-                                           value_type: value_type )
+    typedclass = Types::Mapping.build_class( key_type, value_type )
     typedclass.type    ## fix-fix-fix - return typedclass in future - why? why not?
 end
 
@@ -51,6 +50,9 @@ end
 ## add "namespaced" convenience / shortcut names for Typed<Type> classes
 ##   note use ::String for "standard" string and such!!!
 class ContractBase
+
+   include Types
+=begin   
    String          = TypedString
    Address         = TypedAddress
    InscriptionId   = TypedInscriptionId
@@ -60,6 +62,7 @@ class ContractBase
    UInt            = TypedUInt
    Int             = TypedInt
    Timestamp       = TypedTimestamp
+=end
    ## todo/check - what to do about  TypedArray and Typed Mapping
    ##                 requires/uses mapping() and array for now
    ##
@@ -79,6 +82,7 @@ class ContractBase
    ## note:  case/when/ will NOT work; use if/elsfi/else!!!
 end
  
+
 
 ## our own code
 require_relative 'rubidity/version'

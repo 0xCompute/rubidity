@@ -1,11 +1,11 @@
 ##
 #  to run use:
-#    $ ruby sandbox/satoshidice.rb
+#    $ ruby run_satoshidice.rb
 
 require_relative 'helper'
 
 
-require_relative '../satoshidice'
+require_relative 'satoshidice'
 
 
 pp SathoshiDice
@@ -29,7 +29,7 @@ pp contract.__address__
 pp contract
 puts "serialize:"
 pp contract.serialize
-#=> {:owner=>"0x0000000000000000000000000000000000000000",
+#=> {:owner=>"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
 #    :counter=>0, 
 #    :bets=>{}}
 

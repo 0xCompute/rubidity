@@ -70,7 +70,7 @@ class ContractBase
     @events[name] = args.map do |key,value|  
                              [
                                key,
-                               value.is_a?( Type ) ? value : typedclass_to_type( value )
+                               value.is_a?( Typed::Type ) ? value : typedclass_to_type( value )
                              ]  
                            end.to_h
 
@@ -139,7 +139,7 @@ class ContractBase
     ## note:  allow multiple calls of storage!!!
     
     kwargs.each do |name, type|
-       type = type.is_a?( Type ) ? type : typedclass_to_type( type )  
+       type = type.is_a?( Types::Typed::Type ) ? type : typedclass_to_type( type )  
              
        ## add support for more args - e.g. visibility or such - why? why not?
        args = [name] 
@@ -183,11 +183,11 @@ def self.sig( name, args=[], *options, returns: nil )
 ####  
 #  auto-convert args (inputs), returns (outputs) to type (defs)
   args = args.map do |value|  
-       value.is_a?( Type ) ? value : typedclass_to_type( value )
+       value.is_a?( Typed::Type ) ? value : typedclass_to_type( value )
   end
 
   if returns
-    returns = returns.is_a?( Type ) ? returns : typedclass_to_type( returns )
+    returns = returns.is_a?( Typed::Type ) ? returns : typedclass_to_type( returns )
   end
 
   @sigs[name] = { inputs:  args,

@@ -2,6 +2,17 @@
 
 ## Todos
 
+- [ ]   move Typed::Type to Type AND move AddressType, etc into Type NOT Types:: - why? why not?
+      let's yo use Type instead of (ugly/weird) Typed::Type
+
+
+- [ ]  add sig (or solsig? or abisig or abi?) to AddressType, UIntType and such
+        ALWAYS return solidity abi sig!! e.g. uint256, 
+        and tuple() for structs and uint8 for enums and such!!!
+
+
+## More Todos
+
 - [ ] move tests over from  universum safe structs!!!!
 - [ ] convert uniswap familiy to (more ruby-ish) rubidity 
 

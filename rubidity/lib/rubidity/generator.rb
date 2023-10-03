@@ -32,7 +32,7 @@ module Function
 
 def self.typecheck( type, value )
     ##   check if value is already typed?
-    if value.is_a?( Typed )
+    if value.is_a?( Types::Typed )
        ## type check
        raise TypeError, "type #{type} expected; got #{value.pretty_print_inspect}"  unless type == value.type
        value
@@ -161,16 +161,16 @@ def self.getter_function(  contract_class, name, type,
     ## note: make sure name is always a symbol
     name          = name.to_sym
 
-    if type.is_a?( MappingType )  ## was: mapping?
+    if type.mapping?
         mapping_getter_function( contract_class, name, type, 
                                             constant: constant,
                                             immutable: immutable )
-    elsif type.is_a?( ArrayType )  ## was: array?
+    elsif type.array?
       puts "[debug] auto-generate public array getter - #{name} : #{type}:"
 
     
       ## auto-add/register sig(nature) in here - why? why not?
-      contract_class.sig( name, [UIntType.instance], :view, returns: type.sub_type )
+      contract_class.sig( name, [Types::Typed::UIntType.instance], :view, returns: type.sub_type )
 
       contract_class.class_eval do
         ## note: hack: must use kwargs for now!!! index: (not index) for now
@@ -212,7 +212,7 @@ def self.mapping_getter_function( contract_class, name, type,
     current_type = type
 
     sig_args = []
-    while current_type.is_a?( MappingType ) do
+    while current_type.mapping? do
       sig_args << current_type.key_type
       current_type = current_type.value_type
       index += 1
