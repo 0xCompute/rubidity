@@ -203,6 +203,7 @@ More:
 - [**redpaper**](redpaper) - Yes, you can. it's just ruby. Run the sample contracts from the [Red Paper](https://github.com/s6ruby/redpaper)
 with rubidity and simulacrum!
 
+- [**rubidity-by-example**](rubidity-by-example) - Rubidity By Example - an introduction to Rubidity with simple examples (inspired and mostly following Solidity By Example)
 
 
 
