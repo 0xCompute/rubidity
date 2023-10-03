@@ -5,6 +5,7 @@
 <details>
 <summary markdown="1">Solidity - First App</summary>
 
+``` solidity
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -27,6 +28,7 @@ contract Counter {
         count -= 1;
     }
 }
+```
 
 </details>
 

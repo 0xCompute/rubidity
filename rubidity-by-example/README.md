@@ -19,7 +19,7 @@ Only internal and public AND "auto-magically" depending on naming
 convention.
 
 
-No multiple "diamond-shaped whatever-algo linearized"¹ inheritance.  Only
+No multiple "diamond-shaped whatever-algo¹ linearized" inheritance.  Only
 linear single inheritance.  
 Use module includes for adding (reusing/shared) functions.
 
@@ -58,6 +58,8 @@ To be continued...   the idea or the theme is "less is more" or better security 
 
 - [Hello World](hello-world)
 - [First App](first-app)
+- [Reading and Writing to a State Variable](state-variables)
+
 
 
 
