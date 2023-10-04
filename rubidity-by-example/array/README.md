@@ -3,7 +3,7 @@
 Array can have a compile-time fixed size or a dynamic size.
 
 <details>
-<summary markdown="1">Solidity - First App</summary>
+<summary markdown="1">Solidity - Array</summary>
 
 ``` solidity
 // SPDX-License-Identifier: MIT
