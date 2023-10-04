@@ -32,7 +32,12 @@ INSCRIPTION_ID_ZERO  = INSCRIPTIONID_ZERO = BYTES32_ZERO
 
 ## our own code
 require_relative 'typed/version'
-require_relative 'typed/metatypes'
+require_relative 'typed/metatypes/types'
+require_relative 'typed/metatypes/literals'
+require_relative 'typed/metatypes/array'
+require_relative 'typed/metatypes/mapping'
+
+
 require_relative 'typed/typed'
 require_relative 'typed/values'
 require_relative 'typed/numbers'

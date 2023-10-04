@@ -2,18 +2,15 @@
 module Types
 class Array
 
-def self.build_class( sub_type )
+## note: add size option here (size=0) default is dynamic (not fixed)!!!  
+def self.build_class( sub_type, size=0 )
   ## add convenience sub_type helper here - why? why not?
   ## sub_type = Type.create( sub_type )  if sub_type.is_a?( Symbol ) ||
   ##                                       sub_type.is_a?( String )
   sub_type = sub_type.type   if sub_type.is_a?( Class ) && sub_type.ancestors.include?( Typed )
       
-
-  unless sub_type.is_value_type?
-       raise ArgumentError, "Only value types for array elements supported for now; sorry" 
-  end
   
-  type = ArrayType.instance( sub_type )
+  type = ArrayType.instance( sub_type, size )
 
   class_name =  type.typedclass_name
   
