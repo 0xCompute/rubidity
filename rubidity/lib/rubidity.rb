@@ -19,8 +19,8 @@ require 'rubidity/typed'
 ##   or add upstream TypedArray() and TypedMapping(,) 
 ##    and add alias here for Array(), Mapping(,) - why? why not? 
 
-def array( sub_type ) 
-    typedclass = Types::Array.build_class( sub_type )
+def array( sub_type, size=0 ) 
+    typedclass = Types::Array.build_class( sub_type, size )
     typedclass.type   ## fix-fix-fix - return typedclass in future - why? why not?
 end
 

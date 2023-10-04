@@ -169,7 +169,7 @@ class Contract  < ContractBase
 
   ## note: change from require to assert
   ##         to avoid confusion with ruby require - why? why not?
-  def assert(condition, message)
+  def assert(condition, message='no message')
     unless condition
       # caller_location = caller_locations.detect { |l| l.path.include?('/app/models/contracts') }
       # file = caller_location.path.gsub(%r{.*app/models/contracts/}, '')

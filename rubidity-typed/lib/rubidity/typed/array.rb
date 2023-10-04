@@ -59,7 +59,13 @@ class Array < TypedReference
      raise ArgumentError, "Sparse arrays are not supported; index out of bounds - sorry"   if index >= @data.size
 
      # fix-fix-fix: allow typed value here (not only literals)!!!
-     @data[ index ] = type.sub_type.new( new_value )
+     obj = if new_value.is_a?( Typed ) 
+               new_value
+           else
+               type.sub_type.new( new_value )
+           end
+  
+     @data[ index ] = obj
   end
   
 
@@ -77,11 +83,17 @@ class Array < TypedReference
      ##
      ## Push is used to add new element to a dynamic array,
      ##  when you push a value to an array, it becomes the last value
-     @data.push( type.sub_type.new( new_value ) )
+     obj = if new_value.is_a?( Typed ) 
+               new_value
+           else
+               type.sub_type.new( new_value )
+           end
+     @data.push( obj )
 
      ## note: returns array.size (NOT array itself!!!) to keep compatible with solidity - why? why not?
      @data.size
   end
+
 
   def delete( index )
     ## note sets the element to zero!!!

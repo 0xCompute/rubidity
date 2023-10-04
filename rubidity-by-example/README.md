@@ -59,7 +59,15 @@ To be continued...   the idea or the theme is "less is more" or better security 
 - [Hello World](hello-world)
 - [First App](first-app)
 - [Reading and Writing to a State Variable](state-variables)
+- [Array](array)
 
 
 
+
+## Questions? Comments?
+
+Join us in the [Rubidity (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
+Your questions and commetary welcome.
+
+Or post them over at the [Help & Support](https://github.com/geraldb/help) page. Thanks.
 
