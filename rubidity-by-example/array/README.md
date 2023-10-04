@@ -158,7 +158,7 @@ class ArrayBasic   < Contract
        @arr[i]
     end
 
-    ## Solidity can return the entire array.
+    ## Rubidity can return the entire array.
     ##  But this function should be avoided for
     ## arrays that can grow indefinitely in length.
     sig [], :view, returns: Array( UInt ),

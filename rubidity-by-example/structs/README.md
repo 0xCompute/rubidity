@@ -35,7 +35,7 @@ class Todos < Contract
         @todos.push( todo )
     end
 
-    ## Solidity automatically created a getter for 'todos' so
+    ## Rubidity automatically created a getter for 'todos' so
     ##  you don't actually need this function.
     sig [UInt], :view, returns: [String, Bool], 
     def get( index: ) 

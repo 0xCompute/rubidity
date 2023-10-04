@@ -109,7 +109,6 @@ class Enum  < Typed
   ## add to_b/to_bool support (see safebool @ https://github.com/s6ruby/safebool) - why? why not?  
   # def parse_bool() @value != 0; end   ## nonzero == true, zero == false like numbers
 
-
    def serialize() @value; end
    def replace( new_value )
       raise ArgumentError, "(abstract) data type;  CANNOT replace - MUST assign a new data member reference; sorry"

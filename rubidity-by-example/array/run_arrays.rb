@@ -7,7 +7,7 @@
 require_relative  '../helper'   ## use (shared) helper (boot) setup     
 
 
-require_relative 'arraybasic'
+require_relative 'array'
 
 
 pp ArrayBasic
