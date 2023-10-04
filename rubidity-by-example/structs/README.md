@@ -15,7 +15,7 @@ class Todos < Contract
                   completed: Bool 
     
     #  An array of 'Todo' structs
-    storage  todos: array( Todo )
+    storage  todos: Array( Todo )
 
 
     sig [String],
