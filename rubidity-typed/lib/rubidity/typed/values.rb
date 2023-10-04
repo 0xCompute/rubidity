@@ -15,6 +15,12 @@ class Bool < TypedValue
     end 
 
 
+    ## lets you "toogle" bool wrapper (until we get true bools!!!)
+    def !@()  
+      puts "[debug] Bool#!@ self: #{pretty_print_inspect}"
+      Bool.new( !@value )
+    end
+
 
     ## return nil if not bool - check if this works with <=>???
     def _to_bool( other )

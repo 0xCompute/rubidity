@@ -60,6 +60,8 @@ To be continued...   the idea or the theme is "less is more" or better security 
 - [First App](first-app)
 - [Reading and Writing to a State Variable](state-variables)
 - [Array](array)
+- [Structs](structs)
+
 
 
 
