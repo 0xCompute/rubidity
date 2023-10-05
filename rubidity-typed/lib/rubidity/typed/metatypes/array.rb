@@ -50,9 +50,9 @@ class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! 
       name 
     end
     def typedclass()  Types.const_get( typedclass_name ); end
-    def new_zero()   typedclass.new( [] ); end  
-    def new( initial_value=[] ) typedclass.new( initial_value ); end 
-    alias_method :create, :new     ## remove create alias - why? why not?
+  
+    def new_zero()   typedclass.new; end  
+    def new( initial_value ) typedclass.new( initial_value ); end 
 end # class ArrayType
 
 

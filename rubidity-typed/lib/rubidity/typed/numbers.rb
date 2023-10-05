@@ -4,9 +4,11 @@ module Types
 class UInt < TypedValue
     def self.type() UIntType.instance; end  
 
-    def initialize( initial_value = nil)
-       initial_value ||= type.zero
-       raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
+    def initialize( initial_value = 0 )
+       ## was: initial_value ||= type.zero
+       ##     check if nil gets passed in - default not used?  
+
+      raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
       
        @value = type.check_and_normalize_literal( initial_value )     
     end 
@@ -34,9 +36,11 @@ end  # class UInt
 class Int < TypedValue
     def self.type() IntType.instance; end  
   
-    def initialize( initial_value = nil)
-       initial_value ||= type.zero
-       raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
+    def initialize( initial_value = 0 )
+       ## was: initial_value ||= type.zero
+       ##     check if nil gets passed in - default not used?  
+
+      raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
       
        @value = type.check_and_normalize_literal( initial_value )     
     end 
@@ -59,8 +63,9 @@ end  # class Int
 class Timestamp < TypedValue
     def self.type() TimestampType.instance; end  
   
-    def initialize( initial_value = nil)
-       initial_value ||= type.zero
+    def initialize( initial_value = 0 )
+       ## was: initial_value ||= type.zero
+       ##     check if nil gets passed in - default not used?  
 
        raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
       
@@ -72,8 +77,9 @@ end  # class Timestamp
 class Timedelta < TypedValue
     def self.type() TimedeltaType.instance; end  
   
-    def initialize( initial_value = nil)
-       initial_value ||= type.zero
+    def initialize( initial_value = 0 )
+       ## was: initial_value ||= type.zero
+       ##     check if nil gets passed in - default not used?  
 
        raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
       

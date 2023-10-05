@@ -75,20 +75,6 @@ class TypedValue < Typed
   def zero?()  @value == type.zero; end
   def as_data() @value; end  
 
-=begin  
-  def replace(new_value)
-    @value = if new_value.is_a?( Typed )
-               if new_value.type != type
-                ## todo/check: add special handing for contracts here 
-                ##                 why? why not?
-                   raise TypeError, "expected type #{type}; got #{new_value.type} : #{new_value.value}"
-               end
-               new_value.value
-            else
-               type.check_and_normalize_literal( new_value )
-            end
-  end
-=end
 
   def pretty_print( printer ) printer.text( "<val #{type}:#{@value.inspect}>" ); end
 

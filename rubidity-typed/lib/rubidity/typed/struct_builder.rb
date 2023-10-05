@@ -104,8 +104,6 @@ def self.build_class( class_name, scope: ContractBase, **attributes )
     values = attributes.values.map do |type|
       if type.respond_to?( :new_zero )
         type.new_zero
-      elsif type.respond_to?( :create )  ## fix-fix-fix - ALWAYS use new_zero!!!!
-        type.create
       else
         raise ArgumentError, "[Struct] no new_zero support for type #{type}; sorry"
       end

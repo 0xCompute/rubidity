@@ -6,8 +6,9 @@ module Types
 class String < TypedValue
   def self.type() StringType.instance; end  
 
-  def initialize( initial_value = nil )
-    initial_value ||= type.zero
+  def initialize( initial_value = STRING_ZERO )
+    ## was: initial_value ||= type.zero
+    ##     check if nil gets passed in - default not used?  
 
     raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )
     
@@ -30,8 +31,10 @@ end   # class String
 class Address < TypedValue
   def self.type() AddressType.instance; end  
  
-   def initialize( initial_value = nil )
-      initial_value ||= type.zero
+   def initialize( initial_value = ADDRESS_ZERO )
+      ## was: initial_value ||= type.zero
+      ##     check if nil gets passed in - default not used?  
+
       raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )
       
       @value = type.check_and_normalize_literal( initial_value )  
@@ -42,8 +45,10 @@ end  # class Address
 class InscriptionId < TypedValue
     def self.type() InscriptionIdType.instance; end  
   
-    def initialize( initial_value = nil)
-      initial_value ||= type.zero
+    def initialize( initial_value = INSCRIPTION_ID_ZERO )
+      ##  was: nitial_value ||= type.zero
+      ##     check if nil gets passed in - default not used?  
+
       raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
       
       @value = type.check_and_normalize_literal( initial_value )  
@@ -55,8 +60,10 @@ end  # class InscriptionId
 class Bytes32 < TypedValue
   def self.type() Bytes32Type.instance; end  
 
-  def initialize( initial_value = nil )
-     initial_value ||= type.zero
+  def initialize( initial_value = BYTES32_ZERO )
+     ## was: initial_value ||= type.zero
+     ##     check if nil gets passed in - default not used?  
+
      raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
       
      @value = type.check_and_normalize_literal( initial_value )  
@@ -67,8 +74,10 @@ end  # class Bytes32
 class Bytes < TypedValue
   def self.type() BytesType.instance; end  
 
-  def initialize( initial_value = nil )
-    initial_value ||= type.zero
+  def initialize( initial_value = BYTES_ZERO )
+    ## was: initial_value ||= type.zero
+    ##     check if nil gets passed in - default not used?  
+
     raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
       
     @value = type.check_and_normalize_literal( initial_value )  

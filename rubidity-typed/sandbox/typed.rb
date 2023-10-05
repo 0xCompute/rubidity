@@ -16,7 +16,7 @@ types = [
   InscriptionId,
   Bytes32,
   Bytes,
- # Bool,
+  Bool,
   UInt, 
   Int, 
   Timestamp,   
@@ -37,7 +37,7 @@ types.each do |typedclass|
     print "\n"
 
     print "new: "
-    print type.new.pretty_print_inspect
+    print type.new( type.zero ).pretty_print_inspect
     print "\n"
 
     print "typedclass.name: "

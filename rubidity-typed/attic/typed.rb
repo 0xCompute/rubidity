@@ -1,4 +1,20 @@
 
+  def replace(new_value)
+    @value = if new_value.is_a?( Typed )
+               if new_value.type != type
+                ## todo/check: add special handing for contracts here 
+                ##                 why? why not?
+                   raise TypeError, "expected type #{type}; got #{new_value.type} : #{new_value.value}"
+               end
+               new_value.value
+            else
+               type.check_and_normalize_literal( new_value )
+            end
+  end
+
+
+
+
 def typed( type, initial_value = nil, **kwargs)   
     ## rename type to type_or_name or such - why? why not?
     return type.create( initial_value )   if type.is_a?( Type )    ## already a type(def) object

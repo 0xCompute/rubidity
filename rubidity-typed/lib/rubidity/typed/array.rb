@@ -6,8 +6,9 @@ class Array < TypedReference
     ## todo/check: make "internal" data (array) available? why? why not?
     attr_reader :data   
  
-  def initialize( initial_value = nil )
-      initial_value ||= []            
+  def initialize( initial_value = [] )
+      ## was: initial_value ||= []
+      ##     check if nil gets passed in - default not used?  
       raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
  
      @data =  type.check_and_normalize_literal( initial_value ).map do |item|
@@ -123,8 +124,6 @@ class Array < TypedReference
         ## note: use a new unfrozen copy of the zero object
         ##    changes to the object MUST be possible (new "empty" modifable object expected)
         diff.times { @data << type.sub_type.new_zero }
-      elsif type.sub_type.respond_to?( :create )   ## fix: remove support for create alias - why? why not?
-        diff.times { @data << type.sub_type.create }
       else
          raise "[Array]#length= cannot create new_zero for type #{type.sub_type} - sorry"
       end

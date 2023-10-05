@@ -9,9 +9,10 @@ class Mapping < TypedReference
     ## todo/check: make "internal" data/hash available? why? why not?
     attr_reader :data   
 
-    def initialize( initial_value = nil )
-      initial_value ||= {}             
-
+    def initialize( initial_value = {} )
+      ## was: initial_value ||= {}             
+      ##     check if nil gets passed in - default not used?  
+ 
       raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
  
         @data =     type.check_and_normalize_literal( initial_value ).map do |key, value|

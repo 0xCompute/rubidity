@@ -84,7 +84,7 @@ end  # class Type
 
 ##
 ## ruby note:  is_a? and kind_of? are alias - the same
-##            for "strict" checking use instance_of?()
+##            for "strict" checking use instance_of?
 
 
 class StringType < ValueType  ## note: strings are frozen / immutable - check again!!
@@ -106,9 +106,10 @@ class StringType < ValueType  ## note: strings are frozen / immutable - check ag
     def typedclass_name()  Types::String.name; end
     def typedclass()       Types::String;  end
     
-    def new_zero()   Types::String.new( STRING_ZERO ); end
-    def new( initial_value=STRING_ZERO ) Types::String.new( initial_value ); end 
-    alias_method :create, :new     ## remove create alias - why? why not?
+    ##  for new_zero return shared zero (is immutable)
+    ##           use String.zero  - why? why not?
+    def new_zero() Types::String.new;  end
+    def new( initial_value ) Types::String.new( initial_value ); end 
 end
 
 
@@ -127,9 +128,8 @@ class AddressType < ValueType
     ## todo: return "shared" Address zero - why? why not?
     def typedclass_name()  Address.name; end
     def typedclass()       Address;  end
-    def new_zero() Address.new( ADDRESS_ZERO ); end
-    def new( initial_value=ADDRESS_ZERO ) Address.new( initial_value ); end 
-    alias_method :create, :new     ## remove create alias - why? why not?
+    def new_zero() Address.new; end
+    def new( initial_value ) Address.new( initial_value ); end 
 end
 
 
@@ -146,9 +146,9 @@ class InscriptionIdType < ValueType      ## todo/check: rename to inscripeId or 
       
     def typedclass_name()  InscriptionId.name; end
     def typedclass()       InscriptionId;  end    
-    def new_zero() InscriptionId.new( INSCRIPTION_ID_ZERO ); end
-    def new( initial_value=INSCRIPTION_ID_ZERO ) InscriptionId.new( initial_value ); end 
-    alias_method :create, :new     ## remove create alias - why? why not?
+
+    def new_zero() InscriptionId.new; end
+    def new( initial_value ) InscriptionId.new( initial_value ); end 
 end
 
 
@@ -165,9 +165,9 @@ class Bytes32Type < ValueType
   
   def typedclass_name()  Bytes32.name; end
   def typedclass()       Bytes32;  end    
-  def new_zero() Bytes32.new( BYTES32_ZERO ); end
-  def new( initial_value=BYTES32_ZERO ) Bytes32.new( initial_value ); end 
-  alias_method :create, :new     ## remove create alias - why? why not?
+
+  def new_zero() Bytes32.new; end
+  def new( initial_value ) Bytes32.new( initial_value ); end 
 end
 
 
@@ -183,9 +183,9 @@ class BytesType < ValueType       ### fix: see comments above - is bytes dynamic
 
   def typedclass_name()  Bytes.name; end
   def typedclass()       Bytes;  end    
-  def new_zero() Bytes.new( BYTES_ZERO ); end
-  def new( initial_value=BYTES_ZERO ) Bytes.new( initial_value ); end 
-  alias_method :create, :new     ## remove create alias - why? why not?
+
+  def new_zero() Bytes.new; end
+  def new( initial_value ) Bytes.new( initial_value ); end 
 end
 
 
@@ -194,6 +194,10 @@ class UIntType < ValueType
 
     def format() 'uint'; end
     alias_method :to_s, :format 
+    
+    ## note abi requires uint256!!! (not uint)
+    ## todo/check - rename to sig or abisig or selector or ???
+    def abi() 'uint256'; end
 
     def ==(other)  other.is_a?( UIntType ); end
     def zero()   0; end
@@ -201,9 +205,9 @@ class UIntType < ValueType
 
     def typedclass_name()  UInt.name; end
     def typedclass()       UInt;  end    
-    def new_zero() UInt.new( 0 ); end
-    def new( initial_value=0 ) UInt.new( initial_value ); end 
-    alias_method :create, :new     ## remove create alias - why? why not?
+  
+    def new_zero() UInt.new; end
+    def new( initial_value ) UInt.new( initial_value ); end 
 end
 
 
@@ -213,15 +217,20 @@ class IntType < ValueType
     def format() 'int'; end
     alias_method :to_s, :format 
 
+    ## note abi requires uint256!!! (not uint)
+    ## todo/check - rename to sig or abisig or selector or ???
+    def abi() 'int256'; end
+
+
     def ==(other)  other.is_a?( IntType ); end
     def zero()   0; end
         
 
     def typedclass_name()  Int.name; end
-    def typedclass()       Int;  end    
-    def new_zero() Int.new( 0 ); end
-    def new( initial_value=0 ) Int.new( initial_value ); end 
-    alias_method :create, :new     ## remove create alias - why? why not?
+    def typedclass()       Int;  end   
+
+    def new_zero() Int.new; end
+    def new( initial_value ) Int.new( initial_value ); end 
 end
 
 
@@ -231,15 +240,17 @@ class TimestampType < ValueType   ## note: datetime is int (epoch time since 197
     def format() 'timestamp'; end
     alias_method :to_s, :format 
 
+    ## check for abi sig format is it uint256???
+
     def ==(other)  other.is_a?( TimestampType ); end
     def zero()   0; end
         
 
     def typedclass_name()  Timestamp.name; end
     def typedclass()       Timestamp;  end    
-    def new_zero() Timestamp.new( 0 ); end
-    def new( initial_value=0 ) Timestamp.new( initial_value ); end 
-    alias_method :create, :new     ## remove create alias - why? why not?
+
+    def new_zero() Timestamp.new; end
+    def new( initial_value ) Timestamp.new( initial_value ); end 
 end 
 
 
@@ -255,9 +266,9 @@ class TimedeltaType < ValueType
 
   def typedclass_name()  Timedelta.name; end
   def typedclass()       Timedelta;  end    
-  def new_zero() Timedelta.new( 0 ); end
-  def new( initial_value=0 ) Timedelta.new( initial_value ); end 
-  alias_method :create, :new     ## remove create alias - why? why not?
+
+  def new_zero() Timedelta.new; end
+  def new( initial_value ) Timedelta.new( initial_value ); end 
 end 
 
 
@@ -278,6 +289,12 @@ class EnumType < Type
      "#{enum_name} enum(#{enum_class.keys.join(',')})" 
   end
   alias_method :to_s, :format 
+
+  ## note abi requires uint8!!! 0-255 (8bit)
+  ## todo/check - rename to sig or abisig or selector or ???
+  def abi()  'uint8'; end
+
+
   def ==(other)
     other.is_a?( EnumType ) &&
     @enum_name  == other.enum_name &&  ## check for name too - why? why not? 
@@ -293,12 +310,12 @@ class EnumType < Type
 
   def typedclass_name() @enum_class.name;  end
   def typedclass() @enum_class;  end
- def new_zero() @enum_class.new_zero; end 
- def new( initial_value=0 ) 
+ 
+  def new_zero() @enum_class.new_zero; end 
+  def new( initial_value ) 
      ## allow new use here - why? why not?
      @enum_class.members[ initial_value ] 
- end 
- alias_method :create, :new     ## remove create alias - why? why not?
+  end 
 end
 
 
@@ -316,6 +333,14 @@ class StructType < ReferenceType
         "#{@struct_name} struct(#{named_types.join(',')})" 
      end
      alias_method :to_s, :format 
+
+
+     ### note: abi requires "tuple()"
+     def abi
+      types = @struct_class.attributes.map  {|_,type| type.abi }
+      "tuples(#{types.join(',')})" 
+     end
+
      def ==(other)
        other.is_a?( StructType ) &&
        @struct_name  == other.struct_name &&  ## check for name too - why? why not? 
@@ -331,13 +356,13 @@ class StructType < ReferenceType
 
      def typedclass_name() @struct_class.name;  end
      def typedclass() @struct_class;  end
-    def new_zero() @struct_class.new_zero; end 
-    def new( initial_value=[] )  ## todo/check: change to values with splat - why? why not?  
+    
+     def new_zero() @struct_class.new_zero; end 
+     def new( initial_values )  ## todo/check: change to values with splat - why? why not?  
          ## note: use "splat" here - must be empty or matching number of fields/attributes
          ##  change - why? why not?
-        @struct_class.new( *initial_value ) 
-    end 
-    alias_method :create, :new     ## remove create alias - why? why not?
+        @struct_class.new( *initial_values ) 
+     end 
 end # class StructType
 
 
@@ -352,6 +377,13 @@ end # class StructType
 
 
 class ContractType < ValueType
+
+  def self.instance( contract_type ) 
+    raise ArgumentError, "[ContractType.insntance] class expected for contract_type arg"  unless contract_type.is_a?( Class )
+    @instances ||= {}
+    @instances[ contract_type.name ] ||= new( contract_type ) 
+  end
+
   attr_reader :contract_type
   ## note: assume for now contract_type is a (contract) class!!!!!
   def initialize( contract_type )
@@ -375,17 +407,11 @@ class ContractType < ValueType
   end
 
 
-  def self.instance( contract_type ) 
-    raise ArgumentError, "[ContractType.insntance] class expected for contract_type arg"  unless contract_type.is_a?( Class )
-    @instances ||= {}
-    @instances[ contract_type.name ] ||= new( contract_type ) 
-  end
 
    ## add support with passed in address - why? why not?    
    def new( initial_value ) 
      raise NameError, "no method create for ContractType; sorry"
    end
-   alias_method :create, :new     ## remove create alias - why? why not?
 end  # class ContractType
 
 

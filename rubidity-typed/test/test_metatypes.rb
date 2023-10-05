@@ -34,7 +34,7 @@ def test_create
     assert      !t != t2
 
 
-    str = t.new
+    str = t.new( '' )   ## note: Type#new ALWAYS requires an (initial) value!!!
     assert_equal t, str.type
 
     str = t.new_zero
@@ -45,8 +45,8 @@ end
 
 def test_address
     t = Typed::AddressType.instance
-    a1 = t.new.type
-    a2 = t.new.type
+    a1 = t.new_zero.type
+    a2 = t.new_zero.type
 
     assert_equal a1.class, a2.class
     assert_equal a1.format, a2.format
