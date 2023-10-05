@@ -94,7 +94,7 @@ T = Types   ## make T an alias for Types - why? why not?
 ##           Type( obj ) or type() ??
 def typeof( obj )
     ## case 1) already a metatype?
-    return if obj.is_a?( Types::Typed::Type )
+    return obj         if obj.is_a?( Types::Typed::Type )
     ## case 2a) check for (typed) class
     ##    check for Typed ancestor in class - why? why not?
     ##     e.g.    obj.ancestors.include?( Types::Typed )
