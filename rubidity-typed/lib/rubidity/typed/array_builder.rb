@@ -7,8 +7,8 @@ def self.build_class( sub_type, size=0 )
   ## add convenience sub_type helper here - why? why not?
   ## sub_type = Type.create( sub_type )  if sub_type.is_a?( Symbol ) ||
   ##                                       sub_type.is_a?( String )
-  sub_type = sub_type.type   if sub_type.is_a?( Class ) && sub_type.ancestors.include?( Typed )
-      
+  ## sub_type = sub_type.type   if sub_type.is_a?( Class ) && sub_type.ancestors.include?( Typed )
+   sub_type = typeof( sub_type )    
   
   type = ArrayType.instance( sub_type, size )
 

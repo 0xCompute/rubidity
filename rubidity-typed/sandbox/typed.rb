@@ -16,7 +16,7 @@ types = [
   InscriptionId,
   Bytes32,
   Bytes,
-  Bool,
+ # Bool,
   UInt, 
   Int, 
   Timestamp,   

@@ -120,8 +120,8 @@ a -= 100                               #=> <val int:100>
 #  idea  - use "plain" integer as TypedInt - why? why not?
 
 
-a  = Bool.new                    #=> <val bool:false>
-a  = Bool.new( true )            #=> <val bool:true>
+a  = false                            #=> <val bool:false>
+a  = true                             #=> <val bool:true>
 
 # 
 #  idea - use "plain" true|false  as TypedBool (frozen|typed)
@@ -149,6 +149,7 @@ a = Timestamp.new               #=> <val timestamp:0>
 #  use/change/rename to Timestamp - why? why not?
 #    ALWAYS uses epoch time starting at 0 (no time zone or such)
 
+a = Timedelta.new               #=> <val timedelta:0>
 
 
 #
@@ -161,7 +162,7 @@ a = Bytes.new                 #=> <val bytes:"">
 
 
 # todo/check:  make build_class alias to new?
-Array‹String› = Array.build_class( String )    
+Array‹String› = Array.new( String )    
 Array‹String›.type      #=> <type string[]>
 
 a = Array‹String›.new   #=> <ref string[]:[]>
@@ -175,7 +176,7 @@ a[2]                  #=> <val string:"two">
 a.length              #=> 3
 a.push( 'three' )
 a[3]                  #=> <val string:"three">
-a[4] = 'four'
+a.push( 'four' )
 a[4]                  #=> <val string:"four">
 a.length              #=> 5
 a.serialize           #=> ["zero", "one", "two", "three", "four"]
@@ -183,7 +184,7 @@ a.serialize           #=> ["zero", "one", "two", "three", "four"]
 #  todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
 #                  use special unicode-chars for <>??
 
-Array‹UInt› = Array.build_class(  UInt )
+Array‹UInt› = Array.new( UInt )
 Array‹UInt›.type      #=> <type uint[]>
 
 a = Array‹UInt›.new   #=> <ref uint[]:[]>
@@ -197,7 +198,7 @@ a[2]               #=> <val uint:2>
 a.length           #=> 3
 a.push( 3 )
 a[3]               #=> <val uint:3>
-a[4] = 4
+a.push( 4 )
 a[4]               #=> <val uint:4>
 a.length           #=> 5
 a.serialize        #=> [0, 1, 2, 3, 4]
@@ -211,15 +212,15 @@ bob     = '0x'+ 'bb'*20
 charlie = '0x'+ 'cc'*20
 
 
-Mapping‹Address→UInt›  = Mapping.build_class( Address, UInt )
+Mapping‹Address→UInt›  = Mapping.new( Address, UInt )
 Mapping‹Address→UInt›.type    #=> <type mapping(address=>uint)>
 
 a = Mapping‹Address→UInt›.new
 #=> <ref mapping(address=>uint):{}>
 
 a = Mapping‹Address→UInt›.new( { alice   =>  100,
-                                                bob     =>  200 },
-                                            )
+                                 bob     =>  200 },
+                             )
 #=> <ref mapping(address=>uint):
 #     {<val address:"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa">=><val uint:100>, 
 #      <val address:"0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb">=><val uint:200>}>
@@ -239,7 +240,7 @@ a.serialize
 #
 # more - enums, structs, etc.
 
-Color = Enum.build_class( :Color, :red, :green, :blue )
+Color = Enum.new( :Color, :red, :green, :blue )
 Color.type     #=> <type Color enum(red,green,blue)>
 
 Color::RED     #=> <val Color enum(red,green,blue):red(0)>
@@ -259,11 +260,11 @@ color.serialize   #=> 0
 
 
 
-Bet = Struct.build_class( :Bet, 
-                            user:    Address,
-                            block:   UInt,
-                            cap:     UInt,
-                            amount:  UInt  )
+Bet = Struct.new( :Bet, 
+                     user:    Address,
+                     block:   UInt,
+                     cap:     UInt,
+                     amount:  UInt  )
 Bet.type
 
 

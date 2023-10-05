@@ -32,8 +32,8 @@ pp a -= 100
 ## idea  - use "plain" integer as TypedInt - why? why not?
 
 
-pp a  = Bool.new
-pp a  = Bool.new( true )
+pp a  = false
+pp a  = true
 
 ##
 ## idea - use "plain" true|false  as TypedBool (frozen|typed)
@@ -55,6 +55,8 @@ pp a = Timestamp.new
 ## use/change/rename to Timestamp - why? why not?
 ##   ALWAYS uses epoch time starting at 0 (no time zone or such)
 
+
+pp a = Timedelta.new
 
 
 ###
@@ -78,7 +80,7 @@ pp a[2]
 pp a.length
 pp a.push( 'three' )
 pp a[3]
-pp a[4] = 'four'
+pp a.push( 'four' )
 pp a[4]
 pp a.length
 pp a.serialize
@@ -99,7 +101,7 @@ pp a[2]
 pp a.length
 pp a.push( 3 )
 pp a[3]
-pp a[4] = 4
+pp a.push( 4 )
 pp a[4]
 pp a.length
 pp a.serialize

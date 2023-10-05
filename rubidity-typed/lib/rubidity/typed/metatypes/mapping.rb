@@ -3,6 +3,14 @@ class Typed  ## note: use class Typed as namespace (all metatype etc. nested her
     
 
 class MappingType < ReferenceType
+     def self.instance( key_type, value_type ) 
+        raise ArgumentError, "[MappingType.instance] key_type not a type - got #{key_type}; sorry" unless key_type.is_a?( Type )
+        raise ArgumentError, "[MappingType.instance] value_type not a type - got #{value_type}; sorry" unless value_type.is_a?( Type )
+        @instances ||= {}
+        @instances[ key_type.format+"=>"+value_type.format ] ||= new(key_type, value_type) 
+     end
+
+
     attr_reader :key_type
     attr_reader :value_type
      def initialize( key_type, value_type )
@@ -22,13 +30,6 @@ class MappingType < ReferenceType
         {}    
      end
     
-
-     def self.instance( key_type, value_type ) 
-        raise ArgumentError, "[MappingType.instance] key_type not a type - got #{key_type}; sorry" unless key_type.is_a?( Type )
-        raise ArgumentError, "[MappingType.instance] value_type not a type - got #{value_type}; sorry" unless value_type.is_a?( Type )
-        @instances ||= {}
-        @instances[ key_type.format+"=>"+value_type.format ] ||= new(key_type, value_type) 
-     end
 
      def typedclass_name
       ## return/use symbol (not string here) - why? why not?

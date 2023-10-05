@@ -9,9 +9,11 @@ def self.build_class( key_type, value_type )
     #                                            key_type.is_a?( String )
     # value_type = Type.create( value_type )  if value_type.is_a?( Symbol ) ||
     #                                            value_type.is_a?( String )
-    key_type   = key_type.type     if key_type.is_a?( Class ) && key_type.ancestors.include?( Typed )
-    value_type = value_type.type   if value_type.is_a?( Class ) && value_type.ancestors.include?( Typed )
+    # key_type   = key_type.type     if key_type.is_a?( Class ) && key_type.ancestors.include?( Typed )
+    # value_type = value_type.type   if value_type.is_a?( Class ) && value_type.ancestors.include?( Typed )
 
+    key_type   = typeof( key_type )
+    value_type = typeof( value_type ) 
 
     type = MappingType.instance( key_type, value_type )
 

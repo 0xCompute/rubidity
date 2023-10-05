@@ -33,12 +33,14 @@ INSCRIPTION_ID_ZERO  = INSCRIPTIONID_ZERO = BYTES32_ZERO
 ## our own code
 require_relative 'typed/version'
 require_relative 'typed/metatypes/types'
+require_relative 'typed/metatypes/bool'
 require_relative 'typed/metatypes/literals'
 require_relative 'typed/metatypes/array'
 require_relative 'typed/metatypes/mapping'
 
 
 require_relative 'typed/typed'
+require_relative 'typed/bool'
 require_relative 'typed/values'
 require_relative 'typed/numbers'
 
@@ -57,10 +59,13 @@ require_relative 'typed/conversion'
 
 
 
-##
+#############
 # convenience helpers
 
-TypedBool           = Types::Bool
+##  note: Bool is now (global) "monkey-patched" - no longer a wrapper
+## TypedBool           = Types::Bool
+
+
 TypedString         = Types::String
 TypedAddress        = Types::Address 
 TypedInscriptionId  = Types::InscriptionId
@@ -69,6 +74,7 @@ TypedBytes          = Types::Bytes
 TypedUInt           = Types::UInt
 TypedInt            = Types::Int
 TypedTimestamp      = Types::Timestamp
+TypedTimedelta      = Types::Timedelta
 
 TypedArray          = Types::Array
 TypedMapping        = Types::Mapping
@@ -80,18 +86,30 @@ T = Types   ## make T an alias for Types - why? why not?
 
 
 ####
-##  (global) convenience helper -  keep here -  why? why not?
-def typedclass_to_type( typedclass )
-
-    ## todo/check:
-    ##   check for is_a?(Class) and respond_to?( type ) - why? why not?
-    ##   lets you turn "plain" classes in typed (e.g. TrueClass|FalseClass, etc)
-
-   raise ArgumentError, "typedclass expected; got #{typedclass.inspect}"  unless (typedclass.is_a?( Class ) && 
-                                                                                   typedclass.ancestors.include?( Types::Typed ))
-    typedclass.type
+##  (global) convenience helper to get type
+##
+##  use a different name 
+##     e.g. typedef( obj ) or
+##          typedclass_to_type( obj ) or
+##           Type( obj ) or type() ??
+def typeof( obj )
+    ## case 1) already a metatype?
+    return if obj.is_a?( Types::Typed::Type )
+    ## case 2a) check for (typed) class
+    ##    check for Typed ancestor in class - why? why not?
+    ##     e.g.    obj.ancestors.include?( Types::Typed )
+    ##      2b)  Bool module
+    return obj.type    if obj.instance_of?( Class ) && obj.respond_to?( :type ) 
+    return obj.type    if obj == Bool   ## special case for module Bool!!!
+  
+##   support plain objects too here - why? why not?     
+##   -- check for "plain objects"
+##      return obj.class.type    if obj.class.respond_to?( :type )
+    
+   raise ArgumentError, "metatype or typedclass expected; got #{obj.inspect}"                                                                                 
 end
   
+
 
 
 

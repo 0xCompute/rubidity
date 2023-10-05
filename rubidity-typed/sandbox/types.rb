@@ -1,6 +1,6 @@
 ##
 # to run use:
-#   $ ruby sandbox/types2.rb
+#   $ ruby sandbox/types.rb
 
 
 
@@ -11,15 +11,15 @@ require 'rubidity/typed'
 module Sandbox
 
 
-string       =  Typed::StringType.instance
-address      =  Typed::AddressType.instance 
+string          =  Typed::StringType.instance
+address         =  Typed::AddressType.instance 
 inscriptionId   =  Typed::InscriptionIdType.instance 
-bytes32      =  Typed::Bytes32Type.instance
-bytes      =  Typed::BytesType.instance
-bool    =   Typed::BoolType.instance 
-uint  =   Typed::UIntType.instance
-int   =   Typed::IntType.instance
-timestamp =  Typed::TimestampType.instance
+bytes32         =  Typed::Bytes32Type.instance
+bytes           =  Typed::BytesType.instance
+bool            =  Typed::BoolType.instance 
+uint            =  Typed::UIntType.instance
+int             =  Typed::IntType.instance
+timestamp       =  Typed::TimestampType.instance
 
 pp string
 pp address

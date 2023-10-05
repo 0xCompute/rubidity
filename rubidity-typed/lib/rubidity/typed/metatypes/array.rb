@@ -3,6 +3,16 @@ class Typed  ## note: use class Typed as namespace (all metatype etc. nested her
     
 
 class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! - add FixedArray - why? why not?)
+    def self.instance( sub_type, size=0 ) 
+       raise ArgumentError, "[ArrayType.instance] sub_type not a type - got #{sub_type}; sorry" unless sub_type.is_a?( Type )
+       @instances ||= {}
+       key = ''  ## note: String.new('') will pick-up TypedString!!; thus, use literal for now 
+       key += sub_type.format
+       key += "×#{size}"   if size != 0
+       @instances[ key ] ||= new( sub_type, size ) 
+    end
+
+
     attr_reader :sub_type
     attr_reader :size     ## rename size to dim(ension) or such - why? why not?
     def initialize( sub_type, size=0 )
@@ -29,14 +39,6 @@ class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! 
         []    
     end
     
-    def self.instance( sub_type, size=0 ) 
-       raise ArgumentError, "[ArrayType.instance] sub_type not a type - got #{sub_type}; sorry" unless sub_type.is_a?( Type )
-       @instances ||= {}
-       key = ''  ## note: String.new('') will pick-up TypedString!!; thus, use literal for now 
-       key += sub_type.format
-       key += "×#{size}"   if size != 0
-       @instances[ key ] ||= new( sub_type, size ) 
-    end
 
     def typedclass_name
       ## return/use symbol (not string here) - why? why not?

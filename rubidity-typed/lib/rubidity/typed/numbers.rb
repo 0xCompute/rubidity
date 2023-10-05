@@ -67,5 +67,20 @@ class Timestamp < TypedValue
        @value = type.check_and_normalize_literal( initial_value )     
     end 
 end  # class Timestamp
+
+
+class Timedelta < TypedValue
+    def self.type() TimedeltaType.instance; end  
+  
+    def initialize( initial_value = nil)
+       initial_value ||= type.zero
+
+       raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
+      
+       @value = type.check_and_normalize_literal( initial_value )     
+    end 
+end  # class Timedelta
+
+
 end   # module Types
  

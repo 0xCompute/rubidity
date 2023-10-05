@@ -51,6 +51,7 @@ class Type
     end
 
   ##  todo/check - make "dynamic" e.g. structs with all value types still value type? - why? why not?  
+  ##    check if is_value_type is used anywhere?  remove!!!! - why? why not?
   def is_value_type?() is_a?( ValueType ); end    
 
 
@@ -70,8 +71,14 @@ def eql?(other)  hash == other.hash; end  ## check eql? used for what?
 end  # class Type
 
 
-
+   ## use for (abstract) data types
+   ##  e.g. bool, enums - why? why not?
+   ##   can only (re)use constants (true|false or defined enums) 
+   ##    BUT not any new values!!!! 
+   class DataType < Type; end   
+    
    class ValueType < Type; end       ## add value & reference type base - why? why not?
+
    class ReferenceType < Type; end
 
 
@@ -81,20 +88,24 @@ end  # class Type
 
 
 class StringType < ValueType  ## note: strings are frozen / immutable - check again!!
+
+    def self.instance()  @instance ||= new; end
+
+
     def format() 'string'; end
     alias_method :to_s, :format 
 
     def ==(other)  other.is_a?( StringType ); end
     def zero()  STRING_ZERO;  end    
  
- 
-    def self.instance()  @instance ||= new; end
-
     
     ## todo: return "shared" String zero - why? why not?
     ##   note: use Types::String here to avoid confusion with ::String - why? why not?
+    
+    ### -fix-fix-fix- remove typedclass for "primitives" - used anywhere - why? why not?
     def typedclass_name()  Types::String.name; end
     def typedclass()       Types::String;  end
+    
     def new_zero()   Types::String.new( STRING_ZERO ); end
     def new( initial_value=STRING_ZERO ) Types::String.new( initial_value ); end 
     alias_method :create, :new     ## remove create alias - why? why not?
@@ -103,15 +114,16 @@ end
 
 
 class AddressType < ValueType
+ 
+    def self.instance()  @instance ||= new; end
+
     def format() 'address'; end
     alias_method :to_s, :format 
 
     def ==(other)  other.is_a?( AddressType ); end
     def zero() ADDRESS_ZERO;  end
     
- 
-    def self.instance()  @instance ||= new; end
- 
+  
     ## todo: return "shared" Address zero - why? why not?
     def typedclass_name()  Address.name; end
     def typedclass()       Address;  end
@@ -123,15 +135,15 @@ end
 
 
 class InscriptionIdType < ValueType      ## todo/check: rename to inscripeId or inscriptionId
+
+    def self.instance()  @instance ||= new; end
+
     def format() 'inscriptionId'; end
     alias_method :to_s, :format 
 
     def ==(other)  other.is_a?( InscriptionIdType ); end
     def zero()  INSCRIPTION_ID_ZERO; end
- 
-    
-    def self.instance()  @instance ||= new; end
- 
+      
     def typedclass_name()  InscriptionId.name; end
     def typedclass()       InscriptionId;  end    
     def new_zero() InscriptionId.new( INSCRIPTION_ID_ZERO ); end
@@ -141,6 +153,9 @@ end
 
 
 class Bytes32Type < ValueType  
+  def self.instance()  @instance ||= new; end
+
+
   def format() 'bytes32'; end
   alias_method :to_s, :format 
 
@@ -148,8 +163,6 @@ class Bytes32Type < ValueType
   def zero()  BYTES32_ZERO; end
 
   
-  def self.instance()  @instance ||= new; end
-
   def typedclass_name()  Bytes32.name; end
   def typedclass()       Bytes32;  end    
   def new_zero() Bytes32.new( BYTES32_ZERO ); end
@@ -159,14 +172,14 @@ end
 
 
 class BytesType < ValueType       ### fix: see comments above - is bytes dynamic? or frozen?
+  def self.instance()  @instance ||= new; end
+
   def format() 'bytes'; end
   alias_method :to_s, :format 
 
   def ==(other)  other.is_a?( BytesType ); end
   def zero()  BYTES_ZERO; end
   
-
-  def self.instance()  @instance ||= new; end
 
   def typedclass_name()  Bytes.name; end
   def typedclass()       Bytes;  end    
@@ -176,33 +189,15 @@ class BytesType < ValueType       ### fix: see comments above - is bytes dynamic
 end
 
 
-
-class BoolType < ValueType
-    def format() 'bool'; end
-    alias_method :to_s, :format 
-
-    def ==(other)  other.is_a?( BoolType ); end
-    def zero()   false; end
-    
-
+class UIntType < ValueType
     def self.instance()  @instance ||= new; end
 
-    def typedclass_name()  Bool.name; end
-    def typedclass()       Bool;  end    
-    def new_zero() Bool.new( false ); end
-    def new( initial_value=false ) Bool.new( initial_value ); end 
-    alias_method :create, :new     ## remove create alias - why? why not?
-end
-
-class UIntType < ValueType
     def format() 'uint'; end
     alias_method :to_s, :format 
 
     def ==(other)  other.is_a?( UIntType ); end
     def zero()   0; end
        
-
-    def self.instance()  @instance ||= new; end
 
     def typedclass_name()  UInt.name; end
     def typedclass()       UInt;  end    
@@ -213,14 +208,14 @@ end
 
 
 class IntType < ValueType
+    def self.instance()  @instance ||= new; end
+
     def format() 'int'; end
     alias_method :to_s, :format 
 
     def ==(other)  other.is_a?( IntType ); end
     def zero()   0; end
         
-
-    def self.instance()  @instance ||= new; end
 
     def typedclass_name()  Int.name; end
     def typedclass()       Int;  end    
@@ -231,6 +226,8 @@ end
 
 
 class TimestampType < ValueType   ## note: datetime is int (epoch time since 1970 in seconds in utc)
+    def self.instance()  @instance ||= new; end
+
     def format() 'timestamp'; end
     alias_method :to_s, :format 
 
@@ -238,14 +235,31 @@ class TimestampType < ValueType   ## note: datetime is int (epoch time since 197
     def zero()   0; end
         
 
-    def self.instance()  @instance ||= new; end
-
     def typedclass_name()  Timestamp.name; end
     def typedclass()       Timestamp;  end    
     def new_zero() Timestamp.new( 0 ); end
     def new( initial_value=0 ) Timestamp.new( initial_value ); end 
     alias_method :create, :new     ## remove create alias - why? why not?
 end 
+
+
+class TimedeltaType < ValueType   
+  def self.instance()  @instance ||= new; end
+
+  def format() 'timedelta'; end
+  alias_method :to_s, :format 
+
+  def ==(other)  other.is_a?( TimedeltaType ); end
+  def zero()   0; end
+      
+
+  def typedclass_name()  Timedelta.name; end
+  def typedclass()       Timedelta;  end    
+  def new_zero() Timedelta.new( 0 ); end
+  def new( initial_value=0 ) Timedelta.new( initial_value ); end 
+  alias_method :create, :new     ## remove create alias - why? why not?
+end 
+
 
 
 

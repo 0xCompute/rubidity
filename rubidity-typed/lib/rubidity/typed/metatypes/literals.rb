@@ -92,6 +92,7 @@ class Type
       
       return literal.freeze
     elsif is_a?( BoolType )
+      ## fix-fix-fix- check if solidity support 0|1 for bools in function args???
       unless literal == true || literal == false
         raise_type_error(literal)
       end
@@ -123,7 +124,7 @@ class Type
       return literal.downcase
 
 
-    elsif is_a?( TimestampType )
+    elsif is_a?( TimestampType ) || is_a?( TimedeltaType )
       dummy_uint = UIntType.instance
       
       begin

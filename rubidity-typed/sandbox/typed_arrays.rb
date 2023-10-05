@@ -55,7 +55,7 @@ pp a[2]
 pp a.length
 pp a.push( 3 )
 pp a[3]
-pp a[4] = 4
+pp a.push( 4 )
 pp a[4]
 pp a.length
 pp a.serialize
