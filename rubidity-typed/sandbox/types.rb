@@ -46,9 +46,9 @@ puts "serialize:"
 pp var.serialize
 
 
-Array‹String› = Array.build_class( String )
-Array‹UInt›   = Array.build_class( UInt )
-Mapping‹String→String› = Mapping.build_class( String, String )
+Array‹String› = Array.new( String )
+Array‹UInt›   = Array.new( UInt )
+Mapping‹String→String› = Mapping.new( String, String )
 
 
 

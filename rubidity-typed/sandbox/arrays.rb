@@ -10,7 +10,7 @@ require 'rubidity/typed'
 
 module Sandbox
 
-Array‹String› = Array.build_class( String )
+Array‹String› = Array.new( String )
 pp Array‹String›.type
 
 ary = Array‹String›.new
@@ -38,7 +38,7 @@ pp ary.size
 ##################
 ## try fixed array!!!
 
-Array‹String›×9 = Array.build_class( String, 9 )
+Array‹String›×9 = Array.new( String, 9 )
 pp Array‹String›×9.type
 
 ary = Array‹String›×9.new

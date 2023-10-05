@@ -13,7 +13,7 @@ alice   = '0x'+ 'aa'*20
 bob     = '0x'+ 'bb'*20
 charlie = '0x'+ 'cc'*20
 
-typedclass = Mapping.build_class( Address, UInt )
+typedclass = Mapping.new( Address, UInt )
 pp typedclass
 
 ## sames as
@@ -45,7 +45,7 @@ pp a.serialize
 #   cap:    UInt, 
 #   amount: UInt   
 #
-Bet = Struct.build_class( :Bet, 
+Bet = Struct.new( :Bet, 
                       user:    Address,
                       block:   UInt,
                       cap:     UInt,
@@ -62,7 +62,7 @@ bet = Bet.new
 pp bet
 
 
-typedclass = Mapping.build_class( UInt, Bet )
+typedclass = Mapping.new( UInt, Bet )
 pp typedclass
 pp typedclass.type
 

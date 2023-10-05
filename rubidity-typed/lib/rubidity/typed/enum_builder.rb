@@ -35,10 +35,11 @@ def self.build_class( class_name, *args, scope: ContractBase )
 
   klass = Class.new( Enum )
 
-  # ## add self.new too - note: call/forward to "old" orginal self.new of Event (base) class
-  # klass.define_singleton_method( :new ) do |*new_args|
-  #  old_new( *new_args )
-  # end
+ 
+  ## add self.new too - note: call/forward to "old" orginal self.new of Event (base) class
+  klass.define_singleton_method( :new ) do |*new_args, **new_kwargs|
+     old_new( *new_args, **new_kwargs )
+  end
 
   e.each do |key,value|
     klass.class_eval( <<RUBY )
@@ -61,6 +62,8 @@ RUBY
 RUBY
 
 
+
+ 
   klass.define_singleton_method( :new_zero ) do
      ## return member[0]
      members[0]
@@ -91,10 +94,11 @@ RUBY
 end
 
 
-# class << self
-#  alias_method :old_new, :new           # note: store "old" orginal version of new
-#  alias_method :new,     :build_class   #   replace original version with build_class
-# end
+class << self
+  alias_method :old_new, :new       # note: store "old" orginal version of new
+  alias_method :new,     :build_class    # replace original version with create
+end
+
 
 
 end   # class Enum

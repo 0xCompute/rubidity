@@ -17,11 +17,11 @@ require 'rubidity/typed'
 
 module Sandbox
 
-Bet = Struct.build_class( :Bet, 
-                       user:    Address,
-                       block:   UInt,
-                       cap:     UInt,
-                       amount:  UInt  )
+Bet = Struct.new( :Bet, 
+                    user:    Address,
+                    block:   UInt,
+                    cap:     UInt,
+                    amount:  UInt  )
 
 
 pp Bet

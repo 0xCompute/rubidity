@@ -10,7 +10,7 @@ require 'rubidity/typed'
 
 module Sandbox
 
-typedclass = Array.build_class( String )
+typedclass = Array.new( String )
 pp typedclass
 
 ## sames as
@@ -38,7 +38,7 @@ pp ary.serialize
 
 
 
-typedclass = Array.build_class( UInt )
+typedclass = Array.new( UInt )
 pp typedclass
 
 ## sames as

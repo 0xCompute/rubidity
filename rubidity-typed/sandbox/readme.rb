@@ -69,7 +69,7 @@ pp a = Bytes.new
 ###########################
 ### reference types
 
-Array‹String› = Array.build_class( String )
+Array‹String› = Array.new( String )
 pp Array‹String›.type
 
 pp a = Array‹String›.new
@@ -89,7 +89,7 @@ pp a.serialize
 ## todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
 ##                 use special unicode-chars for <>??
 
-Array‹UInt› = Array.build_class( UInt )
+Array‹UInt› = Array.new( UInt )
 pp Array‹UInt›.type
 
 
@@ -116,7 +116,7 @@ bob     = '0x'+ 'bb'*20
 charlie = '0x'+ 'cc'*20
 
 
-Mapping‹Address→UInt› = Mapping.build_class( Address, UInt )
+Mapping‹Address→UInt› = Mapping.new( Address, UInt )
 
 pp Mapping‹Address→UInt›.type
 

@@ -13,7 +13,7 @@ class String < TypedValue
     raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )
     
     @value = type.check_and_normalize_literal( initial_value )
-   end
+  end
 
 
   extend Forwardable   ## pulls in def_delegator
@@ -81,7 +81,7 @@ class Bytes < TypedValue
     raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
       
     @value = type.check_and_normalize_literal( initial_value )  
- end
+  end
 end  # class Bytes
 
 

@@ -15,10 +15,12 @@ def address( literal=ADDRESS_ZERO )
 end  # methdod address 
 
 
+=begin
 def uint( obj=0 )
-   ## check if typed?
+    ## check if typed?
    ## raise exception on error
 end
+=end
 
 
 

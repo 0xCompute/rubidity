@@ -124,7 +124,7 @@ a  = false                            #=> <val bool:false>
 a  = true                             #=> <val bool:true>
 
 # 
-#  idea - use "plain" true|false  as TypedBool (frozen|typed)
+#  idea - use "plain" true|false  as TypedBool (frozen|typed) - done
 
 
 a = Address.new
@@ -161,7 +161,6 @@ a = Bytes.new                 #=> <val bytes:"">
 # reference types
 
 
-# todo/check:  make build_class alias to new?
 Array‹String› = Array.new( String )    
 Array‹String›.type      #=> <type string[]>
 
@@ -181,8 +180,7 @@ a[4]                  #=> <val string:"four">
 a.length              #=> 5
 a.serialize           #=> ["zero", "one", "two", "three", "four"]
 
-#  todo/check:  add a "convenience" TypedStringArray or TypedArray<String>
-#                  use special unicode-chars for <>??
+
 
 Array‹UInt› = Array.new( UInt )
 Array‹UInt›.type      #=> <type uint[]>

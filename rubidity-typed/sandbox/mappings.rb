@@ -10,7 +10,7 @@ require 'rubidity/typed'
 
 module Sandbox
 
-Mapping‹Address→UInt› = Mapping.build_class( Address, UInt )
+Mapping‹Address→UInt› = Mapping.new( Address, UInt )
 
 pp Mapping‹Address→UInt›.type
 

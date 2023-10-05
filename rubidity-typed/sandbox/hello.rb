@@ -47,7 +47,7 @@ pp totalSupply
 pp totalSupply.serialize
 
 
-Mapping‹Address→UInt› = Mapping.build_class( Address, UInt )
+Mapping‹Address→UInt› = Mapping.new( Address, UInt )
 
 balanceOf = Mapping‹Address→UInt›.new
 pp balanceOf

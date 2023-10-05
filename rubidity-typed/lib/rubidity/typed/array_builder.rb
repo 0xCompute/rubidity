@@ -26,6 +26,11 @@ def self.build_class( sub_type, size=0 )
         @type  ||= type
       end
 
+      ## add self.new too - note: call/forward to "old" orginal self.new of Event (base) class
+      klass.define_singleton_method( :new ) do |*args|
+         old_new( *args )
+      end
+    
       ## add to cache for later (re)use
       cache[ class_name ] = klass
 
@@ -36,6 +41,13 @@ def self.build_class( sub_type, size=0 )
 
     klass
 end   # method self.build_class 
+
+class << self
+  alias_method :old_new, :new       # note: store "old" orginal version of new
+  alias_method :new,     :build_class    # replace original version with create
+end
+
+
 end   # class Array
 end  # module Types
 
