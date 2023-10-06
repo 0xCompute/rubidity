@@ -53,7 +53,7 @@ class SupplyChain < Contract
 
 
    sig :createProduct, [String, String, Address, String], returns: UInt
-   def createProduct( ownerId:
+   def createProduct( ownerId:,
                       modelNumber:,
                       partNumber:,
                       serialNumber:,
