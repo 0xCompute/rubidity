@@ -16,7 +16,7 @@ class EnglishAuction < Contract
              seller:     Address,   # +payable
              endAt:      UInt,
              started:    Bool,  
-             ended:      Bool
+             ended:      Bool,
              highestBidder: Address,
              highestBid:    UInt,
              bids:     mapping( Address, UInt )

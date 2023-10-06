@@ -129,10 +129,10 @@ class EnglishAuction < Contract
              seller:     Payable,   
              endAt:      UInt,
              started:    Bool,  
-             ended:      Bool
+             ended:      Bool,
              highestBidder: Address,
              highestBid:    UInt,
-             bids:     mapping( Address, UInt )
+             bids:     Mapping( Address, UInt )
 
     sig [Address, UInt, UInt],   
     def constructor( nft:, nftId:, startingBid: ) 
