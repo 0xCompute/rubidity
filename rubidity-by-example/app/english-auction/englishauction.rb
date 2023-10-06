@@ -80,7 +80,7 @@ class EnglishAuction < Contract
             IERC721(@nft).safeTransferFrom( address(this), @seller, @nftId )
         end
 
-        emit :End, @highestBidder, @highestBid
+        log :End, @highestBidder, @highestBid
     end
 end
 
