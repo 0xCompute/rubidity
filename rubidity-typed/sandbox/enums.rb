@@ -37,8 +37,6 @@ pp Color.convert( 99 )
 
 
 
-color = Color.new_zero
-pp color
 color = Color.green
 pp color
 

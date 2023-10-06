@@ -23,9 +23,7 @@ class Enum  < Typed
   attr_reader :key
   attr_reader :value
 
-  def initialize( key, value, warn: true )
-    raise ArgumentError, "enum #{self.class.name} - do NOT call new EVER; reuse existing enum members! sorry"  if warn
-
+  def initialize( key, value )
     @key   = key
     @value = value
     self.freeze   ## make "immutable"

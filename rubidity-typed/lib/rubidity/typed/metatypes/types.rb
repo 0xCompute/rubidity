@@ -311,7 +311,7 @@ class EnumType < Type
   def typedclass_name() @enum_class.name;  end
   def typedclass() @enum_class;  end
  
-  def new_zero() @enum_class.new_zero; end 
+  def new_zero() @enum_class.members[0];  end 
   def new( initial_value ) 
      ## allow new use here - why? why not?
      @enum_class.members[ initial_value ] 

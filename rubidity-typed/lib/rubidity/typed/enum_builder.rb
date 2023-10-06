@@ -37,13 +37,15 @@ def self.build_class( class_name, *args, scope: ContractBase )
 
  
   ## add self.new too - note: call/forward to "old" orginal self.new of Event (base) class
-  klass.define_singleton_method( :new ) do |*new_args, **new_kwargs|
-     old_new( *new_args, **new_kwargs )
+  klass.define_singleton_method( :new ) do |*new_args|
+      raise ArgumentError, "enum #{klass.name} - do NOT call new EVER; reuse existing enum members! sorry"
   end
+  ## make new - private too - why? why not?
+
 
   e.each do |key,value|
     klass.class_eval( <<RUBY )
-      #{key.upcase} = new( :#{key}, #{value}, warn: false )
+      #{key.upcase} = old_new( :#{key}, #{value} )
 
       def #{key}?
         self == #{key.upcase}
@@ -61,13 +63,6 @@ RUBY
     end
 RUBY
 
-
-
- 
-  klass.define_singleton_method( :new_zero ) do
-     ## return member[0]
-     members[0]
-  end
 
   type = EnumType.new( class_name, klass )
   klass.define_singleton_method( :type ) do
