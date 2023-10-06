@@ -24,12 +24,12 @@
 module Sandbox
 
   ## use scope Types here - why? why not?
-structclass =  Struct.build_class( :Voter,
-                          scope: Types,     
-                          weight:    UInt,
-                          voted:     Bool,
-                          vote:      UInt,
-                          delegate:  Address )
+structclass =  Struct.new( :Voter,
+                             scope: Types,     
+                             weight:    UInt,
+                             voted:     Bool,
+                             vote:      UInt,
+                             delegate:  Address )
 
 pp structclass
 pp structclass.name   ##=>  Types::Voter

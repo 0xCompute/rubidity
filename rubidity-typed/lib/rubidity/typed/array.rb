@@ -36,7 +36,9 @@ class Array < TypedReference
   ## add more Array forwards here!!!!
   ##  todo/fix:  wrap size, empty?  return value literals into typed values - why? why not?
   def_delegators :@data, :size, :length,
-                         :empty?
+                         :empty?,
+                         :each, :each_with_index
+                         
 
   def []( index )
     ## use serialize to get value (why not value) - why? why not?

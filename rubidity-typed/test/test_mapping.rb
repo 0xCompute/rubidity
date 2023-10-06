@@ -16,17 +16,17 @@ class TestMapping < MiniTest::Test
   include Types
 
 
-  Mapping_X_Int     = Mapping.build_class( String, Int )
-  Mapping_X_Bool    = Mapping.build_class( String, Bool )
-  Mapping_X_Voter   = Mapping.build_class( String, Voter )
+  Mapping_X_Int     = Mapping.new( String, Int )
+  Mapping_X_Bool    = Mapping.new( String, Bool )
+  Mapping_X_Voter   = Mapping.new( String, Voter )
 
   ## nested e.g. String => (String => Int)
-  Mapping_Mapping_X_Int = Mapping.build_class( String, Mapping_X_Int )
+  Mapping_Mapping_X_Int = Mapping.new( String, Mapping_X_Int )
 
-  Struct.build_class( :Game123, scope: Types, 
-                                host:       String,
-                                challenger: String,
-                                turn:       String)
+  Struct.new( :Game123, scope: Types, 
+                        host:       String,
+                        challenger: String,
+                        turn:       String)
   pp Game123
   pp Game123.new
 
@@ -34,9 +34,9 @@ class TestMapping < MiniTest::Test
 def test_mapping_of_mapping
   ## note: use Game123 (with unique/unused name)
   ##   for testing an "anonymous" hash class (e.g. without a class name)
-   h = Mapping.build_class( String, Mapping.build_class( String, Game123 ))
+   h = Mapping.new( String, Mapping.new( String, Game123 ))
    pp h
-   h2 = Mapping.build_class( String, Mapping.build_class( String, Game123 ))
+   h2 = Mapping.new( String, Mapping.new( String, Game123 ))
    pp h2
    assert true
 end
@@ -83,8 +83,9 @@ def test_integer
   assert_equal 101,  h['0x1111']
   assert_equal 102,  h['0x2222']
 
-  ## check Mapping.build_class  (uses cached classes)
-  assert_equal Mapping_X_Int, Mapping.build_class( String, Int )
+  ## check Mapping.new  (uses cached classes)
+  assert_equal Mapping_X_Int,       Mapping.new( String, Int )
+  assert_equal Mapping‹String→Int›, Mapping.new( String, Int )
 end
 
 
@@ -101,8 +102,9 @@ def test_bool
   assert_equal true,  h['0x1111'] == true
   assert_equal true,  h['0x2222'] == true
 
-  ## check Mapping.build_class  (uses cached classes)
-  assert_equal Mapping_X_Bool, Mapping.build_class( String, Bool )
+  ## check Mapping.new  (uses cached classes)
+  assert_equal Mapping_X_Bool,       Mapping.new( String, Bool )
+  assert_equal Mapping‹String→Bool›, Mapping.new( String, Bool )
 end
 
 
@@ -128,7 +130,8 @@ def test_voter
 
  
   ## check Hash.of  (uses cached classes)
-  assert_equal Mapping_X_Voter, Mapping.build_class( String, Voter )
+  assert_equal Mapping_X_Voter,       Mapping.new( String, Voter )
+  assert_equal Mapping‹String→Voter›, Mapping.new( String, Voter )
 end
 
 def test_allowances   # nested mappings
@@ -153,7 +156,7 @@ def test_allowances   # nested mappings
 
    ##############################################
    ## try Mapping convenience helper
-   allowances = Mapping.build_class( String, Mapping.build_class( String, Int )).new
+   allowances = Mapping.new( String, Mapping.new( String, Int )).new
 
    allowances['0x1111']['0xaaaa'] = 100
    allowances['0x1111']['0xbbbb'] = 200
@@ -170,8 +173,8 @@ end
 
 
 def test_mapping_new
-    ## note: Mapping.new|build_class (returns a class!! not an object (instance)!!!
-    h = Mapping.build_class( String, Int )   
+    ## note: Mapping.new (returns a class!! not an object (instance)!!!
+    h = Mapping.new( String, Int )   
  
     assert_equal true,  h.is_a?( Class )
     assert_equal false, h.new.is_a?( Class )
