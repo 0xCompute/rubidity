@@ -29,7 +29,7 @@ class CrowdFund < Contract
 
     storage token:         Address,     # IERC20 immutable
             count:         UInt,        # Total count of campaigns created. It is also used to generate id for new campaigns.
-            campaigns:     mapping( UInt, Campaign ) # Mapping from id to Campaign
+            campaigns:     mapping( UInt, Campaign ), # Mapping from id to Campaign
             pledgedAmount: mapping( UInt, mapping( Address, UInt )) # Mapping from campaign id => pledger => amount pledged
     
 
@@ -47,7 +47,7 @@ class CrowdFund < Contract
         @count += 1;
         @campaigns[@count] = Campaign.new(
             creator: msg.sender,
-            goal: @goal,
+            goal: goal,
             pledged: 0,
             startAt: startAt,
             endAt: endAt,
