@@ -20,13 +20,13 @@ require 'rubidity/typed'
 ##    and add alias here for Array(), Mapping(,) - why? why not? 
 
 def array( sub_type, size=0 ) 
-    typedclass = Types::Array.build_class( sub_type, size )
-    typedclass.type   ## fix-fix-fix - return typedclass in future - why? why not?
+    typedclass = Types::Array.new( sub_type, size )
+    typedclass   
 end
 
 def mapping( key_type, value_type ) 
-    typedclass = Types::Mapping.build_class( key_type, value_type )
-    typedclass.type    ## fix-fix-fix - return typedclass in future - why? why not?
+    typedclass = Types::Mapping.new( key_type, value_type )
+    typedclass
 end
 
 

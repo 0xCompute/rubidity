@@ -19,7 +19,7 @@ Hoe.spec 'rubidity' do
   self.history_file = 'CHANGELOG.md'
 
   self.extra_deps = [
-    ['rubidity-typed'],
+    ['rubidity-typed', '>= 0.7.4'],
     ['digest-lite'],      ## pulls in keccak256
   ]
 

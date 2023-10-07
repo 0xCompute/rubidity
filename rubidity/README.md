@@ -38,7 +38,7 @@ class TestToken < Contract
              symbol:      String, 
              decimals:    UInt,       
              totalSupply: UInt,
-             balanceOf:   mapping( Address, UInt) 
+             balanceOf:   mapping( Address, UInt ) 
 
 
     sig :constructor, [String, String, UInt, UInt] 

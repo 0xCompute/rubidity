@@ -38,9 +38,10 @@ def self.typecheck( type, value )
        value
     else
         ## assume "literal" value
-        type.create( value )
+        type.new( value )
     end
 end
+
 
 def self.params( method, inputs, *args_unsafe, **kwargs_unsafe )
     m = method
@@ -155,16 +156,12 @@ end  # method typed_function
 
 ###
 #  add public getters helpers
-def self.getter_function(  contract_class, name, type, 
-                             constant: false,
-                             immutable: false )  
+def self.getter_function(  contract_class, name, type )  
     ## note: make sure name is always a symbol
     name          = name.to_sym
 
     if type.mapping?
-        mapping_getter_function( contract_class, name, type, 
-                                            constant: constant,
-                                            immutable: immutable )
+        mapping_getter_function( contract_class, name, type )
     elsif type.array?
       puts "[debug] auto-generate public array getter - #{name} : #{type}:"
 
@@ -202,9 +199,7 @@ def self.getter_function(  contract_class, name, type,
 end  # method getter_function
 
 
-def self.mapping_getter_function( contract_class, name, type, 
-                                         constant: false,
-                                         immutable: false)
+def self.mapping_getter_function( contract_class, name, type )
     ## note: make sure name is always a symbol
     name          = name.to_sym
     

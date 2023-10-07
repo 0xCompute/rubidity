@@ -6,9 +6,6 @@
 require_relative 'helper'
 
 
-pp Type.value_types
-
-
 require_relative 'testtoken'
 
 

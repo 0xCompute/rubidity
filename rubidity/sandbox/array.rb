@@ -44,7 +44,7 @@ contract.constructor()
 pp contract.serialize
 
 names = contract.instance_variable_get( :@names )
-names[0] = 'hello'
+names.push( 'hello' )
 pp contract.serialize
 
 names.push( 'world' )
@@ -55,6 +55,7 @@ pp contract.names( index: 0 )
 pp contract.names( index: 1 )
 pp contract.names( 0 )
 pp contract.names( 1 )
+
 
 
 numbers = contract.instance_variable_get( :@numbers )

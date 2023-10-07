@@ -2,13 +2,13 @@ class Contract  < ContractBase
  
   
   def self.struct( class_name, **attributes )
-    typedclass = Types::Struct.build_class( class_name, scope: self, **attributes )
-    typedclass    ## what to return here??
+    typedclass = Types::Struct.new( class_name, scope: self, **attributes )
+    typedclass  
   end
 
   def self.enum( class_name, *args )
-    typedclass = Types::Enum.build_class( class_name, *args, scope: self  )
-    typedclass    ## what to return here??
+    typedclass = Types::Enum.new( class_name, *args, scope: self  )
+    typedclass
   end
 
 
@@ -89,13 +89,10 @@ class Contract  < ContractBase
 
     self.class.state_variable_definitions.each do |name, definition|
       type      = definition[:type]
-      # constant  = definition[:constant] 
-      # immutable = definition[:immutable]
      
       puts "[debug] add ivar @#{name} - #{type}"
-      ### note. create Typed instance here (via Type#create)
-      ##    fix-fix-fix  use type.new_zero !!!!
-      instance_variable_set("@#{name}", type.create ) 
+      ### note. create Typed instance here (via Type#new_zero)
+      instance_variable_set("@#{name}", type.new_zero ) 
     end
   end 
 

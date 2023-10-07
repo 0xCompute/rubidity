@@ -70,7 +70,7 @@ class ContractBase
     @events[name] = args.map do |key,value|  
                              [
                                key,
-                               value.is_a?( Typed::Type ) ? value : typedclass_to_type( value )
+                               typeof( value )
                              ]  
                            end.to_h
 
@@ -102,32 +102,32 @@ class ContractBase
     ## check for visibility  - internal/private/public
     ##  note: make :public default and :internal only if name starting with underscore (_) - why? why not?
     visibility = name.start_with?( '_' ) ? :internal  : :public    
-    immutable  = false
-    constant   = false
+ 
+ #  note: for now NO support for immutable and constant!!!!!   
+ #   immutable  = false
+ #   constant   = false
 
     ##  todo/check - force strict check for double (public/private etc.) use - why? why not?
     args.each do |arg|
       case arg
       when :public, :private, :internal then  visibility = arg
-      when :immutable                   then  immutable = true
-      when :constant                    then  constant = true
+ #     when :immutable                   then  immutable = true
+ #     when :constant                    then  constant = true
       else
          raise ArgumentError, "unknown type qualifier >#{arg}<; sorry for typedef #{type} in #{args.inspect}" 
       end
     end
     
     state_variable_definitions[name] = { type: type, 
-                                         visibility: visibility,
-                                         immutable: immutable,
-                                         constant: constant }
+                                         visibility: visibility }
+                                       #  immutable: immutable,
+                                       #  constant: constant 
     
   
     ## check - visibility 
     if visibility == :public
        contract_class = self
-       Generator.getter_function( contract_class, name, type, 
-                                       constant: constant,
-                                       immutable: immutable )
+       Generator.getter_function( contract_class, name, type  )
     end
     
     type
@@ -139,7 +139,7 @@ class ContractBase
     ## note:  allow multiple calls of storage!!!
     
     kwargs.each do |name, type|
-       type = type.is_a?( Typed::Type ) ? type : typedclass_to_type( type )  
+       type = typeof( type )  
              
        ## add support for more args - e.g. visibility or such - why? why not?
        args = [name] 
@@ -183,13 +183,12 @@ def self.sig( name, args=[], *options, returns: nil )
 ####  
 #  auto-convert args (inputs), returns (outputs) to type (defs)
   args = args.map do |value|  
-       value.is_a?( Typed::Type ) ? value : typedclass_to_type( value )
+       typeof( value )
   end
 
-  if returns
-    returns = returns.is_a?( Typed::Type ) ? returns : typedclass_to_type( returns )
-  end
+  returns = typeof( returns )   if returns
 
+  
   @sigs[name] = { inputs:  args,
                   outputs: returns,
                   options: options }

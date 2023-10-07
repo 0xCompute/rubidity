@@ -3,7 +3,7 @@ module Rubidity
     module Lang
       MAJOR = 0
       MINOR = 7
-      PATCH = 0
+      PATCH = 1
       VERSION = [MAJOR,MINOR,PATCH].join('.')
     
       def self.version
