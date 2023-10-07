@@ -8,14 +8,24 @@ require_relative 'simulacrum/version'
 
 class Simulacrum    ## make it an module - why? why not?
 
+     include Types    ## pulls in Address, UInt, etc.
+
      class Message
+
+        # puts "==> defined?"
+        # puts defined?( Address )
+        # puts defined?( UInt )
+        # puts defined?( InscriptionId )
+
         attr_reader :sender
         attr_reader :value     
         def sender=( address )
-          @sender = TypedAddress.new( address )
+          ## check - why Address not accessible here?
+          @sender = Types::Address.new( address )
         end
         def value=( value )
-          @value = TypedUInt.new( value )
+          ## check - why UInt not accessible here?
+          @value = Types::UInt.new( value )
         end
       end # (nested) class Message
 
@@ -28,11 +38,12 @@ class Simulacrum    ## make it an module - why? why not?
         end
         
         def number=(number)
-          @number = TypedUInt.new( number )
+          ## check - why UInt not accessible here?
+          @number = Types::UInt.new( number )
         end
         
         def timestamp=(timestamp)
-          @timestamp = TypedTimestamp.new( timestamp )
+          @timestamp = Types::Timestamp.new( timestamp )
         end
       end
 
@@ -52,7 +63,7 @@ class Simulacrum    ## make it an module - why? why not?
 
 
     def self.send_transaction( from:, 
-                               to: ADDRESS_ZERO,
+                               to: Typed::ADDRESS_ZERO,
                                data: [], 
                                value: 0 )
         ## setup transaction "context"                       
@@ -61,11 +72,11 @@ class Simulacrum    ## make it an module - why? why not?
         ## up tx counter (nonce/number used once)
         Account[ from ].nonce += 1   
 
-       if to == ADDRESS_ZERO && data.is_a?( Class )  ## contract creation
+       if to == Typed::ADDRESS_ZERO && data.is_a?( Class )  ## contract creation
            ## todo/fix: allow constructor args
            ##  check (data.is_a?(Array) && data[0].is_a?(Class)
            klass = data
-           contract = klass.create
+           contract = klass.new
            contract.constructor
 
            Receipt.new( contract: contract )
@@ -106,7 +117,8 @@ end
 ###
 # add accounts machinery
 
-class TypedAddress
+module Types
+class Address
 ## add ethereum account "magic" e.g. balance (getter), send (method), transfer (method)
   
   def _account
@@ -118,11 +130,11 @@ class TypedAddress
 
   def send( value )
      ## note: always use simple string in account lookup!!!
-     from =  Account[ Simulacrum.msg.sender.serialize ]    
+     from =  Account[ Simulacrum.msg.sender.as_data ]    
      to   =  _account
 
      ## check for more datatypes or (simply) use to_int or to_i - why? why not?
-     value = value.is_a?( TypedUInt ) ? value.serialize : value
+     value = value.is_a?( UInt ) ? value.as_data : value
 
      ## check for below 0 - why? why not?        
      if value > from.balance
@@ -135,7 +147,8 @@ class TypedAddress
 
   ## check - transfer same as send (but with different rollback/error exception policy?)
   def transfer( value ) send( value ); end  
-end  ## class TypedAddress
+end  ## class Address
+end  # module Types
 
 
 

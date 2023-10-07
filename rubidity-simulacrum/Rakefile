@@ -20,7 +20,7 @@ Hoe.spec 'rubidity-simulacrum' do
   self.history_file = 'CHANGELOG.md'
 
   self.extra_deps = [
-    ['rubidity'],
+    ['rubidity', '>= 0.7.1'],
   ]
 
   self.licenses = ['Public Domain']

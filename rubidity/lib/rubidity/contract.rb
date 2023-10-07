@@ -115,18 +115,8 @@ class Contract  < ContractBase
       ## lookup type info
       definition = self.class.state_variable_definitions[ name ]
       type  = definition[:type]
-      
-      #### todo/check:
-      ###   can replace integer inlince in ruby?? 
-      ##   if not?   change deserialize to always use type.new !!!
-      ##      why? why not?
-      ##
-      if type.is_a?( EnumType )  ## note: (abstract) data types (like enum) CANNOT get replaced; use new ref
-         instance_variable_set( "@#{name}", type.new( value ) )
-      else
-        ivar = instance_variable_get("@#{name}")
-        ivar.deserialize( value )
-      end
+      typed = type.new( value )    ## note: always (re)create new typed classes (from literals)
+      instance_variable_set( "@#{name}", typed )
     end
   end
   alias_method :load, :deserialize
