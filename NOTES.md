@@ -1,5 +1,15 @@
 # Notes & Todos
 
+## Today's Todos
+
+- [ ]  add test_enums (from enums) !!!
+- [ ]  add mapping chaper / page to rubidity by example?
+- [ ]  start  rubidity.starter   (quick starter with universum samples)
+
+
+- [ ]  make event into a struct-like typed class (with class builder)!!!!!!
+
+
 ## Todos
 
 - [ ]   move Typed::Type to Type AND move AddressType, etc into Type NOT Types:: - why? why not?
