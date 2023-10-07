@@ -1,7 +1,7 @@
 
 =begin
 class Object   ### move to core_ext/object - why? why not?
-  ## check -  add ContractBase here too - why? why not?
+  ## check -  add scoped class here too - why? why not?
   ##           e.g. is_a?( Typed ) || is_a?( ContractBase )
   ##             or add a TypedContract delagate class or such - why? why not?
   ##    fix - check for class has singelton method type - why? why not?

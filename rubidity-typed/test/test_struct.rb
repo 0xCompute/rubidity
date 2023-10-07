@@ -16,14 +16,14 @@ include Types
 
 ## sig: [Address, Integer, Integer, Money]
 ## SafeStruct.new( 'Bet', user: '0x0000', block: 0, cap: 0, amount: 0 )
-Bet = Struct.new :Bet,
+Struct.new :Bet,
         user:   Address,
         block:  UInt,
         cap:    UInt,
         amount: UInt
 
 ## Enum.new( 'Winner', :none, :draw, :host, :challenger )
-Winner =  Enum.new :Winner, :none, :draw, :host, :challenger
+Enum.new :Winner, :none, :draw, :host, :challenger
 
 Board  = Array.new( Int, 3*3 )
 
@@ -34,7 +34,7 @@ Board  = Array.new( Int, 3*3 )
 ##                  turn:       '0x0000',   ## address of host/ challenger
 ##                  winner:     Winner.none,  ## e.g. Winner(0)
 ##                  board:      Board.zero)
-Game = Struct.new :Game,
+Struct.new :Game,
   host:       Address,
   challenger: Address,
   turn:       Address,   ## address of host/ challenger

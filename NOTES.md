@@ -1,5 +1,21 @@
 # Notes & Todos
 
+## check
+
+
+- change address(0) to Address(0) - why? why not?
+-   make all Types in  Bet(0) - same as Bet.zero
+-     Bool(0) ???, String(0), etc.
+-     UInt(4),  Int(3)
+-   will "forward" to convert!!!
+-     different from ruby's (try_convert) WILL raise error/exception
+-      if cannot convert!!!!!!!
+-
+-  for structs and enum only make ("global")
+-     converter functions available only in scope - why? why not?
+
+
+
 ## Today's Todos
 
 - [ ]  add test_enums (from enums) !!!

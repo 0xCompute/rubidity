@@ -4,9 +4,8 @@ class Struct
 
   
 # todo/fix:  scope: keep empty by default
-#              (remove ContractBase) - why? why not?
 
-def self.build_class( class_name, scope: ContractBase, **attributes )
+def self.build_class( class_name, scope: Types, **attributes )
 
  ## todo/fix:
  ##    add  self.class.type  class method
@@ -19,7 +18,7 @@ def self.build_class( class_name, scope: ContractBase, **attributes )
 
  ## todo/fix:
  ## check if valid class_name MUST start with uppercase letter etc.
- ##  todo/fix: check if constant is undefined in ContractBase namespace!!!!
+ ##  todo/fix: check if constant is undefined in scoped namespace!!!!
 
    ## map type symbols (:uint, :address, etc.)
    ##   to type for now "by hand" here
@@ -126,7 +125,7 @@ def self.build_class( class_name, scope: ContractBase, **attributes )
 RUBY
 =end
 
- ## note: use ContractBase (module) and NOT Object for namespacing
+ ## note: use scoped (module) and NOT Object for namespacing
  ##   use include Safe to make all structs global
  ##  fix-fix-fix - make class_name unique across contracts (e.g. reuse same name in different contract)
   scope.const_set( class_name, klass )   ## returns klass (plus sets global constant class name)

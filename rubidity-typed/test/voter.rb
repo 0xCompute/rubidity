@@ -24,8 +24,7 @@
 module Sandbox
 
   ## use scope Types here - why? why not?
-structclass =  Struct.new( :Voter,
-                             scope: Types,     
+structclass =  Struct.new( :Voter,    
                              weight:    UInt,
                              voted:     Bool,
                              vote:      UInt,

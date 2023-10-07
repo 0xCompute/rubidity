@@ -6,9 +6,10 @@ class Enum
 ##  meta-programming "macro" - build class (on the fly)
 #
 # todo/fix:  scope: keep empty by default
-#              (remove ContractBase) - why? why not?
 
-def self.build_class( class_name, *args, scope: ContractBase )
+
+
+def self.build_class( class_name, *args, scope: Types )
   if args.size > 0
     ## e.g. :Color, :red, :green, :blue
     ##         or
@@ -83,7 +84,7 @@ RUBY
     end
 RUBY
 =end
-  ## note: use ContractBase (class) and NO Object for namespacing
+  ## note: use scoped(class) and NO Object for namespacing
   scope.const_set( class_name, klass )   ## returns klass (plus sets global constant class name)
   klass
 end
