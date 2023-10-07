@@ -5,7 +5,7 @@
 - [ ]  add test_enums (from enums) !!!
 - [ ]  add mapping chaper / page to rubidity by example?
 - [ ]  start  rubidity.starter   (quick starter with universum samples)
-
+- [ ] add supplychain test runner script !!!!
 
 - [ ]  make event into a struct-like typed class (with class builder)!!!!!!
 
