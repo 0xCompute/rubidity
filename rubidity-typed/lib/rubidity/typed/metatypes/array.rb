@@ -33,11 +33,6 @@ class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! 
        @sub_type == other.sub_type &&
        @size     == other.size    ### add check for size too - why? why not?  
     end
-    def zero
-        ## return [] - why? why not?
-        ## fix-fix-fix-  return zero-ed array for fixed array - why? why not?
-        []    
-    end
     
 
     def typedclass_name
@@ -50,7 +45,8 @@ class ArrayType < ReferenceType   ## note: dynamic array for now (NOT fixed!!!! 
       name 
     end
     def typedclass()  Types.const_get( typedclass_name ); end
-  
+
+    def mut?() true; end
     def new_zero()   typedclass.new; end  
     def new( initial_value ) typedclass.new( initial_value ); end 
 end # class ArrayType

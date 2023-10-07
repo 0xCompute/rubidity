@@ -47,7 +47,7 @@ def test_voter
   assert_equal true,       Voter.zero.frozen?
   assert_equal true,       Voter.zero == Voter.zero
 
-  assert_equal true,    Voter.zero.delegate ==  Address.new ## ADDRESS_ZERO
+  assert_equal true,    Voter.zero.delegate ==  Address.zero 
   assert_equal false,          Voter.zero.voted?
   assert_equal 0,              Voter.zero.weight
   assert_equal 0,              Voter.zero.vote
@@ -67,7 +67,7 @@ def test_voter
 
   ##############
   # try a new voter
-  voter = Voter.new( 0, false, 0, ADDRESS_ZERO )
+  voter = Voter.new( 0, false, 0, Address.zero )
   assert_equal true,      Voter.zero == voter
   assert_equal false,     voter.frozen?
 end
@@ -101,7 +101,7 @@ def test_bet
   pp Bet.zero
 
   assert_equal true,       Bet.zero == Bet.zero
-  assert_equal true,      Bet.zero.user == Address.new
+  assert_equal true,       Bet.zero.user == Address.zero
   assert_equal 0,          Bet.zero.block
   assert_equal 0,          Bet.zero.cap
   assert_equal 0,          Bet.zero.amount
@@ -109,7 +109,7 @@ def test_bet
 
   #############################
   # try a new bet
-  bet = Bet.new( ADDRESS_ZERO, 0, 0, 0 )
+  bet = Bet.new( Address.zero, 0, 0, 0 )
   assert_equal true,     Bet.zero == bet
   assert_equal false,    bet.frozen?
 end
@@ -128,9 +128,9 @@ def test_game
   assert_equal true,        Game.zero == Game.new_zero
   assert_equal false,       game.frozen?
 
-  assert_equal true,    game.host       == Address.new
-  assert_equal true,    game.challenger == Address.new
-  assert_equal true,    game.turn       == Address.new
+  assert_equal true,    game.host       == Address.zero
+  assert_equal true,    game.challenger == Address.zero
+  assert_equal true,    game.turn       == Address.zero
   assert_equal Winner.none, game.winner
   assert_equal true,        game.winner.none?
   assert_equal Board.zero,  game.board

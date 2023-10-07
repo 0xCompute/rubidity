@@ -19,10 +19,9 @@ def test_create
 
     assert_equal 'string', t.format
     assert_equal true, t.is_a?( Typed::StringType )
-    assert_equal true, t.is_value_type?
     assert_equal true, t.is_a?( Typed::ValueType ) 
 
-    assert_equal ''.freeze, t.zero
+    assert_equal String.zero,  t.zero
   
     t2 = Typed::StringType.instance
     pp t

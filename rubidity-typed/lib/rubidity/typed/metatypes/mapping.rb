@@ -25,10 +25,6 @@ class MappingType < ReferenceType
        @key_type   == other.key_type &&
        @value_type == other.value_type 
      end
-     def zero
-        ##  return {} - why? why not?
-        {}    
-     end
     
 
      def typedclass_name
@@ -39,7 +35,8 @@ class MappingType < ReferenceType
       "Mapping‹#{key_name}→#{value_name}›"
      end
      def typedclass()  Types.const_get( typedclass_name ); end
-   
+ 
+     def mut?() true; end
      def new_zero() typedclass.new; end 
      def new( initial_value ) typedclass.new( initial_value ); end 
 end # class MappingType

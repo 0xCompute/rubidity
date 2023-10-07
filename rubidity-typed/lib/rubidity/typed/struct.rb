@@ -2,6 +2,18 @@
 module Types
 class Struct  < Typed
 
+def self.zero
+  ## note: freeze return new zero (for "singelton" & "immutable" zero instance)
+  ##  todo/fix:
+  ##   in build_class add freeze for composite/reference objects
+  ##     that is, arrays, hash mappings, structs etc.
+  ##   freeze only works for now for "value" objects e.g. integer, bool, etc.
+  @zero ||= new_zero.freeze
+end
+
+def zero?() self == self.class.zero; end
+
+
 
 def initialize( *initial_values )
    ## fix-fix-fix: first check for matching args - why? why not?
@@ -42,17 +54,6 @@ end
 #       default is object id equality???
 ## alias_method :eql?, :==
  
-
-def self.zero
-  ## note: freeze return new zero (for "singelton" & "immutable" zero instance)
-  ##  todo/fix:
-  ##   in build_class add freeze for composite/reference objects
-  ##     that is, arrays, hash mappings, structs etc.
-  ##   freeze only works for now for "value" objects e.g. integer, bool, etc.
-  @zero ||= new_zero.freeze
-end
-
-def zero?() self == self.class.zero; end
 
 end # class Struct
 end # module Types

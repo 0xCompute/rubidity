@@ -29,7 +29,6 @@ pp bytes
 pp string.format
 pp address.format
 pp bytes32.format
-pp bytes32.is_value_type?
 
 
 ##########

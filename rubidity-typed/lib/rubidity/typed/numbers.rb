@@ -3,6 +3,8 @@ module Types
 
 class UInt < TypedValue
     def self.type() UIntType.instance; end  
+    def self.zero()  @zero ||= UInt.new; end
+    def zero?()   @value == 0; end
 
     def initialize( initial_value = 0 )
        ## was: initial_value ||= type.zero
@@ -11,6 +13,8 @@ class UInt < TypedValue
       raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
       
        @value = type.check_and_normalize_literal( initial_value )     
+       @value.freeze  ## freeze here (and freeze self!) - why? why not?
+       @value
     end 
   
      include Comparable
@@ -35,6 +39,8 @@ end  # class UInt
 
 class Int < TypedValue
     def self.type() IntType.instance; end  
+    def self.zero() @zero ||= Int.new; end
+    def zero?()  @value == 0; end
   
     def initialize( initial_value = 0 )
        ## was: initial_value ||= type.zero
@@ -43,6 +49,8 @@ class Int < TypedValue
       raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
       
        @value = type.check_and_normalize_literal( initial_value )     
+       @value.freeze  ## freeze here (and freeze self!) - why? why not?
+       @value
     end 
 
     include Comparable
@@ -62,6 +70,8 @@ end  # class Int
 
 class Timestamp < TypedValue
     def self.type() TimestampType.instance; end  
+    def self.zero() @zero ||= new; end
+    def zero?()  @value == 0; end
   
     def initialize( initial_value = 0 )
        ## was: initial_value ||= type.zero
@@ -70,13 +80,17 @@ class Timestamp < TypedValue
        raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
       
        @value = type.check_and_normalize_literal( initial_value )     
+       @value.freeze  ## freeze here (and freeze self!) - why? why not?
+       @value
     end 
 end  # class Timestamp
 
 
 class Timedelta < TypedValue
     def self.type() TimedeltaType.instance; end  
-  
+    def self.zero()  @zero ||= new; end
+    def zero?()  @value == 0; end
+    
     def initialize( initial_value = 0 )
        ## was: initial_value ||= type.zero
        ##     check if nil gets passed in - default not used?  
@@ -84,6 +98,8 @@ class Timedelta < TypedValue
        raise ArgumentError, "expected literal of type #{type}; got typed #{initial_value.pretty_print_inspect}"    if initial_value.is_a?( Typed )    
       
        @value = type.check_and_normalize_literal( initial_value )     
+       @value.freeze  ## freeze here (and freeze self!) - why? why not?
+       @value
     end 
 end  # class Timedelta
 

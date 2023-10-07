@@ -22,6 +22,7 @@ module Types
 
 class Typed 
 
+
   ### use like:
   ##    Typed.serialize( obj ) or
   ##    Typed.dump( obj )
@@ -70,11 +71,7 @@ class TypedValue < Typed
   ##  attr_reader :value   
 
   ## todo/check -- use self.zero or such - why? why not?
-  def self.zero() @zero ||= type.new_zero; end
-
-  def zero?()  @value == type.zero; end
   def as_data() @value; end  
-
 
   def pretty_print( printer ) printer.text( "<val #{type}:#{@value.inspect}>" ); end
 
@@ -88,8 +85,8 @@ class TypedValue < Typed
 
       def ==(other)
         other.is_a?(self.class) &&
-        type == other.type &&     ## note: type for no redundant (always the same if same class AND TypedValue)
-        as_data == other.as_data    ## compare value via as_data!!!
+        type   == other.type &&     ## note: type for no redundant (always the same if same class AND TypedValue)
+        @value == other.instance_variable_get( :@value )    ## compare value via as_data!!!
       end
       
       def hash()       [@value, type].hash; end
@@ -98,20 +95,19 @@ class TypedValue < Typed
 end  # TypedValue
 
 
+
 class TypedReference < Typed
 
-    ## todo/check -- use self.zero or such - why? why not?
-    def self.zero() @zero ||= type.new_zero; end
-
-
+  
     def ==(other)
         other.is_a?(self.class) &&
-        type == other.type &&
-        data == other.data 
+        type  == other.type &&
+        @data == other.instance_variable_get( :@data ) 
     end
       
-    def hash()       [data, type].hash; end
+    def hash()       [@data, type].hash; end
     ## todo/check - hash == other.hash is default any way??
+    ##                 or is it object_id == other.object_id ????
     def eql?(other)  hash == other.hash;  end
 end 
 

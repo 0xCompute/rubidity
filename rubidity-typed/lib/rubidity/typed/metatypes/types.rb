@@ -30,6 +30,21 @@ end
 
 module Types
 class Typed  ## note: use class Typed as namespace (all metatype etc. nested here - the beginning)
+
+#######
+##   global literal constants
+##    add LITERAL_ eg. LITERAL_STRING_ZERO - why? why not?
+
+STRING_ZERO          = ''.freeze             ## string with utf-8 encoding 
+BYTES_ZERO           = String.new().freeze   ## string with binary encoding
+BYTES20_ZERO         = ('0x'+'00'*20).freeze   ## 20 bytes (40 hexchars)  ## care about string encoding here - why? why not?
+BYTES32_ZERO         = ('0x'+'00'*32).freeze   ## 32 bytes (64 hexchars)
+
+ADDRESS_ZERO         = BYTES20_ZERO
+INSCRIPTION_ID_ZERO  = INSCRIPTIONID_ZERO = BYTES32_ZERO
+
+
+
 class Type
      ## change format to type or typesig/type_sig 
      ##       or sig or signature or typespec   - why? why not?   
@@ -50,9 +65,14 @@ class Type
       raise "no required zero method defined for Type subclass #{self.class.name}; sorry"
     end
 
-  ##  todo/check - make "dynamic" e.g. structs with all value types still value type? - why? why not?  
-  ##    check if is_value_type is used anywhere?  remove!!!! - why? why not?
-  def is_value_type?() is_a?( ValueType ); end    
+    def mut?  # is mutable (read/write)
+      raise "no require mut(ability)? helper for Type subclass #{self.class.name}; sorry"
+    end
+
+
+#  ##  todo/check - make "dynamic" e.g. structs with all value types still value type? - why? why not?  
+#  ##    check if is_value_type is used anywhere?  remove!!!! - why? why not?
+#  def is_value_type?() is_a?( ValueType ); end    
 
 
   def mapping?()  is_a?( MappingType ); end
@@ -65,6 +85,14 @@ class Type
 def ==(other)
   raise "no required == method defined for Type subclass #{self.class.name}; sorry"
 end
+
+
+######
+## note: format MUST be unique for types
+##           if self.format == other.format than same type
+##   use for hash?  
+##    check default eql?  is self.object_id == other.object_id ???
+###     change to hash == other.hash; why? why not?
 
 def hash()    [format].hash;  end    ## add Type prefix or such - why? why not?  
 def eql?(other)  hash == other.hash; end  ## check eql? used for what?
@@ -96,19 +124,16 @@ class StringType < ValueType  ## note: strings are frozen / immutable - check ag
     alias_method :to_s, :format 
 
     def ==(other)  other.is_a?( StringType ); end
-    def zero()  STRING_ZERO;  end    
- 
+   
     
-    ## todo: return "shared" String zero - why? why not?
     ##   note: use Types::String here to avoid confusion with ::String - why? why not?
-    
     ### -fix-fix-fix- remove typedclass for "primitives" - used anywhere - why? why not?
     def typedclass_name()  Types::String.name; end
     def typedclass()       Types::String;  end
-    
-    ##  for new_zero return shared zero (is immutable)
-    ##           use String.zero  - why? why not?
-    def new_zero() Types::String.new;  end
+   
+    def mut?()  false; end
+    def zero() Types::String.zero;  end
+    alias_method :new_zero, :zero   ## add/keep (convenience) alias for new_zero - why? why not?
     def new( initial_value ) Types::String.new( initial_value ); end 
 end
 
@@ -122,15 +147,16 @@ class AddressType < ValueType
     alias_method :to_s, :format 
 
     def ==(other)  other.is_a?( AddressType ); end
-    def zero() ADDRESS_ZERO;  end
-    
-  
-    ## todo: return "shared" Address zero - why? why not?
+     
     def typedclass_name()  Address.name; end
     def typedclass()       Address;  end
-    def new_zero() Address.new; end
+
+    def mut?() false; end
+    def zero() Address.zero; end
+    alias_method :new_zero, :zero   ## add/keep (convenience) alias for new_zero - why? why not?
     def new( initial_value ) Address.new( initial_value ); end 
 end
+
 
 
 
@@ -142,12 +168,13 @@ class InscriptionIdType < ValueType      ## todo/check: rename to inscripeId or 
     alias_method :to_s, :format 
 
     def ==(other)  other.is_a?( InscriptionIdType ); end
-    def zero()  INSCRIPTION_ID_ZERO; end
       
     def typedclass_name()  InscriptionId.name; end
     def typedclass()       InscriptionId;  end    
 
-    def new_zero() InscriptionId.new; end
+    def mut?() false; end
+    def zero() InscriptionId.zero; end
+    alias_method :new_zero, :zero   ## add/keep (convenience) alias for new_zero - why? why not?
     def new( initial_value ) InscriptionId.new( initial_value ); end 
 end
 
@@ -160,13 +187,14 @@ class Bytes32Type < ValueType
   alias_method :to_s, :format 
 
   def ==(other)  other.is_a?( Bytes32Type ); end
-  def zero()  BYTES32_ZERO; end
-
+ 
   
   def typedclass_name()  Bytes32.name; end
   def typedclass()       Bytes32;  end    
 
-  def new_zero() Bytes32.new; end
+  def mut?() false; end
+  def zero() Bytes32.zero; end
+  alias_method :new_zero, :zero   ## add/keep (convenience) alias for new_zero - why? why not?
   def new( initial_value ) Bytes32.new( initial_value ); end 
 end
 
@@ -178,13 +206,13 @@ class BytesType < ValueType       ### fix: see comments above - is bytes dynamic
   alias_method :to_s, :format 
 
   def ==(other)  other.is_a?( BytesType ); end
-  def zero()  BYTES_ZERO; end
   
-
   def typedclass_name()  Bytes.name; end
   def typedclass()       Bytes;  end    
 
-  def new_zero() Bytes.new; end
+  def mut?() false; end
+  def zero() Bytes.zero; end
+  alias_method :new_zero, :zero   ## add/keep (convenience) alias for new_zero - why? why not?
   def new( initial_value ) Bytes.new( initial_value ); end 
 end
 
@@ -200,13 +228,14 @@ class UIntType < ValueType
     def abi() 'uint256'; end
 
     def ==(other)  other.is_a?( UIntType ); end
-    def zero()   0; end
        
 
     def typedclass_name()  UInt.name; end
     def typedclass()       UInt;  end    
   
-    def new_zero() UInt.new; end
+    def mut?() false; end
+    def zero() UInt.zero; end
+    alias_method :new_zero, :zero   ## add/keep (convenience) alias for new_zero - why? why not?
     def new( initial_value ) UInt.new( initial_value ); end 
 end
 
@@ -223,13 +252,14 @@ class IntType < ValueType
 
 
     def ==(other)  other.is_a?( IntType ); end
-    def zero()   0; end
         
 
     def typedclass_name()  Int.name; end
     def typedclass()       Int;  end   
 
-    def new_zero() Int.new; end
+    def mut?() false; end
+    def zero() Int.zero; end
+    alias_method :new_zero, :zero   ## add/keep (convenience) alias for new_zero - why? why not?
     def new( initial_value ) Int.new( initial_value ); end 
 end
 
@@ -240,16 +270,17 @@ class TimestampType < ValueType   ## note: datetime is int (epoch time since 197
     def format() 'timestamp'; end
     alias_method :to_s, :format 
 
-    ## check for abi sig format is it uint256???
+    ## check for abi sig format is it uint32 ???
 
     def ==(other)  other.is_a?( TimestampType ); end
-    def zero()   0; end
         
 
     def typedclass_name()  Timestamp.name; end
     def typedclass()       Timestamp;  end    
 
-    def new_zero() Timestamp.new; end
+    def mut?() false; end
+    def zero() Timestamp.zero; end
+    alias_method :new_zero, :zero   ## add/keep (convenience) alias for new_zero - why? why not?
     def new( initial_value ) Timestamp.new( initial_value ); end 
 end 
 
@@ -261,13 +292,14 @@ class TimedeltaType < ValueType
   alias_method :to_s, :format 
 
   def ==(other)  other.is_a?( TimedeltaType ); end
-  def zero()   0; end
       
 
   def typedclass_name()  Timedelta.name; end
   def typedclass()       Timedelta;  end    
 
-  def new_zero() Timedelta.new; end
+  def mut?()  false; end
+  def zero() Timedelta.zero; end
+  alias_method :new_zero, :zero   ## add/keep (convenience) alias for new_zero - why? why not?
   def new( initial_value ) Timedelta.new( initial_value ); end 
 end 
 
@@ -300,18 +332,14 @@ class EnumType < Type
     @enum_name  == other.enum_name &&  ## check for name too - why? why not? 
     @enum_class == other.enum_class 
   end
-  def zero
-     ## return 0 - why? why not?
-     ## or
-     ##   raise NameError, "no method zero for EnumType; sorry"
-     0    
-  end
- 
+
 
   def typedclass_name() @enum_class.name;  end
   def typedclass() @enum_class;  end
- 
-  def new_zero() @enum_class.members[0];  end 
+
+  def mut?() false; end
+  def zero() @enum_class.zero;  end 
+  alias_method :new_zero, :zero   ## add/keep (convenience) alias for new_zero - why? why not?
   def new( initial_value ) 
      ## allow new use here - why? why not?
      @enum_class.members[ initial_value ] 
@@ -346,17 +374,14 @@ class StructType < ReferenceType
        @struct_name  == other.struct_name &&  ## check for name too - why? why not? 
        @struct_class == other.struct_class 
      end
-     def zero
-        ## return [] - why? why not?
-        ## or
-        ##   raise NameError, "no method zero for StructType; sorry"
-        []    
-     end
     
 
      def typedclass_name() @struct_class.name;  end
      def typedclass() @struct_class;  end
     
+     ## note: mut? == true MUST use new_zero (dup)
+     ##       mut? == false MUST use zero (frozen/shared/singelton)
+     def mut?() true; end
      def new_zero() @struct_class.new_zero; end 
      def new( initial_values )  ## todo/check: change to values with splat - why? why not?  
          ## note: use "splat" here - must be empty or matching number of fields/attributes
@@ -399,15 +424,8 @@ class ContractType < ValueType
     @contract_type  == other.contract_type
   end
 
-  ## fix!! double check - what to return/use here?
-  def zero  
-    ##  TypedMapping.new( key_type: @key_type, value_type: @value_type )    
-     ## not possible??
-     raise NameError, "no method zero for ContractType; sorry"
-  end
-
-
-
+ 
+   def mut?() false; end
    ## add support with passed in address - why? why not?    
    def new( initial_value ) 
      raise NameError, "no method create for ContractType; sorry"

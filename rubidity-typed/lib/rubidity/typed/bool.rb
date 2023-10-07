@@ -21,7 +21,9 @@ module Bool
   ##   TrueClass.type will NOT work via "inheritance" like a "true" superclass - why? why not?
   def self.type() Types::Typed::BoolType.instance; end 
   ## note: lets you use Bool.type
+  def self.zero() false; end
 end  # module Bool
+
 
 
 

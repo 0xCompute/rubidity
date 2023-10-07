@@ -4,8 +4,21 @@ module Types
 class Array < TypedReference
     
     ## todo/check: make "internal" data (array) available? why? why not?
-    attr_reader :data   
- 
+    ## attr_reader :data   
+
+    def self.zero()  @zero ||= new; end 
+    def zero?()
+      if type.size == 0 ## assume dynamic (starts with empty array)
+        @data.empty?
+      else   ## assume fixed size array (initialized with x zero items) 
+        ## use zero to check - why? why not?
+        ## fix-fix-fix  - add support for fixed Array here or use a new class - why? why not?
+        self == self.class.zero
+      end   
+  end  
+
+
+
   def initialize( initial_value = [] )
       ## was: initial_value ||= []
       ##     check if nil gets passed in - default not used?  
@@ -25,11 +38,6 @@ class Array < TypedReference
       end     
   end
 
-
-  def zero?() 
-      ## fix-fix-fix  - add support for fixed Array here or use a new class - why? why not?
-      @data == []  ## use @data.empty? - why? why not?   
-  end  
 
 
   extend Forwardable   ## pulls in def_delegator

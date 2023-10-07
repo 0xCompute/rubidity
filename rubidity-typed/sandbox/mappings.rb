@@ -23,7 +23,7 @@ pp t.value_type
 pp t.array?
 pp t.mapping?
 
-pp t.zero
+pp t.new_zero
 
 
 

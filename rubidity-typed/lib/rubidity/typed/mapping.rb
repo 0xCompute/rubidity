@@ -2,12 +2,15 @@
 module Types
 class Mapping < TypedReference
 
+    def self.zero() @zero ||= new; end 
+    def zero?()  @data.empty? end  
+
     ## add short-cut helpers why? why not?
     def key_type() self.class.type.key_type; end
     def value_type() self.class.type.value_type; end
 
     ## todo/check: make "internal" data/hash available? why? why not?
-    attr_reader :data   
+    ## attr_reader :data   
 
     def initialize( initial_value = {} )
       ## was: initial_value ||= {}             
@@ -22,9 +25,6 @@ class Mapping < TypedReference
                         ]
                       end.to_h
     end
-
-    def zero?() @data == {}; end  ## use @data.empty? - why? why not?
-
 
 
   extend Forwardable   ## pulls in def_delegator

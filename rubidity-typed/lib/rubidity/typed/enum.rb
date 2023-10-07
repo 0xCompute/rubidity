@@ -19,9 +19,14 @@
 module Types
 class Enum  < Typed
 
+  def self.zero() members[0]; end
+  def zero?() self == self.class.zero; end  ## note: use compare by identity (object_id) and NOT value e.g. 0
+
+
   ## return a new Enum read-only class
   attr_reader :key
   attr_reader :value
+
 
   def initialize( key, value )
     @key   = key
@@ -82,11 +87,6 @@ class Enum  < Typed
   def self.min()  members[0]; end
   def self.max()  members[-1]; end
 
-  def self.zero() members[0]; end
-  def zero?() self == self.class.zero; end  ## note: use compare by identity (object_id) and NOT value e.g. 0
-
-  ## fix - fix -fix: add min and max  too!!!!
-
   def self.size() keys.size; end
   class << self
     alias_method :length, :size   ## alias (as is the ruby tradition)
@@ -107,10 +107,7 @@ class Enum  < Typed
   ## add to_b/to_bool support (see safebool @ https://github.com/s6ruby/safebool) - why? why not?  
   # def parse_bool() @value != 0; end   ## nonzero == true, zero == false like numbers
 
-   def serialize() @value; end
-   def replace( new_value )
-      raise ArgumentError, "(abstract) data type;  CANNOT replace - MUST assign a new data member reference; sorry"
-   end
+   def as_data() @value; end
 
   def pretty_print( printer ) 
     printer.text( "<val #{type}:#{@key}(#{@value})>" ); 

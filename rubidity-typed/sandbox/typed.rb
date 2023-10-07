@@ -28,6 +28,13 @@ types.each do |typedclass|
  
     type = typedclass.type 
     pp type
+
+    print "mut? "
+    print type.mut?
+    print "\n"
+
+    ## note: zero only availabe for immutable types 
+    ##       MUST use new_zero for mutable (mut? == true) types!!! 
     print "zero: "
     print type.zero.pretty_print_inspect
     print "\n"
@@ -36,9 +43,9 @@ types.each do |typedclass|
     print type.new_zero.pretty_print_inspect
     print "\n"
 
-    print "new: "
-    print type.new( type.zero ).pretty_print_inspect
-    print "\n"
+ #   print "new: "
+ #   print type.new(  ).pretty_print_inspect
+ #   print "\n"
 
     print "typedclass.name: "
     print type.typedclass.name
