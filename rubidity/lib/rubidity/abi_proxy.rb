@@ -56,10 +56,10 @@ def _generate_functions( contract_class )
      ## generate global function (e.g. ERC20() or such)
      Generator.global_function( contract_class )
 
-     sigs.each do |name, definition|
-        Generator.typed_function( contract_class, name, 
-                                      inputs: definition[:inputs] )
-     end
+     # sigs.each do |name, definition|
+     #    Generator.typed_function( contract_class, name, 
+     #                                  inputs: definition[:inputs] )
+     #  end
      _contract_classes << contract_class
    end
 end

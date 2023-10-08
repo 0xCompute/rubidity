@@ -117,10 +117,21 @@ def self.typed_function( contract_class, name, inputs: )
               raise NameError, error_message
             end
       
+            ## note:  method lookup via method needs an object / INSTANCE
+            ##             NOT working with class only!!!!
             ## m = contract_class.method( name )
             ## puts "  bingo! #{name} - #{m.owner}"
             puts "  bingo! #{name}"
         
+
+## avoid recursive circle
+##    exlcude method from method_add automagic wrapping/generation 
+
+  contract_class.sigs_exclude << :"__#{contract_name}__#{name}_unsafe"
+  contract_class.sigs_exclude << :"__#{contract_name}__#{name}"
+  contract_class.sigs_exclude << name
+
+
             ##
             ##  use :name_raw instead of :name_unsafe - why? why not?
  
@@ -167,7 +178,17 @@ def self.getter_function(  contract_class, name, type )
 
     
       ## auto-add/register sig(nature) in here - why? why not?
-      contract_class.sig( name, [Types::Typed::UIntType.instance], :view, returns: type.sub_type )
+      ## contract_class.sig( name, 
+      ##      [Types::Typed::UIntType.instance], 
+      ##        :view, returns: type.sub_type )
+
+      ## auto-add/register sig(nature) in here - why? why not?
+      ## fix-fix-fix - check if outputs is an array (or still single type?)
+      contract_class.sigs[ name ] = { inputs: [typeof(Types::UInt)],
+                                      outputs: [typeof(type.sub_type)],
+                                      options: [:view,:public] } 
+      contract_class.sigs_exclude << name
+
 
       contract_class.class_eval do
         ## note: hack: must use kwargs for now!!! index: (not index) for now
@@ -178,11 +199,19 @@ def self.getter_function(  contract_class, name, type )
           value[index]   
         end
       end # class_evel
+
+      ## auto-add typed wrapper!!!!!
+      typed_function( contract_class, name, inputs: [typeof(Types::UInt)] )
     else
       puts "[debug] auto-generate public getter - #{name} : #{type}:"
 
       ## auto-add/register sig(nature) in here - why? why not?
-      contract_class.sig( name, [], :view, returns: type )
+      ## fix-fix-fix - check if outputs is an array (or still single type?)
+      contract_class.sigs[ name ] = { inputs: [],
+                                      outputs: [typeof(type)],
+                                      options: [:view, :public] } 
+      contract_class.sigs_exclude << name
+
 
       contract_class.class_eval do
        define_method name do
@@ -192,11 +221,15 @@ def self.getter_function(  contract_class, name, type )
          value
        end
       end # class_eval
+
+      ## auto-add typed wrapper!!!!!
+      typed_function( contract_class, name, inputs: [] )
     end # if
 
-    puts "after - instance_methods:"
-    pp contract_class.instance_methods( false )
+    ## puts "after - instance_methods:"
+    ## pp contract_class.instance_methods( false )
 end  # method getter_function
+
 
 
 def self.mapping_getter_function( contract_class, name, type )
@@ -218,15 +251,27 @@ def self.mapping_getter_function( contract_class, name, type )
     puts "sig_args:"
     pp sig_args
     ## auto-add/register sig(nature) in here - why? why not?
-    contract_class.sig( name, sig_args, :view, returns: current_type)
+    ## contract_class.sig( name, sig_args, :view, returns: current_type)
     puts "    index: #{index}"
 # {:arg0=>:address}
 #    index: 1
-  
+
+    ## check - if sig_args is alreay array of types (or typedclasses???)
+    sig_args = sig_args.map {|sig_arg| typeof(sig_arg) }
+
+    contract_class.sigs[ name ] = { inputs:  sig_args,
+                                    outputs: [typeof(current_type)],
+                                    options: [:view, :public] }
+    contract_class.sigs_exclude << name
+
+
+    puts  contract_class.sigs[ name ].pretty_print_inspect
+ 
+
       contract_class.class_eval do
        ## note: hack: must use kwargs for now!!! arg0, arg1, arg2, for now
        define_method name do |arg0:, arg1: nil, arg2: nil, arg3: nil|
-        puts "[debug] call public (state) mapping getter for #{name} : #{type} (#{contract_class.name})"
+        puts "[debug] call public (state) mapping getter for #{name} : #{type} - index: #{index} (#{contract_class.name})"
         puts "[debug]  self -> #{self}"
         args = [arg0, arg1, arg2, arg3]
         puts "[debug]  args -> #{args.pretty_print_inspect}"
@@ -240,6 +285,10 @@ def self.mapping_getter_function( contract_class, name, type )
         value
        end
     end # class_eval
+
+    ## auto-add typed wrapper!!!!!
+    typed_function( contract_class, name, inputs: sig_args )
+
 end  # method mapping_getter_function
 
 

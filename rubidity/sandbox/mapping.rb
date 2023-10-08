@@ -16,9 +16,6 @@ class TestMapping < Contract
   ## from GenerativeERC721          
   storage  tokenIdToSeed: mapping( UInt, UInt )  
   
-  sig :constructor, []        
-  def constructor
-  end  
 end  # class TestMapping  
   
 

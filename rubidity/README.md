@@ -30,9 +30,9 @@ require 'rubidity'
 
 class TestToken < Contract    
 
-    event :Transfer, { from:   Address, 
-                       to:     Address, 
-                       amount: UInt }
+    event :Transfer, from:   Address, 
+                     to:     Address, 
+                     amount: UInt 
 
     storage  name:        String, 
              symbol:      String, 
@@ -41,7 +41,7 @@ class TestToken < Contract
              balanceOf:   mapping( Address, UInt ) 
 
 
-    sig :constructor, [String, String, UInt, UInt] 
+    sig [String, String, UInt, UInt] 
     def constructor(name:, 
                    symbol:, 
                    decimals:,
@@ -54,14 +54,14 @@ class TestToken < Contract
         @balanceOf[msg.sender] = totalSupply
      end
 
-    sig :transfer, [Address, UInt], returns: Bool 
+    sig [Address, UInt], returns: Bool 
     def transfer( to:, amount: )
         assert @balanceOf[msg.sender] >= amount, 'Insufficient balance'
         
         @balanceOf[msg.sender] -= amount
         @balanceOf[to] += amount
    
-        log :Transfer, from: msg.sender, to: to, amount: amount        
+        log Transfer, from: msg.sender, to: to, amount: amount        
         true
     end
 end  # class TestToken  

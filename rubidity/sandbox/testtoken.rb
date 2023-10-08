@@ -1,9 +1,9 @@
 
 class TestToken < Contract  
   
-    event :Transfer, { from:   Address, 
-                       to:     Address, 
-                       amount: UInt  }
+    event :Transfer, from:   Address, 
+                     to:     Address, 
+                     amount: UInt
 
     storage name:         String, 
             symbol:       String, 
@@ -13,7 +13,7 @@ class TestToken < Contract
 
     ## or @sig constructor( string, string, uint, uint)
     ## constructor [:string, :string, :uint, :uint] 
-    sig :constructor, [String, String, UInt, UInt]
+    sig  [String, String, UInt, UInt]
     def constructor(name:, 
                     symbol:, 
                     decimals:,
@@ -29,7 +29,7 @@ class TestToken < Contract
 
     ## or @sig transfer (address, uint ) public virtual returns bool
     ## function :transfer, [:address, :uint], :public, :virtual, returns: :bool 
-    sig :transfer, [Address, UInt], returns: Bool
+    sig [Address, UInt], returns: Bool
     def transfer( to:, amount: )
         puts "[debug] transfer"
         pp @balanceOf[msg.sender]

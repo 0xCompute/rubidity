@@ -7,9 +7,6 @@ class TestArray < Contract
     storage names:   array( String ), 
             numbers: array( UInt ) 
   
-    sig :constructor, []        
-    def constructor
-    end  
 end  # class TestArray  
   
 

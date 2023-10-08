@@ -7,9 +7,9 @@
 
 class SimpleToken < Contract
 
-    event :Transfer, { from:   Address, 
-                       to:     Address, 
-                       amount: UInt }
+    event :Transfer,  from:   Address, 
+                      to:     Address, 
+                      amount: UInt 
   
     storage  name:         String,
              symbol:       String, 
@@ -19,7 +19,7 @@ class SimpleToken < Contract
              balanceOf:    mapping( Address, UInt )
 
   
-  sig :constructor, [String, String, UInt, UInt] 
+  sig  [String, String, UInt, UInt] 
   def constructor(
          name:,
          symbol:,
@@ -31,7 +31,7 @@ class SimpleToken < Contract
     @perMintLimit = perMintLimit
   end
   
-  sig :mint, [UInt]
+  sig [UInt]
   def  mint( amount: )
     puts "==> mint amount: #{amount.pretty_print_inspect}"
 
@@ -48,7 +48,7 @@ class SimpleToken < Contract
   end
 
 
-  sig :transfer, [Address, UInt]
+  sig [Address, UInt]
   def transfer( to:, 
                 amount: )
     puts "==> transfer to: #{to.pretty_print_inspect}, amount: #{amount.pretty_print_inspect}"
@@ -59,7 +59,5 @@ class SimpleToken < Contract
     @balanceOf[to] += amount
 
     log :Transfer, from: msg.sender, to: to, amount: amount
-    
-    true
   end
 end

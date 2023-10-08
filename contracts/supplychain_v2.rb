@@ -42,7 +42,8 @@ class SupplyChain < Contract
 
 
 
-   sig :createParticipant, [String, String, Address, String], returns: UInt
+   ## sig :createParticipant, [String, String, Address, String], returns: UInt
+   transact [String, String, Address, String], returns: [UInt]
    def createParticipant( name:,
                           pass:,
                           addr:,
@@ -55,7 +56,7 @@ class SupplyChain < Contract
       userId
    end
 
-   sig :getParticipantDetails, [UInt], :view, returns: [String,Address,String]
+   view [UInt], returns: [String,Address,String]
    def getParticipantDetails( id: )
       [@participants[ id ].userName,
        @participants[ id ].participantAddress,
@@ -63,7 +64,7 @@ class SupplyChain < Contract
    end
 
 
-   sig :createProduct, [String, String, Address, String], returns: UInt
+   transact [String, String, Address, String], returns: UInt
    def createProduct( ownerId:,
                       modelNumber:,
                       partNumber:,
@@ -84,7 +85,7 @@ class SupplyChain < Contract
       productId
    end
  
-   sig :getProductDetails, [UInt], :view, returns: [String,String,String,UInt,Address,Timestamp]
+   view [UInt], returns: [String,String,String,UInt,Address,Timestamp]
    def getProductDetails( id: )
       [@products[ id ].modelNumber,
        @products[ id ].partNumber,
@@ -94,7 +95,9 @@ class SupplyChain < Contract
        @products[ id ].mfgTimestamp]
    end
   
-   sig :transferToOwner, [UInt, UInt, UInt], returns: Bool
+
+   ## use write? transact? write? or update?
+   transact [UInt, UInt, UInt], returns: Bool
    def transferToOwner( user1Id:,
                         user2Id:, 
                         prodId: )
@@ -118,12 +121,13 @@ class SupplyChain < Contract
         true
    end
 
-   sig :getProductTrack, [UInt], :view, returns: array(UInt) 
+   ## or sig [UInt], :view,  returns: array(UInt)
+   view [UInt],  returns: array(UInt) 
    def getProductTrack( prodId: )
        @productTrack[ prodId ]
    end
 
-   sig :getRegistrationDetails, [UInt], :view, returns: [UInt, UInt, Address, Timestamp]
+   view [UInt], returns: [UInt, UInt, Address, Timestamp]
    def getRegistrationDetails( regId: )
       r = @registrations[ regId ]
 
@@ -133,9 +137,8 @@ class SupplyChain < Contract
        r.trxTimestamp]
    end
 
-
    ## empty constructor required - double check - why? why not?
-   sig :constructor, []
-   def constructor
-   end
+   # init []
+   # def constructor
+   # end
 end
