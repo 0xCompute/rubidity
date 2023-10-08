@@ -1,5 +1,32 @@
 # Notes & Todos
 
+
+## todos
+
+``` ruby
+tick = tick.cast(:string)
+    id = id.cast(:uint256)
+    amt = amt.cast(:uint256)
+```
+add cast to ojbect ?? using this syntax - why? why not?
+
+``` ruby
+    tick = tick.cast( String )
+    id = id.cast( UInt )
+    amt = amt.cast( UInt )
+
+## or alternate with global converter functions???
+
+    tick = String( tick )
+    id =   UInt( id )
+    amt =  UInt( amt )
+```
+
+## more todos
+
+- [ ] add event as a typed class!!! using build_class and such
+
+
 ## check
 
 
