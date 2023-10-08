@@ -1,5 +1,9 @@
 # Notes & Todos
 
+## fix
+
+-  fix as_data in event !!!
+   return a hash with key/value (not only values)!!!
 
 ## more todo
 
