@@ -48,7 +48,7 @@ class TestToken < Contract
 
         puts "hello from transfer"
     
-        log :Transfer, from: msg.sender, to: to, amount: amount
+        log Transfer, from: msg.sender, to: to, amount: amount
         
         true
     end

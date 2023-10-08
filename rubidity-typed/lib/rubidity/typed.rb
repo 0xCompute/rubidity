@@ -41,6 +41,9 @@ require_relative 'typed/mapping_builder'
 
 require_relative 'typed/struct'
 require_relative 'typed/struct_builder'
+require_relative 'typed/event'
+require_relative 'typed/event_builder'
+
 
 require_relative 'typed/enum'
 require_relative 'typed/enum_builder'
@@ -70,6 +73,7 @@ TypedArray          = Types::Array
 TypedMapping        = Types::Mapping
 TypedEnum           = Types::Enum
 TypedStruct         = Types::Struct
+TypedEvent          = Types::Event
 
 T = Types   ## make T an alias for Types - why? why not?
 

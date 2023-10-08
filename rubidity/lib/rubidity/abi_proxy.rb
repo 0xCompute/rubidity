@@ -14,7 +14,6 @@ class AbiProxy
     if parents.empty?
       ## do nothing
     else 
-      _merge_events( parents )  
       _merge_state_variables( parents)
     end
   end
@@ -71,11 +70,6 @@ end
   # end
   
   
-  def _merge_events( parents )
-    parent_events = parents.map(&:events).reverse
-    contract_class.events = parent_events.reduce( {} ) { |mem,h| mem.merge(h) }
-                                         .merge(contract_class.events)
-  end
   
   def _merge_state_variables( parents )
     puts "[debug] AbiProxy#merge_parent_state_variables - #{contract_class}"

@@ -15,16 +15,30 @@ def zero?() self == self.class.zero; end
 
 
 
-def initialize( *initial_values )
+def initialize( *args, **kwargs )
    ## fix-fix-fix: first check for matching args - why? why not?
-   self.class.attributes.zip( initial_values ).each do |(key, type), value|
-     value = if value.is_a?(Typed)
-              ## fix-fix-fix - check type match here!!!
-              value
-           else 
-              type.new( value )
-           end
-     instance_variable_set( "@#{key}", value )
+   if kwargs.size > 0   ## assume kwargs init
+      self.class.attributes.each do |key, type|
+         ## note: allow unused keys (will get set to zero)
+         value = kwargs.has_key?( key ) ? kwargs[ key ] : type.new_zero
+         value = if value.is_a?( Typed )
+                   ## fix-fix-fix - check type match here!!!
+                   value
+                 else 
+                   type.new( value )
+                 end
+         instance_variable_set( "@#{key}", value )
+       end
+   else
+     self.class.attributes.zip( args ).each do |(key, type), value|
+       value = if value.is_a?(Typed)
+                 ## fix-fix-fix - check type match here!!!
+                 value
+               else 
+                 type.new( value )
+               end
+       instance_variable_set( "@#{key}", value )
+     end
    end
    self  ## note: return reference to self for chaining method calls
 end

@@ -56,33 +56,7 @@ class ContractBase
   end
 
 
- ####
- # events
- def self.event( name, args )
-    ## todo/fix:
-    ## assume pairs of symbol and hash (args)
-    ##   allow declarations of more than one event !!!
-
-    @events ||= {}
-    name = name.to_sym  ## note: make sure name is ALWAYS a symbol
-    ## note assume args is a hash
-    ##     change typedclasses to type (defs)
-    @events[name] = args.map do |key,value|  
-                             [
-                               key,
-                               typeof( value )
-                             ]  
-                           end.to_h
-
-
-  end
-
-  def self.events
-    @events || {}
-  end
-
-
-
+  
 ########
 # state variables
   def self.state_variable_definitions

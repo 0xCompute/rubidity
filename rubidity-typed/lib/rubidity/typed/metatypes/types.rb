@@ -392,6 +392,59 @@ end # class StructType
 
 
 
+###
+#  event for now kind of like a struct - why? why not?
+##    but MUST be initialized (and than frozen) 
+##    and no zero possible etc.
+
+class EventType < ReferenceType
+  attr_reader :event_name
+  attr_reader :event_class ## reference event_class here - why? why not? 
+  def initialize( event_name, event_class )
+    @event_name  = event_name
+    @event_class = event_class
+  end
+  def format
+    ## use tuple here (not event) - why? why not?
+     named_types = @event_class.attributes.map  {|key,type| "#{key} #{type.format}" }
+     "#{@event_name} event(#{named_types.join(',')})" 
+  end
+  alias_method :to_s, :format 
+
+  ## check what abi looks like if possible for event
+  ##                  is like tuple?
+
+  def ==(other)
+    other.is_a?( EventType ) &&
+    @event_name  == other.event_name &&  ## check for name too - why? why not? 
+    @event_class == other.event_class 
+  end
+ 
+
+  def typedclass_name() @event_class.name;  end
+  def typedclass() @event_class;  end
+ 
+  ## note: mut? == true MUST use new_zero (dup)
+  ##       mut? == false MUST use zero (frozen/shared/singelton)
+  def mut?() false; end
+  def zero
+    raise "event cannot be zero (by defintion); sorry"
+  end
+  alias_method :new_zero, :zero 
+
+  def new( initial_values )  ## todo/check: change to values with splat - why? why not?  
+      ## note: use "splat" here - must be empty or matching number of fields/attributes
+      ##  change - why? why not?
+     @event_class.new( *initial_values ) 
+  end 
+end # class EventType
+
+
+
+
+
+
+
 
 ## todo/check
 ##    keep (internal) contract type??

@@ -11,6 +11,11 @@ class Contract  < ContractBase
     typedclass
   end
 
+  def self.event( class_name, **attributes )
+    typedclass = Types::Event.new( class_name, scope: self, **attributes )
+    typedclass  
+  end
+
 
 
   #####################
@@ -132,25 +137,19 @@ class Contract  < ContractBase
   def msg()                  Runtime.msg; end
   def block()                Runtime.block; end
 
-  def log( event_name, args = {} )
-    event_name = event_name.to_sym  ## note: make sure event_name is ALWAYS as symbol
-    unless self.class.events.key?( event_name)
-      raise NameError, "Event #{event_name} is not defined in this contract."
-    end
+  def log( event_klass, *args, **kwargs )
 
-    expected_args = self.class.events[event_name]
-    missing_args = expected_args.keys - args.keys
-    extra_args   = args.keys - expected_args.keys
-
-    if missing_args.any? || extra_args.any?
-      error_messages = []
-      error_messages << "Missing arguments for #{event_name} event: #{missing_args.join(', ')}." if missing_args.any?
-      error_messages << "Unexpected arguments provided for #{event_name} event: #{extra_args.join(', ')}." if extra_args.any?
-      raise ArgumentError, error_messages.join(' ')
-    end
-
-  
-    current_transaction.log_event({ event: event_name, data: args })
+    raise "event class expected; got: >#{event_klass.inspect}<; sorry"  unless event_klass.ancestors.include?( Types::Event)
+    
+    rec = if kwargs.size > 0
+            event_klass.new( **kwargs )
+          else
+            event_klass.new( *args )
+          end
+    data = rec.as_data   ## "serialize" to "plain" types
+    
+    current_transaction.log_event( { event: event_klass.name, 
+                                     data:  data })
   end
   
 

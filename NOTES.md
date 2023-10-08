@@ -1,6 +1,11 @@
 # Notes & Todos
 
 
+## more todo
+
+- [ ]  remove / kill ContractBase - merge all in Contract !!!
+
+
 ## todos
 
 ``` ruby

@@ -36,7 +36,7 @@ class TestToken < Contract
         @balanceOf[msg.sender] -= amount
         @balanceOf[to] += amount
    
-        log :Transfer, from: msg.sender, to: to, amount: amount        
+        log Transfer, from: msg.sender, to: to, amount: amount        
         true
     end
 end  # class TestToken  

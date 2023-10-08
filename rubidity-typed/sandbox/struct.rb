@@ -29,6 +29,15 @@ pp Bet.attributes
 
 
 
+## try init with keyword
+bet = Bet.new  user:  address(0),
+               block:   44,
+               cap:     45,
+               amount:  46
+
+pp bet
+
+
 
 bet = Bet.new
 pp bet
