@@ -13,7 +13,7 @@ class ValueError < StandardError; end
 
 
 
-## forward declare contract base (from rubidity)
+## forward declare contract base (from solidity)
 ##    for type checking
 class ContractBase 
 end
@@ -125,4 +125,4 @@ end
 ##   end
 
 
-puts Rubidity::Module::Typed.banner    ## say hello
+puts Solidity::Module::Typed.banner    ## say hello

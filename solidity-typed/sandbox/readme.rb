@@ -1,6 +1,6 @@
 
 $LOAD_PATH.unshift( "./lib" )
-require 'rubidity/typed'
+require 'solidity/typed'
 
 
 module Sandbox

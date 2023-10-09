@@ -1,9 +1,9 @@
-module Rubidity
+module Solidity
   module Module
     module Typed
       MAJOR = 0
-      MINOR = 7
-      PATCH = 4
+      MINOR = 1
+      PATCH = 0
       VERSION = [MAJOR,MINOR,PATCH].join('.')
     
       def self.version
@@ -11,7 +11,7 @@ module Rubidity
       end
     
       def self.banner
-        "rubidity-typed/#{VERSION} on Ruby #{RUBY_VERSION} (#{RUBY_RELEASE_DATE}) [#{RUBY_PLATFORM}] in (#{root})"
+        "solidity-typed/#{VERSION} on Ruby #{RUBY_VERSION} (#{RUBY_RELEASE_DATE}) [#{RUBY_PLATFORM}] in (#{root})"
       end
     
       def self.root
@@ -20,4 +20,4 @@ module Rubidity
     
     end # module Typed
   end # module Module
-end # module Rubidity
+end # module Solidity

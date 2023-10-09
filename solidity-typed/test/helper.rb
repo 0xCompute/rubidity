@@ -3,4 +3,4 @@ require 'minitest/autorun'
 
 
 ## our own code
-require 'rubidity/typed'
+require 'solidity/typed'

@@ -5,7 +5,7 @@
 
 
 $LOAD_PATH.unshift( "./lib" )
-require 'rubidity/typed'
+require 'solidity/typed'
 
 ## Enum.new( :Color, :red, :green, :blue )
 

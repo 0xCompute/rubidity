@@ -1,0 +1,27 @@
+require 'hoe'
+require './lib/solidity/typed/version.rb'
+
+
+Hoe.spec 'solidity-typed' do
+  self.version =  Solidity::Module::Typed::VERSION
+
+  self.summary = 'solidity-typed - "zero-dependency" 100%-solidity compatible data type and application binary interface (abi) machinery incl. bool, (frozen) string, address, bytes, uint, int, enum, struct, array, mapping, event, and more for solidity-inspired contract (blockchain) programming languages incl. rubidity et al'
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/s6ruby/rubidity' }
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'gerald.bauer@gmail.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = []
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.3'
+  }
+end
