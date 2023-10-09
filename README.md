@@ -188,9 +188,15 @@ no dependencies on any blockchain and break out "core / standard"
 contracts samples and database (SQL) and runtime modules or such.
 
 
+
 The first published modules / gems include:
 
-- [**rubidity-typed**](rubidity-typed) - "zero-dependency" 100%-solidity compatible data type machinery incl. (frozen) string, address, uint, int, enum, struct, array, mapping, and more for rubidity - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer
+- [~~**rubidity-typed**~~](rubidity-typed) - "zero-dependency" 100%-solidity compatible data type machinery incl. (frozen) string, address, uint, int, enum, struct, array, mapping, and more for rubidity - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer
+
+- [**solidity-typed**](solidity-typed) (formerly known as rubidity-typed) -  "zero-dependency" 100%-solidity compatible data type and application binary interface (abi) machinery incl. bool, (frozen) string, address, bytes, uint, int, enum, struct, array, mapping, event, and more for solidity-inspired contract (blockchain) programming languages incl. rubidity et al
+
+
+
 - [**rubidity**](rubidity) - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer 
 - [**rubidity-contracts**](rubidity-contracts) - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer
 
