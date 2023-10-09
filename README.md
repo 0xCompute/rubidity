@@ -227,7 +227,7 @@ at the ruby code commons (rubycocos) org.
 ## Questions? Comments?
 
 Join us in the [Rubidity (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
-Your questions and commetary welcome.
+Your questions and commentary welcome.
 
 Or post them over at the [Help & Support](https://github.com/geraldb/help) page. Thanks.
 
