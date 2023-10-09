@@ -11,11 +11,7 @@ class Todos < Contract
     storage  todos: array( Todo )
 
 
-    sig :constructor, []
-    def constructor
-    end
-
-    sig :create, [String]
+    sig [String]
     def create( text: ) 
         ##  3 ways to initialize a struct
         ##  - calling it like a function
@@ -39,21 +35,21 @@ class Todos < Contract
 #        todo = @todos[ index ]
 #        [todo.text, todo.completed]
 #    end
-    sig :get, [UInt], :view, returns: Todo 
+    sig [UInt], :view, returns: Todo 
     def get( index: ) 
         @todos[ index ]
     end
 
 
     # update text
-    sig :updateText, [UInt, String]
+    sig [UInt, String]
     def updateText( index:, text: ) 
         todo = @todos[ index]
         todo.text = text
     end
 
     #  update completed
-    sig :toggleCompleted, [UInt]
+    sig [UInt]
     def toggleCompleted( index: ) 
         todo = @todos[ index ] 
         todo.completed = !todo.completed

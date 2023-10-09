@@ -59,6 +59,7 @@ To be continued...   the idea or the theme is "less is more" or better security 
 - [Hello World](hello-world)
 - [First App](first-app)
 - [Reading and Writing to a State Variable](state-variables)
+- [Mapping](mapping)
 - [Array](array)
 - [Enum](enum)
 - [Structs](structs)

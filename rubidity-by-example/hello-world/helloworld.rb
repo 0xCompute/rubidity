@@ -5,7 +5,7 @@ class HelloWorld < Contract
 
   storage greet: String
  
-  sig :construct, []
+  sig []
   def constructor
     @greet = "Hello World!"
   end

@@ -15,10 +15,10 @@ class Todos < Contract
                   completed: Bool 
     
     #  An array of 'Todo' structs
-    storage  todos: Array( Todo )
+    storage  todos: array( Todo )
 
 
-    sig [String],
+    sig [String]
     def create( text: ) 
         ##  3 ways to initialize a struct
         ##  - calling it like a function
@@ -37,21 +37,21 @@ class Todos < Contract
 
     ## Rubidity automatically created a getter for 'todos' so
     ##  you don't actually need this function.
-    sig [UInt], :view, returns: [String, Bool], 
+    sig [UInt], :view, returns: [String, Bool]
     def get( index: ) 
         todo = @todos[ index ]
         [todo.text, todo.completed]
     end
  
     # update text
-    sig [UInt, String],
+    sig [UInt, String]
     def updateText( index:, text: ) 
         todo = @todos[ index]
         todo.text = text
     end
 
     #  update completed
-    sig [UInt],
+    sig [UInt]
     def toggleCompleted( index: ) 
         todo = @todos[ index ] 
         todo.completed = !todo.completed

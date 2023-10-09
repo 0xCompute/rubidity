@@ -18,7 +18,7 @@ class CrowdFunder < Contract
                           contributor:  Address    # payable
     
     # State variables
-    storage  state:         State,        # // initialize on create   
+    storage  state:         State,        # initialize on create   
              totalRaised:   UInt,
              raiseBy:       Timestamp,
              completeAt:    Timestamp,

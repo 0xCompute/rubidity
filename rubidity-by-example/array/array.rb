@@ -9,12 +9,12 @@ class ArrayBasic   < Contract
           arr2:           array( UInt ),
           myFixedSizeArr: array( UInt, 10 )
     
-   sig :constructor, []
+   sig []
    def constructor
       @arr2 = Array‹UInt›.new( [1, 2, 3] ) 
    end   
 
-    sig :get, [UInt], :view, returns: UInt
+    sig [UInt], :view, returns: UInt
     def get( i: ) 
        @arr[i]
     end
@@ -22,31 +22,31 @@ class ArrayBasic   < Contract
     ## Rubidity can return the entire array.
     ##  But this function should be avoided for
     ## arrays that can grow indefinitely in length.
-    sig :getArr, [], :view, returns: array( UInt )
+    sig [], :view, returns: array( UInt )
     def getArr 
         @arr
     end
 
-    sig :push, [UInt] 
+    sig [UInt] 
     def push( i: )
         ## Append to array
         ## This will increase the array length by 1.
         @arr.push( i )
     end
 
-    sig :pop, [], returns: UInt
+    sig [], returns: UInt
     def pop
         ## Remove last element from array
         ## This will decrease the array length by 1
         @arr.pop()
     end
 
-    sig :getLength, [], :view, returns: UInt
+    sig [], :view, returns: UInt
     def getLength
         @arr.length
     end
 
-    sig :remove, [UInt]
+    sig [UInt]
     def remove(index:) 
         # Delete does not change the array length.
         # It resets the value at index to it's default value,
@@ -54,7 +54,7 @@ class ArrayBasic   < Contract
         @arr.delete( index )
     end
 
-    sig :examples, []
+    sig []
     def examples
         ##  create array in memory, only fixed size can be created
         a =  array( UInt, 5 ).new    ## new uint[](5);

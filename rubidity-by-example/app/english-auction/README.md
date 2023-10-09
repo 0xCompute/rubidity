@@ -134,7 +134,7 @@ class EnglishAuction < Contract
              highestBid:    UInt,
              bids:     Mapping( Address, UInt )
 
-    sig [Address, UInt, UInt],   
+    sig [Address, UInt, UInt]   
     def constructor( nft:, nftId:, startingBid: ) 
         @nft        = nft
         @nftId      = nftId
@@ -142,7 +142,7 @@ class EnglishAuction < Contract
         @highestBid = startingBid
     end
 
-    sig [],
+    sig []
     def start
         assert  !@started, "started"
         assert  msg.sender == @seller, "not seller"
@@ -154,7 +154,7 @@ class EnglishAuction < Contract
         log Start
     end
 
-    sig [],  
+    sig []  
     def bid
         assert @started, "not started"
         assert block.timestamp < @endAt, "ended"
@@ -170,7 +170,7 @@ class EnglishAuction < Contract
         log Bid, msg.sender, msg.value
     end
 
-    sig [],
+    sig []
     def withdraw
         bal = @bids[msg.sender]
         @bids[msg.sender] = 0
@@ -179,7 +179,7 @@ class EnglishAuction < Contract
         log Withdraw, msg.sender, bal
     end
 
-    sig [],
+    sig []
     def end
         assert @started, "not started"
         assert block.timestamp >= @endAt, "not ended"

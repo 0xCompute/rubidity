@@ -5,16 +5,12 @@ class ArrayReplaceFromEnd  < Contract
     
     storage arr: array( UInt )
 
-    sig :constructor, []
-    def constructor
-    end   
- 
-
+  
     ## Deleting an element creates a gap in the array.
     ## One trick to keep the array compact is to
     ## move the last element into the place to delete.
 
-    sig :remove, [UInt]
+    sig [UInt]
     def remove( index: ) 
         # Move the last element into the place to delete
         @arr[ index ] = @arr[ @arr.length - 1 ]
@@ -22,7 +18,7 @@ class ArrayReplaceFromEnd  < Contract
         @arr.pop
     end
 
-    sig :test, []
+    sig []
     def test
         @arr =  Array‹UInt›.new( [1, 2, 3, 4] )
 

@@ -4,7 +4,7 @@
 
 class MappingBasic < Contract
 
-    #  Mapping from address to uint
+    # Mapping from address to uint
     storage myMap: mapping( Address, UInt )
 
 
@@ -21,27 +21,31 @@ class MappingBasic < Contract
         @myMap[ addr ] = i
     end
 
-    function remove(address _addr) public {
-        // Reset the value to the default value.
-        delete myMap[_addr];
-    }
-}
+    sig [Address]
+    def remove( addr: )
+        # Reset the value to the default value.
+        @myMap.delete( addr )
+    end
+end
 
-contract NestedMapping {
-    // Nested mapping (mapping from address to another mapping)
-    mapping(address => mapping(uint => bool)) public nested;
+class NestedMapping < Contract 
+    #  Nested mapping (mapping from address to another mapping)
+    storage nested: mapping(Address, mapping( UInt, Bool))
 
-    function get(address _addr1, uint _i) public view returns (bool) {
-        // You can get values from a nested mapping
-        // even when it is not initialized
-        return nested[_addr1][_i];
-    }
+    sig [Address, UInt], :view, returns: Bool
+    def get( addr1:, i: ) 
+        # You can get values from a nested mapping
+        # even when it is not initialized
+        @nested[ addr1 ][ i ]
+    end
 
-    function set(address _addr1, uint _i, bool _boo) public {
-        nested[_addr1][_i] = _boo;
-    }
+    sig [Address, UInt, Bool]
+    def set( addr1:, i:, bool: )
+        @nested[ addr1 ][ i ] = bool
+    end
 
-    function remove(address _addr1, uint _i) public {
-        delete nested[_addr1][_i];
-    }
-}
+    sig [Address, UInt]
+    def remove( addr1:, i: ) 
+        @nested[ addr1 ].delete( i )
+    end
+end

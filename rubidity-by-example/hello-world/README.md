@@ -31,7 +31,7 @@ class HelloWorld < Contract
 
    storage greet: String
 
-   sig [],
+   sig []
    def constructor
      @greet = "Hello World!"
    end

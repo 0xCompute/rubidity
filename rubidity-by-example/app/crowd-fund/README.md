@@ -179,12 +179,12 @@ class CrowdFund < Contract
             pledgedAmount: Mapping( UInt, Mapping( Address, UInt )) # Mapping from campaign id => pledger => amount pledged
     
 
-    sig [Address],
+    sig [Address]
     def constructor( token: ) 
         @token = token
     end
 
-    sig [UInt, Timestamp, Timestamp],
+    sig [UInt, Timestamp, Timestamp]
     def launch( goal:, startAt:, endAt: )
         assert startAt >= block.timestamp, "start at < now"
         assert endAt >= startAt, "end at < start at"
@@ -203,7 +203,7 @@ class CrowdFund < Contract
         log Launch, @count, msg.sender, goal, startAt, endAt
     end
 
-    sig [UInt],
+    sig [UInt]
     def cancel( id: )
         campaign = @campaigns[ id ]
         assert campaign.creator == msg.sender, "not creator"
@@ -213,7 +213,7 @@ class CrowdFund < Contract
         log Cancel, id
     end
 
-    sig [UInt, UInt],   
+    sig [UInt, UInt]  
     def pledge( id:, amount: ) 
         campaign = @campaigns[ id ]
         assert block.timestamp >= campaign.startAt, "not started"
@@ -226,7 +226,7 @@ class CrowdFund < Contract
         log Pledge, id, msg.sender, amount
     end
 
-    sig [UInt, UInt],
+    sig [UInt, UInt]
     def unpledge( id:, amount: )
         campaign = @campaigns[ id] 
         assert block.timestamp <= campaign.endAt, "ended"
@@ -238,7 +238,7 @@ class CrowdFund < Contract
         log Unpledge, id, msg.sender, amount
     end
 
-    sig [UInt], 
+    sig [UInt]
     def claim( id: ) 
         campaign = @campaigns[ id ]
         assert campaign.creator == msg.sender, "not creator"
@@ -252,7 +252,7 @@ class CrowdFund < Contract
         log Claim, id
     end
 
-    sig [UInt],
+    sig [UInt]
     def refund( id: ) 
         campaign = @campaigns[ id ]
         assert block.timestamp > campaign.endAt, "not ended"

@@ -10,12 +10,7 @@ class ArrayRemoveByShifting  < Contract
     storage arr: array( UInt )
 
 
-    sig :constructor, []
-    def constructor
-    end   
- 
-
-    sig :remove, [UInt]
+    sig [UInt]
     def remove( index: )
         assert index < @arr.length, "index out of bound"
 
@@ -28,7 +23,7 @@ class ArrayRemoveByShifting  < Contract
     end
 
 
-    sig :test, []
+    sig []
     def test
         @arr = Array‹UInt›.new( [1, 2, 3, 4, 5] )
         remove(2)

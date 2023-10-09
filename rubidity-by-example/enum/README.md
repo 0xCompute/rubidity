@@ -29,25 +29,25 @@ class EnumBasic < Contract
     #  Accepted - 2
     #  Rejected - 3
     #  Canceled - 4
-    sig [], :view, returns: Status, 
+    sig [], :view, returns: Status
     def get
       @status
     end
 
     #  Update status by passing uint into input
-    sig [Status],
+    sig [Status]
     def set( status: ) 
       @status = status
     end
 
     #  You can update to a specific enum like this
-    sig [],
+    sig []
     def cancel
       @status = Status.canceled
     end
 
     # delete resets the enum to its first value, 0
-    sig [],
+    sig []
     def reset
        @status = Status.min   ## or Status.zero
     end

@@ -144,16 +144,16 @@ class ArrayBasic   < Contract
 
   ## Several ways to initialize an array
   ## Fixed sized array, all elements initialize to 0 
-  storage arr:            Array( UInt ),
-          arr2:           Array( UInt ),
-          myFixedSizeArr: Array( UInt, 10 )
+  storage arr:            array( UInt ),
+          arr2:           array( UInt ),
+          myFixedSizeArr: array( UInt, 10 )
     
-   sig [],
+   sig []
    def constructor
       @arr2 =  [1, 2, 3]  
    end   
 
-    sig [UInt], :view, returns: UInt,
+    sig [UInt], :view, returns: UInt
     def get( i ) 
        @arr[i]
     end
@@ -161,31 +161,31 @@ class ArrayBasic   < Contract
     ## Rubidity can return the entire array.
     ##  But this function should be avoided for
     ## arrays that can grow indefinitely in length.
-    sig [], :view, returns: Array( UInt ),
+    sig [], :view, returns: array( UInt )
     def getArr 
         @arr
     end
 
-    sig [UInt], 
+    sig [UInt]
     def push( i )
         ## Append to array
         ## This will increase the array length by 1.
         @arr.push( i )
     end
 
-    sig [], returns: UInt,
+    sig [], returns: UInt
     def pop
         ## Remove last element from array
         ## This will decrease the array length by 1
         @arr.pop()
     end
 
-    sig [], :view, returns: UInt,
+    sig [], :view, returns: UInt
     def getLength
         @arr.length
     end
 
-    sig [UInt],
+    sig [UInt]
     def remove(index:) 
         # Delete does not change the array length.
         # It resets the value at index to it's default value,
@@ -193,7 +193,7 @@ class ArrayBasic   < Contract
         @arr.delete( index )
     end
 
-    sig [],
+    sig []
     def examples
         ##  create array in memory, only fixed size can be created
         a =  Array( UInt, 5 ).new    ## new uint[](5);
@@ -216,10 +216,10 @@ class ArrayRemoveByShifting  < Contract
     ## [1, 2, 3, 4, 5, 6] -- remove(0) --> [2, 3, 4, 5, 6, 6] --> [2, 3, 4, 5, 6]
     ## [1] -- remove(0) --> [1] --> []
 
-    storage arr: Array( UInt )
+    storage arr: array( UInt )
  
 
-    sig [UInt],
+    sig [UInt]
     def remove( index )
         assert index < @arr.length, "index out of bound"
 
@@ -232,7 +232,7 @@ class ArrayRemoveByShifting  < Contract
     end
 
 
-    sig [],
+    sig []
     def test
         @arr = Array‹UInt›.new( [1, 2, 3, 4, 5] )
         remove(2)
@@ -260,14 +260,14 @@ Remove array element by copying last element into to the place to remove
 
 class ArrayReplaceFromEnd  < Contract 
     
-    storage arr: Array( UInt )
+    storage arr: array( UInt )
 
   
     ## Deleting an element creates a gap in the array.
     ## One trick to keep the array compact is to
     ## move the last element into the place to delete.
 
-    sig [UInt],
+    sig [UInt]
     def remove( index ) 
         # Move the last element into the place to delete
         @arr[ index ] = @arr[ @arr.length - 1 ]
@@ -275,7 +275,7 @@ class ArrayReplaceFromEnd  < Contract
         @arr.pop
     end
 
-    sig [],
+    sig []
     def test
         @arr =  Array‹UInt›.new( [1, 2, 3, 4] )
 

@@ -21,7 +21,7 @@ class EnglishAuction < Contract
              highestBid:    UInt,
              bids:     mapping( Address, UInt )
 
-    sig :constructor, [Address, UInt, UInt]   
+    sig [Address, UInt, UInt]   
     def constructor( nft:, nftId:, startingBid: ) 
         @nft        = nft
         @nftId      = nftId
@@ -29,7 +29,7 @@ class EnglishAuction < Contract
         @highestBid = startingBid
     end
 
-    sig :start, []
+    sig []
     def start
         assert  !@started, "started"
         assert  msg.sender == @seller, "not seller"
@@ -38,10 +38,10 @@ class EnglishAuction < Contract
         @started = true
         @endAt = block.timestamp + 7.days
 
-        log :Start
+        log Start
     end
 
-    sig :bid, [], :payable 
+    sig [], :payable 
     def bid
         assert @started, "not started"
         assert block.timestamp < @endAt, "ended"
@@ -54,19 +54,19 @@ class EnglishAuction < Contract
         @highestBidder = msg.sender;
         @highestBid = msg.value;
 
-        log :Bid, msg.sender, msg.value
+        log Bid, msg.sender, msg.value
     end
 
-    sig :withdraw, []
+    sig []
     def withdraw
         bal = @bids[msg.sender]
         @bids[msg.sender] = 0
         address(msg.sender).transfer(bal)   # payable(msg.sender)
 
-        log :Withdraw, msg.sender, bal
+        log Withdraw, msg.sender, bal
     end
 
-    sig :end, []
+    sig []
     def end
         assert @started, "not started"
         assert block.timestamp >= @endAt, "not ended"
@@ -80,7 +80,7 @@ class EnglishAuction < Contract
             IERC721(@nft).safeTransferFrom( address(this), @seller, @nftId )
         end
 
-        log :End, @highestBidder, @highestBid
+        log End, @highestBidder, @highestBid
     end
 end
 
