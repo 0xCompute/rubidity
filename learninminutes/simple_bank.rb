@@ -5,7 +5,7 @@
 # used for documentation - and as descriptive data for UI elements/actions
 
 # @title SimpleBank
-# @author nemild
+# @author geraldb
 
 # 'contract' has similarities to 'class' in other languages
 # (class variables, inheritance, etc.) 
