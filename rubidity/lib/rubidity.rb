@@ -9,7 +9,7 @@ require 'json'   ##  use in public_abi_to_json
 
 
 require 'digest-lite'      ### pulls in keccak256
-require 'rubidity/typed'
+require 'solidity/typed'
 
 
 

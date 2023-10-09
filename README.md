@@ -211,6 +211,9 @@ with rubidity and simulacrum!
 
 - [**rubidity-by-example**](rubidity-by-example) - Rubidity By Example - an introduction to Rubidity with simple examples (inspired and mostly following Solidity By Example)
 
+- [**learninminutes**](learninminutes) - Learn X in Y Minutes (Where X=Rubidity, Y=?)
+
+
 
 
 For some ongoing (or historic) 

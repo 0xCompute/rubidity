@@ -63,6 +63,7 @@ class CrowdFunder < Contract
       @contributions.length - 1  #  return id
     end
 
+    sig []
     def checkIfFundingCompleteOrExpired
         if @totalRaised > @minimumToRaise
             state = State.successful
@@ -75,6 +76,7 @@ class CrowdFunder < Contract
         @completeAt = now
     end
 
+    sig []
     def payOut
       assert @state == State.successful
     

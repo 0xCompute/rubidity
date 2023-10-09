@@ -44,7 +44,7 @@ class SimpleToken < Contract
     @totalSupply += amount
     @balanceOf[msg.sender] += amount
     
-    log :Transfer, from: address(0), to: msg.sender, amount: amount
+    log Transfer, from: address(0), to: msg.sender, amount: amount
   end
 
 
@@ -58,6 +58,6 @@ class SimpleToken < Contract
     @balanceOf[msg.sender] -= amount
     @balanceOf[to] += amount
 
-    log :Transfer, from: msg.sender, to: to, amount: amount
+    log Transfer, from: msg.sender, to: to, amount: amount
   end
 end
