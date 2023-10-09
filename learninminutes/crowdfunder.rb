@@ -21,7 +21,7 @@ class CrowdFunder < Contract
     storage  state:         State,        # // initialize on create   
              totalRaised:   UInt,
              raiseBy:       Timestamp,
-             completeAt:    Timestamp
+             completeAt:    Timestamp,
              contributions: array(Contribution)
 
     event :LogFundingReceived, addr: Address, 
@@ -46,7 +46,7 @@ class CrowdFunder < Contract
 
     sig [], :payable, returns: [UInt]
     def contribute
-      assert @state == State.Fundraising
+      assert @state == State.fundraising
    
       @contributions.push(
             Contribution.new(
@@ -65,18 +65,18 @@ class CrowdFunder < Contract
 
     def checkIfFundingCompleteOrExpired
         if @totalRaised > @minimumToRaise
-            state = State.Successful
+            state = State.successful
             payOut()
 
             # could incentivize sender who initiated state change here
         elsif now > @raiseBy
-            state = State.ExpiredRefund  # backers can now collect refunds by calling getRefund(id)
+            state = State.expiredRefund  # backers can now collect refunds by calling getRefund(id)
         end
         @completeAt = now
     end
 
     def payOut
-      assert @state == State.Successful
+      assert @state == State.successful
     
       @fundRecipient.transfer( address(this).balance )
       log LogWinnerPaid, fundRecipient
@@ -84,7 +84,7 @@ class CrowdFunder < Contract
 
     sig [UInt], returns: Bool
     def getRefund( id: )
-      assert @state == State.ExpiredRefund
+      assert @state == State.expiredRefund
       assert @contributions.length > id && id >= 0
       assert @contributions[id].amount != 0
 
@@ -101,7 +101,7 @@ class CrowdFunder < Contract
        assert msg.sender == @creator
   
        # Wait 24 weeks after final contract state before allowing contract destruction
-       assert state == State.ExpiredRefund || state == State.Successful
+       assert state == State.expiredRefund || state == State.successful
        assert  @completeAt + 24.weeks < now
       
        selfdestruct(msg.sender)
