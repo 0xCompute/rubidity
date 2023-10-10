@@ -1,13 +1,13 @@
 class OpenEditionERC721 < ERC721
   
-  storage contentURI:    :string, 
-          maxPerAddress: :uint256,
-          totalSupply:   :uint256,
-          description:   :string,
-          mintStart:     :datetime,
-          mintEnd:       :datetime
+  storage contentURI:    String, 
+          maxPerAddress: UInt,
+          totalSupply:   UInt,
+          description:   String,
+          mintStart:     Timestamp,
+          mintEnd:       Timestamp
 
-  sig :constructor, [:string, :string, :string, :uint256, :string, :datetime, :datetime]        
+  sig [String, String, String, UInt, String, Timestamp, Timestamp]        
   def constructor(
     name:,
     symbol:,
@@ -16,7 +16,7 @@ class OpenEditionERC721 < ERC721
     description:,
     mintStart:,
     mintEnd: )
-    ERC721(name: name, symbol: symbol)
+    super(name: name, symbol: symbol)
     
     @maxPerAddress = maxPerAddress
     @description = description
@@ -25,7 +25,7 @@ class OpenEditionERC721 < ERC721
     @mintEnd = mintEnd
   end
 
-  sig :mint, [:uint256]
+  sig [UInt]
   def mint( amount: )
     assert(amount > 0, 'Amount must be positive')
     assert(amount + @_balanceOf[msg.sender] <= @maxPerAddress, 'Exceeded mint limit')
@@ -39,7 +39,7 @@ class OpenEditionERC721 < ERC721
     @totalSupply += amount
   end
   
-  sig :tokenURI, [:uint256], :view, :override, returns: :string
+  sig [UInt], :view, returns: String
   def tokenURI( id: ) 
     assert(_exists(id: id), 'ERC721Metadata: URI query for nonexistent token')
 

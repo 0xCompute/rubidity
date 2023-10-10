@@ -1,22 +1,22 @@
 class EtherERC20Bridge < ERC20
  
-  event :InitiateWithdrawal, { from: :address, amount: :uint256 }
-  event :WithdrawalComplete, { to: :address, amount: :uint256 }
+  event :InitiateWithdrawal, from: Address, amount: UInt
+  event :WithdrawalComplete, to: Address, amount: UInt
 
-  storage trustedSmartContract: :address, 
-         pendingWithdrawals:     mapping( :address, :uint256 ) 
+  storage trustedSmartContract: Address, 
+         pendingWithdrawals:     mapping( Address, UInt ) 
   
-  sig :constructor, [:string, :string, :address]
+  sig [String, String, Address]
   def constructor(
     name:,
     symbol:,
     trustedSmartContract:) 
-    ERC20(name: name, symbol: symbol, decimals: 18)
+    super(name: name, symbol: symbol, decimals: 18)
     
     @trustedSmartContract = trustedSmartContract
   end
   
-  sig :bridgeIn, [:address, :uint256]
+  sig [Address, UInt]
   def bridgeIn( to:, amount: )
     assert(
       address(msg.sender) == @trustedSmartContract,
@@ -26,16 +26,16 @@ class EtherERC20Bridge < ERC20
     _mint(to: to, amount: amount)
   end
   
-  sig :bridgeOut, [:uint256]
+  sig  [UInt]
   def bridgeOut( amount: )
     _burn(from: msg.sender, amount: amount)
     
     @pendingWithdrawals[address(msg.sender)] += amount
     
-    log :InitiateWithdrawal, from: address(msg.sender), amount: amount
+    log InitiateWithdrawal, from: address(msg.sender), amount: amount
   end
   
-  sig :markWithdrawalComplete, [:address, :uint256] 
+  sig  [Address, UInt] 
   def markWithdrawalComplete( to:, amount: )
     assert(
       address(msg.sender) == @trustedSmartContract,
@@ -49,6 +49,6 @@ class EtherERC20Bridge < ERC20
     
     @pendingWithdrawals[to] -= amount
     
-    log :WithdrawalComplete, to: to, amount: amount
+    log WithdrawalComplete, to: to, amount: amount
   end
 end

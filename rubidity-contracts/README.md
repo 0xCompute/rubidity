@@ -9,9 +9,13 @@
 
 
 
-## What's Rubidity?!
+
+## What's Solidity?! What's Rubidity?!
+
+See [**Solidity - Contract Application Binary Interface (ABI) Specification** »](https://docs.soliditylang.org/en/latest/abi-spec.html)
 
 See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" Indexer**  »](https://github.com/s6ruby/rubidity)
+
 
 
 
@@ -28,35 +32,42 @@ Let's try the PublicMintERC20 contract...
 ```ruby
 class PublicMintERC20 < ERC20
   
-  uint256 :public, :maxSupply
-  uint256 :public, :perMintLimit
+  storage maxSupply:    UInt,
+          perMintLimit: UInt 
   
-  constructor(
-    name: :string,
-    symbol: :string,
-    maxSupply: :uint256,
-    perMintLimit: :uint256,
-    decimals: :uint256
-  ) {
-    ERC20(name: name, symbol: symbol, decimals: decimals)
-    s.maxSupply = maxSupply
-    s.perMintLimit = perMintLimit
-  }
-  
-  function :mint, { amount: :uint256 }, :public do
+  sig [String, String, UInt, UInt, UInt]
+  def constructor(
+    name:,
+    symbol:,
+    maxSupply:,
+    perMintLimit:,
+    decimals:
+  ) 
+    super( name: name, 
+           symbol: symbol, 
+           decimals: decimals)
+ 
+    @maxSupply    = maxSupply
+    @perMintLimit = perMintLimit
+  end
+ 
+
+  sig  [UInt]
+  def mint( amount: )
     assert(amount > 0, 'Amount must be positive')
-    assert(amount <= s.perMintLimit, 'Exceeded mint limit')
+    assert(amount <= @perMintLimit, 'Exceeded mint limit')
     
-    assert(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
+    assert( @totalSupply + amount <= @maxSupply, 'Exceeded max supply')
     
     _mint(to: msg.sender, amount: amount)
   end
   
-  function :airdrop, { to: :addressOrDumbContract, amount: :uint256 }, :public do
+  sig [Address, UInt]
+  def airdrop( to:, amount: ) 
     assert(amount > 0, 'Amount must be positive')
-    assert(amount <= s.perMintLimit, 'Exceeded mint limit')
+    assert(amount <= @perMintLimit, 'Exceeded mint limit')
     
-    assert(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
+    assert(@totalSupply + amount <= @maxSupply, 'Exceeded max supply')
     
     _mint(to: to, amount: amount)
   end
@@ -73,90 +84,106 @@ that builds on the ERC20 (base) contract.
 [contracts/erc20.rb](lib/rubidity/contracts/erc20.rb):
 
 ```ruby
-class ERC20 < ContractImplementation
-  pragma :rubidity, "1.0.0"
+class ERC20 < Contract
   
-  abstract
-  
-  event :Transfer, { from: :addressOrDumbContract, to: :addressOrDumbContract, amount: :uint256 }
-  event :Approval, { owner: :addressOrDumbContract, spender: :addressOrDumbContract, amount: :uint256 }
+  event :Transfer, from:    Address, 
+                   to:      Address, 
+                   amount:  UInt
+  event :Approval, owner:   Address, 
+                   spender: Address, 
+                   amount:  UInt
 
-  string :public, :name
-  string :public, :symbol
-  uint256 :public, :decimals
-  
-  uint256 :public, :totalSupply
+  storage name:        String, 
+          symbol:      String,  
+          decimals:    UInt, 
+          totalSupply: UInt, 
+          balanceOf:   mapping( Address, UInt ), 
+          allowance:   mapping( Address, mapping( Address, UInt ))
+          
 
-  mapping ({ addressOrDumbContract: :uint256 }), :public, :balanceOf
-  mapping ({ addressOrDumbContract: mapping(addressOrDumbContract: :uint256) }), :public, :allowance
-  
-  constructor(name: :string, symbol: :string, decimals: :uint256) {
-    s.name = name
-    s.symbol = symbol
-    s.decimals = decimals
-  }
+  sig [String, String, UInt] 
+  def constructor(name:, 
+                  symbol:, 
+                  decimals:) 
+    @name = name
+    @symbol = symbol
+    @decimals = decimals
+  end
 
-  function :approve, { spender: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
-    s.allowance[msg.sender][spender] = amount
+
+  sig [Address, UInt], returns: Bool
+  def approve( spender:, 
+               amount: ) 
+    @allowance[msg.sender][spender] = amount
     
-    emit :Approval, owner: msg.sender, spender: spender, amount: amount
+    log Approval, owner: msg.sender, spender: spender, amount: amount
     
-    return true
+    true
   end
   
-  function :decreaseAllowanceUntilZero, { spender: :addressOrDumbContract, difference: :uint256 }, :public, :virtual, returns: :bool do
-    allowed = s.allowance[msg.sender][spender]
+
+  sig [Address, UInt],  returns: Bool
+  def decreaseAllowanceUntilZero( spender:, 
+                                  difference: )
+    allowed = @allowance[msg.sender][spender]
     
     newAllowed = allowed > difference ? allowed - difference : 0
     
     approve(spender: spender, amount: newAllowed)
     
-    return true
+    true
   end
-  
-  function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
-    assert(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
-    
-    s.balanceOf[msg.sender] -= amount
-    s.balanceOf[to] += amount
 
-    # emit :Transfer, from: msg.sender, to: to, amount: amount
+
+  sig [Address, UInt],  returns: Bool
+  def transfer( to:, 
+                amount: )
+    assert @balanceOf[msg.sender] >= amount, 'Insufficient balance'
     
-    return true
+    @balanceOf[msg.sender] -= amount
+    @balanceOf[to] += amount
+
+    log Transfer, from: msg.sender, to: to, amount: amount
+    
+    true
   end
   
-  function :transferFrom, {
-    from: :addressOrDumbContract,
-    to: :addressOrDumbContract,
-    amount: :uint256
-  }, :public, :virtual, returns: :bool do
-    allowed = s.allowance[from][msg.sender]
+  sig [Address, Address, UInt], returns: Bool
+  def transferFrom( 
+       from:,
+       to:,
+       amount:)
+    allowed = @allowance[from][msg.sender]
     
-    assert(s.balanceOf[from] >= amount, 'Insufficient balance')
-    assert(allowed >= amount, 'Insufficient allowance')
+    assert @balanceOf[from] >= amount, 'Insufficient balance'
+    assert allowed >= amount, 'Insufficient allowance'
     
-    s.allowance[from][msg.sender] = allowed - amount
+    @allowance[from][msg.sender] = allowed - amount
     
-    s.balanceOf[from] -= amount
-    s.balanceOf[to] += amount
+    @balanceOf[from] -= amount
+    @balanceOf[to] += amount
     
-    emit :Transfer, from: from, to: to, amount: amount
+    log Transfer, from: from, to: to, amount: amount
     
-    return true
+    true
   end
   
-  function :_mint, { to: :addressOrDumbContract, amount: :uint256 }, :internal, :virtual do
-    s.totalSupply += amount
-    s.balanceOf[to] += amount
+  sig [Address, UInt]
+  def _mint( to:,
+             amount: )
+    @totalSupply += amount
+    @balanceOf[to] += amount
     
-    # emit :Transfer, from: address(0), to: to, amount: amount
+    log Transfer, from: address(0), to: to, amount: amount
   end
   
-  function :_burn, { from: :addressOrDumbContract, amount: :uint256 }, :internal, :virtual do
-    s.balanceOf[from] -= amount
-    s.totalSupply -= amount
+  sig [Address, UInt]
+  def _burn( from:, 
+             amount: )
+     @balanceOf[from] -= amount
+     @totalSupply -= amount
     
-    emit :Transfer, from: from, to: address(0), amount: amount
+     log Transfer, from: from, to: address(0), amount: amount
   end
 end
 ```
@@ -170,14 +197,14 @@ Let's go.
 ``` ruby
 require 'rubidity/contracts'
 
-contract = PublicMintERC20.create
+contract = PublicMintERC20.new
 
 contract.constructor(
-    name: 'My Fun Token', # :string,
-    symbol: 'FUN',        # :string,
-    maxSupply:  21000000,  #  :uint256,
-    perMintLimit: 1000,    #  :uint256,
-    decimals:     18,      #  :uint256
+    name: 'My Fun Token', # String,
+    symbol: 'FUN',        # String,
+    maxSupply:  21000000,  #  UInt,
+    perMintLimit: 1000,    #  UInt,
+    decimals:     18,      #  UInt
   ) 
 
 
@@ -195,8 +222,10 @@ alice   = '0x'+'a'*40 # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 bob     = '0x'+'b'*40 # e.g. '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
 charlie = '0x'+'c'*40 # e.g. '0xcccccccccccccccccccccccccccccccccccccccc'
 
-#  function :mint, { amount: :uint256 }, :public  
-contract.msg.sender = alice
+
+#  sig [UInt]
+#  def mint( amount: )
+ contract.msg.sender = alice
 
 contract.mint( 100 )
 contract.mint( 200 )
@@ -206,7 +235,8 @@ contract.msg.sender = bob
 contract.mint( 300 )
 contract.mint( 400 )
 
-#  function :airdrop, { to: :addressOrDumbContract, amount: :uint256 }, :public
+#  sig [Address, UInt]
+#  def airdrop( to:, amount: ) 
 contract.airdrop( alice, 500 )
 contract.airdrop( charlie, 600  )
 
@@ -224,20 +254,19 @@ contract.serialize
 # :perMintLimit=>1000}
 
 
-#   function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool
+#  sig [Address, UInt],  returns: Bool
+#  def transfer( to:, amount: )
 contract.transfer( alice, 1  )
 contract.transfer( charlie, 2  )
 
-#   function :approve, { spender: :addressOrDumbContract, amount: :uint256 }, :public, :virtual, returns: :bool do
+#  sig [Address, UInt], returns: Bool
+#  def approve( spender:, amount: ) 
 contract.approve( alice, 11 )
 contract.approve( charlie, 22 )
 
-# function :transferFrom, {
-#  from: :addressOrDumbContract,
-#  to: :addressOrDumbContract,
-#  amount: :uint256
-# }, :public, :virtual, returns: :bool
 
+# sig [Address, Address, UInt], returns: Bool
+# def transferFrom( from:, to:, amount:)
 contract.msg.sender = alice
 
 contract.approve( bob, 33 )
@@ -272,4 +301,16 @@ And so on. That's it for now.
 
 See [**/blockchain**](https://github.com/rubycocos/blockchain) 
 at the ruby code commons (rubycocos) org.
+
+
+
+
+
+## Questions? Comments?
+
+Join us in the [Rubidity (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
+Your questions and commentary welcome.
+
+Or post them over at the [Help & Support](https://github.com/geraldb/help) page. Thanks.
+
 

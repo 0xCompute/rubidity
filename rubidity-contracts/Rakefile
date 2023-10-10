@@ -1,9 +1,9 @@
 require 'hoe'
-## require './lib/rubidity/contracts/version.rb'
+require './lib/rubidity/contracts/version.rb'
 
 Hoe.spec 'rubidity-contracts' do
 
-  self.version =   '0.2.2'  ##Pixelart::Module::Ordgen::VERSION
+  self.version =  Rubidity::Module::Contracts::VERSION
 
   self.summary = 'rubidity-contracts - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer'
   self.description = summary
@@ -18,7 +18,7 @@ Hoe.spec 'rubidity-contracts' do
   self.history_file = 'CHANGELOG.md'
 
   self.extra_deps = [
-    ['rubidity'],
+    ['rubidity', '>= 0.7.1'],
   ]
 
   self.licenses = ['Public Domain']

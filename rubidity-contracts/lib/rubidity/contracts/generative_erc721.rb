@@ -1,13 +1,13 @@
 class GenerativeERC721 < ERC721
   
-  storage generativeScript: :string,
-          tokenIdToSeed:    mapping( :uint256, :uint256 ),  
-          totalSupply:      :uint256, 
-          maxSupply:        :uint256, 
-          maxPerAddress:    :uint256, 
-          description:      :string 
+  storage generativeScript: String,
+          tokenIdToSeed:    mapping( UInt, UInt ),  
+          totalSupply:      UInt, 
+          maxSupply:        UInt, 
+          maxPerAddress:    UInt, 
+          description:      String 
   
-  sig :constructor, [ :string, :string, :string, :uint256, :string, :uint256]  
+  sig [ String, String, String, UInt, String, UInt]  
   def constructor(
     name:,
     symbol:,
@@ -23,7 +23,7 @@ class GenerativeERC721 < ERC721
     @generativeScript = generativeScript
   end
   
-  sig :mint, [:uint256]
+  sig [UInt]
   def mint( amount )
     assert(amount > 0, 'Amount must be positive')
     assert(amount + @_balanceOf[msg.sender] <= @maxPerAddress, 'Exceeded mint limit')
@@ -43,7 +43,7 @@ class GenerativeERC721 < ERC721
     @totalSupply += amount
   end
   
-  sig :tokenURI, [:uint256], :view, :override, returns: :string
+  sig [UInt], :view,  returns: String
   def tokenURI( id )
     assert( _exists(id: id), 'ERC721Metadata: URI query for nonexistent token')
     
@@ -60,7 +60,7 @@ class GenerativeERC721 < ERC721
     "data:application/json,#{json_data}"
   end
   
-  sig :getHTML, [:uint256], :view, returns: :string
+  sig [UInt], :view, returns: String
   def getHTML( seed )
     %{<!DOCTYPE html>
     <html>

@@ -1,24 +1,23 @@
-class ERC721 < ContractImplementation
-  abstract
+class ERC721 < Contract
   
-  event :Transfer, { from: :address, 
-                     to:   :address, 
-                     id:   :uint256 }
-  event :Approval, { owner:   :address, 
-                     spender: :address, 
-                     id:      :uint256 }
-  event :ApprovalForAll, { owner:    :address, 
-                           operator: :address, 
-                           approved: :bool }
+  event :Transfer, from: Address, 
+                   to:   Address, 
+                   id:   UInt
+  event :Approval, owner:  Address, 
+                   spender: Address, 
+                     id:     UInt 
+  event :ApprovalForAll,  owner:    Address, 
+                           operator: Address, 
+                           approved: Bool 
 
-  storage  name:             :string,
-           symbol:           :string,
-           _ownerOf:         mapping( :uint256, :address ),
-           _balanceOf:       mapping( :address, :uint256 ),
-           getApproved:      mapping( :uint256, :address ), 
-           isApprovedForAll: mapping( :address, mapping( :address, :bool))
+  storage  name:             String,
+           symbol:           String,
+           _ownerOf:         mapping( UInt, Address ),
+           _balanceOf:       mapping( Address, UInt ),
+           getApproved:      mapping( UInt, Address ), 
+           isApprovedForAll: mapping( Address, mapping( Address, Bool ))
 
-  sig :constructor, [:string, :string]           
+  sig  [String, String]           
   def constructor( name:, 
                    symbol: ) 
     @name   = name
@@ -26,7 +25,7 @@ class ERC721 < ContractImplementation
   end
 
 
-  sig :ownerOf, [ :uint256 ], :view, :virtual, returns: :address 
+  sig [ UInt ], :view, returns: Address 
   def ownerOf( id )
     owner = @_ownerOf[id]
     assert owner != address(0), "ERC721: owner query for nonexistent token"
@@ -34,14 +33,14 @@ class ERC721 < ContractImplementation
     owner
   end
   
-  sig :balanceOf, [ :address ], :view, :virtual, returns: :uint256
+  sig [ Address ], :view, returns: UInt
   def balanceOf( owner: ) 
     assert owner != address(0), "ERC721: balance query for nonexistent owner"
     
     @_balanceOf[owner]
   end
   
-  sig :approve, [ :address, :uint256], :virtual
+  sig [ Address, UInt]
   def approve( spender:, 
                id: )
     owner = @_ownerOf[id]
@@ -50,18 +49,18 @@ class ERC721 < ContractImplementation
     
     @getApproved[id] = spender;
 
-    log :Approval, owner: owner, spender: spender, id: id
+    log Approval, owner: owner, spender: spender, id: id
   end
   
-  sig :setApprovalForAll, [:address, :bool], :virtual
+  sig [Address, Bool]
   def setApprovalForAll( operator:,
                          approved: ) 
     @isApprovedForAll[msg.sender][operator] = approved;
 
-    log :ApprovalForAll, owner: msg.sender, operator: operator, approved: approved
+    log ApprovalForAll, owner: msg.sender, operator: operator, approved: approved
   end
   
-  sig :transferFrom, [ :address, :address, :uint256], :virtual
+  sig [ Address, Address, UInt]
   def transferFrom( from:, 
                     to:, 
                     id: )
@@ -83,12 +82,12 @@ class ERC721 < ContractImplementation
     @getApproved[id] = address(0)
   end
   
-  sig :_exists, [:uint256], :virtual
+  sig [UInt]
   def _exists( id )
     @_ownerOf[id] != address(0)
   end
  
-  sig :_mint, [:address, :uint256], :virtual
+  sig [Address, UInt]
   def _mint( to:, 
              id: )
     assert to != address(0), "ERC721: mint to the zero address"
@@ -98,10 +97,10 @@ class ERC721 < ContractImplementation
 
     @_ownerOf[id] = to
     
-    log :Transfer, from: address(0), to: to, id: id
+    log Transfer, from: address(0), to: to, id: id
   end
   
-  sig :_burn, [:uint256], :virtual
+  sig [UInt]
   def _burn( id: )
     owner = @_ownerOf[id]
     
@@ -113,10 +112,10 @@ class ERC721 < ContractImplementation
     
     @getApproved[id] = address(0)
     
-    log :Transfer, from: owner, to: address(0), id: id
+    log Transfer, from: owner, to: address(0), id: id
   end
   
-  sig :tokenURI, [:uint256], :view, :virtual, returns: :string
+  sig [UInt], :view, returns: String
   def tokenURI( id: )
   end
 end

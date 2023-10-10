@@ -11,3 +11,4 @@ lib/rubidity/contracts/ethscription_erc20_bridge.rb
 lib/rubidity/contracts/generative_erc721.rb
 lib/rubidity/contracts/open_edition_erc721.rb
 lib/rubidity/contracts/public_mint_erc20.rb
+lib/rubidity/contracts/version.rb

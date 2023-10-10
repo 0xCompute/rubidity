@@ -26,7 +26,7 @@ puts
 pp PublicMintERC20.parent_contracts
 
 
-contract = PublicMintERC20.create
+contract = PublicMintERC20.new
 pp contract
 
 =begin
@@ -152,5 +152,8 @@ pp state
 
 contract.deserialize( state )
 pp contract.serialize
+
+
+
 
 puts "bye"

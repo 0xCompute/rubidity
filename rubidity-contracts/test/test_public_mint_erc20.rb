@@ -89,7 +89,7 @@ STATE_TWO = {
   end
 
   def test_contract
-    contract = PublicMintERC20.create
+    contract = PublicMintERC20.new
     pp contract
     
 
@@ -113,15 +113,15 @@ STATE_TWO = {
     ##    uint256( 210000000 )     or 210000000.uint   or 210000000.u ?? 
     assert_equal TypedString.new('My Fun Token'), contract.name
     assert_equal TypedString.new('FUN'),          contract.symbol
-    assert_equal TypedUint256.new( 21000000),          contract.maxSupply
-    assert_equal TypedUint256.new( 1000),          contract.perMintLimit
-    assert_equal TypedUint256.new( 18 ),          contract.decimals
+    assert_equal TypedUInt.new( 21000000),          contract.maxSupply
+    assert_equal TypedUInt.new( 1000),          contract.perMintLimit
+    assert_equal TypedUInt.new( 18 ),          contract.decimals
         
     assert_equal TypedString.new('My Fun Token'), contract.instance_variable_get( :@name )
     assert_equal TypedString.new('FUN'),          contract.instance_variable_get( :@symbol )
-    assert_equal TypedUint256.new( 21000000),     contract.instance_variable_get( :@maxSupply )
-    assert_equal TypedUint256.new( 1000),         contract.instance_variable_get( :@perMintLimit )
-    assert_equal TypedUint256.new( 18 ),          contract.instance_variable_get( :@decimals )
+    assert_equal TypedUInt.new( 21000000),     contract.instance_variable_get( :@maxSupply )
+    assert_equal TypedUInt.new( 1000),         contract.instance_variable_get( :@perMintLimit )
+    assert_equal TypedUInt.new( 18 ),          contract.instance_variable_get( :@decimals )
 
     
     alice   = '0x'+'a'*40 # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'

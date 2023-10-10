@@ -1,16 +1,16 @@
-class ERC20LiquidityPool < ContractImplementation
+class ERC20LiquidityPool < Contract
 
-  storage token0: :address,
-          token1: :address
+  storage token0: Address,
+          token1: Address
 
-  sig :constructor, [:address, :address]           
+  sig [Address, Address]           
   def constructor( token0:, 
                    token1: ) 
     @token0 = token0
     @token1 = token1
   end
   
-  sig :addLiquidity, [:uint256, :uint256]
+  sig [UInt, UInt]
   def addLiquidity( token0Amount:, 
                     token1Amount: )
     ERC20(@token0).transferFrom(
@@ -27,7 +27,7 @@ class ERC20LiquidityPool < ContractImplementation
   end
   
 
-  sig :reserves, [], :view, returns: [:uint256, :uint256]
+  sig [], :view   ### fix- support multiple, returns: [UInt, UInt]
   def reserves
     {
       token0: ERC20(@token0).balanceOf(address(this)),
@@ -37,8 +37,7 @@ class ERC20LiquidityPool < ContractImplementation
 
  
 
-
-  sig :calculateOutputAmount, [:address, :address, :uint256], :view, returns: :uint256
+  sig [Address, Address, UInt], :view, returns: UInt
   def calculateOutputAmount( inputToken:,
                              outputToken:,
                              inputAmount: )
@@ -49,7 +48,7 @@ class ERC20LiquidityPool < ContractImplementation
   end
 
 
-  sig :swap, [:address, :address, :uint256], returns: :uint256
+  sig [Address, Address, UInt], returns: UInt
   def swap(
     inputToken:,
     outputToken:,

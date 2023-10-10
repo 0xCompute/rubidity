@@ -1,23 +1,23 @@
 class EthscriptionERC20Bridge < ERC20
   
-  event :InitiateWithdrawal, { from: :address, escrowedId: :ethscriptionId }
-  event :WithdrawalComplete, { to: :address, escrowedId: :ethscriptionId }
+  event :InitiateWithdrawal, from: Address, escrowedId: InscriptionId 
+  event :WithdrawalComplete, to:   Address, escrowedId: InscriptionId 
 
-  storage ethscriptionsTicker:     :string, 
-          ethscriptionMintAmount:  :uint256, 
-          ethscriptionMaxSupply:   :uint256, 
-          ethscriptionDeployId:    :ethscriptionId, 
-          trustedSmartContract:    :address, 
-          pendingWithdrawalEthscriptionToOwner: mapping( :ethscriptionId, :address ),
-          bridgedEthscriptionToOwner:   mapping( :ethscriptionId, :address )
+  storage ethscriptionsTicker:     String, 
+          ethscriptionMintAmount:  UInt, 
+          ethscriptionMaxSupply:   UInt, 
+          ethscriptionDeployId:    InscriptionId, 
+          trustedSmartContract:    Address, 
+          pendingWithdrawalEthscriptionToOwner: mapping( InscriptionId, Address ),
+          bridgedEthscriptionToOwner:   mapping( InscriptionId, Address )
           
-  sig :constructor, [:string, :string, :address, :ethscriptionId]           
+  sig  [String, String, Address, InscriptionId]           
   def constructor(
     name:,
     symbol:,
     trustedSmartContract:,
     ethscriptionDeployId:) 
-    ERC20(name: name, symbol: symbol, decimals: 18)
+    super(name: name, symbol: symbol, decimals: 18)
     
     @trustedSmartContract = trustedSmartContract
     @ethscriptionDeployId = ethscriptionDeployId
@@ -35,7 +35,7 @@ class EthscriptionERC20Bridge < ERC20
   end
 
   
-  sig :bridgeIn, [:address, :ethscriptionId]
+  sig  [Address, InscriptionId]
   def bridgeIn( to:, escrowedId: )
     assert(
       address(msg.sender) == @trustedSmartContract,
@@ -87,7 +87,7 @@ class EthscriptionERC20Bridge < ERC20
   end
   
 
-  sig :bridgeOut, [:ethscriptionId]    
+  sig  [InscriptionId]    
   def bridgeOut( escrowedId )
     assert( @bridgedEthscriptionToOwner[escrowedId] == address(msg.sender), "Ethscription not owned by sender")
     
@@ -96,11 +96,11 @@ class EthscriptionERC20Bridge < ERC20
     @bridgedEthscriptionToOwner[escrowedId] = address(0)
     @pendingWithdrawalEthscriptionToOwner[escrowedId] = address(msg.sender)
     
-    log :InitiateWithdrawal, from: address(msg.sender), escrowedId: :ethscriptionId
+    log InitiateWithdrawal, from: address(msg.sender), escrowedId: :ethscriptionId
   end
   
 
-  sig :markWithdrawalComplete, [:address, :ethscriptionId] 
+  sig [Address, InscriptionId] 
   def markWithdrawalComplete( to:, escrowedId: )
     assert(
       address(msg.sender) == @trustedSmartContract,
@@ -114,6 +114,6 @@ class EthscriptionERC20Bridge < ERC20
     
     @pendingWithdrawalEthscriptionToOwner[escrowedId] = address(0)
     
-    log :WithdrawalComplete, to: to, escrowedId: :ethscriptionId
+    log WithdrawalComplete, to: to, escrowedId: :ethscriptionId
   end
 end

@@ -64,7 +64,7 @@ def test_meta
   end
 
   def test_contract
-    contract = GenerativeERC721.create
+    contract = GenerativeERC721.new
     pp contract
   
     state = contract.serialize

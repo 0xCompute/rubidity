@@ -1,22 +1,21 @@
-class ERC20 < ContractImplementation  
-  abstract
+class ERC20 < Contract
   
-  event :Transfer, { from:    :address, 
-                     to:      :address, 
-                     amount:  :uint256 }
-  event :Approval, { owner:   :address, 
-                     spender: :address, 
-                     amount:  :uint256 }
+  event :Transfer, from:    Address, 
+                   to:      Address, 
+                   amount:  UInt
+  event :Approval, owner:   Address, 
+                   spender: Address, 
+                   amount:  UInt
 
-  storage name:        :string, 
-          symbol:      :string,  
-          decimals:    :uint256, 
-          totalSupply: :uint256, 
-          balanceOf:   mapping( :address, :uint256 ), 
-          allowance:   mapping( :address, mapping( :address, :uint256 ))
+  storage name:        String, 
+          symbol:      String,  
+          decimals:    UInt, 
+          totalSupply: UInt, 
+          balanceOf:   mapping( Address, UInt ), 
+          allowance:   mapping( Address, mapping( Address, UInt ))
           
 
-  sig :constructor, [:string, :string, :uint256] 
+  sig [String, String, UInt] 
   def constructor(name:, 
                   symbol:, 
                   decimals:) 
@@ -29,18 +28,18 @@ class ERC20 < ContractImplementation
   end
 
 
-  sig :approve, [:address, :uint256], :virtual, returns: :bool
+  sig [Address, UInt], returns: Bool
   def approve( spender:, 
                amount: ) 
     @allowance[msg.sender][spender] = amount
     
-    log :Approval, owner: msg.sender, spender: spender, amount: amount
+    log Approval, owner: msg.sender, spender: spender, amount: amount
     
     true
   end
   
 
-  sig :decreaseAllowanceUntilZero, [:address, :uint256], :virtual, returns: :bool
+  sig [Address, UInt],  returns: Bool
   def decreaseAllowanceUntilZero( spender:, 
                                   difference: )
     allowed = @allowance[msg.sender][spender]
@@ -53,7 +52,7 @@ class ERC20 < ContractImplementation
   end
 
 
-  sig :transfer, [:address, :uint256], :virtual, returns: :bool
+  sig [Address, UInt],  returns: Bool
   def transfer( to:, 
                 amount: )
     assert @balanceOf[msg.sender] >= amount, 'Insufficient balance'
@@ -61,12 +60,12 @@ class ERC20 < ContractImplementation
     @balanceOf[msg.sender] -= amount
     @balanceOf[to] += amount
 
-    log :Transfer, from: msg.sender, to: to, amount: amount
+    log Transfer, from: msg.sender, to: to, amount: amount
     
     true
   end
   
-  sig :transferFrom, [:address, :address, :uint256], :virtual, returns: :bool
+  sig [Address, Address, UInt], returns: Bool
   def transferFrom( 
        from:,
        to:,
@@ -81,26 +80,26 @@ class ERC20 < ContractImplementation
     @balanceOf[from] -= amount
     @balanceOf[to] += amount
     
-    log :Transfer, from: from, to: to, amount: amount
+    log Transfer, from: from, to: to, amount: amount
     
     true
   end
   
-  sig :_mint, [:address, :uint256], :virtual
+  sig [Address, UInt]
   def _mint( to:,
              amount: )
     @totalSupply += amount
     @balanceOf[to] += amount
     
-    log :Transfer, from: address(0), to: to, amount: amount
+    log Transfer, from: address(0), to: to, amount: amount
   end
   
-  sig :_burn, [:address, :uint256], :virtual
+  sig [Address, UInt]
   def _burn( from:, 
              amount: )
      @balanceOf[from] -= amount
      @totalSupply -= amount
     
-     log :Transfer, from: from, to: address(0), amount: amount
+     log Transfer, from: from, to: address(0), amount: amount
   end
 end
