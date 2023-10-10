@@ -1,7 +1,0 @@
-CHANGELOG.md
-Manifest.txt
-README.md
-Rakefile
-lib/rubidity/simulacrum.rb
-lib/rubidity/simulacrum/version.rb
-lib/simulacrum.rb

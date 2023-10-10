@@ -204,7 +204,10 @@ The first published modules / gems include:
 
 More:
 
-- [**rubidity-simulacrum**](rubidity-simulacrum) - run (dumb) blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free)
+- [~~**rubidity-simulacrum**~~](rubidity-simulacrum) - run (dumb) blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free)
+
+- [**soliscript**](https://github.com/soliscript/soliscript) (formerly known as rubidity-simulacrum) - run blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free)
+
 
 - [**redpaper**](redpaper) - Yes, you can. it's just ruby. Run the sample contracts from the [Red Paper](https://github.com/s6ruby/redpaper)
 with rubidity and simulacrum!
