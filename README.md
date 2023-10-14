@@ -198,19 +198,23 @@ The first published modules / gems include:
 
 
 - [**rubidity**](rubidity) - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer 
-- [**rubidity-contracts**](rubidity-contracts) - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer
 
+- [**rubidity-contracts**](rubidity-contracts) - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer
 
 
 More:
 
 - [~~**rubidity-simulacrum**~~](rubidity-simulacrum) - run (dumb) blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free)
 
+- [~~**redpaper**~~](redpaper) - Yes, you can. it's just ruby. Run the sample contracts from the [Red Paper](https://github.com/s6ruby/redpaper)
+with rubidity and simulacrum!
+
+
 - [**soliscript**](https://github.com/soliscript/soliscript) (formerly known as rubidity-simulacrum) - run blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free)
 
+- [**soliscript.starter**](https://github.com/soliscript/soliscript.starter) (formerly known as red paper contracts) -  run (blockchain) contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free) incl. the red paper contracts e.g. satoshi dice (gambling), crowd funder, ballot (liquid delegate democracy)
 
-- [**redpaper**](redpaper) - Yes, you can. it's just ruby. Run the sample contracts from the [Red Paper](https://github.com/s6ruby/redpaper)
-with rubidity and simulacrum!
+
 
 - [**rubidity-by-example**](rubidity-by-example) - Rubidity By Example - an introduction to Rubidity with simple examples (inspired and mostly following Solidity By Example)
 

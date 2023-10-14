@@ -1,8 +1,7 @@
 # Solidity Typed (formerly known as Rubidity Typed)
 
 
-Note: Starting with version 0.7.4 the [rubyidity-typed gem](https://rubygems.org/gems/rubidity-typed) 
-is now known and published as the [solidity-typed gem](https://rubygems.org/gems/solidity-typed).
+Note: The ~~rubyidity-typed gem~~ is now known and published as the [solidity-typed gem](https://rubygems.org/gems/solidity-typed).
 
 Q: Why?
 

@@ -1,8 +1,8 @@
 # Soliscript (formerly known as Rubidity Simulacrum)
 
 
-Note: Starting with version 0.1.2 the [rubidity-simulacrum gem](https://rubygems.org/gems/rubidity-simulacrum) 
-is now known and published as the [soliscript gem](https://rubygems.org/gems/soliscript).
+Note: The ~~rubidity-simulacrum gem~~ is now known and published as the [soliscript gem](https://rubygems.org/gems/soliscript).
+
 
 Q: Why?
 

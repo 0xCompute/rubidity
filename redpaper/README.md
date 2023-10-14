@@ -1,17 +1,9 @@
-#  Red Paper - Run Sample Contracts w/ Rubidity and Simulacrum! 
+# Red Paper - Run (Blockchain) Contracts With Rubidity and Simulacrum!
 
 
-Yes, you can. it's just ruby.  Run the sample contracts from the [Red Paper](https://github.com/s6ruby/redpaper)
-with Rubidity and Simulacrum!
-
-
-
-Win x65 000 - Roll the (Satoshi) Dice, see [satoshidice.rb](satoshidice.rb)
-
-Kick Start Your Project with a Crowd Funder,
-see [crowdfunder.rb](crowdfunder.rb)
-
-Liquid / Delegative Democracy - Let's Vote (or Delegate Your Vote) on a Proposal, see [ballot.rb](ballot.rb)
+Note: The red paper contracts are now 
+part of the new [**soliscript quick starter project repo template**](https://github.com/soliscript/soliscript.starter).  
+The first version incl. satoshi dice (gambling), crowd funder and ballot (liquid delegate democracy voting). 
 
 
 
