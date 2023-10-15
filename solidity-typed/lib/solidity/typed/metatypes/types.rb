@@ -16,7 +16,6 @@
 # global helper(s) - move to ??? - why? why not?
 
 def _sanitize_class_name( name )
-  name = name.sub( /\bContractBase::/, '' )   ## remove contract module from name if present
   name = name.sub( /\bContract::/, '' )   ## remove contract module from name if present
   name = name.sub( /\bTyped::/, '' )
   name = name.sub( /\bTypes::/, '' )

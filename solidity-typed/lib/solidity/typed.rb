@@ -15,7 +15,7 @@ class ValueError < StandardError; end
 
 ## forward declare contract base (from solidity)
 ##    for type checking
-class ContractBase 
+class Contract
 end
    
 

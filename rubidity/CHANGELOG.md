@@ -1,4 +1,4 @@
-### 0.8.0
+### 0.8.1
 ### 0.0.1 / 2023-09-08
 
 * Everything is new. First release

@@ -9,6 +9,7 @@ require 'json'   ##  use in public_abi_to_json
 
 
 require 'digest-lite'      ### pulls in keccak256
+require 'hexutils'         ### pulls in hex/to_hex (decode/encode_hex)
 require 'solidity/typed'
 
 
@@ -34,7 +35,7 @@ end
 
 ## add "namespaced" convenience / shortcut names for Typed<Type> classes
 ##   note use ::String for "standard" string and such!!!
-class ContractBase
+class Contract
 
    include Types
 =begin   
@@ -65,7 +66,7 @@ class ContractBase
    ## pp Address  === TypedAddress   #=> false!!!!!
    ##  note: use org class name; alias via === compare WILL FAIL!!!
    ## note:  case/when/ will NOT work; use if/elsfi/else!!!
-end
+end # class Contract
  
 
 
@@ -73,7 +74,8 @@ end
 require_relative 'rubidity/version'
 require_relative 'rubidity/generator'
 
-require_relative 'rubidity/contract_base'
+require_relative 'rubidity/contract/crypto'
+require_relative 'rubidity/contract/runtime'
 require_relative 'rubidity/contract'
 require_relative 'rubidity/abi_proxy'
 

@@ -53,7 +53,7 @@ class Type
     
       ## todo/check - use a different base class for contracts - why? why not?
       ##   fix fix fix: check matching contract type/class too - why? why not?
-       if literal.is_a?( ContractBase )
+       if literal.is_a?( Contract )
          return literal
        else
          raise TypeError, "No literals allowed for contract types  got: #{literal}; sorry"

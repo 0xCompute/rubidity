@@ -2,7 +2,7 @@ require_relative 'helper'
 
 
 
-class TestBase < ContractBase    
+class TestBase < Contract    
     storage name:   String, 
             symbol: String, 
             decimals: UInt,    

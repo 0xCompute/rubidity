@@ -1,5 +1,134 @@
-class Contract  < ContractBase
+
+class Contract 
+
+
+  class << self
+    attr_accessor :state_variable_definitions, 
+                  :parent_contracts, 
+                  :events, 
+                  :is_abstract_contract
+  end
+
+  
+  ##################
+  # parent contracts 
+  #   keep abstract - why? why not? 
+  def self.abstract
+    @is_abstract_contract = true
+  end
+  
+
+  def self.linearize_contracts( contract )
+   ## for now 
+    ##    include all classes before Contract
+    ##    cache result - why? why not?
+
+    ##
+    ## todo/fix: check if include? Contract
+    ##                    if not raise error - CANNOT linearize (no contract base found)
+    classes = []
+    contract.ancestors.each do |ancestor|
+        break if ancestor == Contract 
+        if ancestor.instance_of?( Class )
+            classes << ancestor 
+        else  ### assume Module
+            puts "[debug] skipping module - #{ancestor.name} : #{ancestor.class.name}"
+        end
+    end    
+    classes
+  end
+
+  def self.linearized_parents
+    ## note: exclude self (that is, cut-off first class)
+    linearize_contracts( self )[1..-1]
+  end
+
+  class << self
+     ## note: for now the same (might change with support for module?)
+     alias_method :parent_contracts, :linearized_parents 
+  end
+
+
+
+  ########
+  # state variables
+
+  def self.state_variable_definitions
+    @state_variable_definitions ||= {}
+  end
+
+
+  def self.define_state_variable(type, args)
+    ## note: REMOVE last item from array (use Array#pop)
+    ##  make sure name is ALWAYS a symbol!!!
+    name = args.pop.to_sym
+    
+    if state_variable_definitions[name]
+      raise "No shadowing: #{name} is already defined."
+    end
+
+    ## check for visibility  - internal/private/public
+    ##  note: make :public default and :internal only if name starting with underscore (_) - why? why not?
+    visibility = name.start_with?( '_' ) ? :internal  : :public    
  
+ #  note: for now NO support for immutable and constant!!!!!   
+ #   immutable  = false
+ #   constant   = false
+
+    ##  todo/check - force strict check for double (public/private etc.) use - why? why not?
+    args.each do |arg|
+      case arg
+      when :public, :private, :internal then  visibility = arg
+ #     when :immutable                   then  immutable = true
+ #     when :constant                    then  constant = true
+      else
+         raise ArgumentError, "unknown type qualifier >#{arg}<; sorry for typedef #{type} in #{args.inspect}" 
+      end
+    end
+    
+    state_variable_definitions[name] = { type: type, 
+                                         visibility: visibility }
+                                       #  immutable: immutable,
+                                       #  constant: constant 
+    
+  
+    ## check - visibility 
+    if visibility == :public
+       contract_class = self
+       Generator.getter_function( contract_class, name, type  )
+    end
+    
+    type
+  end
+
+
+  def self.storage( **kwargs )
+    ## note: assume keys are names and values are types for storage
+    ## note:  allow multiple calls of storage!!!
+    
+    kwargs.each do |name, type|
+       type = typeof( type )  
+             
+       ## add support for more args - e.g. visibility or such - why? why not?
+       args = [name] 
+       define_state_variable( type, args )                       
+    end
+  end 
+ 
+
+
+  ####
+  #  functions / abis
+
+  def self.abi
+    @abi ||= AbiProxy.new(self)
+  end
+
+  def self.public_abi() abi.public_api; end
+  def public_abi() self.class.public_abi; end
+
+
+
   
   def self.struct( class_name, **attributes )
     typedclass = Types::Struct.new( class_name, scope: self, **attributes )
@@ -16,6 +145,9 @@ class Contract  < ContractBase
     typedclass  
   end
 
+
+   include CryptoHelper     # e.g. keccak256
+   include RuntimeHelper    # e.g. msg, tx, block, log, etc.
 
 
   #####################
@@ -127,69 +259,10 @@ class Contract  < ContractBase
   alias_method :load, :deserialize
 
 
-  ## note: for now this is just the solidity alias/used name
-  ##  for ruby's self  - anything missing - why? why not?
-  def this()  self; end
+  
 
 
   
-  def current_transaction()  Runtime.current_transaction; end
-  def msg()                  Runtime.msg; end
-  def block()                Runtime.block; end
-
-  def log( event_klass, *args, **kwargs )
-
-    raise "event class expected; got: >#{event_klass.inspect}<; sorry"  unless event_klass.ancestors.include?( Types::Event)
-    
-    rec = if kwargs.size > 0
-            event_klass.new( **kwargs )
-          else
-            event_klass.new( *args )
-          end
-    data = rec.as_data   ## "serialize" to "plain" types
-    
-    current_transaction.log_event( { event: event_klass.name, 
-                                     data:  data })
-  end
-  
-
-  ## note: change from require to assert
-  ##         to avoid confusion with ruby require - why? why not?
-  def assert(condition, message='no message')
-    unless condition
-      # caller_location = caller_locations.detect { |l| l.path.include?('/app/models/contracts') }
-      # file = caller_location.path.gsub(%r{.*app/models/contracts/}, '')
-      # line = caller_location.lineno
-      
-      error_message = "#{message}"     ##. (#{file}:#{line})"
-      ## todo/fix: change to (built-in) ???Error, ....
-      ##  check for error to raise for assertion fail??
-      raise error_message
-    end
-  end
-   
-
-  
-###
-#  Digest::KeccakLite.new( 256 ).hexdigest( 'abc' )   # or
-#  Digest::KeccakLite.hexdigest( 'abc', 256 )
-#  #=> "4e03657aea45a94fc7d47ba826c8d667c0d1e6e33a64a036ec44f58fa12d6c45"  
-
-  def keccak256( input )
-  ## todo/fix: check if input is binary string 
-  ##    (convert to bytes - why? why not?)
-  ##    should really always use hex_to_bin !!! 
-  ##    and convert the result in the end only - why? why not??
-
-    str = Types::String.new( input )
-
-    '0x' + Digest::KeccakLite.hexdigest( str.serialize, 256  )
-  end
- 
-
-
-
-
 ####
 #   note:  sig machinery with method_added MUST come last here
 
@@ -242,6 +315,14 @@ def self.sig( args=[], *options, returns: nil )
                         options: options } )
 end
 
+
+
+##
+#  todo/fix:
+#    always auto-add (default) constructor 
+#      CAN get redefined
+#       if not redefined
+#         is empty BUT will call super construct (if has parent)!!!!
 
 ###
 #  sig []        

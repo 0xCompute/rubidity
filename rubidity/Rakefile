@@ -19,8 +19,9 @@ Hoe.spec 'rubidity' do
   self.history_file = 'CHANGELOG.md'
 
   self.extra_deps = [
-    ['solidity-typed', '>= 0.1.0'],
+    ['solidity-typed', '>= 0.2.0'],
     ['digest-lite'],      ## pulls in keccak256
+    ['hexutils'],         ## pulls in hex/to_hex (decode/encode_hex)
   ]
 
 
