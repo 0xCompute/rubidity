@@ -13,7 +13,8 @@ contract :PublicMintERC20, is: :ERC20 do
     perMintLimit: :uint256,
     decimals: :uint8
   ) do |name, symbol, maxSupply, perMintLimit, decimals|
-    ERC20.constructor(name: name, symbol: symbol, decimals: decimals)
+    ## was: ERC20.constructor
+    __ERC20__constructor(name: name, symbol: symbol, decimals: decimals)
     s.maxSupply = maxSupply
     s.perMintLimit = perMintLimit
   end

@@ -12,11 +12,19 @@ class Source   ## rename to unit (source unit) or service or ??
    end
 end  # class Source
 
+
 class ContractDef
-   attr_reader :name, :is, :abstract
+   attr_reader :name, :is, :abstract, 
+               :events, :storage, :functions
    def initialize( name, is: [], abstract: false )
       @name      = name
-      @is        = is
+      @is        = if is.is_a?( Symbol ) 
+                        [is]
+                   elsif is.is_a?( Array ) 
+                         is   
+                   else
+                     raise ArgumentError, "symbol or array expected; got #{is.inspect}"
+                   end
       @abstract  = abstract
       @events    = {}
       @storage   = {}
