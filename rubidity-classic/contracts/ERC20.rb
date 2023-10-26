@@ -13,11 +13,14 @@ contract :ERC20, abstract: true do
   mapping ({ address: :uint256 }), :public, :balanceOf
   mapping ({ address: mapping(address: :uint256) }), :public, :allowance
   
-  constructor(name: :string, symbol: :string, decimals: :uint8) {
-    s.name = name
-    s.symbol = symbol
-    s.decimals = decimals
-  }
+  
+  constructor(name: :string, symbol: :string, decimals: :uint8) do |name, symbol, decimals|
+    puts "ERC20.constructor"
+    @name = name
+    @symbol = symbol
+    @decimals = decimals
+  end
+
 
   function :approve, { spender: :address, amount: :uint256 }, :public, :virtual, returns: :bool do
     s.allowance[msg.sender][spender] = amount

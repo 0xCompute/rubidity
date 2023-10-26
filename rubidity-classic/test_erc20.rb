@@ -20,6 +20,7 @@ end
 
 
 
+$LOAD_PATH.unshift( '../rubidity/lib' )
 require 'rubidity'
 
 ## "built-in" types by "classic" symbol lookup
@@ -44,7 +45,16 @@ def spec_to_type( spec )
     raise ArgumentError, "unknown type - #{spec[:type]}" 
   end
 end
-    
+
+###
+#  hack: allow function body (block) lookup in contract
+#   
+class Contract  
+  def self.functions
+    @functions ||= {}
+  end
+end   # class Contract      
+
 
 
 contract_classes = {}  ## lookup by name
@@ -98,8 +108,67 @@ source.contracts.each do |contract|
         }
         contract_class.storage( **kwargs ) 
     end
+
+
+    ## add functions if any
+    ## constructor:
+    ##  {:args=>{:name=>:string, :symbol=>:string, :decimals=>:uint8},
+    ##   :options=>[],
+    ##   :returns=>nil,
+    ##   :body=>#<Proc:0x0000023162c23ce8 (eval):17>}
+    ## function approve:
+    ##  {:args=>{:spender=>:address, :amount=>:uint256},
+    ##   :options=>[:public, :virtual],
+    ##   :returns=>:bool,
+    ##   :body=>#<Proc:0x0000023162c23a18 (eval):23>}
+    ## function transfer:
+    ##  {:args=>{:to=>:address, :amount=>:uint256},
+    ##   :options=>[:public, :virtual],
+    ##   :returns=>:bool,
+    ##   :body=>#<Proc:0x0000023162c236f8 (eval):31>}
+    contract.functions.each do |function_name, function_args|
+        print "function #{function_name}"
+        pp function_args
+        
+        if function_name == :constructor 
+          puts "==> add constructor..."
+          input_types = function_args[:args].values.map { |type| spec_to_type(type) } 
+          contract_class.sig input_types
+          ## add unsafe method
+          
+          kwargs  = function_args[:args].keys.map {|arg| "#{arg}:" }.join( ', ' )
+          args    = function_args[:args].keys.join( ', ' )
+          puts "  kwargs: #{kwargs}"
+          puts "  args: #{args}"
+          contract_class.functions[function_name] = function_args[:body]
+
+          code =<<RUBY
+            def constructor( #{kwargs} ) 
+               puts "==> calling #{contract_class.name}.constructor..."
+               puts "  self: \#{self.class.name}"
+               instance_exec( *[#{args}], &#{contract_class.name}.functions[:#{function_name}] )
+            end
+RUBY
+          puts "  code:"
+          puts code
+          contract_class.class_eval( code )
+
+          # contract_class.define_method( function_name ) do |**kwargs|
+          #   ## todo/fix: assume kwargs order SAME as args -fix-fix-fix-
+          #    instance_exec( *kwargs.values, &body )
+          # end
+        else
+   
+        end
+    end
 end
 
+
+##
+# handle methods with **kwargs (only) e.g.
+#   [[:keyrest, :kwargs]]
+#  keys:
+#    [:kwargs]
 
 
 
@@ -124,7 +193,46 @@ pp ERC20::Approval.new( owner: address(0), spender: address(0), amount: 0)
 
 
 
+
+contract = ERC20.new
+pp contract
+contract.constructor( name: 'My Fun Token',
+                      symbol: 'FUN',
+                      decimals: 18 )
+
+pp contract
+
+contract.__ERC20__constructor( name: 'My Fun Token',
+                               symbol: 'FUN',
+                               decimals: 18 )
+pp contract
+
+
+
 contract = PublicMintERC20.new
 pp contract
+## pp PublicMintERC20.instance_methods( :false )
+
+
+contract.__ERC20__constructor( name: 'My Fun Token',
+                               symbol: 'FUN',
+                               decimals: 18 )
+pp contract
+
+
+
+## try call constructor
+##  [debug] add sig args: [Types::String, Types::String, Types::UInt, Types::UInt, Types::UInt], opti
+
+puts
+puts "==========="
+
+contract.constructor( name: 'My Fun Token',
+                      symbol: 'FUN',
+                      maxSupply: 21000000,
+                      perMintLimit: 10000,
+                      decimals: 18 )
+pp contract
+
 
 puts "bye"

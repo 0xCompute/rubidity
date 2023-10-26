@@ -13,10 +13,14 @@ contract :PublicMintERC20, is: :ERC20 do
     perMintLimit: :uint256,
     decimals: :uint8
   ) do |name, symbol, maxSupply, perMintLimit, decimals|
+    ## note: super not working e.g.
+    ## -  TypeError - self has wrong type to call super in this context:
+    ##                    PublicMintERC20 (expected #<Class:Builder>) 
+    ## super( name: name, symbol: symbol, decimals: decimals )
     ## was: ERC20.constructor
-    __ERC20__constructor(name: name, symbol: symbol, decimals: decimals)
-    s.maxSupply = maxSupply
-    s.perMintLimit = perMintLimit
+    __ERC20__constructor( name: name, symbol: symbol, decimals: decimals )
+    @maxSupply = maxSupply
+    @perMintLimit = perMintLimit
   end
   
   
