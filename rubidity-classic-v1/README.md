@@ -50,7 +50,7 @@ to align rubidity more with ruby itself - lets use "plain" methods
 and add an (optional) type sig(nature) annotation resulting in:
 
 ``` ruby
-sig [Address, Uint], 
+sig [Address, Uint] 
 def airdrop( to:, amount: ) 
   # ...
 end
@@ -201,21 +201,21 @@ After (More Ruby-ish)
 ```ruby
 class ERC20 < Contract
   
-  event :Transfer, { from: Address, 
-                     to:  Address, 
-                     amount: Uint }
-  event :Approval, { owner: Address, 
-                     spender: Address, 
-                     amount: Uint }
+  event :Transfer, from: Address, 
+                   to:  Address, 
+                   amount: UInt
+  event :Approval, owner: Address, 
+                   spender: Address, 
+                   amount: UInt
 
   storage  name:   String,
            symbol: String,
-           decimals: Uint,
-           totalSupply: Uint,
-           balanceOf:  Mapping.of( Address, Uint ),
-           allowance:  Mapping.of( Address, Mapping.of( Address, Uint )) 
+           decimals: UInt,
+           totalSupply: UInt,
+           balanceOf:  mapping( Address, UInt ),
+           allowance:  mapping( Address, mapping( Address, UInt )) 
   
-  sig [String, String, Uint],
+  sig [String, String, UInt]
   def constructor(name:, 
                   symbol:,
                   decimals: ) 
@@ -224,17 +224,17 @@ class ERC20 < Contract
     @decimals = decimals
   end
 
-  sig [Address, Uint], returns: Bool,
+  sig [Address, UInt], returns: Bool
   def approve( spender:, 
                amount: )
     @allowance[msg.sender][spender] = amount
     
-    log :Approval, owner: msg.sender, spender: spender, amount: amount
+    log Approval, owner: msg.sender, spender: spender, amount: amount
     
     true
   end
   
-  sig [Address, Uint], returns: Bool, 
+  sig [Address, UInt], returns: Bool, 
   def decreaseAllowanceUntilZero( spender:,
                                   difference: )
     allowed = @allowance[msg.sender][spender]
@@ -246,7 +246,7 @@ class ERC20 < Contract
     true
   end
   
-  sig [Address, Uint], returns: Bool,
+  sig [Address, UInt], returns: Bool
   def transfer( to:, 
                 amount: ) 
     assert @balanceOf[msg.sender] >= amount, 'Insufficient balance'
@@ -254,12 +254,12 @@ class ERC20 < Contract
     @balanceOf[msg.sender] -= amount
     @balanceOf[to] += amount
 
-    log :Transfer, from: msg.sender, to: to, amount: amount
+    log Transfer, from: msg.sender, to: to, amount: amount
     
     true
   end
   
-  sig  [Address, Address, Uint], returns: Bool, 
+  sig  [Address, Address, UInt], returns: Bool 
   def transferFrom( from:,
                     to:,
                     amount: )
@@ -273,36 +273,36 @@ class ERC20 < Contract
     @balanceOf[from] -= amount
     @balanceOf[to] += amount
     
-    log :Transfer, from: from, to: to, amount: amount
+    log Transfer, from: from, to: to, amount: amount
     
     true
   end
   
-  sig  [Address, Uint],
+  sig  [Address, UInt]
   def _mint( to:, 
              amount:  )
     @totalSupply += amount
     @balanceOf[to] += amount
     
-    log :Transfer, from: address(0), to: to, amount: amount
+    log Transfer, from: address(0), to: to, amount: amount
   end
   
-  sig  [Address, Uint], 
+  sig  [Address, UInt] 
   def _burn( from:,
              amount: )
     @balanceOf[from] -= amount
     @totalSupply -= amount
     
-    log :Transfer, from: from, to: address(0), amount: amount
+    log Transfer, from: from, to: address(0), amount: amount
   end
 end
 
 class PublicMintERC20 < ERC20
   
-  storage  maxSupply:    Uint,
-           perMintLimit: Uint
+  storage  maxSupply:    UInt,
+           perMintLimit: UInt
   
-  sig [String, String, Uint, Uint, Uint],
+  sig [String, String, UInt, UInt, UInt]
   def constructor(
     name:,
     symbol:,
@@ -310,13 +310,13 @@ class PublicMintERC20 < ERC20
     perMintLimit:,
     decimals:
   ) 
-    ERC20(name: name, symbol: symbol, decimals: decimals)
+    super(name: name, symbol: symbol, decimals: decimals)
     @maxSupply = maxSupply
     @perMintLimit = perMintLimit
   end
  
 
-  sig [Uint],
+  sig [UInt]
   def mint( amount: )
     assert amount > 0, 'Amount must be positive'
     assert amount <= @perMintLimit, 'Exceeded mint limit'
@@ -326,7 +326,7 @@ class PublicMintERC20 < ERC20
     _mint( to: msg.sender, amount: amount )
   end
   
-  sig [Address, Uint256],
+  sig [Address, UInt]
   def airdrop( to:, amount: ) 
     assert amount > 0, 'Amount must be positive'
     assert amount <= @perMintLimit, 'Exceeded mint limit'
