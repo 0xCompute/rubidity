@@ -50,7 +50,7 @@ to align rubidity more with ruby itself - lets use "plain" methods
 and add an (optional) type sig(nature) annotation resulting in:
 
 ``` ruby
-sig [Address, Uint] 
+sig [Address, UInt] 
 def airdrop( to:, amount: ) 
   # ...
 end
