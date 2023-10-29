@@ -39,6 +39,7 @@ def spec_to_type( spec )
   when :uint256 then Types::UInt
   when :address then Types::Address
   when :string  then Types::String
+  when :bool    then Bool   ## note: Bool is always "global" - why? why not?
   when :mapping then mapping( spec_to_type( spec[:key_type] ), 
                               spec_to_type( spec[:value_type] ) )
   else
@@ -46,14 +47,6 @@ def spec_to_type( spec )
   end
 end
 
-###
-#  hack: allow function body (block) lookup in contract
-#   
-class Contract  
-  def self.functions
-    @functions ||= {}
-  end
-end   # class Contract      
 
 
 
@@ -129,46 +122,51 @@ source.contracts.each do |contract|
     contract.functions.each do |function_name, function_args|
         print "function #{function_name}"
         pp function_args
-        
+
+        input_types = function_args[:args].values.map { |type| spec_to_type(type) } 
+      
+        kwargs  = function_args[:args].keys.map {|arg| "#{arg}:" }.join( ', ' )
+        puts "  kwargs: #{kwargs}"
+        body    = function_args[:body]
+      
         if function_name == :constructor 
           puts "==> add constructor..."
-          input_types = function_args[:args].values.map { |type| spec_to_type(type) } 
           contract_class.sig input_types
           ## add unsafe method
           
-          kwargs  = function_args[:args].keys.map {|arg| "#{arg}:" }.join( ', ' )
-          args    = function_args[:args].keys.join( ', ' )
-          puts "  kwargs: #{kwargs}"
-          puts "  args: #{args}"
-          contract_class.functions[function_name] = function_args[:body]
-
           code =<<RUBY
             def constructor( #{kwargs} ) 
                puts "==> calling #{contract_class.name}.constructor..."
                puts "  self: \#{self.class.name}"
-               instance_exec( *[#{args}], &#{contract_class.name}.functions[:#{function_name}] )
+               #{body}
             end
 RUBY
           puts "  code:"
           puts code
           contract_class.class_eval( code )
-
-          # contract_class.define_method( function_name ) do |**kwargs|
-          #   ## todo/fix: assume kwargs order SAME as args -fix-fix-fix-
-          #    instance_exec( *kwargs.values, &body )
-          # end
         else
-   
+           ## fix-fix-fix:  single type for now or nil
+           returns = function_args[:returns]
+           output_type = returns ? spec_to_type( returns ) : nil
+ 
+           puts "==> add #{function_name}..."
+           contract_class.sig input_types, returns: output_type
+           ## add unsafe method
+
+           code =<<RUBY
+           def #{function_name}( #{kwargs} ) 
+              puts "==> calling #{contract_class.name}.#{function_name}..."
+              puts "  self: \#{self.class.name}"
+              #{body}
+           end
+RUBY
+         puts "  code:"
+         puts code
+         contract_class.class_eval( code )
         end
     end
 end
 
-
-##
-# handle methods with **kwargs (only) e.g.
-#   [[:keyrest, :kwargs]]
-#  keys:
-#    [:kwargs]
 
 
 
@@ -233,16 +231,67 @@ contract.constructor( name: 'My Fun Token',
                       perMintLimit: 10000,
                       decimals: 18 )
 pp contract
+pp contract.serialize
 
 
-######
-# try print (ruby) source of code blocks
-PublicMintERC20.functions.each do |name, block|
-  puts "==> (function) code block - #{name}:"
-  pp block
-  puts "  #{block.class.name}"  ## Proc
-  puts block.source
-end
+
+### test drive
+
+alice   = '0x'+'a'*40 # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+bob     = '0x'+'b'*40 # e.g. '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+charlie = '0x'+'c'*40 # e.g. '0xcccccccccccccccccccccccccccccccccccccccc'
+
+pp alice
+pp bob
+pp charlie
+
+
+## 
+#   function :mint, { amount: :uint256 }, :public  
+Runtime.msg.sender = alice
+
+contract.mint( 1000 )   
+contract.mint( 100 )   
+
+pp contract.serialize
+
+
+
+Runtime.msg.sender = bob
+
+contract.mint( 500 )   
+contract.mint( 10 )   
+# contract.mint( 2000 )   
+
+pp contract.serialize
+
+
+pp contract.totalSupply
+pp contract.balanceOf( alice )
+pp contract.balanceOf( bob )
+pp contract.serialize
+
+
+##
+# function :transfer, { to: :addressOrDumbContract, amount: :uint256 }, :public
+Runtime.msg.sender = alice
+
+contract.transfer( to: bob, amount: 111 )
+contract.transfer( to: charlie, amount: 11 )
+
+
+Runtime.msg.sender = bob
+
+contract.transfer( to: alice, amount: 11 )
+contract.transfer( to: charlie, amount: 111 )
+
+
+
+pp contract.totalSupply
+pp contract.balanceOf( alice )
+pp contract.balanceOf( bob )
+pp contract.balanceOf( charlie )
+pp contract.serialize
 
 
 

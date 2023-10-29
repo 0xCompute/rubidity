@@ -12,19 +12,20 @@ contract :PublicMintERC20, is: :ERC20 do
     maxSupply: :uint256,
     perMintLimit: :uint256,
     decimals: :uint8
-  ) do |name, symbol, maxSupply, perMintLimit, decimals|
+  ) do 
     ## note: super not working e.g.
     ## -  TypeError - self has wrong type to call super in this context:
     ##                    PublicMintERC20 (expected #<Class:Builder>) 
     ## super( name: name, symbol: symbol, decimals: decimals )
     ## was: ERC20.constructor
-    __ERC20__constructor( name: name, symbol: symbol, decimals: decimals )
-    @maxSupply = maxSupply
-    @perMintLimit = perMintLimit
+    ## __ERC20__constructor( name: name, symbol: symbol, decimals: decimals )
+    super( name: name, symbol: symbol, decimals: decimals )
+    s.maxSupply = maxSupply
+    s.perMintLimit = perMintLimit
   end
   
   
-  function :mint, { amount: :uint256 }, :public do |amount|
+  function :mint, { amount: :uint256 }, :public do
     require(amount > 0, 'Amount must be positive')
     require(amount <= s.perMintLimit, 'Exceeded mint limit')
     
@@ -33,7 +34,7 @@ contract :PublicMintERC20, is: :ERC20 do
     _mint(to: msg.sender, amount: amount)
   end
   
-  function :airdrop, { to: :address, amount: :uint256 }, :public do |to, amount|
+  function :airdrop, { to: :address, amount: :uint256 }, :public do
     require(amount > 0, 'Amount must be positive')
     require(amount <= s.perMintLimit, 'Exceeded mint limit')
     

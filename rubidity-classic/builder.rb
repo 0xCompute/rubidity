@@ -75,10 +75,14 @@ class ContractDef
       puts
       puts  body.source 
 
+      source = patch( body.source )  ## use ruby-ish conventions
+      puts
+      puts source
+
       @functions[ name ] = { args: args,
                             options: options,
                             returns: returns,
-                            body: body }
+                            body: source }
    end
   
    def constructor(args = {}, *options, &body)
@@ -86,6 +90,27 @@ class ContractDef
    end
 end  # class ContractDef
 
+
+##
+## require(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
+##    
+## s.balanceOf[msg.sender] -= amount
+## s.balanceOf[to] += amount
+## 
+## emit :Transfer, from: msg.sender, to: to, amount: amount
+
+
+def patch( src )
+   ## change require() to assert
+   src = src.gsub( /\brequire\b/, 'assert' )
+
+   ## s. to ivars (@)
+   src = src.gsub( /\bs\./, '@' )
+
+   ## change emit :  to log
+   src = src.gsub( /\bemit[ ]+:/, 'log ' )
+   src
+end
 
 
 
@@ -122,7 +147,7 @@ class Proc
      ##  and end on its own line (with max indent of two spaces!!)
      m = BLOCK_RX.match( pastie )
      if m
-        m[0]  ## return matched code
+        m[0][2..-1][0..-4]  ## return matched code - cut of do/end wrapper
      else
         raise  "sorry; no do-end match for code block source"
      end 

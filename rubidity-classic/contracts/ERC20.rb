@@ -14,11 +14,11 @@ contract :ERC20, abstract: true do
   mapping ({ address: mapping(address: :uint256) }), :public, :allowance
   
   
-  constructor(name: :string, symbol: :string, decimals: :uint8) do |name, symbol, decimals|
+  constructor(name: :string, symbol: :string, decimals: :uint8) do 
     puts "ERC20.constructor"
-    @name = name
-    @symbol = symbol
-    @decimals = decimals
+    s.name = name
+    s.symbol = symbol
+    s.decimals = decimals
   end
 
 
