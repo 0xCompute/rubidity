@@ -235,4 +235,15 @@ contract.constructor( name: 'My Fun Token',
 pp contract
 
 
+######
+# try print (ruby) source of code blocks
+PublicMintERC20.functions.each do |name, block|
+  puts "==> (function) code block - #{name}:"
+  pp block
+  puts "  #{block.class.name}"  ## Proc
+  puts block.source
+end
+
+
+
 puts "bye"
