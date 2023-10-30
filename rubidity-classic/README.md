@@ -1,11 +1,11 @@
 # Rubidity Classic / O.G. Builder
 
 
-a new experiment trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 
+rubidity-classic gem - trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 
 
 
-* home  :: [github.com/s6ruby/rubidity-classic](https://github.com/s6ruby/rubidity-classic)
-* bugs  :: [github.com/s6ruby/rubidity-classic/issues](https://github.com/s6ruby/rubidity-classic/issues)
+* home  :: [github.com/s6ruby/rubidity](https://github.com/s6ruby/rubidity)
+* bugs  :: [github.com/s6ruby/rubidity/issues](https://github.com/s6ruby/rubidity/issues)
 * gem   :: [rubygems.org/gems/rubidity-classic](https://rubygems.org/gems/rubidity-classic)
 * rdoc  :: [rubydoc.info/gems/rubidity-classic](http://rubydoc.info/gems/rubidity-classic)
 
