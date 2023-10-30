@@ -1,7 +1,7 @@
 # Rubidity Classic / O.G. Contract Builder
 
 
-rubidity-classic gem - trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 
+rubidity-classic gem - rubidity classic / o.g. contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 
 
 
 * home  :: [github.com/s6ruby/rubidity](https://github.com/s6ruby/rubidity)
@@ -23,7 +23,7 @@ See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" I
 
 ## Usage
 
-let's try the PublicMintERC20 contract.
+Let's try the PublicMintERC20 contract.
 
 
 [ERC20](contracts/ERC20.rb) - base contract in rubidity classic / o.g. style
@@ -153,8 +153,8 @@ end
 
 
 
-and now let's square the circle and try the impossible.
-let's run the PublicMintERC20 contract.
+Now let's square the circle and try the impossible.
+Let's run the PublicMintERC20 contract.
 
 
 ``` ruby
