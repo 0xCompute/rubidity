@@ -1,4 +1,9 @@
-require_relative 'builder'
+################
+#  to run use:
+#    $ ruby sandbox/test_builder.rb
+
+$LOAD_PATH.unshift( './lib' )
+require 'rubidity/classic'
 
 
 source = Builder.load_file( 'PublicMintERC20' ).source

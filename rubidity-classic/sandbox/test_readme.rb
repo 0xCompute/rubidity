@@ -1,21 +1,17 @@
-require_relative 'builder'
+################
+#  to run use:
+#    $ ruby sandbox/test_readme.rb
 
 
-source = Builder.load_file( 'PublicMintERC20' ).source
-pp source
-pp source.contracts
+$LOAD_PATH.unshift( './lib' )
+require 'rubidity/classic'
 
-puts "  #{source.contracts.size} contract(s):"
-source.contracts.each do |contract|
-    print "   #{contract.name}"
-    print " is #{contract.is.inspect}"   unless contract.is.empty?
-    print "\n"
-end
 
 
 ####################
-### generate contract classes
-source.generate
+# load (parse) and generate contract classes
+
+Contract.load( 'PublicMintERC20' )
 
 
 
@@ -48,31 +44,9 @@ contract.constructor( name: 'My Fun Token',
 
 pp contract
 
-contract.__ERC20__constructor( name: 'My Fun Token',
-                               symbol: 'FUN',
-                               decimals: 18 )
-pp contract
-
-
 
 contract = PublicMintERC20.new
 pp contract
-## pp PublicMintERC20.instance_methods( :false )
-
-
-contract.__ERC20__constructor( name: 'My Fun Token',
-                               symbol: 'FUN',
-                               decimals: 18 )
-pp contract
-
-
-
-## try call constructor
-##  [debug] add sig args: [Types::String, Types::String, Types::UInt, Types::UInt, Types::UInt], opti
-
-puts
-puts "==========="
-
 contract.constructor( name: 'My Fun Token',
                       symbol: 'FUN',
                       maxSupply: 21000000,
@@ -80,8 +54,6 @@ contract.constructor( name: 'My Fun Token',
                       decimals: 18 )
 pp contract
 pp contract.serialize
-
-
 
 ### test drive
 
@@ -140,7 +112,17 @@ pp contract.balanceOf( alice )
 pp contract.balanceOf( bob )
 pp contract.balanceOf( charlie )
 pp contract.serialize
-
+#=> {:name=>"My Fun Token",
+#    :symbol=>"FUN",
+#    :decimals=>18,
+#    :totalSupply=>1610,
+#    :balanceOf=>
+#     {"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"=>989,
+#      "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"=>499,
+#      "0xcccccccccccccccccccccccccccccccccccccccc"=>122},
+#    :allowance=>{},
+#    :maxSupply=>21000000,
+#    :perMintLimit=>10000}
 
 
 puts "bye"
