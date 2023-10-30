@@ -1,4 +1,4 @@
-# Rubidity Classic / O.G. Builder
+# Rubidity Classic / O.G. Contract Builder
 
 
 rubidity-classic gem - trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 
@@ -8,6 +8,15 @@ rubidity-classic gem - trying the impossible and square the circle, that is, a r
 * bugs  :: [github.com/s6ruby/rubidity/issues](https://github.com/s6ruby/rubidity/issues)
 * gem   :: [rubygems.org/gems/rubidity-classic](https://rubygems.org/gems/rubidity-classic)
 * rdoc  :: [rubydoc.info/gems/rubidity-classic](http://rubydoc.info/gems/rubidity-classic)
+
+
+
+## What's Solidity?! What's Rubidity?!
+
+See [**Solidity - Contract Application Binary Interface (ABI) Specification** »](https://docs.soliditylang.org/en/latest/abi-spec.html)
+
+See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" Indexer**  »](https://github.com/s6ruby/rubidity)
+
 
 
 

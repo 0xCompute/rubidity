@@ -6,7 +6,7 @@ Hoe.spec 'rubidity-classic' do
 
   self.version =  Rubidity::Module::Classic::VERSION
 
-  self.summary = 'rubidity-classic - trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes'
+  self.summary = 'rubidity-classic gem - rubidity classic / o.g. contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes'
   self.description = summary
 
   self.urls    = { home: 'https://github.com/s6ruby/rubidity' }
