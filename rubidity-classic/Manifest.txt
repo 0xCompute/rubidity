@@ -1,0 +1,9 @@
+CHANGELOG.md
+Manifest.txt
+README.md
+Rakefile
+lib/rubidity/classic.rb
+lib/rubidity/classic/builder.rb
+lib/rubidity/classic/codegen.rb
+lib/rubidity/classic/proc.rb
+lib/rubidity/classic/version.rb

@@ -1,9 +1,18 @@
 # Rubidity Classic / O.G. Builder
 
 
-a new experiment trying the impossible and square the circle, that is, a rubidity "classic / o.g. dsl" builder 
-generating rubidity "ruby-ish contract classes". 
+a new experiment trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 
 
+
+* home  :: [github.com/s6ruby/rubidity-classic](https://github.com/s6ruby/rubidity-classic)
+* bugs  :: [github.com/s6ruby/rubidity-classic/issues](https://github.com/s6ruby/rubidity-classic/issues)
+* gem   :: [rubygems.org/gems/rubidity-classic](https://rubygems.org/gems/rubidity-classic)
+* rdoc  :: [rubydoc.info/gems/rubidity-classic](http://rubydoc.info/gems/rubidity-classic)
+
+
+
+
+## Usage
 
 let's try the PublicMintERC20 contract.
 
@@ -138,44 +147,28 @@ end
 and now let's square the circle and try the impossible.
 let's run the PublicMintERC20 contract.
 
+
 ``` ruby
-require_relative 'builder'
+require 'rubidity/classic'
 
-source = Builder.load_file( 'PublicMintERC20' ).source
-pp source
-pp source.contracts
-
-puts "  #{source.contracts.size} contract(s):"
-source.contracts.each do |contract|
-    print "   #{contract.name}"
-    print " is #{contract.is.inspect}"   unless contract.is.empty?
-    print "\n"
-end
-
-####################
-#  generate contract classes
-source.generate
+# load (parse) and generate contract classes
+Contract.load( 'PublicMintERC20' )
 
 
-#############
-#  try out contract classes
-
+# try out contract classes
 pp ERC20
 pp PublicMintERC20
 
 pp ERC20.name
 pp PublicMintERC20.name
 
-
-pp ERC20::Transfer   ## {:from=>:address,  :to=>:address,      :amount=>:uint256}
-pp ERC20::Approval   ## {:owner=>:address, :spender=>:address, :amount=>:uint256}
+pp ERC20::Transfer   # "scoped" (typed) Event class
+pp ERC20::Approval   # "scoped" (typed) Event class
 pp ERC20::Transfer.name 
 pp ERC20::Approval.name
 
 pp ERC20::Transfer.new( from: address(0), to: address(0), amount: 0)
 pp ERC20::Approval.new( owner: address(0), spender: address(0), amount: 0)
-
-
 
 
 contract = ERC20.new
@@ -186,31 +179,9 @@ contract.constructor( name: 'My Fun Token',
 
 pp contract
 
-contract.__ERC20__constructor( name: 'My Fun Token',
-                               symbol: 'FUN',
-                               decimals: 18 )
-pp contract
-
-
 
 contract = PublicMintERC20.new
 pp contract
-## pp PublicMintERC20.instance_methods( :false )
-
-
-contract.__ERC20__constructor( name: 'My Fun Token',
-                               symbol: 'FUN',
-                               decimals: 18 )
-pp contract
-
-
-
-## try call constructor
-##  [debug] add sig args: [Types::String, Types::String, Types::UInt, Types::UInt, Types::UInt], opti
-
-puts
-puts "==========="
-
 contract.constructor( name: 'My Fun Token',
                       symbol: 'FUN',
                       maxSupply: 21000000,
@@ -220,8 +191,7 @@ pp contract
 pp contract.serialize
 
 
-
-### test drive
+# test drive with alice, bob & charlie address
 
 alice   = '0x'+'a'*40 # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
 bob     = '0x'+'b'*40 # e.g. '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
@@ -232,8 +202,7 @@ pp bob
 pp charlie
 
 
-## 
-#   function :mint, { amount: :uint256 }, :public  
+# try mint  
 Runtime.msg.sender = alice
 
 contract.mint( 1000 )   
@@ -247,7 +216,6 @@ Runtime.msg.sender = bob
 
 contract.mint( 500 )   
 contract.mint( 10 )   
-# contract.mint( 2000 )   
 
 pp contract.serialize
 
@@ -258,8 +226,8 @@ pp contract.balanceOf( bob )
 pp contract.serialize
 
 
-##
-# function :transfer, { to: :address, amount: :uint256 }, :public
+
+# try transfer
 Runtime.msg.sender = alice
 
 contract.transfer( to: bob, amount: 111 )
@@ -277,16 +245,24 @@ pp contract.totalSupply
 pp contract.balanceOf( alice )
 pp contract.balanceOf( bob )
 pp contract.balanceOf( charlie )
+
 pp contract.serialize
+#=> {:name=>"My Fun Token",
+#    :symbol=>"FUN",
+#    :decimals=>18,
+#    :totalSupply=>1610,
+#    :balanceOf=>
+#     {"0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"=>989,
+#      "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"=>499,
+#      "0xcccccccccccccccccccccccccccccccccccccccc"=>122},
+#    :allowance=>{},
+#    :maxSupply=>21000000,
+#    :perMintLimit=>10000}
 
-
-# and so on
+# and so on.
 ```
 
 that's it.
-
-
-
 
 
 
