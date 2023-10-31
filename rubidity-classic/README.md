@@ -21,7 +21,29 @@ See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" I
 
 
 
+
 ## Usage
+
+### Contract Sample №1 - HelloWorld 
+
+Let's try the HelloWorld contract.
+
+[ERC20](contracts/ERC20.rb) - base contract in rubidity classic / o.g. style
+
+``` ruby
+pragma :rubidity, "1.0.0"
+
+contract :HelloWorld do
+  function :printHelloWorld, {}, :public, :view, returns: :string do
+    return "Hello, world!"
+  end
+end
+```
+
+
+
+
+### Contract Sample №2 - PublicMintERC20 
 
 Let's try the PublicMintERC20 contract.
 
