@@ -1,6 +1,6 @@
 pragma :rubidity, "1.0.0"
 
-import './ERC20'
+import 'ERC20'
 
 contract :PublicMintERC20, is: :ERC20 do
   uint256 :public, :maxSupply

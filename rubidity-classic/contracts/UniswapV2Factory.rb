@@ -1,6 +1,6 @@
 pragma :rubidity, "1.0.0"
 
-import './UniswapV2Pair.rubidity'
+import 'UniswapV2Pair'
 
 contract :UniswapV2Factory do
   address :public, :feeTo

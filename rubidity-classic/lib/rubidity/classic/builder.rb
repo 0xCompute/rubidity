@@ -70,7 +70,8 @@ end  # class Source
 
 class ContractDef
    attr_reader :name, :is, :abstract, 
-               :events, :storage, :functions
+               :events, :structs,
+               :storage, :functions
    def initialize( name, is: [], abstract: false )
       @name      = name
       @is        = if is.is_a?( Symbol ) 
@@ -82,6 +83,7 @@ class ContractDef
                    end
       @abstract  = abstract
       @events    = {}
+      @structs   = {}
       @storage   = {}
       @functions = {}
    end 
@@ -91,7 +93,12 @@ class ContractDef
       @events[name] = args
    end
 
-   [:string, :uint8, :uint256,].each do |type|
+   def struct( name, args )
+      @structs[name] = args
+   end
+
+
+   [:string, :uint8, :uint32, :uint256,].each do |type|
      define_method(type) do |*args|
         type = type
         name = args.pop.to_sym

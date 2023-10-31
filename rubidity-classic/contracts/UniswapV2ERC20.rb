@@ -1,6 +1,6 @@
 pragma :rubidity, "1.0.0"
 
-import './ERC20.rubidity'
+import 'ERC20'
 
 contract :UniswapV2ERC20, is: :ERC20, abstract: true do
   constructor() {

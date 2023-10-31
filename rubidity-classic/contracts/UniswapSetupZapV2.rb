@@ -1,9 +1,10 @@
 pragma :rubidity, "1.0.0"
 
-import './UniswapV2Factory.rubidity'
-import './UnsafeNoApprovalERC20.rubidity'
-import './UniswapV2Router.rubidity'
-import './PublicMintERC20.rubidity'
+import 'UniswapV2Factory'
+import 'UnsafeNoApprovalERC20'
+import 'UniswapV2Router'
+import 'PublicMintERC20'
+
 
 contract :UniswapSetupZapV2 do
   array :address, :public, :factories

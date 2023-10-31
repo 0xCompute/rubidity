@@ -1,6 +1,6 @@
 pragma :rubidity, "1.0.0"
 
-import './ERC721'
+import 'ERC721'
 
 contract :GenerativeERC721, is: :ERC721 do
   string :public, :generativeScript

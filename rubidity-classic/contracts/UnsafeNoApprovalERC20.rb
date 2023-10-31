@@ -1,6 +1,6 @@
 pragma :rubidity, "1.0.0"
 
-import './ERC20.rubidity'
+import 'ERC20'
 
 contract :UnsafeNoApprovalERC20, is: :ERC20 do
   constructor(

@@ -35,15 +35,17 @@ end
 def spec_to_type( spec )
   type = spec.is_a?( Symbol ) ? spec : spec[:type] 
   case type  
-  when :uint8   then Types::UInt
-  when :uint256 then Types::UInt
-  when :address then Types::Address
-  when :string  then Types::String
-  when :bool    then Bool   ## note: Bool is always "global" - why? why not?
-  when :mapping then mapping( spec_to_type( spec[:key_type] ), 
-                              spec_to_type( spec[:value_type] ) )
+  when :uint8     then Types::UInt
+  when :uint32    then Types::UInt
+  when :uint256   then Types::UInt
+  when :address   then Types::Address
+  when :string    then Types::String
+  when :timestamp then Types::Timestamp
+  when :bool      then Bool   ## note: Bool is always "global" - why? why not?
+  when :mapping   then mapping( spec_to_type( spec[:key_type] ), 
+                                spec_to_type( spec[:value_type] ) )
   else
-    raise ArgumentError, "unknown type - #{spec[:type]}" 
+    raise ArgumentError, "unknown type - #{type}" 
   end
 end
 
@@ -87,6 +89,17 @@ source.contracts.each do |contract|
         pp attributes
         contract_class.event( event_name, **attributes ) 
     end
+
+    ## add structs if any
+    contract.structs.each do |struct_name, struct_args|
+        print "struct #{struct_name}"
+        pp struct_args
+
+        attributes = struct_args.map { |name, type| [name, spec_to_type(type)] }.to_h 
+        pp attributes
+        contract_class.struct( struct_name, **attributes ) 
+    end
+
 
     ## add storage/state if any
     ##

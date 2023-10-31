@@ -1,6 +1,6 @@
 pragma :rubidity, "1.0.0"
 
-import './ERC20'
+import 'ERC20'
 
 contract :EtherBridge, is: :ERC20 do
   event :InitiateWithdrawal, { from: :address, amount: :uint256, withdrawalId: :bytes32 }
