@@ -32,8 +32,17 @@ end
     ##                   :key_type=>:address,
     ##   :value_type=>{:type=>:mapping, :key_type=>:address, :value_type=>:uint256, :args=>[]},
  
-def spec_to_type( spec )
+def spec_to_type( spec, structs: {} )
   type = spec.is_a?( Symbol ) ? spec : spec[:type] 
+
+  ## check structs first
+  struct_class = structs[ type ]
+  if struct_class
+    puts "  found struct class >#{type}<:"
+    pp struct_class
+    return struct_class
+  end
+
   case type  
   when :uint8     then Types::UInt
   when :uint32    then Types::UInt
@@ -42,8 +51,9 @@ def spec_to_type( spec )
   when :string    then Types::String
   when :timestamp then Types::Timestamp
   when :bool      then Bool   ## note: Bool is always "global" - why? why not?
-  when :mapping   then mapping( spec_to_type( spec[:key_type] ), 
-                                spec_to_type( spec[:value_type] ) )
+  when :mapping   then mapping( spec_to_type( spec[:key_type], structs: structs ), 
+                                spec_to_type( spec[:value_type], structs: structs ) )                                
+  when :array     then array( spec_to_type( spec[:sub_type], structs: structs ))
   else
     raise ArgumentError, "unknown type - #{type}" 
   end
@@ -60,6 +70,7 @@ def self.generate( source )
     pp source
 
     contract_classes = {}  ## lookup by name
+    struct_classes = {}   ## lookup by name
 
 source.contracts.each do |contract|
     puts "==> generate contract #{contract.name}..."
@@ -97,7 +108,9 @@ source.contracts.each do |contract|
 
         attributes = struct_args.map { |name, type| [name, spec_to_type(type)] }.to_h 
         pp attributes
-        contract_class.struct( struct_name, **attributes ) 
+        struct_class = contract_class.struct( struct_name, **attributes ) 
+
+        struct_classes[ struct_name ] = struct_class
     end
 
 
@@ -117,7 +130,7 @@ source.contracts.each do |contract|
         pp storage_args
  
         kwargs = {
-            storage_name => spec_to_type( storage_args )
+            storage_name => spec_to_type( storage_args, structs: struct_classes )
         }
         contract_class.storage( **kwargs ) 
     end

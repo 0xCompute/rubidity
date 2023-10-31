@@ -25,15 +25,14 @@ contract :SupplyChain do
   uint32 :public, :u_id    # (last) participant id
   uint32 :public, :r_id    # (last) registration id
 
+  mapping ({ uint32: :Product }),      :public, :products
+  mapping ({ uint32: :Participant }),  :public, :participants
+  mapping ({ uint32: :Registration }), :public, :registrations
+
+  # movement track for a product
+  mapping ({ uint32: array( :uint32 ) }), :public, :productTrack  
 
 =begin  
-          products:      mapping( UInt, Product ),
-          participants:  mapping( UInt, Participant ),
-          registrations: mapping( UInt, Registration ),
-          productTrack:  mapping( UInt, array( UInt ))  # movement track for a product 
-
-
-
    sig :createParticipant, [String, String, Address, String], returns: UInt
    def createParticipant( name:,
                           pass:,

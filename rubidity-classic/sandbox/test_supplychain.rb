@@ -72,5 +72,11 @@ pp contract.u_id
 pp contract.r_id
 
 pp contract.serialize
+#=>
+# {:p_id=>0, :u_id=>0, :r_id=>0,
+#  :products=>{}, 
+#  :participants=>{}, 
+#  :registrations=>{}, 
+#  :productTrack=>{}}
 
 puts "bye"

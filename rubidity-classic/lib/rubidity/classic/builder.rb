@@ -122,6 +122,21 @@ class ContractDef
              args: args }
         end
    end
+
+   def array( *args )
+      sub_type = args.shift
+        
+      if args.last.is_a?( Symbol )
+        name = args.pop
+        @storage[ name ] = { type: :array,  
+                             sub_type: sub_type,
+                             args: args } 
+      else
+         { type: :array, 
+           sub_type: sub_type,
+           args: args }
+      end
+   end
    
 
    def function(name, args, *options, returns: nil, &body )
