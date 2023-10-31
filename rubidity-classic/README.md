@@ -28,16 +28,38 @@ See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" I
 
 Let's try the HelloWorld contract.
 
-[ERC20](contracts/ERC20.rb) - base contract in rubidity classic / o.g. style
+[HelloWorld](contracts/HelloWorld.rb) - main contract in rubidity classic / o.g. style
 
 ``` ruby
 pragma :rubidity, "1.0.0"
 
 contract :HelloWorld do
-  function :printHelloWorld, {}, :public, :view, returns: :string do
+  function :getHelloWorld, {}, :public, :pure, returns: :string do
     return "Hello, world!"
   end
 end
+```
+
+Now let's square the circle and try the impossible.
+Let's run the HelloWorld contract.
+
+
+``` ruby
+require 'rubidity/classic'
+
+# load (parse) and generate contract classes
+Contract.load( 'HelloWorld' )
+
+
+#  try out contract classes
+pp HelloWorld
+pp HelloWorld.name
+
+contract = HelloWorld.new
+pp contract
+
+pp contract.printHelloWorld
+#=> "Hello, world!"
 ```
 
 
