@@ -26,7 +26,7 @@ pp HelloWorld.name
 contract = HelloWorld.new
 pp contract
 
-pp contract.printHelloWorld
+pp contract.getHelloWorld
 #=> "Hello, world!"
 
 
