@@ -3,6 +3,8 @@
 #    $ ruby sandbox/test_supplychain.rb
 
 
+$LOAD_PATH.unshift( '../solidity-typed/lib' )
+$LOAD_PATH.unshift( '../rubidity/lib' )
 $LOAD_PATH.unshift( './lib' )
 require 'rubidity/classic'
 
@@ -78,5 +80,70 @@ pp contract.serialize
 #  :participants=>{}, 
 #  :registrations=>{}, 
 #  :productTrack=>{}}
+
+
+
+pp contract.createParticipant( name: 'alice', 
+                               pass: 'passa', 
+                               addr: alice, 
+                               type: 'manufacturer' )
+
+pp contract.createParticipant( name: 'bob', 
+                               pass: 'passb', 
+                               addr: bob, 
+                               type: 'supplier' )
+
+pp contract.createParticipant( name: 'charlie', 
+                               pass: 'passc', 
+                               addr: charlie, 
+                               type: 'consumer' )
+
+pp contract.serialize
+
+
+pp contract.getParticipantDetails( 1 )
+pp contract.getParticipantDetails( 2 )
+pp contract.getParticipantDetails( 3 )
+
+
+
+## set block.timestamp
+Runtime.block.timestamp = 1698846375
+
+
+pp contract.createProduct( ownerId: 1,
+                             modelNumber: 'prod1',
+                             partNumber: '100',
+                             serialNumber: '123',
+                             productCost: 11 )
+
+pp contract.serialize
+
+pp contract.getProductDetails( 1 )
+
+
+Runtime.msg.sender = alice
+Runtime.block.timestamp = 1698847541
+
+pp contract.transferToOwner( user1Id: 1,
+                             user2Id: 2, 
+                             prodId: 1 )
+
+Runtime.msg.sender = bob
+Runtime.block.timestamp = 1698848314
+
+pp contract.transferToOwner( user1Id: 2,
+                             user2Id: 3, 
+                             prodId: 1 )
+
+
+pp contract.serialize
+
+
+pp contract.getRegistrationDetails( 1 )
+pp contract.getRegistrationDetails( 2 )
+
+pp contract.getProductTrack( 1 )
+
 
 puts "bye"

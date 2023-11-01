@@ -24,6 +24,11 @@ See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" I
 
 ## Usage
 
+[Contract Sample №1 - HelloWorld](#contract-sample-1---helloworld) •
+[Contract Sample №2 - PublicMintERC20](#contract-sample-2---publicminterc20) •
+[Contract Sample №3 - SupplyChain](#contract-sample-3---supplychain)
+
+
 ### Contract Sample №1 - HelloWorld 
 
 Let's try the HelloWorld contract.
@@ -316,6 +321,271 @@ pp contract.serialize
 ```
 
 that's it.
+
+
+
+### Contract Sample №3 - SupplyChain 
+
+Let's try the SupplyChain contract.
+
+[SupplyChain](contracts/SupplyChain.rb) - main contract in rubidity classic / o.g. style
+
+
+``` ruby
+pragma :rubidity, "1.0.0"
+
+contract :SupplyChain do
+
+  event :Transfer, { productId: :uint32 }
+
+  struct :Product, { modelNumber:  :string,
+                     partNumber:   :string,
+                     serialNumber: :string,
+                     productOwner: :address,
+                     cost:         :uint32,
+                     mfgTimestamp: :timestamp }
+
+  struct :Participant, { userName: :string,
+                         password: :string,
+                         participantType: :string,
+                         participantAddress: :address }
+
+  struct :Registration, { productId:    :uint32,  
+                          ownerId:      :uint32, 
+                          productOwner: :address,
+                          trxTimestamp: :timestamp }                    
+ 
+  uint32 :public, :p_id    # (last) product id 
+  uint32 :public, :u_id    # (last) participant id
+  uint32 :public, :r_id    # (last) registration id
+
+  mapping ({ uint32: :Product }),      :public, :products
+  mapping ({ uint32: :Participant }),  :public, :participants
+  mapping ({ uint32: :Registration }), :public, :registrations
+
+  # movement track for a product
+  mapping ({ uint32: array( :uint32 ) }), :public, :productTrack  
+
+
+  function :createParticipant, { name: :string, 
+                                 pass: :string, 
+                                 addr: :address, 
+                                 type: :string }, :public, returns: :uint32 do
+      userId = s.u_id += 1
+      s.participants[ userId ].userName = name
+      s.participants[ userId ].password = pass
+      s.participants[ userId ].participantAddress = addr
+      s.participants[ userId ].participantType = type
+      return userId
+  end
+
+  function :getParticipantDetails, { id: :uint32 }, :public, :view, returns: [:string,:address,:string] do
+    return [s.participants[ id ].userName,
+            s.participants[ id ].participantAddress,
+            s.participants[ id ].participantType]
+  end
+
+  function :createProduct, { ownerId: :uint32,
+                             modelNumber: :string,
+                             partNumber: :string,
+                             serialNumber: :string,
+                             productCost: :uint32 }, :public, returns: :uint32 do     
+      require( s.participants[ ownerId ].participantType == "manufacturer",  "must be manufacturer" ) 
+      
+      productId = s.p_id += 1
+      s.products[ productId ].modelNumber  = modelNumber
+      s.products[ productId ].partNumber   = partNumber
+      s.products[ productId ].serialNumber = serialNumber
+      s.products[ productId ].cost         = productCost
+      s.products[ productId ].productOwner = s.participants[ownerId].participantAddress
+      s.products[ productId ].mfgTimestamp = block.timestamp
+      return productId
+  end
+
+  function :getProductDetails, { id: :uint32 }, :public, :view, returns: [:string,:string,:string,:uint32,:address,:timestamp] do
+      return [s.products[ id ].modelNumber,
+              s.products[ id ].partNumber,
+              s.products[ id ].serialNumber,
+              s.products[ id ].cost,
+              s.products[ id ].productOwner,
+              s.products[ id ].mfgTimestamp]
+  end
+   
+  function :transferToOwner, { user1Id: :uint32,
+                               user2Id: :uint32, 
+                               prodId: :uint32 }, :public, returns: :bool do
+        require( msg.sender == s.products[prodId].productOwner, "only owner" )
+
+        p1 = s.participants[ user1Id ]
+        p2 = s.participants[ user2Id ]
+        registrationId = s.r_id += 1
+        
+        s.registrations[ registrationId ].productId    = prodId
+        s.registrations[ registrationId ].productOwner = p2.participantAddress 
+        s.registrations[ registrationId ].ownerId      = user2Id
+        s.registrations[ registrationId ].trxTimestamp = block.timestamp
+
+        s.products[ prodId ].productOwner = p2.participantAddress
+        s.productTrack[ prodId ].push( registrationId )
+
+        emit :Transfer, prodId
+
+        return true
+  end
+  
+  function :getProductTrack, { prodId: :uint32 }, :public, :view, returns: array(:uint32) do 
+      return s.productTrack[ prodId ]
+  end
+
+  function :getRegistrationDetails, { regId: :uint32 }, :public, :view, returns: [:uint32, :uint32, :address, :timestamp] do
+      r = s.registrations[ regId ]
+
+      return [r.productId,
+              r.ownerId,
+              r.productOwner,
+              r.trxTimestamp]
+  end
+end
+```
+
+Now let's square the circle and try the impossible.
+Let's run the SupplyChain contract.
+
+
+``` ruby
+require 'rubidity/classic'
+
+# load (parse) and generate contract classes
+Contract.load( 'SupplyChain' )
+
+#  try out contract classes
+pp SupplyChain
+pp SupplyChain.name
+
+pp SupplyChain::Transfer
+pp SupplyChain::Transfer.name
+
+pp SupplyChain::Transfer.new( productId: 111 )
+
+pp SupplyChain::Product
+pp SupplyChain::Participant
+pp SupplyChain::Registration
+pp SupplyChain::Product.name
+pp SupplyChain::Participant.name
+pp SupplyChain::Registration.name
+
+
+alice   = '0x'+'a'*40 # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+bob     = '0x'+'b'*40 # e.g. '0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+charlie = '0x'+'c'*40 # e.g. '0xcccccccccccccccccccccccccccccccccccccccc'
+
+pp alice
+pp bob
+pp charlie
+
+pp SupplyChain::Product.new( modelNumber: 'model1',
+                             partNumber:  'part1',
+                             serialNumber: 'serial1',
+                             productOwner: alice,
+                             cost:         1000,
+                             mfgTimestamp: 1698756267 )
+                   
+pp SupplyChain::Participant.new( userName: 'alice',
+                                 password: 'passa',
+                                 participantType: 'manufacturer',
+                                 participantAddress: alice )
+
+pp SupplyChain::Registration.new( productId:  1,  
+                                   ownerId:   1, 
+                                   productOwner: alice,
+                                   trxTimestamp: 1698756267 )                    
+
+
+contract = SupplyChain.new
+pp contract
+
+pp contract.p_id
+pp contract.u_id
+pp contract.r_id
+
+pp contract.serialize
+#=>
+# {:p_id=>0, :u_id=>0, :r_id=>0,
+#  :products=>{}, 
+#  :participants=>{}, 
+#  :registrations=>{}, 
+#  :productTrack=>{}}
+
+
+pp contract.createParticipant( name: 'alice', 
+                               pass: 'passa', 
+                               addr: alice, 
+                               type: 'manufacturer' )
+
+pp contract.createParticipant( name: 'bob', 
+                               pass: 'passb', 
+                               addr: bob, 
+                               type: 'supplier' )
+
+pp contract.createParticipant( name: 'charlie', 
+                               pass: 'passc', 
+                               addr: charlie, 
+                               type: 'consumer' )
+
+pp contract.getParticipantDetails( 1 )
+pp contract.getParticipantDetails( 2 )
+pp contract.getParticipantDetails( 3 )
+
+
+
+Runtime.block.timestamp = 1698846375
+
+pp contract.createProduct( ownerId: 1,
+                             modelNumber: 'prod1',
+                             partNumber: '100',
+                             serialNumber: '123',
+                             productCost: 11 )
+
+pp contract.getProductDetails( 1 )
+
+
+Runtime.msg.sender = alice
+Runtime.block.timestamp = 1698847541
+
+pp contract.transferToOwner( user1Id: 1,
+                             user2Id: 2, 
+                             prodId: 1 )
+
+Runtime.msg.sender = bob
+Runtime.block.timestamp = 1698848314
+
+pp contract.transferToOwner( user1Id: 2,
+                             user2Id: 3, 
+                             prodId: 1 )
+
+
+pp contract.getRegistrationDetails( 1 )
+pp contract.getRegistrationDetails( 2 )
+
+pp contract.getProductTrack( 1 )
+
+pp contract.serialize
+#=> {:p_id=>1,
+#    :u_id=>3,
+#    :r_id=>2,
+#    :products=>{1=>["prod1", "100", "123", "0xcccccccccccccccccccccccccccccccccccccccc", 11, 1698846375]},
+#   :participants=>
+#    {1=>["alice", "passa", "manufacturer", "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
+#     2=>["bob", "passb", "supplier", "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"],
+#     3=>["charlie", "passc", "consumer", "0xcccccccccccccccccccccccccccccccccccccccc"]},
+#   :registrations=>
+#    {1=>[1, 2, "0xbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", 1698847541],
+#     2=>[1, 3, "0xcccccccccccccccccccccccccccccccccccccccc", 1698848314]},
+#   :productTrack=>{1=>[1, 2]}}
+```
+
+that's it.
+
 
 
 

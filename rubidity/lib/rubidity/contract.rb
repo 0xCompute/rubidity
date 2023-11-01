@@ -303,11 +303,21 @@ def self.sig( args=[], *options, returns: nil )
 
   ####  
   #  auto-convert args (inputs), returns (outputs) to type (defs)
-  args = args.map do |value|  
-       typeof( value )
-  end
+  args = args.map { |value| typeof( value ) }
 
-  returns = typeof( returns )   if returns
+  ###
+  ## note: turn returns into an array - empty if nil, etc.
+  ##        always wrap into array
+  returns =  if returns.nil?
+                  []
+             elsif returns.is_a?( ::Array ) 
+                  returns 
+             else  ## assume single type
+                  [returns]  
+             end  
+
+  returns = returns.map { |value| typeof( value ) }
+
 
   @sigs_unnamed ||= [] 
   @sigs_unnamed.push( { inputs:  args,

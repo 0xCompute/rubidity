@@ -98,7 +98,7 @@ class ContractDef
    end
 
 
-   [:string, :uint8, :uint32, :uint256,].each do |type|
+   [:string, :uint8, :uint32, :uint256].each do |type|
      define_method(type) do |*args|
         type = type
         name = args.pop.to_sym
@@ -151,6 +151,17 @@ class ContractDef
       pp body.source_location
       puts
       puts  body.source 
+
+      ###
+      ## note: turn returns into an array - empty if nil, etc.
+      ##        always wrap into array
+      returns =  if returns.nil?
+                    []
+                 elsif returns.is_a?( Array ) 
+                    returns 
+                 else ## assume single type
+                    [returns]  
+                 end  
 
       @functions[ name ] = { args: args,
                             options: options,

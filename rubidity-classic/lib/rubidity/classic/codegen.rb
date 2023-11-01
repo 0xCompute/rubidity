@@ -140,18 +140,17 @@ source.contracts.each do |contract|
     ## constructor:
     ##  {:args=>{:name=>:string, :symbol=>:string, :decimals=>:uint8},
     ##   :options=>[],
-    ##   :returns=>nil,
-    ##   :body=>#<Proc:0x0000023162c23ce8 (eval):17>}
+    ##   :body=>"..."}
     ## function approve:
     ##  {:args=>{:spender=>:address, :amount=>:uint256},
     ##   :options=>[:public, :virtual],
-    ##   :returns=>:bool,
-    ##   :body=>#<Proc:0x0000023162c23a18 (eval):23>}
+    ##   :returns=>[:bool],
+    ##   :body=>"..."}
     ## function transfer:
     ##  {:args=>{:to=>:address, :amount=>:uint256},
     ##   :options=>[:public, :virtual],
-    ##   :returns=>:bool,
-    ##   :body=>#<Proc:0x0000023162c236f8 (eval):31>}
+    ##   :returns=>[:bool],
+    ##   :body=>"..."}
     contract.functions.each do |function_name, function_args|
         print "function #{function_name}"
         pp function_args
@@ -180,12 +179,10 @@ RUBY
           puts code
           contract_class.class_eval( code )
         else
-           ## fix-fix-fix:  single type for now or nil
-           returns = function_args[:returns]
-           output_type = returns ? spec_to_type( returns ) : nil
- 
+           output_types = function_args[:returns].map { |type| spec_to_type(type) } 
+           
            puts "==> add #{function_name}..."
-           contract_class.sig input_types, returns: output_type
+           contract_class.sig input_types, returns: output_types
            ## add unsafe method
 
            code =<<RUBY

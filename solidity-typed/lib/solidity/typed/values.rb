@@ -30,6 +30,20 @@ class String < TypedValue
                           :+
 
   def to_str() @value; end  ## "automagilally" support implicit string conversion - why? why not?
+
+
+  ## allow compare with "plain" string too - why? why not?
+  def ==(other)
+    if other.is_a?(String)   ## typed (frozen) string
+      @value == other.instance_variable_get( :@value )    ## compare value via as_data!!!
+    elsif other.is_a?( ::String ) ## ruby "literal" string
+      @value == other
+    else
+      false
+    end
+  end
+
+
 end   # class String
 
 
