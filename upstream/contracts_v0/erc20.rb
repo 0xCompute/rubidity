@@ -1,6 +1,8 @@
-pragma :rubidity, "1.0.0"
-
-contract :ERC20, abstract: true do
+class Contracts::ERC20 < ContractImplementation
+  pragma :rubidity, "1.0.0"
+  
+  abstract
+  
   event :Transfer, { from: :address, to: :address, amount: :uint256 }
   event :Approval, { owner: :address, spender: :address, amount: :uint256 }
 
@@ -28,7 +30,7 @@ contract :ERC20, abstract: true do
   end
   
   function :transfer, { to: :address, amount: :uint256 }, :public, :virtual, returns: :bool do
-    require(s.balanceOf[msg.sender] >= amount, "Insufficient balance")
+    require(s.balanceOf[msg.sender] >= amount, 'Insufficient balance')
     
     s.balanceOf[msg.sender] -= amount
     s.balanceOf[to] += amount
@@ -45,8 +47,8 @@ contract :ERC20, abstract: true do
   }, :public, :virtual, returns: :bool do
     allowed = s.allowance[from][msg.sender]
     
-    require(s.balanceOf[from] >= amount, "Insufficient balance")
-    require(allowed >= amount, "Insufficient allowance")
+    require(s.balanceOf[from] >= amount, 'Insufficient balance')
+    require(allowed >= amount, 'Insufficient allowance')
     
     s.allowance[from][msg.sender] = allowed - amount
     

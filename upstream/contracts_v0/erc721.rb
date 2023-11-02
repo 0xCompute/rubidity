@@ -1,6 +1,8 @@
-pragma :rubidity, "1.0.0"
+class Contracts::ERC721 < ContractImplementation
+  pragma :rubidity, "1.0.0"
 
-contract :ERC721, abstract: true do
+  abstract
+  
   event :Transfer, { from: :address, to: :address, id: :uint256 }
   event :Approval, { owner: :address, spender: :address, id: :uint256 }
   event :ApprovalForAll, { owner: :address, operator: :address, approved: :bool }
