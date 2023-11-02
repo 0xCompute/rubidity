@@ -44,11 +44,10 @@ def spec_to_type( spec, structs: {} )
   end
 
   case type  
-  when :uint8     then Types::UInt
-  when :uint32    then Types::UInt
-  when :uint256   then Types::UInt
+  when :uint8, :uint32, :uint112, :uint224, :uint256  then Types::UInt
   when :address   then Types::Address
   when :string    then Types::String
+  when :bytes     then Types::Bytes
   when :timestamp then Types::Timestamp
   when :bool      then Bool   ## note: Bool is always "global" - why? why not?
   when :mapping   then mapping( spec_to_type( spec[:key_type], structs: structs ), 

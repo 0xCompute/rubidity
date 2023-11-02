@@ -98,7 +98,10 @@ class ContractDef
    end
 
 
-   [:string, :uint8, :uint32, :uint256].each do |type|
+   [:string, 
+    :uint8, :uint32, :uint112, :uint256,
+    :address
+   ].each do |type|
      define_method(type) do |*args|
         type = type
         name = args.pop.to_sym
@@ -151,6 +154,15 @@ class ContractDef
       pp body.source_location
       puts
       puts  body.source 
+
+
+      ## note: for now strip names/keys if returns is a hash - why? why not?
+      ##   e.g. function :getReserves, {}, :public, :view, returns: {
+      ##             _reserve0: :uint112, 
+      ##             _reserve1: :uint112, 
+      ##             _blockTimestampLast: :uint32 }
+     
+      returns =   returns.values   if returns.is_a?( Hash )
 
       ###
       ## note: turn returns into an array - empty if nil, etc.

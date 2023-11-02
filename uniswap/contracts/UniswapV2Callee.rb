@@ -6,5 +6,6 @@ contract :UniswapV2Callee, abstract: true do
     amount0: :uint256,
     amount1: :uint256,
     data: :bytes
-  }, :virtual, :external
+  }, :virtual, :external do
+  end
 end

@@ -3,9 +3,12 @@ pragma :rubidity, "1.0.0"
 import 'UniswapV2Callee'
 import 'UniswapV2ERC20'
 
+
 contract :IUniswapV2Factory, abstract: true do
-  function :feeTo, :external, :view, returns: :address
+  function :feeTo, {}, :external, :view, returns: :address do
+  end
 end
+
 
 contract :UniswapV2Pair, is: :UniswapV2ERC20 do
   uint256 :public, :MINIMUM_LIQUIDITY
@@ -53,14 +56,15 @@ contract :UniswapV2Pair, is: :UniswapV2ERC20 do
   event :Sync, { reserve0: :uint112, reserve1: :uint112 }
   event :PreSwapReserves, { reserve0: :uint112, reserve1: :uint112 }
   
-  constructor() {
-    UniswapV2ERC20.constructor()
+  constructor() do
+    super
     
     s.factory = msg.sender
     
     s.MINIMUM_LIQUIDITY = 10 ** 3
     s.unlocked = 1
-  }
+  end
+
   
   # Can't call it initialize bc of Ruby (for now)
   function :init, { _token0: :address, _token1: :address }, :external do

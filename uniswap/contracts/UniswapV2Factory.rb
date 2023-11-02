@@ -11,15 +11,15 @@ contract :UniswapV2Factory do
 
   event :PairCreated, { token0: :address, token1: :address, pair: :address, pairLength: :uint256 }
 
-  constructor(_feeToSetter: :address) {
+  constructor(_feeToSetter: :address) do
     s.feeToSetter = _feeToSetter
-  }
+  end
 
-  function :allPairsLength, :public, :view, returns: :uint256 do
+  function :allPairsLength, {}, :public, :view, returns: :uint256 do
     return s.allPairs.length
   end
   
-  function :getAllPairs, :public, :view, returns: [:address] do
+  function :getAllPairs, {}, :public, :view, returns: [:address] do
     return s.allPairs
   end
 
