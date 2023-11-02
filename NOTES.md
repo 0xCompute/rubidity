@@ -150,3 +150,86 @@ I also agree that the importance of this tech goes beyond blockchain application
 
 I definitely agree that we should extract Rubidity into its own gem; it's definitely a mess now.
 ```
+
+
+notes on contract address - create, create2
+
+
+Note: Yes, contracts have nonces. A nonce of a contract is only 
+incremented when that contract creates another contract.
+
+
+## create
+
+The address for an Ethereum contract is deterministically computed 
+- from the address of its creator (sender) and 
+- how many transactions the creator has sent (nonce). 
+The sender and nonce are RLP encoded and then hashed with Keccak-256.
+
+
+see <https://github.com/ethereum/pyethereum/blob/782842758e219e40739531a5e56fff6e63ca567b/ethereum/utils.py>
+
+    def mk_contract_address(sender, nonce):
+      return sha3(rlp.encode([normalize_address(sender), nonce]))[12:]
+
+
+In Solidity:
+
+    nonce0= address(uint160(uint256(keccak256(abi.encodePacked(bytes1(0xd6), bytes1(0x94), _origin, bytes1(0x80))))));
+    nonce1= address(uint160(uint256(keccak256(abi.encodePacked(bytes1(0xd6), bytes1(0x94), _origin, bytes1(0x01))))));
+
+
+For sender 0x6ac7ea33f8831ea9dcc53393aaa88b25a785dbf0, the contract addresses that it will create are the following:
+
+    nonce0= "0xcd234a471b72ba2f1ccf0a70fcaba648a5eecd8d"
+    nonce1= "0x343c43a37d37dff08ae8c4a11544c718abb4fcf8"
+    nonce2= "0xf778b86fa74e846c4f0a1fbd1335fe81c00a0c91"
+    nonce3= "0xfffd933a0bc612844eaf0c6fe3e5b8e9b6c1d19c"
+
+
+## create2
+
+A new opcode, CREATE2 was added in EIP-1014 that is another way that a contract can be created.
+
+For contract created by CREATE2 its address will be:
+
+    keccak256( 0xff ++ address(this) ++ salt ++ keccak256(init_code))[12:]
+
+More information will be added here and for the meantime see EIP-1014.
+<https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1014.md>
+
+
+Example 0
+address 0x0000000000000000000000000000000000000000
+salt 0x0000000000000000000000000000000000000000000000000000000000000000
+init_code 0x00
+gas (assuming no mem expansion): 32006
+result: 0x4D1A2e2bB4F88F0250f26Ffff098B0b30B26BF38
+
+Example 1
+address 0xdeadbeef00000000000000000000000000000000
+salt 0x0000000000000000000000000000000000000000000000000000000000000000
+init_code 0x00
+gas (assuming no mem expansion): 32006
+result: 0xB928f69Bb1D91Cd65274e3c79d8986362984fDA3
+
+Example 2
+address 0xdeadbeef00000000000000000000000000000000
+salt 0x000000000000000000000000feed000000000000000000000000000000000000
+init_code 0x00
+gas (assuming no mem expansion): 32006
+result: 0xD04116cDd17beBE565EB2422F2497E06cC1C9833
+
+Example 3
+address 0x0000000000000000000000000000000000000000
+salt 0x0000000000000000000000000000000000000000000000000000000000000000
+init_code 0xdeadbeef
+gas (assuming no mem expansion): 32006
+result: 0x70f2b2914A2a4b783FaEFb75f459A580616Fcb5e
+
+Example 4
+address 0x00000000000000000000000000000000deadbeef
+salt 0x00000000000000000000000000000000000000000000000000000000cafebabe
+init_code 0xdeadbeef
+gas (assuming no mem expansion): 32006
+result: 0x60f3f640a8508fC6a86d45DF051962668E1e8AC7
