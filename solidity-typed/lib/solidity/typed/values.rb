@@ -64,7 +64,13 @@ class Address < TypedValue
       @value.freeze  ## freeze here - why? why not?
       @value
    end
+
+   def to_uint  ## add helper here - why? why not?
+      num =  @value.to_i(16)
+      UInt.new( num )
+   end
 end  # class Address
+
 
 
 class InscriptionId < TypedValue

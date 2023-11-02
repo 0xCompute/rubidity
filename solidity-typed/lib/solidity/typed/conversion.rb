@@ -16,6 +16,12 @@ def address( literal=0 )
 end  # methdod address 
 
 
+def uint256( obj )
+    return obj.to_uint   if obj.is_a?( Types::Address )
+
+    Types::UInt.new( obj )   ## assume obj is a integer number
+end
+
 =begin
 def uint( obj=0 )
     ## check if typed?

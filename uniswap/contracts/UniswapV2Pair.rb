@@ -61,8 +61,8 @@ contract :UniswapV2Pair, is: :UniswapV2ERC20 do
     
     s.factory = msg.sender
     
-    s.MINIMUM_LIQUIDITY = 10 ** 3
-    s.unlocked = 1
+    s.MINIMUM_LIQUIDITY = uint256( 10 ** 3 )
+    s.unlocked          = uint256( 1 )
   end
 
   
