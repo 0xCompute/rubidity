@@ -3,9 +3,6 @@ pragma :rubidity, "1.0.0"
 import 'UniswapV2Pair'
 
 
-## add for now too
-import 'UnsafeNoApprovalERC20'
-
 contract :UniswapV2Factory do
   address :public, :feeTo
   address :public, :feeToSetter

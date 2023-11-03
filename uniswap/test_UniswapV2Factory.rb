@@ -137,6 +137,20 @@ pp pair_contract.serialize
 pp pair_contract.__address__
 
 
+# function :getReserves, {}, :public, :view, returns: {
+#    _reserve0: :uint112,
+#    _reserve1: :uint112, 
+#    _blockTimestampLast: :uint32
+#  } do
+
+pp pair_contract.getReserves
+# {:_reserve0=><val uint:0>, 
+#  :_reserve1=><val uint:0>, 
+#  :_blockTimestampLast=><val uint:0>}
+
+
+
+
 puts "bye"
 
 ##
