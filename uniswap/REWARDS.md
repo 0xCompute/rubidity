@@ -8,14 +8,14 @@ Middlemarch (a.k.a. Tom Lehman) writes / posts (in a [tweet thread](https://twit
 
 We're testing a new router that charges a fee and pays out rewards to:
 
-- LP Providers
+- Liquidity Providers (LP)
 - Top Swappers
 - Protocol Maintainers
 
 Help us test this exciting feature 
 and make FacetSwap even more "reward"ing!
 
-To earn LP Rewards:
+To earn liquidity provider (LP) Rewards:
 
 - Provide liquidity and get LP tokens.
 
@@ -28,7 +28,8 @@ Start by choosing a pool from the list of pools at https://facetswap.com/pools a
 
 Copy the pool address from the header of the pool page and visit the pool contract on FacetScan:
 
-http://facetscan.com/contracts/`<pool address>`
+`http://facetscan.com/contracts/<pool address>`
+
 
 ![](i/pool.png)
 
@@ -73,8 +74,8 @@ Rewards is a work in progress, but we wanted to release it asap to gather feedba
 
 Give it a try and let us know your thoughts.
 
-For more updates, follow [@dumbnamenumbers a.k.a. Tom Lehman](https://twitter.com/dumbnamenumbers), 
-and [@0xhirsch (a.k.a. Michael Hirsch)](https://twitter.com/0xHirsch)
+For more updates, follow [@dumbnamenumbers](https://twitter.com/dumbnamenumbers) (a.k.a. middlemarch a.k.a. Tom Lehman), 
+and [@0xhirsch](https://twitter.com/0xHirsch) (a.k.a. Michael Hirsch).
 
 
 ---
