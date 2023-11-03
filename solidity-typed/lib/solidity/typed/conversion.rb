@@ -18,9 +18,12 @@ end  # methdod address
 
 def uint256( obj )
     return obj.to_uint   if obj.is_a?( Types::Address )
+    return obj           if obj.is_a?( Types::UInt )
 
     Types::UInt.new( obj )   ## assume obj is a integer number
 end
+alias_method :uint112, :uint256   ## note: for now all are uint256 - fix? - why? why not?
+
 
 =begin
 def uint( obj=0 )

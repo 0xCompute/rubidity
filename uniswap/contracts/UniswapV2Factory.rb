@@ -47,6 +47,8 @@ contract :UniswapV2Factory do
     return pair
 =end
 
+    ## fix-fix-fix - auto set call stack/msg.sender
+    Runtime.msg.sender = __address__
     pair = UniswapV2Pair.construct
     pair.init( token0, token1 )
 

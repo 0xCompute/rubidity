@@ -150,6 +150,11 @@ pp pair_contract.getReserves
 
 
 
+## 1000000000000000000000  ##  1000e18.to_i
+
+
+
+
 
 puts "bye"
 

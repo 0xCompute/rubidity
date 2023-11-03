@@ -24,6 +24,8 @@ class UInt < TypedValue
      def -(other)  UInt.new( @value - other.to_int); end
      def *(other)  UInt.new( @value * other.to_int); end
      def /(other)  UInt.new( @value / other.to_int); end
+
+     def div(other) UInt.new( @value.div(other.to_int)); end
       ## add more Integer forwards here!!!!
      ##def_delegators :@value, :+, :-
 
@@ -83,6 +85,15 @@ class Timestamp < TypedValue
        @value.freeze  ## freeze here (and freeze self!) - why? why not?
        @value
     end 
+
+    ## todo/check - only allow other if Timestamp - why? why not? 
+    include Comparable
+    def <=>(other)  @value <=> other.to_int; end
+
+    def +(other) Timestamp.new( @value + other.to_int); end
+    def -(other)  Timestamp.new( @value - other.to_int); end
+ 
+    def to_int() @value; end  ## "automagilally" support implicit integer conversion - why? why not?
 end  # class Timestamp
 
 
