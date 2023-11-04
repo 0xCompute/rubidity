@@ -35,8 +35,10 @@ See the [**Facetswap App / Service**](https://facetswap.com)
 Available contracts include:
 
 - [ERC20](lib/uniswap/ERC20.rb)
+- [PublicMintERC20 (is ERC20)](lib/uniswap/PublicMintERC20.rb)
 - [UniswapV2ERC20 (is ERC20)](lib/uniswap/UniswapV2ERC20.rb)
 - [UniswapV2Pair (is UniswapV2ERC20)](lib/uniswap/UniswapV2Pair.rb)
+- [UniswapV2Factory](lib/uniswap/UniswapV2Factory.rb)
 - ...
 
 And so on.  To be continued ...

@@ -7,8 +7,12 @@ require 'uniswap'
 
 
 pp ERC20
+pp PublicMintERC20
 pp UniswapV2ERC20
 pp UniswapV2Pair
+pp UniswapV2Factory
+
+
 
 
 puts "bye"

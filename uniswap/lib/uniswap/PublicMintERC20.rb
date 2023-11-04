@@ -1,39 +1,37 @@
-pragma :rubidity, "1.0.0"
 
-import 'ERC20'
+class PublicMintERC20 < ERC20
 
-contract :PublicMintERC20, is: :ERC20 do
-  uint256 :public, :maxSupply
-  uint256 :public, :perMintLimit
+  storage maxSupply:    UInt,
+          perMintLimit: UInt
   
-  constructor(
-    name: :string,
-    symbol: :string,
-    maxSupply: :uint256,
-    perMintLimit: :uint256,
-    decimals: :uint8
-  ) do
-    super(name: name, symbol: symbol, decimals: decimals)
-    s.maxSupply = maxSupply
-    s.perMintLimit = perMintLimit
+  sig [String, String, UInt, UInt, UInt]
+  def constructor(
+    name:,
+    symbol:,
+    maxSupply:,
+    perMintLimit:,
+    decimals: 
+    )
+    super( name: name, symbol: symbol, decimals: decimals )
+    @maxSupply    = maxSupply
+    @perMintLimit = perMintLimit
   end
   
-  
-  function :mint, { amount: :uint256 }, :public do
-    require(amount > 0, 'Amount must be positive')
-    require(amount <= s.perMintLimit, 'Exceeded mint limit')
+  sig [UInt]  
+  def mint( amount: )
+    assert amount > 0, 'Amount must be positive'
+    assert amount <= @perMintLimit, 'Exceeded mint limit'    
+    assert @totalSupply + amount <= @maxSupply, 'Exceeded max supply'
     
-    require(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
-    
-    _mint(to: msg.sender, amount: amount)
+    _mint( to: msg.sender, amount: amount )
   end
   
-  function :airdrop, { to: :address, amount: :uint256 }, :public do
-    require(amount > 0, 'Amount must be positive')
-    require(amount <= s.perMintLimit, 'Exceeded mint limit')
+  sig [Address, UInt]
+  def airdrop( to:, amount: )
+    assert amount > 0, 'Amount must be positive'
+    assert amount <= @perMintLimit, 'Exceeded mint limit'
+    assert @totalSupply + amount <= @maxSupply, 'Exceeded max supply'
     
-    require(s.totalSupply + amount <= s.maxSupply, 'Exceeded max supply')
-    
-    _mint(to: to, amount: amount)
+    _mint( to: to, amount: amount )
   end
-end
+end  # class PublicMintERC20

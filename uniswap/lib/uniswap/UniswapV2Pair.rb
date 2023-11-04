@@ -50,8 +50,8 @@ class UniswapV2Pair < UniswapV2ERC20
   sig []
   def constructor
     super
-    @factory  = msg.sender
-    @unlocked = uint256( 1 )
+    @factory   = msg.sender
+    @_unlocked = uint( 1 )
   end
         
   # note: can't name method initialize because of ruby
@@ -77,109 +77,107 @@ class UniswapV2Pair < UniswapV2ERC20
     assert result, "ScribeSwap: TRANSFER_FAILED"
   end
   
+
+  sig [UInt, UInt, UInt, UInt]
+  def _update(
+    balance0:,
+    balance1:,
+    reserve0:,
+    reserve1: )
+    assert balance0 <= (2 ** 112 - 1) && balance1 <= (2 ** 112 - 1), 'ScribeSwap: OVERFLOW'
+    
+    # blockTimestamp = uint32(block.timestamp % 2 ** 32)
+    # overflow is desired  - why??
+    timeElapsed = block.timestamp - @_blockTimestampLast   
+    
+    if timeElapsed > 0 && reserve0 != 0 && reserve1 != 0
+      # * never overflows, and + overflow is desired
+      #   up reserve1 from 112 to 224 bit (shift by 112bit)
+      #   up reserve2 from 112 to 224 bit (shift by 112bit)
+      @price0CumulativeLast +=  (reserve1*(2 ** 112)) / reserve0  * timeElapsed
+      @price1CumulativeLast +=  (reserve0*(2 ** 112)) / reserve1  * timeElapsed
+    end
+    
+    log PreSwapReserves, reserve0: @_reserve0, reserve1: @_reserve1
+    
+    @_reserve0 = balance0   ## was uint112()
+    @_reserve1 = balance1
+    
+    @_blockTimestampLast = block.timestamp
+    log Sync, reserve0: @_reserve0, reserve1: @_reserve1
+  end
+  
+ 
+  sig [UInt, UInt], returns: Bool  ## was uint112, uint112
+  def _mintFee( reserve0:, reserve1: )
+    feeTo = UniswapV2Factory.at( @factory ).feeTo
+    feeOn = feeTo != address(0)
+    kLast = @kLast
+    
+    if feeOn
+      if kLast != 0
+        ## note: sqrt NOT built-in - double check
+        rootK = Integer.sqrt( reserve0 * reserve1 )
+        rootKLast = Integer.sqrt( kLast )
+        if rootK > rootKLast
+          numerator = @totalSupply * (rootK - rootKLast)
+          denominator = rootK * 5 + rootKLast
+          liquidity = numerator.div(denominator)
+          _mint( feeTo, liquidity )   if liquidity > 0
+        end
+      end
+    elsif kLast != 0
+      @kLast = 0
+    end
+    feeOn
+  end
+  
+  sig [Address], returns: UInt
+  def mint( to: )
+    assert @_unlocked == 1, 'ScribeSwap: LOCKED'
+    
+    reserve0, reserve1, _ = getReserves
+    
+    balance0 = ERC20.at( @token0 ).balanceOf( __address__ ) ## address(this)
+    balance1 = ERC20.at( @token1 ).balanceOf( __address__ ) ## address(this)
+ 
+    amount0 = balance0 - reserve0
+    amount1 = balance1 - reserve1
+    
+    feeOn = _mintFee( reserve0, reserve1)
+    totalSupply = @totalSupply
+
+ 
+    if totalSupply == 0
+      ## note: sqrt NOT built-in - double check
+      ##  move "upstream" into contract base (for all) - why? why not?
+      liquidity = uint( Integer.sqrt(amount0 * amount1)) - MINIMUM_LIQUIDITY
+      _mint( address(0), MINIMUM_LIQUIDITY )
+    else
+      liquidity = [
+        (amount0 * totalSupply).div(reserve0),
+        (amount1 * totalSupply).div(reserve1)
+      ].min
+    end
+
+    assert liquidity > 0, 'ScribeSwap: INSUFFICIENT_LIQUIDITY_MINTED'
+    _mint( to, liquidity )
+ 
+  
+    _update( balance0, balance1, reserve0, reserve1 )
+    @kLast = @_reserve0 * @_reserve1    if feeOn
+    
+    log Mint, sender: msg.sender, amount0: amount0, amount1: amount1
+    
+    liquidity
+  end
 end  # class UniswapV2Pair
 
 __END__
 
   
-  function :_update, {
-    balance0: :uint256,
-    balance1: :uint256,
-    _reserve0: :uint112,
-    _reserve1: :uint112
-  }, :private do
-    require(balance0 <= (2 ** 112 - 1) && balance1 <= (2 ** 112 - 1), 'ScribeSwap: OVERFLOW')
-    
-    # blockTimestamp = uint32(block.timestamp % 2 ** 32)
-    blockTimestamp = block.timestamp 
-    timeElapsed = blockTimestamp - s.blockTimestampLast # overflow is desired
-    
-    if timeElapsed > 0 && _reserve0 != 0 && _reserve1 != 0
-      # * never overflows, and + overflow is desired
-      s.price0CumulativeLast += uint256(uqdiv(encode(_reserve1), _reserve0)) * timeElapsed
-      s.price1CumulativeLast += uint256(uqdiv(encode(_reserve0), _reserve1)) * timeElapsed
-    end
-    
-    emit :PreSwapReserves, reserve0: s.reserve0, reserve1: s.reserve1
-    
-    s.reserve0 = uint112(balance0)
-    s.reserve1 = uint112(balance1)
-    
-    s.blockTimestampLast = blockTimestamp
-    emit :Sync, reserve0: s.reserve0, reserve1: s.reserve1
-  end
-  
-  function :encode, { y: :uint112 }, :internal, :pure, returns: :uint224 do
-    return uint224(y) * (2 ** 112)
-  end
 
-  function :uqdiv, { x: :uint224, y: :uint112 }, :internal, :pure, returns: :uint224 do
-    return x / uint224(y)
-  end
-  
-  function :_mintFee, { _reserve0: :uint112, _reserve1: :uint112 }, :private, returns: :bool do
-    feeTo = UniswapV2Factory.at( s.factory ).feeTo
-    feeOn = feeTo != address(0)
-    _kLast = s.kLast
-    
 
-    if feeOn
-      if _kLast != 0
-        ## note: sqrt NOT built-in - double check
-        rootK = Integer.sqrt(_reserve0 * _reserve1)
-        rootKLast = Integer.sqrt(_kLast)
-        if rootK > rootKLast
-          numerator = totalSupply * (rootK - rootKLast)
-          denominator = rootK * 5 + rootKLast
-          liquidity = numerator.div(denominator)
-          _mint(feeTo, liquidity)   if liquidity > 0
-        end
-      end
-    elsif _kLast != 0
-      s.kLast = 0
-    end
-    feeOn
-  end
-  
-  function :mint, { to: :address }, :public, returns: :uint256 do
-    require(s.unlocked == 1, 'ScribeSwap: LOCKED')
-    
-    _reserve0, _reserve1, _ = getReserves
-    
-    balance0 = ERC20.at(s.token0).balanceOf( __address__ ) ## address(this)
-    balance1 = ERC20.at(s.token1).balanceOf( __address__ ) ## address(this)
- 
-    amount0 = balance0 - _reserve0
-    amount1 = balance1 - _reserve1
-    
-    feeOn = _mintFee(_reserve0, _reserve1)
-    _totalSupply = s.totalSupply
-
- 
-
-    if _totalSupply == 0
-      ## note: sqrt NOT built-in - double check
-      liquidity = uint256( Integer.sqrt(amount0 * amount1)) - s.MINIMUM_LIQUIDITY
-      _mint(address(0), s.MINIMUM_LIQUIDITY)
-    else
-      liquidity = [
-        (amount0 * _totalSupply).div(_reserve0),
-        (amount1 * _totalSupply).div(_reserve1)
-      ].min
-    end
-
-    require(liquidity > 0, 'ScribeSwap: INSUFFICIENT_LIQUIDITY_MINTED')
-    _mint(to, liquidity)
- 
-  
-    _update(balance0, balance1, _reserve0, _reserve1)
-    s.kLast = s.reserve0 * s.reserve1   if feeOn
-    
-    emit :Mint, sender: msg.sender, amount0: amount0, amount1: amount1
-    
-    return liquidity
-  end
-  
   function :burn, { to: :address }, :external, :lock, returns: { amount0: :uint256, amount1: :uint256 } do
     require(s.unlocked == 1, 'ScribeSwap: LOCKED')
 

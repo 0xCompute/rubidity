@@ -16,13 +16,15 @@ def address( literal=0 )
 end  # methdod address 
 
 
-def uint256( obj )
+def uint( obj )
     return obj.to_uint   if obj.is_a?( Types::Address )
     return obj           if obj.is_a?( Types::UInt )
 
     Types::UInt.new( obj )   ## assume obj is a integer number
 end
-alias_method :uint112, :uint256   ## note: for now all are uint256 - fix? - why? why not?
+alias_method :uint256, :uint
+alias_method :uint224, :uint
+alias_method :uint112, :uint   ## note: for now all are uint256 - fix? - why? why not?
 
 
 =begin

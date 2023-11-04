@@ -3,7 +3,7 @@ require 'hoe'
 
 
 Hoe.spec 'uniswap' do
-  self.version = '0.0.1'   # Rubidity::Module::Uniswap::VERSION
+  self.version = '0.1.0'   # Rubidity::Module::Uniswap::VERSION
 
   self.summary = 'uniswap - core uniswap v2 (dumb) contracts for ruby (rubidity) for layer 1 (l1) with "off-chain" indexer'
   self.description = summary

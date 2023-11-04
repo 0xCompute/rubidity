@@ -1,36 +1,39 @@
-pragma :rubidity, "1.0.0"
 
-import 'UniswapV2Pair'
+class UniswapV2Factory < Contract
 
+  event :PairCreated, token0:     Address, 
+                      token1:     Address, 
+                      pair:       Address, 
+                      pairLength: UInt
 
-contract :UniswapV2Factory do
-  address :public, :feeTo
-  address :public, :feeToSetter
+  storage feeTo:       Address,
+          feeToSetter: Address,
+          getPair:     mapping( Address, mapping( Address, Address)),
+          allPairs:    array( Address )
 
-  mapping ({ address: mapping({ address: :address })}), :public, :getPair
-  array :address, :public, :allPairs
-
-  event :PairCreated, { token0: :address, token1: :address, pair: :address, pairLength: :uint256 }
-
-  constructor(_feeToSetter: :address) do
-    s.feeToSetter = _feeToSetter
+  sig [Address]
+  def constructor( feeToSetter: ) 
+    @feeToSetter = feeToSetter
   end
 
-  function :allPairsLength, {}, :public, :view, returns: :uint256 do
-    return s.allPairs.length
-  end
-  
-  function :getAllPairs, {}, :public, :view, returns: [:address] do
-    return s.allPairs
+  sig [], :view, returns: UInt
+  def allPairsLength
+    @allPairs.length
   end
 
-  function :createPair, { tokenA: :address, tokenB: :address }, :public, returns: :address do
-    require(tokenA != tokenB, 'Scribeswap: IDENTICAL_ADDRESSES')
+  sig [], :view, returns: array(Address)
+  def getAllPairs
+    @allPairs
+  end
+
+  sig [Address, Address], returns: Address
+  def createPair( tokenA:, tokenB: )
+    assert  tokenA != tokenB, 'Scribeswap: IDENTICAL_ADDRESSES'
     
-    token0, token1 = uint256( tokenA ) < uint256( tokenB ) ? [tokenA, tokenB] : [tokenB, tokenA]
+    token0, token1 = uint( tokenA ) < uint( tokenB ) ? [tokenA, tokenB] : [tokenB, tokenA]
     
-    require(token0 != address(0), "Scribeswap: ZERO_ADDRESS");
-    require(s.getPair[token0][token1] == address(0), "Scribeswap: PAIR_EXISTS");
+    assert token0 != address(0), "Scribeswap: ZERO_ADDRESS"
+    assert @getPair[token0][token1] == address(0), "Scribeswap: PAIR_EXISTS"
 
 =begin    
     salt = keccak256(abi.encodePacked(token0, token1))
@@ -52,30 +55,26 @@ contract :UniswapV2Factory do
     pair = UniswapV2Pair.construct
     pair.init( token0, token1 )
 
-    s.getPair[token0][token1] = pair.__address__
-    s.getPair[token1][token0] = pair.__address__
+    @getPair[token0][token1] = pair.__address__
+    @getPair[token1][token0] = pair.__address__
 
-    s.allPairs.push( pair.__address__ )
-    emit :PairCreated, token0: token0, token1: token1, pair: pair.__address__, pairLength: s.allPairs.length
+    @allPairs.push( pair.__address__ )
+    log PairCreated, token0: token0, token1: token1, pair: pair.__address__, pairLength: @allPairs.length
 
-    return pair.__address__
+    pair.__address__
   end
-
   
-
-  function :setFeeTo, { _feeTo: :address }, :public do
-    require(msg.sender == feeToSetter, "Scribeswap: FORBIDDEN")
+  sig [Address]
+  def setFeeTo( feeTo: )
+    assert msg.sender == @feeToSetter, "Scribeswap: FORBIDDEN"
     
-    s.feeTo = _feeTo
-    
-    return nil
+    @feeTo = feeTo
   end
 
-  function :setFeeToSetter, { _feeToSetter: :address }, :public do
-    require(msg.sender == feeToSetter, "Scribeswap: FORBIDDEN")
+  sig [Address]
+  def setFeeToSetter( feeToSetter: )
+    assert msg.sender == @feeToSetter, "Scribeswap: FORBIDDEN"
     
-    s.feeToSetter = _feeToSetter
-    
-    return nil
+    @feeToSetter = feeToSetter
   end
-end
+end   # class UniswapV2Factory
