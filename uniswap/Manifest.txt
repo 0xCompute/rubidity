@@ -1,0 +1,15 @@
+CHANGELOG.md
+Manifest.txt
+README.md
+Rakefile
+lib/uniswap.rb
+lib/uniswap/ERC20.rb
+lib/uniswap/PublicMintERC20.rb
+lib/uniswap/UniswapSetupZapV2.rb
+lib/uniswap/UniswapV2Callee.rb
+lib/uniswap/UniswapV2ERC20.rb
+lib/uniswap/UniswapV2Factory.rb
+lib/uniswap/UniswapV2Pair.rb
+lib/uniswap/UniswapV2Router.rb
+lib/uniswap/UniswapV2RouterWithRewards.rb
+lib/uniswap/UnsafeNoApprovalERC20.rb

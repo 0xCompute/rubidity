@@ -1,0 +1,29 @@
+require 'hoe'
+# require './lib/uniswap/version.rb'
+
+
+Hoe.spec 'uniswap' do
+  self.version = '0.0.1'   # Rubidity::Module::Uniswap::VERSION
+
+  self.summary = 'uniswap - core uniswap v2 (dumb) contracts for ruby (rubidity) for layer 1 (l1) with "off-chain" indexer'
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/s6ruby/rubidity' }
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'gerald.bauer@gmail.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = [
+    ['rubidity', '>= 0.8.1'],
+  ]
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.3'
+  }
+end
