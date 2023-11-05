@@ -45,6 +45,27 @@ And so on.  To be continued ...
 
 
 
+## Aside - What is the binary fixed point UQ112.112 format (used for price calculations)? 
+
+UQ112. 112 is basically an (unsigend) number that uses 112 bits 
+for the fractional part and 112 for the integer part.
+
+From the Uniswap V2 White Paper (on Precision):
+
+> Because Solidity does not have first-class support 
+> for non-integer numeric data types, the Uniswap v2 
+> uses a simple binary fixed point format to encode and manipulate prices.
+>
+> Specifically, prices at a given moment are stored 
+> as UQ112.112 numbers, meaning that 112 fractional bits of precision
+> are specified on either side of the decimal point, 
+> with no sign. These numbers 
+> have a range of [0, 2^112 − 1 = 5192296858534827628530496329220096] 
+> and a precision of 1 / 2^112 = 1 / 5192296858534827628530496329220096.
+
+> 
+
+
 
 
 ## Bonus - More Blockchain (Crypto) Tools, Libraries & Scripts In Ruby
