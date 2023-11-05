@@ -1,31 +1,9 @@
 ##
 #  try uq112x112 calculations "stand-alone" for understanding / testing
 
-
-=begin
-// a library for handling binary fixed point numbers (https://en.wikipedia.org/wiki/Q_(number_format))
-
-// range: [0, 2**112 - 1]
-// resolution: 1 / 2**112
-
-library UQ112x112 {
-    uint224 constant Q112 = 2**112;
-
-    // encode a uint112 as a UQ112x112
-    function encode(uint112 y) internal pure returns (uint224 z) {
-        z = uint224(y) * Q112; // never overflows
-    }
-
-    // divide a UQ112x112 by a uint112, returning a UQ112x112
-    function uqdiv(uint224 x, uint112 y) internal pure returns (uint224 z) {
-        z = x / uint224(y);
-    }
-}
-=end
-
 ### 112 = 14 byte (14*8=112),  28 hex chars!!
+## e.g 0x00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
-## 0x00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
 
 Q112 = 2**112
@@ -49,8 +27,10 @@ end
 
 
 
-
+require_relative '../../solidity-typed/lib/solidity/typed'
 require_relative '../lib/uniswap/uq112x112'
+
+UQ112x112 = Types::UQ112x112
 
 
 puts "Q112: #{Q112}"
@@ -131,5 +111,14 @@ pp bb3
 pp 1111111111 / 333.0 * 2
 bb3 = b3 * 2
 pp bb3
+
+###
+# try solidity-typed "machinery" / compatibility
+pp bb3.as_data
+pp bb3.serialize
+pp bb3.type
+pp bb3.type.format
+
+
 
 puts "bye"

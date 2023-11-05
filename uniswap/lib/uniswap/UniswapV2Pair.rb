@@ -41,8 +41,8 @@ class UniswapV2Pair < UniswapV2ERC20
           _reserve0: UInt,   # uint112 ??
           _reserve1: UInt,   # uint112 ??
           _blockTimestampLast:  Timestamp,  # uint32 - why?  
-          price0CumulativeLast: UInt,
-          price1CumulativeLast: UInt,
+          price0CumulativeLast: UQ112x112,    ## was uint224
+          price1CumulativeLast: UQ112x112,    ## was uint224
           kLast:                UInt,
           _unlocked:            UInt  ## use bool or is counter more than 0/1 e.g. 0/1/2?
  
@@ -91,11 +91,9 @@ class UniswapV2Pair < UniswapV2ERC20
     timeElapsed = block.timestamp - @_blockTimestampLast   
     
     if timeElapsed > 0 && reserve0 != 0 && reserve1 != 0
-      # * never overflows, and + overflow is desired
-      #   up reserve1 from 112 to 224 bit (shift by 112bit)
-      #   up reserve2 from 112 to 224 bit (shift by 112bit)
-      @price0CumulativeLast +=  (reserve1*(2 ** 112)) / reserve0  * timeElapsed
-      @price1CumulativeLast +=  (reserve0*(2 ** 112)) / reserve1  * timeElapsed
+      # note: mul(*) never overflows, and add(+) overflow is desired in uq112x112
+      @price0CumulativeLast +=  UQ112x112.encode(reserve1) / reserve0 * timeElapsed
+      @price1CumulativeLast +=  UQ112x112.encode(reserve0) / reserve1 * timeElapsed
     end
     
     log PreSwapReserves, reserve0: @_reserve0, reserve1: @_reserve1
