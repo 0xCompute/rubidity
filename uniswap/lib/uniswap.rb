@@ -10,5 +10,6 @@ require_relative 'uniswap/UniswapV2ERC20'
 require_relative 'uniswap/UniswapV2Pair'
 require_relative 'uniswap/UniswapV2Factory'
 
+require_relative 'uniswap/uq112x112'
 
 puts "bye"

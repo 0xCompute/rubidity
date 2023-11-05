@@ -48,24 +48,9 @@ def dump( num )
 end
 
 
-class UQ112x112
-    def initialize( num )
-       @num = num
-    end
 
-    Q112 = 2**112
 
-    def pretty_print( printer ) 
-        ## quotient / remainder  ( int / frac )
-        int, frac  =   @num.divmod( Q112 ) 
-        
-        ## convert frac to double here - how???
-        
-
-        printer.text( "<val uq112x112: #{int} x #{frac}, hex: #{@num.to_s(16)}>" )
-    end
-end    # class UQ112x112
-
+require_relative '../lib/uniswap/uq112x112'
 
 
 puts "Q112: #{Q112}"
@@ -95,7 +80,9 @@ pp b/8.0
 puts "b/2:"
 b2 = uqdiv( encode(b), 2 )
 dump( b2 )
-pp UQ112x112.new( b2 )
+b2uq =  UQ112x112.new( b2 )
+pp b2uq
+pp b2uq.to_s 
 pp b/2.0
 
 puts "b/3:"
@@ -106,9 +93,43 @@ pp b/3.0
 
 
 puts "---"
-pp UQ112x112.new( encode(a) )
+auq = UQ112x112.new( encode(a) )
+pp auq
+pp auq.to_s
 pp UQ112x112.new( encode(b) )
 pp UQ112x112.new( encode(c) )
 
+
+
+puts
+puts "---"
+b = UQ112x112.encode( 112 )
+pp b
+pp b.to_hex
+pp b.to_s
+b3 = b.div( 3 )
+pp b3
+pp b3.to_hex
+pp b3.to_s
+pp b / 3
+pp 112 / 3.0 
+
+
+b = UQ112x112.encode( 1111111111 )
+pp b
+pp b.to_hex
+pp b.to_s
+b3 = b.div( 333 )
+pp b3
+pp b3.to_hex
+pp b3.to_s
+pp b / 333
+pp 1111111111 / 333.0
+
+bb3 = b3 + b3
+pp bb3
+pp 1111111111 / 333.0 * 2
+bb3 = b3 * 2
+pp bb3
 
 puts "bye"
