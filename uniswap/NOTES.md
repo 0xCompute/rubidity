@@ -31,6 +31,14 @@ uniswap v3
 
 ## Precision - Math Calculations - UQ112.112
 
+
+
+- [ ] check if uint112 or uint224 in solidity (ethereum)
+      are little endian or big endian??
+
+
+
+
 Because Solidity does not have first-class support for non-integer numeric data types, the Uniswap v2 uses a simple binary fixed point format to encode and manipulate prices.
 
 Specifically, prices at a given moment are stored as UQ112.112 numbers, meaning that 112 fractional bits of precision 

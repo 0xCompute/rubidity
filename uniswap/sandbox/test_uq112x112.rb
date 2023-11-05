@@ -31,6 +31,13 @@ library UQ112x112 {
 Q112 = 2**112
 def encode( y )  y*Q112; end
 
+#  divide a UQ112x112 by a uint112, returning a UQ112x112
+# (uint224 x, uint112 y)  returns (uint224 z)
+#
+#  check if  uint224(y) needs to bitshift y or can stay as is?
+##   use Integer.div here - why? why not? any differance from /???
+def uqdiv( x, y )  x / y; end
+
 
 def dump( num )
    print "  "
@@ -39,6 +46,27 @@ def dump( num )
    ## print "bin: #{num.to_s(2)}"
    print "\n"
 end
+
+
+class UQ112x112
+    def initialize( num )
+       @num = num
+    end
+
+    Q112 = 2**112
+
+    def pretty_print( printer ) 
+        ## quotient / remainder  ( int / frac )
+        int, frac  =   @num.divmod( Q112 ) 
+        
+        ## convert frac to double here - how???
+        
+
+        printer.text( "<val uq112x112: #{int} x #{frac}, hex: #{@num.to_s(16)}>" )
+    end
+end    # class UQ112x112
+
+
 
 puts "Q112: #{Q112}"
 
@@ -58,6 +86,29 @@ puts "c:"
 dump( c )
 dump( encode( c ))
 
+puts "b/8:"
+b8 = uqdiv( encode(b), 8 )
+dump( b8 )
+pp UQ112x112.new( b8 )
+pp b/8.0
+
+puts "b/2:"
+b2 = uqdiv( encode(b), 2 )
+dump( b2 )
+pp UQ112x112.new( b2 )
+pp b/2.0
+
+puts "b/3:"
+b3 = uqdiv( encode(b), 3 )
+dump( b3 )
+pp UQ112x112.new( b3 )
+pp b/3.0
+
+
+puts "---"
+pp UQ112x112.new( encode(a) )
+pp UQ112x112.new( encode(b) )
+pp UQ112x112.new( encode(c) )
 
 
 puts "bye"
