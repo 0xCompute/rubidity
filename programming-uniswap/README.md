@@ -1,7 +1,7 @@
 Decentralized Exchange (DEX) • Automated Market Makers (AMMs) • Liquidity Pools (LPs) • Token Swapping • Price Oracle • Constant Product Function • Infinite Reserves
 
 
-# Programming (Decentralized Finance - DeFi) - Uniswap V2 Contracts - Ruby / Rubidity Edtion
+# Programming (Decentralized Finance - DeFi) - Uniswap V2 Contracts - Ruby / Rubidity Edition
 
 
 ## What's happening here?
@@ -10,7 +10,7 @@ Ivan Kuznetsov
 ([web / blog](https://jeiwan.net),
  [github](https://github.com/Jeiwan),
  [twitter](https://twitter.com/jeiwan7)
-) has written the definite (free) in-depth (let's rebuild the contracts from scratch) articles on Uniswap [V1](https://jeiwan.net/posts/programming-defi-uniswap-1/), [V2](#the_uniswap_v2_series) & [V3](https://jeiwan.net/posts/uniswap-v3-development-book-is-out/).
+) has written the definite (free) in-depth (let's rebuild the contracts from scratch) articles on Uniswap [V1](https://jeiwan.net/posts/programming-defi-uniswap-1/), [V2](#the-uniswap-v2-series) & [V3](https://jeiwan.net/posts/uniswap-v3-development-book-is-out/).
 
 
 ### The Uniswap V2 Series
