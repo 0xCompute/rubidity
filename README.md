@@ -203,6 +203,8 @@ The first published modules / gems include:
 
 - [**uniswap**](uniswap) - core uniswap v2 (dumb) contracts for ruby (rubidity) for layer 1 (l1) with "off-chain" indexer
 
+- [**programming-uniswap**](programming-uniswap) - programming (decentralized finance - defi) uniswap v2 contracts, the ruby / rubidity edition
+
 
 
 - [**rubidity-classic**](rubidity-classic) - rubidity classic / o.g. contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 

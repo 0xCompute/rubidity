@@ -13,118 +13,123 @@
 
 
 class UniswapV2Pair < ERC20
+
+    event :Burn, sender: Address, 
+                 amount0: UInt, 
+                 amount1: UInt 
+    event :Mint, sender: Address, 
+                 amount0: UInt, 
+                 amount1: UInt
+    event :Sync, reserve0: UInt, 
+                 reserve1: UInt
+
     MINIMUM_LIQUIDITY = 1000
 
-    address public token0;
-    address public token1;
+    storage token0:    Address,
+            token1:    Address,
+            _reserve0: UInt,     # was uint112
+            _reserve1: UInt      # was uint112
 
-    uint112 private reserve0;
-    uint112 private reserve1;
+    sig [Address, Address]
+    def constructor( token0:, token1: )
+        super( name:   "ZuniswapV2 Pair", 
+               symbol: "ZUNIV2", 
+               decimals: 18 )
+    
+        @token0 = token0
+        @token1 = token1
+    end
 
-    event Burn(address indexed sender, uint256 amount0, uint256 amount1);
-    event Mint(address indexed sender, uint256 amount0, uint256 amount1);
-    event Sync(uint256 reserve0, uint256 reserve1);
+    sig []
+    def mint
+        reserve0, reserve1  = getReserves
+        balance0 = ERC20.at(@token0).balanceOf( __address__ )  # address(this)
+        balance1 = ERC20.at(@token1).balanceOf( __address__ )  # address(this)
+        amount0 = balance0 - reserve0
+        amount1 = balance1 - reserve1
 
-    constructor(address token0_, address token1_)
-        ERC20("ZuniswapV2 Pair", "ZUNIV2", 18)
-    {
-        token0 = token0_;
-        token1 = token1_;
-    }
+        liquidity = 0
 
-    function mint() public {
-        (uint112 _reserve0, uint112 _reserve1, ) = getReserves();
-        uint256 balance0 = IERC20(token0).balanceOf(address(this));
-        uint256 balance1 = IERC20(token1).balanceOf(address(this));
-        uint256 amount0 = balance0 - _reserve0;
-        uint256 amount1 = balance1 - _reserve1;
+        if @totalSupply == 0
+            liquidity = Integer.sqrt( amount0 * amount1) - MINIMUM_LIQUIDITY
+            _mint( address(0), MINIMUM_LIQUIDITY )
+        else 
+            liquidity = [
+                    (amount0 * @totalSupply) / reserve0,
+                    (amount1 * @totalSupply) / reserve1
+                  ].min
+        end
 
-        uint256 liquidity;
+        assert liquidity >= 0, "Insufficient Liquidity Minted"
 
-        if (totalSupply == 0) {
-            liquidity = Math.sqrt(amount0 * amount1) - MINIMUM_LIQUIDITY;
-            _mint(address(0), MINIMUM_LIQUIDITY);
-        } else {
-            liquidity = Math.min(
-                (amount0 * totalSupply) / _reserve0,
-                (amount1 * totalSupply) / _reserve1
-            );
-        }
+        _mint( msg.sender, liquidity )
 
-        if (liquidity <= 0) revert InsufficientLiquidityMinted();
+        _update( balance0, balance1 )
 
-        _mint(msg.sender, liquidity);
+        log Mint, sender: msg.sender, amount0: amount0, amount1: amount1
+    end
 
-        _update(balance0, balance1);
+    sig []
+    def burn 
+        balance0 = ERC20.at(@token0).balanceOf( __address__ ) # address(this)
+        balance1 = ERC20.at(@token1).balanceOf( __address__ ) # address(this)
+        liquidity = @balanceOf[msg.sender]
 
-        emit Mint(msg.sender, amount0, amount1);
-    }
+        amount0 = (liquidity * balance0) / @totalSupply
+        amount1 = (liquidity * balance1) / @totalSupply
 
-    function burn() public {
-        uint256 balance0 = IERC20(token0).balanceOf(address(this));
-        uint256 balance1 = IERC20(token1).balanceOf(address(this));
-        uint256 liquidity = balanceOf[msg.sender];
+        assert amount0 >= 0 && amount1 >= 0, "Insufficient Liquidity Burned"
 
-        uint256 amount0 = (liquidity * balance0) / totalSupply;
-        uint256 amount1 = (liquidity * balance1) / totalSupply;
+        _burn( msg.sender, liquidity )
 
-        if (amount0 <= 0 || amount1 <= 0) revert InsufficientLiquidityBurned();
+        _safeTransfer( @token0, msg.sender, amount0 )
+        _safeTransfer( @token1, msg.sender, amount1 )
 
-        _burn(msg.sender, liquidity);
+        balance0 = ERC20.at(@token0).balanceOf( __address__ ) # address(this)
+        balance1 = ERC20.at(@token1).balanceOf( __address__ ) # address(this)
 
-        _safeTransfer(token0, msg.sender, amount0);
-        _safeTransfer(token1, msg.sender, amount1);
+        _update( balance0, balance1 )
 
-        balance0 = IERC20(token0).balanceOf(address(this));
-        balance1 = IERC20(token1).balanceOf(address(this));
+        log Burn, sender: msg.sender, amount0: amount0, amount1: amount1
+    end
 
-        _update(balance0, balance1);
-
-        emit Burn(msg.sender, amount0, amount1);
-    }
-
-    function sync() public {
+    sig []
+    def sync
         _update(
-            IERC20(token0).balanceOf(address(this)),
-            IERC20(token1).balanceOf(address(this))
-        );
-    }
-
-    function getReserves()
-        public
-        view
-        returns (
-            uint112,
-            uint112,
-            uint32
+            ERC20.at(@token0).balanceOf( __address__ ), # address(this)
+            ERC20.at(@token1).balanceOf( __address__ )  # address(this)
         )
-    {
-        return (reserve0, reserve1, 0);
-    }
+    end
 
-    //
-    //
-    //
-    //  PRIVATE
-    //
-    //
-    //
-    function _update(uint256 balance0, uint256 balance1) private {
-        reserve0 = uint112(balance0);
-        reserve1 = uint112(balance1);
+    sig [], :view, returns: [UInt, UInt, Timestamp]
+    def getReserves
+        [@_reserve0, @_reserve1, 0]
+    end
 
-        emit Sync(reserve0, reserve1);
-    }
+    ##
+    ##  PRIVATE
+    ##
+    sig [UInt, UInt]
+    def _update( balance0:, balance1: )
+        @_reserve0 = balance0
+        @_reserve1 = balance1
 
-    function _safeTransfer(
-        address token,
-        address to,
-        uint256 value
-    ) private {
-        (bool success, bytes memory data) = token.call(
-            abi.encodeWithSignature("transfer(address,uint256)", to, value)
-        );
-        if (!success || (data.length != 0 && !abi.decode(data, (bool))))
-            revert TransferFailed();
-    }
-}
+        log Sync, reserve0: @_reserve0, reserve1: @_reserve1
+    end
+
+    sig [Address, Address, UInt]
+    def _safeTransfer( token:, to:, value: )
+    
+        ## fix-fix-fix - autoset msg.sender via callstack or such
+        restore = msg.sender
+        Rutime.msg.sender = __address__
+        
+        success = ERC20.at( token ).transfer( to: to, amount: value  )
+    
+        Rutime.msg.sender = restore
+       
+        assert success, "Transfer Failed"
+    end
+end    # class UniswapV2Pair
+
+
