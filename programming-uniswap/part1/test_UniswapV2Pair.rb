@@ -36,8 +36,8 @@ token1 = PublicMintERC20.construct(
 pp token1
 
 
-pair = UniswapV2Pair.construct( token0: token0.__address__,
-                                token1: token1.__address__ )  # address(token0), address(token1)
+pair = UniswapV2Pair.construct( token0: address(token0),
+                                token1: address(token1) ) 
 
 
 Runtime.msg.sender = alice
@@ -49,8 +49,8 @@ token1.mint(10 *10**18)  # was 10 ether
 ## function testMintBootstrap
 
 # from alice to (uniswap)pair
-token0.transfer( pair.__address__, 1*10**18 )  # was: address(pair), 1 ether
-token1.transfer( pair.__address__, 1*10**18 )
+token0.transfer( address(pair), 1*10**18 )  # was 1 ether
+token1.transfer( address(pair), 1*10**18 )
 
 pp token0
 pp token1

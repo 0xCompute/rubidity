@@ -43,8 +43,8 @@ class UniswapV2Pair < ERC20
     sig []
     def mint
         reserve0, reserve1  = getReserves
-        balance0 = ERC20.at(@token0).balanceOf( __address__ )  # address(this)
-        balance1 = ERC20.at(@token1).balanceOf( __address__ )  # address(this)
+        balance0 = ERC20.at(@token0).balanceOf( address(this) ) 
+        balance1 = ERC20.at(@token1).balanceOf( address(this) )   
         amount0 = balance0 - reserve0
         amount1 = balance1 - reserve1
 
@@ -71,8 +71,8 @@ class UniswapV2Pair < ERC20
 
     sig []
     def burn 
-        balance0 = ERC20.at(@token0).balanceOf( __address__ ) # address(this)
-        balance1 = ERC20.at(@token1).balanceOf( __address__ ) # address(this)
+        balance0 = ERC20.at(@token0).balanceOf( address(this) ) 
+        balance1 = ERC20.at(@token1).balanceOf( address(this) ) 
         liquidity = @balanceOf[msg.sender]
 
         amount0 = (liquidity * balance0) / @totalSupply
@@ -85,8 +85,8 @@ class UniswapV2Pair < ERC20
         _safeTransfer( @token0, msg.sender, amount0 )
         _safeTransfer( @token1, msg.sender, amount1 )
 
-        balance0 = ERC20.at(@token0).balanceOf( __address__ ) # address(this)
-        balance1 = ERC20.at(@token1).balanceOf( __address__ ) # address(this)
+        balance0 = ERC20.at(@token0).balanceOf( address(this) ) 
+        balance1 = ERC20.at(@token1).balanceOf( address(this) ) 
 
         _update( balance0, balance1 )
 
@@ -96,8 +96,8 @@ class UniswapV2Pair < ERC20
     sig []
     def sync
         _update(
-            ERC20.at(@token0).balanceOf( __address__ ), # address(this)
-            ERC20.at(@token1).balanceOf( __address__ )  # address(this)
+            ERC20.at(@token0).balanceOf( address(this) ), 
+            ERC20.at(@token1).balanceOf( address(this) )  
         )
     end
 
@@ -122,11 +122,11 @@ class UniswapV2Pair < ERC20
     
         ## fix-fix-fix - autoset msg.sender via callstack or such
         restore = msg.sender
-        Rutime.msg.sender = __address__
+        Runtime.msg.sender = __address__
         
         success = ERC20.at( token ).transfer( to: to, amount: value  )
     
-        Rutime.msg.sender = restore
+        Runtime.msg.sender = restore
        
         assert success, "Transfer Failed"
     end

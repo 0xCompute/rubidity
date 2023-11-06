@@ -25,8 +25,7 @@ module RuntimeHelper
 
   ## note: for now this is just the solidity alias/used name
   ##  for ruby's self  - anything missing - why? why not?
-  ##  - fix-fix-fix-  
-  ##     this should return address in ethereum - how about ethinscriptions?
+  ##  - to get the address - use address( this ) 
   def this()  self; end
 
 

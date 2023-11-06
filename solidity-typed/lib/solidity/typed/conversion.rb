@@ -7,12 +7,15 @@
 module ConversionFunctions
 #####
 #  todo/check:   use AddressType.try_convert( literal_or_obj ) or such - why? why not?
-def address( literal=0 )
+def address( obj )
     ## hack for now support  address(0) 
     ##  todo/fix:  address( '0x0' ) too!!!!
-    return Types::Typed::AddressType.instance.zero   if literal.is_a?(::Integer) && literal == 0
+    return Types::Address.zero                    if obj.is_a?(::Integer) && obj == 0
 
-    Types::Typed::AddressType.instance.check_and_normalize_literal( literal )
+    ## note: for now assume contract is always "construct"ed (and, thus, has an address assigned)
+    return Types::Address.new( obj.__address__ )  if obj.is_a?( Contract )
+
+    Types::Address.new( obj )
 end  # methdod address 
 
 
