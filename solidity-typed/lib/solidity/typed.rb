@@ -50,6 +50,9 @@ require_relative 'typed/enum_builder'
 
 require_relative 'typed/conversion'
 
+###
+## more helpers / core extensions
+require_relative 'typed/integer'  # e.g. 1.e18, 1.ether, etc.
 
 
 #############
