@@ -32,7 +32,7 @@ class Integer
     ###########
     # Ethereum money units
     #  add more - why? why not?
-    def ether()   self * e18; end
+    def ether()   self * 10**18; end
     alias_method :eth, :ether
   
 end # class Integer

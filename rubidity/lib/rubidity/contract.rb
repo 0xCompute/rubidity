@@ -208,6 +208,20 @@ class Contract
     self.class.register( self )  
   end
 
+##  -fix-fix-fix
+## hack for update of msg.sender
+##   make more generic and autoupate 
+# hack-y callstack to update msg.sender "by hand" for now
+#   fix-fix-fix - make it automagic somehow!!
+   def callstack( &block )
+      restore = Runtime.msg.sender
+      Runtime.msg.sender = @__address__
+      ret = block.call
+      Runtime.msg.sender = restore
+      ret
+   end
+
+
 
   
   def initialize

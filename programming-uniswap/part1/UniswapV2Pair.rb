@@ -12,6 +12,18 @@
 # error TransferFailed();
 
 
+##
+#  add "custom" math module / library
+class Contract
+module Math
+   def self.min( a, b )  [a,b].min; end
+   def self.sqrt( y )  Integer.sqrt( y ); end
+end
+end # class Contract
+
+
+
+
 class UniswapV2Pair < ERC20
 
     event :Burn, sender: Address, 
@@ -43,21 +55,21 @@ class UniswapV2Pair < ERC20
     sig []
     def mint
         reserve0, reserve1  = getReserves
-        balance0 = ERC20.at(@token0).balanceOf( address(this) ) 
-        balance1 = ERC20.at(@token1).balanceOf( address(this) )   
+        balance0 = ERC20(@token0).balanceOf( address(this) ) 
+        balance1 = ERC20(@token1).balanceOf( address(this) )   
         amount0 = balance0 - reserve0
         amount1 = balance1 - reserve1
 
         liquidity = 0
 
         if @totalSupply == 0
-            liquidity = Integer.sqrt( amount0 * amount1) - MINIMUM_LIQUIDITY
+            liquidity = Math.sqrt( amount0 * amount1) - MINIMUM_LIQUIDITY
             _mint( address(0), MINIMUM_LIQUIDITY )
         else 
-            liquidity = [
-                    (amount0 * @totalSupply) / reserve0,
-                    (amount1 * @totalSupply) / reserve1
-                  ].min
+            liquidity = Math.min(
+                         (amount0 * @totalSupply) / reserve0,
+                         (amount1 * @totalSupply) / reserve1
+                        )
         end
 
         assert liquidity >= 0, "Insufficient Liquidity Minted"
@@ -71,8 +83,8 @@ class UniswapV2Pair < ERC20
 
     sig []
     def burn 
-        balance0 = ERC20.at(@token0).balanceOf( address(this) ) 
-        balance1 = ERC20.at(@token1).balanceOf( address(this) ) 
+        balance0 = ERC20(@token0).balanceOf( address(this) ) 
+        balance1 = ERC20(@token1).balanceOf( address(this) ) 
         liquidity = @balanceOf[msg.sender]
 
         amount0 = (liquidity * balance0) / @totalSupply
@@ -85,8 +97,8 @@ class UniswapV2Pair < ERC20
         _safeTransfer( @token0, msg.sender, amount0 )
         _safeTransfer( @token1, msg.sender, amount1 )
 
-        balance0 = ERC20.at(@token0).balanceOf( address(this) ) 
-        balance1 = ERC20.at(@token1).balanceOf( address(this) ) 
+        balance0 = ERC20(@token0).balanceOf( address(this) ) 
+        balance1 = ERC20(@token1).balanceOf( address(this) ) 
 
         _update( balance0, balance1 )
 
@@ -96,8 +108,8 @@ class UniswapV2Pair < ERC20
     sig []
     def sync
         _update(
-            ERC20.at(@token0).balanceOf( address(this) ), 
-            ERC20.at(@token1).balanceOf( address(this) )  
+            ERC20(@token0).balanceOf( address(this) ), 
+            ERC20(@token1).balanceOf( address(this) )  
         )
     end
 
@@ -119,15 +131,9 @@ class UniswapV2Pair < ERC20
 
     sig [Address, Address, UInt]
     def _safeTransfer( token:, to:, value: )
-    
+ 
         ## fix-fix-fix - autoset msg.sender via callstack or such
-        restore = msg.sender
-        Runtime.msg.sender = __address__
-        
-        success = ERC20.at( token ).transfer( to: to, amount: value  )
-    
-        Runtime.msg.sender = restore
-       
+        success = callstack { ERC20( token ).transfer( to: to, amount: value  ) } 
         assert success, "Transfer Failed"
     end
 end    # class UniswapV2Pair

@@ -1,4 +1,6 @@
 
+
+
 class PublicMintERC20 < ERC20
 
   storage maxSupply:    UInt,
