@@ -26,7 +26,7 @@ Ivan Kuznetsov
 The idea is to rebuild the contracts (and tests) from scratch in Ruby / Rubidity!
 
 - [/part1](part1)
-- /part2   SOON!
+- [/part2](part2) 
 - /part3   SOON!
 - /part4   SOON!
 
