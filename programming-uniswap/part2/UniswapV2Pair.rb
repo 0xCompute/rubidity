@@ -18,41 +18,41 @@
 
 
 
+class UniswapV2Pair < ERC20 
+
+    event :Burn, sender: Address, amount0: UInt, amount1: UInt
+    event :Mint, sender: Address, amount0: UInt, amount1: UInt
+    event :Sync, reserve0: UInt, reserve1: UInt
+    event :Swap, sender: Address,
+                 amount0Out: UInt,
+                 amount1Out: UInt,
+                 to:         Address  
+
+    MINIMUM_LIQUIDITY = 1000
+
+    storage token0:    Address,
+            token1:    Address,
+            _reserve0: UInt,    # was uint112 
+            _reserve1: UInt,    # was uint112
+            _blockTimestampLast: Timestamp,  # was uint32
+            price0CumulativeLast: UInt, 
+            price1CumulativeLast: UInt
+
+    sig [Address, Address]        
+    def constructor( token0:, token1: )
+        super( "ZuniswapV2 Pair", "ZUNIV2", 18 )
+    
+        @token0 = token0
+        @token1 = token1
+    end
+end
+
+
 __END__
 
 
-contract ZuniswapV2Pair is ERC20, Math {
-    using UQ112x112 for uint224;
 
-    uint256 constant MINIMUM_LIQUIDITY = 1000;
-
-    address public token0;
-    address public token1;
-
-    uint112 private reserve0;
-    uint112 private reserve1;
-    uint32 private blockTimestampLast;
-
-    uint256 public price0CumulativeLast;
-    uint256 public price1CumulativeLast;
-
-    event Burn(address indexed sender, uint256 amount0, uint256 amount1);
-    event Mint(address indexed sender, uint256 amount0, uint256 amount1);
-    event Sync(uint256 reserve0, uint256 reserve1);
-    event Swap(
-        address indexed sender,
-        uint256 amount0Out,
-        uint256 amount1Out,
-        address indexed to
-    );
-
-    constructor(address token0_, address token1_)
-        ERC20("ZuniswapV2 Pair", "ZUNIV2", 18)
-    {
-        token0 = token0_;
-        token1 = token1_;
-    }
-
+  
     function mint() public {
         (uint112 reserve0_, uint112 reserve1_, ) = getReserves();
         uint256 balance0 = IERC20(token0).balanceOf(address(this));

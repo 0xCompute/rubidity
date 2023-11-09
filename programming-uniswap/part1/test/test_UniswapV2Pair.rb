@@ -1,5 +1,5 @@
 ##
-#  to run use:
+#  to run use  (in /part1):
 #     ruby test/test_UniswapV2Pair.rb
 
 
