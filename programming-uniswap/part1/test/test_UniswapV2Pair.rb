@@ -12,7 +12,10 @@ class TestUniswapV2Pair < Minitest::Test
   pp ALICE
 
   
+
   def _setup_contracts
+     Runtime.block.timestamp = 0   ## start with timestamp 0 - why? why not?
+
     ## 21.e24 = 21 *10**24  = 21_000_000_000_000_000_000_000_000
     token0 = PublicMintERC20.construct(
       name: "Token A",
@@ -99,5 +102,39 @@ class TestUniswapV2Pair < Minitest::Test
     assert reserves[0] == 3.ether
     assert reserves[1] == 2.ether
   end
+
+  def test_MintWhenTheresLiquidity
+    token0, token1, pair =  _setup_contracts
+
+    # from alice to (uniswap)pair
+    token0.transfer( address(pair), 1.ether )
+    token1.transfer( address(pair), 1.ether )
+
+    pair.mint  # + 1 LP
+
+
+    # vm.warp(37);
+# function warp(uint256) external;
+# - Sets block.timestamp.
+#   Examples
+#
+#    vm.warp(1641070800);
+#     emit log_uint(block.timestamp);   // 1641070800
+   Runtime.block.timestamp = 37  
+
+    token0.transfer( address(pair), 2.ether )
+    token1.transfer( address(pair), 2.ether )
+
+    pair.mint    #  + 2 LP
+    pp pair
+
+    assert pair.balanceOf(address( ALICE )) == 3.ether - 1000
+    assert pair.totalSupply == 3.ether
+    # assertReserves(3 ether, 3 ether);
+    pp reserves = pair.getReserves
+    assert reserves[0] == 3.ether
+    assert reserves[1] == 3.ether
+end
+
 end  # class TestUniswapV2Pair
 

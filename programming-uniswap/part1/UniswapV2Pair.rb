@@ -60,6 +60,13 @@ class UniswapV2Pair < ERC20
         amount0 = balance0 - reserve0
         amount1 = balance1 - reserve1
 
+        puts "==> add liquidity"
+        puts "   balance0: #{balance0}"
+        puts "   balance1: #{balance1}"
+        puts "   amount0: #{amount0}"
+        puts "   amount1: #{amount1}"
+
+
         liquidity = 0
 
         if @totalSupply == 0
@@ -90,6 +97,7 @@ class UniswapV2Pair < ERC20
         amount0 = (liquidity * balance0) / @totalSupply
         amount1 = (liquidity * balance1) / @totalSupply
 
+ 
         assert amount0 >= 0 && amount1 >= 0, "Insufficient Liquidity Burned"
 
         _burn( msg.sender, liquidity )
@@ -132,8 +140,13 @@ class UniswapV2Pair < ERC20
     sig [Address, Address, UInt]
     def _safeTransfer( token:, to:, value: )
  
-        ## fix-fix-fix - autoset msg.sender via callstack or such
-        success = callstack { ERC20( token ).transfer( to: to, amount: value  ) } 
+        ## fix-fix-fix - autoset msg.sender via call(stack) or such
+        ##   use 
+        ##    ERC20( token ).call { transfer( to: to, amount: value  ) }
+        ##   to update context (msg.sender) - why? why not?
+        ##   always call "external" contracts 
+        ##      via interface proxy or such - why? why not?
+        success =   callstack { ERC20( token ).transfer( to: to, amount: value  ) } 
         assert success, "Transfer Failed"
     end
 end    # class UniswapV2Pair
