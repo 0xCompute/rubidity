@@ -15,6 +15,8 @@ module RuntimeHelper
       # file = caller_location.path.gsub(%r{.*app/models/contracts/}, '')
       # line = caller_location.lineno
       
+      puts "!! ASSERT FAILED - #{message}"
+
       error_message = "#{message}"     ##. (#{file}:#{line})"
       ## todo/fix: change to (built-in) ???Error, ....
       ##  check for error to raise for assertion fail??

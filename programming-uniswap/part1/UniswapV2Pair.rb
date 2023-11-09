@@ -79,7 +79,9 @@ class UniswapV2Pair < ERC20
                         )
         end
 
-        assert liquidity >= 0, "Insufficient Liquidity Minted"
+        puts "   liquidity: #{liquidity}"
+
+        assert liquidity > 0, "Insufficient Liquidity Minted"
 
         _mint( msg.sender, liquidity )
 
@@ -97,11 +99,17 @@ class UniswapV2Pair < ERC20
         amount0 = (liquidity * balance0) / @totalSupply
         amount1 = (liquidity * balance1) / @totalSupply
 
- 
-        assert amount0 >= 0 && amount1 >= 0, "Insufficient Liquidity Burned"
+        puts "==> remove liquidity"
+        puts "   balance0: #{balance0}"
+        puts "   balance1: #{balance1}"
+        puts "   amount0: #{amount0}"
+        puts "   amount1: #{amount1}"
+        puts "   liquidity: #{liquidity}"
+
+        assert amount0 > 0 && amount1 > 0, "Insufficient Liquidity Burned"
 
         _burn( msg.sender, liquidity )
-
+        
         _safeTransfer( @token0, msg.sender, amount0 )
         _safeTransfer( @token1, msg.sender, amount1 )
 

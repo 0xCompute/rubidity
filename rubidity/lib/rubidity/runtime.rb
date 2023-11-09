@@ -7,7 +7,9 @@ class Runtime
     attr_reader :sender
     
     def sender=(address)
-      @sender = Types::Address.new( address )
+      ## note: allow literal and typed address
+      @sender = address.is_a?( Types::Address) ?
+                    address : Types::Address.new( address )
     end
   end   # class Message
   
@@ -15,8 +17,8 @@ class Runtime
   class Tx 
     attr_reader :origin
     def origin=(address)
-      ## note: use serialize (to get the "underlying" plain string) - why? why not?
-      @origin = Types::Address.new( address ).serialize
+      @origin = address.is_a?( Types::Address ) ?
+                   address : Types::Address.new( address )
     end
 
       def log_event( event )
@@ -51,11 +53,13 @@ class Runtime
     end
     
     def number=(number)
-      @number = Types::Uint.new( number )
+      @number =    number.is_a?( Types::UInt ) ? 
+                      number : Types::UInt.new( number )
     end
     
     def timestamp=(timestamp)
-      @timestamp = Types::Timestamp.new( timestamp )
+      @timestamp =  timestamp.is_a?( Types::Timestamp ) ?
+                        timestamp : Types::Timestamp.new( timestamp )
     end
   end   # class Block
 
