@@ -1,7 +1,6 @@
 ################
 #  to run use:
-#    $ ruby sandbox/test_erc20.rb
-
+#    $ ruby sandbox/test_erc20v2.rb
 
 $LOAD_PATH.unshift( '../solidity-typed/lib' )
 $LOAD_PATH.unshift( '../rubidity/lib' )
@@ -10,7 +9,7 @@ require 'rubidity/classic'
 
 
 
-source = Builder.load_file( 'PublicMintERC20' ).source
+source = Builder.load_file( 'PublicMintERC20V2' ).source
 pp source
 pp source.contracts
 
@@ -32,10 +31,10 @@ source.generate
 #  try out contract classes
 
 pp ERC20
-pp PublicMintERC20
+pp PublicMintERC20V2
 
 pp ERC20.name
-pp PublicMintERC20.name
+pp PublicMintERC20V2.name
 
 
 pp ERC20::Transfer   ## {:from=>:address,  :to=>:address,      :amount=>:uint256}
@@ -64,7 +63,7 @@ pp contract
 
 
 
-contract = PublicMintERC20.new
+contract = PublicMintERC20V2.new
 pp contract
 
 

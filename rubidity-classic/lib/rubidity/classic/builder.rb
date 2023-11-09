@@ -103,6 +103,15 @@ class ContractDef
     :address
    ].each do |type|
      define_method(type) do |*args|
+
+        if args.size == 0
+           ## assume type helper to convert :string to string, 
+           ##                               :address to address, and such
+           puts "  turn :#{type} into #{type}"
+           return type
+        end 
+
+
         type = type
         name = args.pop.to_sym
         @storage[ name ] = { type: type, args: args }
