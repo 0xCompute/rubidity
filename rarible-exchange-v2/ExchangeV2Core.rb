@@ -95,32 +95,30 @@ class ExchangeV2Core < Contract    # abstract
                     direct.buyOrderData
                   )
 
-        validateFull( sellOrder, direct.sellOrderSignature)
+        validateFull( sellOrder, direct.sellOrderSignature )
 
         matchAndTransfer(sellOrder, buyOrder)
     end
-end
 
-__END__
+    #
+    # @dev function, generate sellOrder and buyOrder from parameters 
+    #        and call validateAndMatch() for accept bid transaction
+    # @param direct struct with parameters for accept bid operation
+    #
+    # -fix-fix-fix - payable not supported / use erc20 token
+    sig [LibDirectTransfer::AcceptBid], :external, :payable
+    def directAcceptBid( direct: ) 
+        paymentAssetType = getPaymentAssetType(direct.paymentToken) # LibAsset.AssetType
 
-    /**
-     * @dev function, generate sellOrder and buyOrder from parameters and call validateAndMatch() for accept bid transaction
-     * @param direct struct with parameters for accept bid operation
-     */
-    function directAcceptBid(
-        LibDirectTransfer.AcceptBid calldata direct
-    ) external payable {
-        LibAsset.AssetType memory paymentAssetType = getPaymentAssetType(direct.paymentToken);
-
-        LibOrder.Order memory buyOrder = LibOrder.Order(
+        buyOrder = LibOrder::Order.new(
             direct.bidMaker,
-            LibAsset.Asset(
+            LibAsset::Asset.new(
                 paymentAssetType,
                 direct.bidPaymentAmount
             ),
             address(0),
-            LibAsset.Asset(
-                LibAsset.AssetType(
+            LibAsset::Asset.new(
+                LibAsset::AssetType.new(
                     direct.nftAssetClass,
                     direct.nftData
                 ),
@@ -131,19 +129,19 @@ __END__
             direct.bidEnd,
             direct.bidDataType,
             direct.bidData
-        );
+        )
 
-        LibOrder.Order memory sellOrder = LibOrder.Order(
+        sellOrder = LibOrder::Order.new(
             address(0),
-            LibAsset.Asset(
-                LibAsset.AssetType(
+            LibAsset::Asset.new(
+                LibAsset::AssetType.new(
                     direct.nftAssetClass,
                     direct.nftData
                 ),
                 direct.sellOrderNftAmount
             ),
             address(0),
-            LibAsset.Asset(
+            LibAsset::Asset.new(
                 paymentAssetType,
                 direct.sellOrderPaymentAmount
             ),
@@ -152,67 +150,74 @@ __END__
             0,
             getOtherOrderType(direct.bidDataType),
             direct.sellOrderData
-        );
+        )
 
-        validateFull(buyOrder, direct.bidSignature);
+        validateFull( buyOrder, direct.bidSignature )
 
-        matchAndTransfer(sellOrder, buyOrder);
-    }
+        matchAndTransfer( sellOrder, buyOrder )
+    end
 
-    function matchOrders(
-        LibOrder.Order memory orderLeft,
-        bytes memory signatureLeft,
-        LibOrder.Order memory orderRight,
-        bytes memory signatureRight
-    ) external payable {
-        validateOrders(orderLeft, signatureLeft, orderRight, signatureRight);
-        matchAndTransfer(orderLeft, orderRight);
-    }
 
-    /**
-      * @dev function, validate orders
-      * @param orderLeft left order
-      * @param signatureLeft order left signature
-      * @param orderRight right order
-      * @param signatureRight order right signature
-      */
-    function validateOrders(LibOrder.Order memory orderLeft, bytes memory signatureLeft, LibOrder.Order memory orderRight, bytes memory signatureRight) internal view {
-        validateFull(orderLeft, signatureLeft);
-        validateFull(orderRight, signatureRight);
-        if (orderLeft.taker != address(0)) {
-            if (orderRight.maker != address(0))
-                require(orderRight.maker == orderLeft.taker, "leftOrder.taker verification failed");
-        }
-        if (orderRight.taker != address(0)) {
-            if (orderLeft.maker != address(0))
-                require(orderRight.taker == orderLeft.maker, "rightOrder.taker verification failed");
-        }
-    }
+    # -fix-fix-fix - payable not supported / use erc20 token
+    sig [LibOrder::Order, Bytes, LibOrder::Order, Bytes], :external, :payable
+    def matchOrders(
+         orderLeft:,
+         signatureLeft:,
+         orderRight:,
+         signatureRight: ) 
+        _validateOrders( orderLeft, signatureLeft, orderRight, signatureRight )
+        matchAndTransfer( orderLeft, orderRight )
+    end
 
-    /**
-        @notice matches valid orders and transfers their assets
-        @param orderLeft the left order of the match
-        @param orderRight the right order of the match
-    */
-    function matchAndTransfer(LibOrder.Order memory orderLeft, LibOrder.Order memory orderRight) internal {
-        (LibAsset.AssetType memory makeMatch, LibAsset.AssetType memory takeMatch) = matchAssets(orderLeft, orderRight);
+    #
+    # @dev function, validate orders
+    #  @param orderLeft left order
+    #  @param signatureLeft order left signature
+    #  @param orderRight right order
+    #  @param signatureRight order right signature
+    #
+    sig [LibOrder::Order, Bytes, LibOrder::Order, Bytes], :view 
+    def _validateOrders( orderLeft:, signatureLeft:, orderRight:, signatureRight: ) 
+        validateFull( orderLeft, signatureLeft )
+        validateFull( orderRight, signatureRight )
+        if orderLeft.taker != address(0)
+            if orderRight.maker != address(0)
+                assert orderRight.maker == orderLeft.taker, "leftOrder.taker verification failed"
+            end
+        end
+        if orderRight.taker != address(0)
+            if orderLeft.maker != address(0)
+                assert orderRight.taker == orderLeft.maker, "rightOrder.taker verification failed"
+            end
+        end
+    end
 
-        (LibOrderData.GenericOrderData memory leftOrderData, LibOrderData.GenericOrderData memory rightOrderData, LibFill.FillResult memory newFill) =
-            parseOrdersSetFillEmitMatch(orderLeft, orderRight);
+    #
+    #   @notice matches valid orders and transfers their assets
+    #   @param orderLeft the left order of the match
+    #  @param orderRight the right order of the match
+    #
+    sig [LibOrder::Order, LibOrder::Order ]
+    def _matchAndTransfer( orderLeft:, orderRight: ) 
+        # (LibAsset.AssetType memory makeMatch, LibAsset.AssetType memory takeMatch)
+        makeMatch, takeMatch = matchAssets(orderLeft, orderRight)
 
-        (uint totalMakeValue, uint totalTakeValue) = doTransfers(
-            LibDeal.DealSide({
-                asset: LibAsset.Asset({
-                    assetType: makeMatch,
-                    value: newFill.leftValue
-                }),
+        # (LibOrderData.GenericOrderData memory leftOrderData, LibOrderData.GenericOrderData memory rightOrderData, LibFill.FillResult memory newFill) 
+        leftOrderData, rightOrderData, newFill  = parseOrdersSetFillEmitMatch(orderLeft, orderRight)
+
+        totalMakeValue, totalTakeValue = doTransfers(
+            LibDeal::DealSide.new(
+                asset: LibAsset::Asset.new(
+                            assetType: makeMatch,
+                            value: newFill.leftValue
+                ),
                 payouts: leftOrderData.payouts,
                 originFees: leftOrderData.originFees,
                 proxy: proxies[makeMatch.assetClass],
                 from: orderLeft.maker
-            }), 
-            LibDeal.DealSide({
-                asset: LibAsset.Asset( 
+            ), 
+            LibDeal::DealSide.new(
+                asset: LibAsset::Asset.new( 
                     takeMatch,
                     newFill.rightValue
                 ),
@@ -220,7 +225,7 @@ __END__
                 originFees: rightOrderData.originFees,
                 proxy: proxies[takeMatch.assetClass],
                 from: orderRight.maker
-            }),
+            ),
             getDealData(
                 makeMatch.assetClass,
                 takeMatch.assetClass,
@@ -229,38 +234,41 @@ __END__
                 leftOrderData,
                 rightOrderData
             )
-        );
-        if (makeMatch.assetClass == LibAsset.ETH_ASSET_CLASS) {
-            require(takeMatch.assetClass != LibAsset.ETH_ASSET_CLASS);
-            require(msg.value >= totalMakeValue, "not enough eth");
-            if (msg.value > totalMakeValue) {
-                address(msg.sender).transferEth(msg.value.sub(totalMakeValue));
-            }
-        } else if (takeMatch.assetClass == LibAsset.ETH_ASSET_CLASS) {
-            require(msg.value >= totalTakeValue, "not enough eth");
-            if (msg.value > totalTakeValue) {
-                address(msg.sender).transferEth(msg.value.sub(totalTakeValue));
-            }
-        }
-    }
+        )
 
-    function parseOrdersSetFillEmitMatch(
-        LibOrder.Order memory orderLeft,
-        LibOrder.Order memory orderRight
-    ) internal returns (LibOrderData.GenericOrderData memory leftOrderData, LibOrderData.GenericOrderData memory rightOrderData, LibFill.FillResult memory newFill) {
-        bytes32 leftOrderKeyHash = LibOrder.hashKey(orderLeft);
-        bytes32 rightOrderKeyHash = LibOrder.hashKey(orderRight);
+        # -fix-fix-fix - msg.value not supported / use erc20 token
+        if makeMatch.assetClass == LibAsset::ETH_ASSET_CLASS
+            assert takeMatch.assetClass != LibAsset::ETH_ASSET_CLASS
+            assert msg.value >= totalMakeValue, "not enough eth"
+            if msg.value > totalMakeValue
+                address( msg.sender ).transferEth( msg.value.sub(totalMakeValue))
+            end
+        elsif takeMatch.assetClass == LibAsset::ETH_ASSET_CLASS
+            assert msg.value >= totalTakeValue, "not enough eth"
+            if msg.value > totalTakeValue
+                address(msg.sender).transferEth(msg.value.sub(totalTakeValue))
+            end
+        end
+    end
 
-        address msgSender = _msgSender();
-        if (orderLeft.maker == address(0)) {
-            orderLeft.maker = msgSender;
-        }
-        if (orderRight.maker == address(0)) {
-            orderRight.maker = msgSender;
-        }
+    # returns leftOrderData, rightOrderData, newFill
+    sig [LibOrder::Order, LibOrder::Order], returns: [LibOrderData::GenericOrderData, 
+                                                      LibOrderData::GenericOrderData,
+                                                      LibFill::FillResult]
+    def _parseOrdersSetFillEmitMatch( orderLeft:, orderRight: )
+        leftOrderKeyHash  = LibOrder.hashKey(orderLeft)
+        rightOrderKeyHash = LibOrder.hashKey(orderRight)
 
-        leftOrderData = LibOrderData.parse(orderLeft);
-        rightOrderData = LibOrderData.parse(orderRight);
+        msgSender = _msgSender
+        if orderLeft.maker == address(0)
+            orderLeft.maker = msgSender
+        end
+        if orderRight.maker == address(0)
+            orderRight.maker = msgSender
+        end
+
+        leftOrderData = LibOrderData.parse( orderLeft )
+        rightOrderData = LibOrderData.parse( orderRight )
 
         newFill = setFillEmitMatch(
             orderLeft,
@@ -269,8 +277,13 @@ __END__
             rightOrderKeyHash,
             leftOrderData.isMakeFill,
             rightOrderData.isMakeFill
-        );
-    }
+        )
+    end
+end
+
+
+__END__
+
 
     function getDealData(
         bytes4 makeMatchAssetClass,
