@@ -34,7 +34,7 @@ class ExchangeV2Core < Contract    # abstract
     storage fills: mapping( Bytes, UInt ) ## was bytes32 => uint 
 
     sig [LibOrder::Order]
-    def cancel( order: )
+    def cancel( order: ), :external
         assert _msgSender == order.maker, "not a maker"
         assert order.salt != 0, "0 salt can't be used"
         
@@ -42,66 +42,66 @@ class ExchangeV2Core < Contract    # abstract
         @fills[ orderKeyHash ] = UINT256_MAX
         log Cancel, hash: orderKeyHash
     end
+
+
+    #
+    # @dev function, generate sellOrder and buyOrder from parameters
+    #       and call validateAndMatch() for purchase transaction
+    #  
+    # -fix-fix-fix - payable not supported / use erc20 token
+    sig [LibDirectTransfer::Purchase]  
+    def directPurchase( direct: ), :external, :payable
+        paymentAssetType = getPaymentAssetType( direct.paymentToken ) # LibAsset::AssetType
+                
+        sellOrder = LibOrder::Order.new(
+                     direct.sellOrderMaker,
+                     LibAsset::Asset.new(
+                       LibAsset::AssetType.new(
+                         direct.nftAssetClass,
+                         direct.nftData
+                       ),
+                     direct.sellOrderNftAmount
+                     ),
+                     address(0),
+                     LibAsset::Asset.new(
+                       paymentAssetType,
+                       direct.sellOrderPaymentAmount
+                     ),
+                     direct.sellOrderSalt,
+                     direct.sellOrderStart,
+                     direct.sellOrderEnd,
+                     direct.sellOrderDataType,
+                     direct.sellOrderData
+                    )
+
+        buyOrder = LibOrder::Order.new(
+                    address(0),
+                    LibAsset::Asset.new(
+                      paymentAssetType,
+                      direct.buyOrderPaymentAmount
+                    ),
+                    address(0),
+                    LibAsset::Asset.new(
+                      LibAsset::AssetType.new(
+                        direct.nftAssetClass,
+                        direct.nftData
+                      ),
+                      direct.buyOrderNftAmount
+                    ),
+                    0,
+                    0,
+                    0,
+                    getOtherOrderType(direct.sellOrderDataType),
+                    direct.buyOrderData
+                  )
+
+        validateFull( sellOrder, direct.sellOrderSignature)
+
+        matchAndTransfer(sellOrder, buyOrder)
+    end
 end
 
-
 __END__
-    /**
-     * @dev function, generate sellOrder and buyOrder from parameters and call validateAndMatch() for purchase transaction
- 
-    */
-
-    function directPurchase(
-        LibDirectTransfer.Purchase calldata direct
-    ) external payable{
-        LibAsset.AssetType memory paymentAssetType = getPaymentAssetType(direct.paymentToken);
-                
-        LibOrder.Order memory sellOrder = LibOrder.Order(
-            direct.sellOrderMaker,
-            LibAsset.Asset(
-                LibAsset.AssetType(
-                    direct.nftAssetClass,
-                    direct.nftData
-                ),
-                direct.sellOrderNftAmount
-            ),
-            address(0),
-            LibAsset.Asset(
-                paymentAssetType,
-                direct.sellOrderPaymentAmount
-            ),
-            direct.sellOrderSalt,
-            direct.sellOrderStart,
-            direct.sellOrderEnd,
-            direct.sellOrderDataType,
-            direct.sellOrderData
-        );
-
-        LibOrder.Order memory buyOrder = LibOrder.Order(
-            address(0),
-            LibAsset.Asset(
-                paymentAssetType,
-                direct.buyOrderPaymentAmount
-            ),
-            address(0),
-            LibAsset.Asset(
-                LibAsset.AssetType(
-                    direct.nftAssetClass,
-                    direct.nftData
-                ),
-                direct.buyOrderNftAmount
-            ),
-            0,
-            0,
-            0,
-            getOtherOrderType(direct.sellOrderDataType),
-            direct.buyOrderData
-        );
-
-        validateFull(sellOrder, direct.sellOrderSignature);
-
-        matchAndTransfer(sellOrder, buyOrder);
-    }
 
     /**
      * @dev function, generate sellOrder and buyOrder from parameters and call validateAndMatch() for accept bid transaction
