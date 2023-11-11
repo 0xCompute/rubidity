@@ -17,6 +17,16 @@
 # error TransferFailed();
 
 
+##
+#  add "custom" math module / library
+class Contract
+module Math
+   def self.min( a, b )  [a,b].min; end
+   def self.sqrt( y )  Integer.sqrt( y ); end
+end
+end # class Contract
+
+
 
 class UniswapV2Pair < ERC20 
 
@@ -45,122 +55,106 @@ class UniswapV2Pair < ERC20
         @token0 = token0
         @token1 = token1
     end
+
+    sig []  
+    def mint
+        reserve0, reserve1 = getReserves
+        balance0 = ERC20(@token0).balanceOf( address(this) )
+        balance1 = ERC20(@token1).balanceOf( address(this) )
+        amount0 = balance0 - reserve0
+        amount1 = balance1 - reserve1
+
+        liquidity = 0
+
+        if @totalSupply == 0
+            liquidity = Math.sqrt(amount0 * amount1) - MINIMUM_LIQUIDITY
+            _mint( address(0), MINIMUM_LIQUIDITY )
+        else 
+            liquidity = Math.min(
+                (amount0 * @totalSupply) / reserve0,
+                (amount1 * @totalSupply) / reserve1
+            )
+        end
+
+        assert liquidity > 0, "Insufficient Liquidity Minted"
+
+        _mint( msg.sender, liquidity )
+
+        _update( balance0, balance1, reserve0, reserve1 )
+
+        log Mint, sender: msg.sender, amount0: amount0, amount1: amount1
+    end
+
+    sig []
+    def burn
+        balance0 = ERC20(@token0).balanceOf(address(this))
+        balance1 = ERC20(@token1).balanceOf(address(this))
+        liquidity = @balanceOf[msg.sender]
+
+        amount0 = (liquidity * balance0) / @totalSupply
+        amount1 = (liquidity * balance1) / @totalSupply
+
+        assert amount0 > 0 && amount1 > 0, "Insufficient Liquidity Burned"
+
+        _burn( msg.sender, liquidity )
+
+        _safeTransfer( @token0, msg.sender, amount0 )
+        _safeTransfer( @token1, msg.sender, amount1 )
+
+        balance0 = ERC20(@token0).balanceOf(address(this))
+        balance1 = ERC20(@token1).balanceOf(address(this))
+
+        reserve0, reserve1 = getReserves
+        _update( balance0, balance1, reserve0, reserve1 )
+
+        log Burn, sender: msg.sender, amount0: amount0, amount1: amount1
+    end
+
+    sig [UInt, UInt, Address]
+    def swap( amount0Out:, amount1Out:, to: )
+        assert amount0Out > 0 && amount1Out > 0,  "Insufficient Output Amount"
+
+        reserve0, reserve1 = getReserves
+
+        assert amount0Out <= reserve0  && amount1Out <= reserve1, "Insufficient Liquidity"
+
+        balance0 = ERC20(@token0).balanceOf(address(this)) - amount0Out
+        balance1 = ERC20(@token1).balanceOf(address(this)) - amount1Out
+
+        assert balance0 * balance1 >= reserve0 * reserve1, "Invalid K"
+
+        _update( balance0, balance1, reserve0, reserve1 )
+
+        _safeTransfer( @token0, to, amount0Out )   if amount0Out > 0
+        _safeTransfer( @token1, to, amount1Out )   if amount1Out > 0
+
+        log Swap, sender: msg.sender, amount0Out: amount0Out, amount1Out: amount1Out, to: to
+    end
+
+    sig []
+    def sync
+        reserve0, reserve1 = getReserves
+        _update(
+            ERC20(@token0).balanceOf(address(this)),
+            ERC20(@token1).balanceOf(address(this)),
+            reserve0,
+            reserve1
+        )
+    end
+
+    sig [], :view, returns: [UInt, UInt, Timestamp]
+    def getReserves
+        [@_reserve0, @_reserve1, @_blockTimestampLast]
+    end
 end
 
 
 __END__
 
-
-
+    ##
+    ##  PRIVATE
+    ##
   
-    function mint() public {
-        (uint112 reserve0_, uint112 reserve1_, ) = getReserves();
-        uint256 balance0 = IERC20(token0).balanceOf(address(this));
-        uint256 balance1 = IERC20(token1).balanceOf(address(this));
-        uint256 amount0 = balance0 - reserve0_;
-        uint256 amount1 = balance1 - reserve1_;
-
-        uint256 liquidity;
-
-        if (totalSupply == 0) {
-            liquidity = Math.sqrt(amount0 * amount1) - MINIMUM_LIQUIDITY;
-            _mint(address(0), MINIMUM_LIQUIDITY);
-        } else {
-            liquidity = Math.min(
-                (amount0 * totalSupply) / reserve0_,
-                (amount1 * totalSupply) / reserve1_
-            );
-        }
-
-        if (liquidity <= 0) revert InsufficientLiquidityMinted();
-
-        _mint(msg.sender, liquidity);
-
-        _update(balance0, balance1, reserve0_, reserve1_);
-
-        emit Mint(msg.sender, amount0, amount1);
-    }
-
-    function burn() public {
-        uint256 balance0 = IERC20(token0).balanceOf(address(this));
-        uint256 balance1 = IERC20(token1).balanceOf(address(this));
-        uint256 liquidity = balanceOf[msg.sender];
-
-        uint256 amount0 = (liquidity * balance0) / totalSupply;
-        uint256 amount1 = (liquidity * balance1) / totalSupply;
-
-        if (amount0 <= 0 || amount1 <= 0) revert InsufficientLiquidityBurned();
-
-        _burn(msg.sender, liquidity);
-
-        _safeTransfer(token0, msg.sender, amount0);
-        _safeTransfer(token1, msg.sender, amount1);
-
-        balance0 = IERC20(token0).balanceOf(address(this));
-        balance1 = IERC20(token1).balanceOf(address(this));
-
-        (uint112 reserve0_, uint112 reserve1_, ) = getReserves();
-        _update(balance0, balance1, reserve0_, reserve1_);
-
-        emit Burn(msg.sender, amount0, amount1);
-    }
-
-    function swap(
-        uint256 amount0Out,
-        uint256 amount1Out,
-        address to
-    ) public {
-        if (amount0Out == 0 && amount1Out == 0)
-            revert InsufficientOutputAmount();
-
-        (uint112 reserve0_, uint112 reserve1_, ) = getReserves();
-
-        if (amount0Out > reserve0_ || amount1Out > reserve1_)
-            revert InsufficientLiquidity();
-
-        uint256 balance0 = IERC20(token0).balanceOf(address(this)) - amount0Out;
-        uint256 balance1 = IERC20(token1).balanceOf(address(this)) - amount1Out;
-
-        if (balance0 * balance1 < uint256(reserve0_) * uint256(reserve1_))
-            revert InvalidK();
-
-        _update(balance0, balance1, reserve0_, reserve1_);
-
-        if (amount0Out > 0) _safeTransfer(token0, to, amount0Out);
-        if (amount1Out > 0) _safeTransfer(token1, to, amount1Out);
-
-        emit Swap(msg.sender, amount0Out, amount1Out, to);
-    }
-
-    function sync() public {
-        (uint112 reserve0_, uint112 reserve1_, ) = getReserves();
-        _update(
-            IERC20(token0).balanceOf(address(this)),
-            IERC20(token1).balanceOf(address(this)),
-            reserve0_,
-            reserve1_
-        );
-    }
-
-    function getReserves()
-        public
-        view
-        returns (
-            uint112,
-            uint112,
-            uint32
-        )
-    {
-        return (reserve0, reserve1, blockTimestampLast);
-    }
-
-    //
-    //
-    //
-    //  PRIVATE
-    //
-    //
-    //
     function _update(
         uint256 balance0,
         uint256 balance1,
