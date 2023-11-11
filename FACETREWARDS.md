@@ -78,13 +78,6 @@ For more updates, follow [@dumbnamenumbers](https://twitter.com/dumbnamenumbers)
 and [@0xhirsch](https://twitter.com/0xHirsch) (a.k.a. Michael Hirsch).
 
 
----
-
-
-A repost from the facet discord:
-
-Note:  here's an idea. i (Gerald Bauer) am starting an rubidity (o.g.) coding (programming) club. i know dumb dumb idea. let's try anyway.
-for this week let's experiment with the uniswap (facetswap) contracts. here's my first little test runner -> https://github.com/s6ruby/rubidity/blob/master/uniswap/test_UnsafeNoApprovalERC20.rb   (using the rubidity-classic gem).  questions and comments welcome. join us (me) to learn and study together (how the magic works). 
 
 
 

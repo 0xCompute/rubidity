@@ -1,7 +1,18 @@
 # Facet Cards
 
+NEWS - NEWS - NEWS
 
-NEWS  - Registrations are live at https://facet.cards!
+Update: Nearly 4000 names claimed so far!
+
+You can see the full list here: https://ethscriptions.com/0x038b9E0Eef0f926682d3A9b1918611EFeC9CC741
+
+We're using Ethscriptions to track the reservations to save gas!
+
+Note: these ethscriptions are just receipts and aren't transferrable. Card trading will happen on Facet.
+
+ o o o
+
+Registrations are live at https://facet.cards!
 
 So far the response has been tremendous with more than 1000 name reservations in the first 5 minutes.
 
