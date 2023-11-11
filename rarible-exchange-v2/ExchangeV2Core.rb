@@ -197,7 +197,7 @@ class ExchangeV2Core < Contract    # abstract
     #   @param orderLeft the left order of the match
     #  @param orderRight the right order of the match
     #
-    sig [LibOrder::Order, LibOrder::Order ]
+    sig [LibOrder::Order, LibOrder::Order]
     def _matchAndTransfer( orderLeft:, orderRight: ) 
         # (LibAsset.AssetType memory makeMatch, LibAsset.AssetType memory takeMatch)
         makeMatch, takeMatch = matchAssets(orderLeft, orderRight)
@@ -279,190 +279,204 @@ class ExchangeV2Core < Contract    # abstract
             rightOrderData.isMakeFill
         )
     end
-end
 
-
-__END__
-
-
-    function getDealData(
-        bytes4 makeMatchAssetClass,
-        bytes4 takeMatchAssetClass,
-        bytes4 leftDataType,
-        bytes4 rightDataType,
-        LibOrderData.GenericOrderData memory leftOrderData,
-        LibOrderData.GenericOrderData memory rightOrderData
-    ) internal pure returns(LibDeal.DealData memory dealData) {
-        dealData.feeSide = LibFeeSide.getFeeSide(makeMatchAssetClass, takeMatchAssetClass);
-        dealData.maxFeesBasePoint = getMaxFee(
+    # returns dealData
+    sig [Bytes, Bytes, Bytes, Bytes, 
+         LibOrderData::GenericOrderData, 
+         LibOrderData::GenericOrderData], :pure, returns: LibDeal::DealData
+    def _getDealData(
+        makeMatchAssetClass:,
+        takeMatchAssetClass:,
+        leftDataType:,
+        rightDataType:,
+        leftOrderData:,
+        rightOrderData: )
+        LibDeal::DealData.new(
+          feeSide: LibFeeSide.getFeeSide( makeMatchAssetClass, takeMatchAssetClass ),
+          maxFeesBasePoint: getMaxFee(
             leftDataType,
             rightDataType,
             leftOrderData,
             rightOrderData,
             dealData.feeSide
-        );
-    }
+        ))
+    end
 
-    /**
-        @notice determines the max amount of fees for the match
-        @param dataTypeLeft data type of the left order
-        @param dataTypeRight data type of the right order
-        @param leftOrderData data of the left order
-        @param rightOrderData data of the right order
-        @param feeSide fee side of the match
-        @return max fee amount in base points
-    */
-    function getMaxFee(
-        bytes4 dataTypeLeft,
-        bytes4 dataTypeRight,
-        LibOrderData.GenericOrderData memory leftOrderData,
-        LibOrderData.GenericOrderData memory rightOrderData,
-        LibFeeSide.FeeSide feeSide
-    ) internal pure returns(uint) {
-        if (
-            dataTypeLeft != LibOrderDataV3.V3_SELL &&
-            dataTypeRight != LibOrderDataV3.V3_SELL &&
-            dataTypeLeft != LibOrderDataV3.V3_BUY &&
-            dataTypeRight != LibOrderDataV3.V3_BUY
-        ){
-            return 0;
-        }
+    #
+    #  @notice determines the max amount of fees for the match
+    #   @param dataTypeLeft data type of the left order
+    #   @param dataTypeRight data type of the right order
+    #   @param leftOrderData data of the left order
+    #  @param rightOrderData data of the right order
+    #  @param feeSide fee side of the match
+    #  @return max fee amount in base points
+    
+    sig [Bytes, Bytes, 
+         LibOrderData::GenericOrderData,
+         LibOrderData::GenericOrderData,
+         LibFeeSide::FeeSide], :pure, returns: UInt
+    def _getMaxFee(
+        dataTypeLeft:,
+        dataTypeRight:,
+        leftOrderData:,
+        rightOrderData:,
+        feeSide: )
+        if  dataTypeLeft != LibOrderDataV3::V3_SELL &&
+            dataTypeRight != LibOrderDataV3::V3_SELL &&
+            dataTypeLeft != LibOrderDataV3::V3_BUY &&
+            dataTypeRight != LibOrderDataV3::V3_BUY
+             return 0
+        end
 
-        uint matchFees = getSumFees(leftOrderData.originFees, rightOrderData.originFees);
-        uint maxFee;
-        if (feeSide == LibFeeSide.FeeSide.LEFT) {
-            maxFee = rightOrderData.maxFeesBasePoint;
-            require(
-                dataTypeLeft == LibOrderDataV3.V3_BUY &&
-                dataTypeRight == LibOrderDataV3.V3_SELL,
+        matchFees = getSumFees( leftOrderData.originFees, rightOrderData.originFees )
+        maxFee = 0
+        if feeSide == LibFeeSide::FeeSide.LEFT
+            maxFee = rightOrderData.maxFeesBasePoint
+            assert
+                dataTypeLeft == LibOrderDataV3::V3_BUY &&
+                dataTypeRight == LibOrderDataV3::V3_SELL,
                 "wrong V3 type1"
-            );
-
-        } else if (feeSide == LibFeeSide.FeeSide.RIGHT) {
-            maxFee = leftOrderData.maxFeesBasePoint;
-            require(
-                dataTypeRight == LibOrderDataV3.V3_BUY &&
-                dataTypeLeft == LibOrderDataV3.V3_SELL,
+        elsif feeSide == LibFeeSide::FeeSide.RIGHT
+            maxFee = leftOrderData.maxFeesBasePoint
+            assert
+                dataTypeRight == LibOrderDataV3::V3_BUY &&
+                dataTypeLeft == LibOrderDataV3::V3_SELL,
                 "wrong V3 type2"
-            );
-        } else {
-            return 0;
-        }
-        require(
+        else 
+          return 0
+        end
+        assert
             maxFee > 0 &&
             maxFee >= matchFees &&
             maxFee <= 1000,
             "wrong maxFee"
-        );
 
-        return maxFee;
-    }
+        maxFee
+    end
 
-    /**
-        @notice calculates amount of fees for the match
-        @param originLeft origin fees of the left order
-        @param originRight origin fees of the right order
-        @return sum of all fees for the match (protcolFee + leftOrder.originFees + rightOrder.originFees)
-     */
-    function getSumFees(LibPart.Part[] memory originLeft, LibPart.Part[] memory originRight) internal pure returns(uint) {
-        uint result = 0;
+    #
+    #   @notice calculates amount of fees for the match
+    #   @param originLeft origin fees of the left order
+    #   @param originRight origin fees of the right order
+    #    @return sum of all fees for the match (protcolFee + leftOrder.originFees + rightOrder.originFees)
+    #
+    sig [array(LibPart.Part),
+         array(LibPart.Part)], :pure, return: UInt
+    def _getSumFees( originLeft:, 
+                     originRight: ) 
+        result = 0
 
-        //adding left origin fees
-        for (uint i; i < originLeft.length; i ++) {
-            result = result + originLeft[i].value;
-        }
+        # adding left origin fees
+        for i in 0..originLeft.length
+            result = result + originLeft[i].value
+        end
 
-        //adding right origin fees
-        for (uint i; i < originRight.length; i ++) {
-            result = result + originRight[i].value;
-        }
+        # adding right origin fees
+        for i in 0..originRight.length
+            result = result + originRight[i].value
+        end
 
-        return result;
-    }
+        result
+    end
 
-    /**
-        @notice calculates fills for the matched orders and set them in "fills" mapping
-        @param orderLeft left order of the match
-        @param orderRight right order of the match
-        @param leftMakeFill true if the left orders uses make-side fills, false otherwise
-        @param rightMakeFill true if the right orders uses make-side fills, false otherwise
-        @return returns change in orders' fills by the match 
-    */
-    function setFillEmitMatch(
-        LibOrder.Order memory orderLeft,
-        LibOrder.Order memory orderRight,
-        bytes32 leftOrderKeyHash,
-        bytes32 rightOrderKeyHash,
-        bool leftMakeFill,
-        bool rightMakeFill
-    ) internal returns (LibFill.FillResult memory) {
-        uint leftOrderFill = getOrderFill(orderLeft.salt, leftOrderKeyHash);
-        uint rightOrderFill = getOrderFill(orderRight.salt, rightOrderKeyHash);
-        LibFill.FillResult memory newFill = LibFill.fillOrder(orderLeft, orderRight, leftOrderFill, rightOrderFill, leftMakeFill, rightMakeFill);
+    #
+    #    @notice calculates fills for the matched orders and set them in "fills" mapping
+    #    @param orderLeft left order of the match
+    #    @param orderRight right order of the match
+    #    @param leftMakeFill true if the left orders uses make-side fills, false otherwise
+    #    @param rightMakeFill true if the right orders uses make-side fills, false otherwise
+    #    @return returns change in orders' fills by the match 
+    #
+    sig [LibOrder::Order,
+         LibOrder::Order,
+         Bytes, Bytes, Bool, Bool], returns: LibFill::FillResult
+    def _setFillEmitMatch(
+        orderLeft:
+        orderRight:,
+        leftOrderKeyHash:,
+        rightOrderKeyHash:,
+        leftMakeFill:,
+        rightMakeFill: )
+        leftOrderFill = getOrderFill(orderLeft.salt, leftOrderKeyHash)
+        rightOrderFill = getOrderFill(orderRight.salt, rightOrderKeyHash)
+        newFill = LibFill.fillOrder(orderLeft, orderRight, leftOrderFill, rightOrderFill, leftMakeFill, rightMakeFill)
 
-        require(newFill.rightValue > 0 && newFill.leftValue > 0, "nothing to fill");
+        assert newFill.rightValue > 0 && newFill.leftValue > 0, "nothing to fill"
 
-        if (orderLeft.salt != 0) {
-            if (leftMakeFill) {
-                fills[leftOrderKeyHash] = leftOrderFill.add(newFill.leftValue);
-            } else {
-                fills[leftOrderKeyHash] = leftOrderFill.add(newFill.rightValue);
-            }
-        }
+        if orderLeft.salt != 0
+            if leftMakeFill
+                @fills[leftOrderKeyHash] = leftOrderFill.add(newFill.leftValue)
+            else 
+                @fills[leftOrderKeyHash] = leftOrderFill.add(newFill.rightValue)
+            end
+        end
 
-        if (orderRight.salt != 0) {
-            if (rightMakeFill) {
-                fills[rightOrderKeyHash] = rightOrderFill.add(newFill.rightValue);
-            } else {
-                fills[rightOrderKeyHash] = rightOrderFill.add(newFill.leftValue);
-            }
-        }
+        if orderRight.salt != 0
+            if rightMakeFill
+                @fills[rightOrderKeyHash] = rightOrderFill.add(newFill.rightValue)
+            else 
+                @fills[rightOrderKeyHash] = rightOrderFill.add(newFill.leftValue)
+            end
+        end
 
-        emit Match(leftOrderKeyHash, rightOrderKeyHash, newFill.rightValue, newFill.leftValue);
+        log Match, 
+           leftHash: leftOrderKeyHash, 
+           rightHash: rightOrderKeyHash, 
+           newLeftFill: newFill.rightValue,
+           newRightFill: newFill.leftValue
 
-        return newFill;
-    }
+        newFill
+    end
 
-    function getOrderFill(uint salt, bytes32 hash) internal view returns (uint fill) {
-        if (salt == 0) {
-            fill = 0;
-        } else {
-            fill = fills[hash];
-        }
-    }
 
-    function matchAssets(LibOrder.Order memory orderLeft, LibOrder.Order memory orderRight) internal view returns (LibAsset.AssetType memory makeMatch, LibAsset.AssetType memory takeMatch) {
-        makeMatch = matchAssets(orderLeft.makeAsset.assetType, orderRight.takeAsset.assetType);
-        require(makeMatch.assetClass != 0, "assets don't match");
-        takeMatch = matchAssets(orderLeft.takeAsset.assetType, orderRight.makeAsset.assetType);
-        require(takeMatch.assetClass != 0, "assets don't match");
-    }
+    sig [UInt, Bytes], :view, returns: UInt
+    def _getOrderFill( salt:, hash: )
+        if salt == 0 
+            0
+        else 
+           @fills[hash]
+        end
+    end
 
-    function validateFull(LibOrder.Order memory order, bytes memory signature) internal view {
-        LibOrder.validateOrderTime(order);
-        validate(order, signature);
-    }
 
-    function getPaymentAssetType(address token) internal pure returns(LibAsset.AssetType memory){
-        LibAsset.AssetType memory result;
-        if(token == address(0)) {
-            result.assetClass = LibAsset.ETH_ASSET_CLASS;
-        } else {
-            result.assetClass = LibAsset.ERC20_ASSET_CLASS;
-            result.data = abi.encode(token);
-        }
-        return result;
-    }
+    # returns makeMatch, takeMatch
+    sig [LibOrder::Order, LibOrder::Order], :view, returns: [LibAsset.AssetType, LibAsset.AssetType]
+    def _matchAssets( orderLeft:, orderRight:) 
+        makeMatch = matchAssets(orderLeft.makeAsset.assetType, orderRight.takeAsset.assetType
+        assert makeMatch.assetClass != 0, "assets don't match"
+        takeMatch = matchAssets(orderLeft.takeAsset.assetType, orderRight.makeAsset.assetType
+        assert takeMatch.assetClass != 0, "assets don't match"
 
-    function getOtherOrderType(bytes4 dataType) internal pure returns(bytes4) {
-        if (dataType == LibOrderDataV3.V3_SELL) {
-            return LibOrderDataV3.V3_BUY;
-        }
-        if (dataType == LibOrderDataV3.V3_BUY) {
-            return LibOrderDataV3.V3_SELL;
-        }
-        return dataType;
-    }
+        [makeMatch, takeMatch]
+    end
 
-    uint256[49] private __gap;
-}
+    sig [LibOrder::Order, Bytes], :view
+    def _validateFull( order:, signature: )
+        LibOrder.validateOrderTime( order )
+        validate(order, signature)
+    end
+
+    sig [Address], :pure, returns: LibAsset::AssetType 
+    def _getPaymentAssetType( token: )
+        if token == address(0) 
+            LibAsset::AssetType.new(
+                assetClass: LibAsset::ETH_ASSET_CLASS )
+        else 
+            LibAsset::AssetType.new(
+               assetClass: LibAsset::ERC20_ASSET_CLASS, 
+               data: abi.encode(token) ) # -fix-fix-fix- abi.encode???
+        end
+    end
+
+    sig [Bytes], :pure, returns: Bytes
+    def _getOtherOrderType( dataType: )
+        if dataType == LibOrderDataV3::V3_SELL
+            LibOrderDataV3::V3_BUY
+        end
+        if dataType == LibOrderDataV3.V3_BUY
+            LibOrderDataV3::V3_SELL
+        end
+    end
+end
+
+
