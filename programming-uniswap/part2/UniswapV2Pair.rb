@@ -112,7 +112,7 @@ class UniswapV2Pair < ERC20
 
     sig [UInt, UInt, Address]
     def swap( amount0Out:, amount1Out:, to: )
-        assert amount0Out > 0 && amount1Out > 0,  "Insufficient Output Amount"
+        assert amount0Out >= 0 || amount1Out >= 0, "Insufficient Output Amount"
 
         reserve0, reserve1 = getReserves
 
@@ -123,6 +123,14 @@ class UniswapV2Pair < ERC20
 
         assert balance0 * balance1 >= reserve0 * reserve1, "Invalid K"
 
+        puts "==> swap"
+        puts "   amount0Out:     #{amount0Out}"
+        puts "   amount1Out:     #{amount1Out}"
+        puts "   (new) balance0: #{balance0}"
+        puts "   (new) balance1: #{balance1}"
+        puts "   reserve0:       #{reserve0}"
+        puts "   reserve1:       #{reserve1}"
+   
         _update( balance0, balance1, reserve0, reserve1 )
 
         _safeTransfer( @token0, to, amount0Out )   if amount0Out > 0
@@ -146,53 +154,48 @@ class UniswapV2Pair < ERC20
     def getReserves
         [@_reserve0, @_reserve1, @_blockTimestampLast]
     end
-end
 
-
-__END__
 
     ##
     ##  PRIVATE
     ##
-  
-    function _update(
-        uint256 balance0,
-        uint256 balance1,
-        uint112 reserve0_,
-        uint112 reserve1_
-    ) private {
-        if (balance0 > type(uint112).max || balance1 > type(uint112).max)
-            revert BalanceOverflow();
+ 
+    sig [UInt, UInt, UInt, UInt]
+    def _update(
+        balance0:,
+        balance1:,
+        reserve0:,
+        reserve1: )
+        ## use UINT112_MAX = (2 ** 112 - 1)  - why? why not? 
+        assert balance0 <= (2 ** 112 - 1) && balance1 <= (2 ** 112 - 1), "Balance Overflow"
 
-        unchecked {
-            uint32 timeElapsed = uint32(block.timestamp) - blockTimestampLast;
+        timeElapsed = block.timestamp - @_blockTimestampLast
 
-            if (timeElapsed > 0 && reserve0_ > 0 && reserve1_ > 0) {
-                price0CumulativeLast +=
-                    uint256(UQ112x112.encode(reserve1_).uqdiv(reserve0_)) *
-                    timeElapsed;
-                price1CumulativeLast +=
-                    uint256(UQ112x112.encode(reserve0_).uqdiv(reserve1_)) *
-                    timeElapsed;
-            }
-        }
+        ## use Q112  = 2**112  - why? why not?
+        if timeElapsed > 0 && reserve0 > 0 && reserve1 > 0
+                @price0CumulativeLast +=
+                    (reserve1 *2**112 / reserve0) * timeElapsed
+                @price1CumulativeLast +=
+                    (reserve0 *2**112 / reserve1) * timeElapsed
+        end
 
-        reserve0 = uint112(balance0);
-        reserve1 = uint112(balance1);
-        blockTimestampLast = uint32(block.timestamp);
+        @_reserve0           = balance0
+        @_reserve1           = balance1
+        @_blockTimestampLast = block.timestamp
 
-        emit Sync(reserve0, reserve1);
-    }
+        log Sync, reserve0: @_reserve0, reserve1: @_reserve1
+    end
 
-    function _safeTransfer(
-        address token,
-        address to,
-        uint256 value
-    ) private {
-        (bool success, bytes memory data) = token.call(
-            abi.encodeWithSignature("transfer(address,uint256)", to, value)
-        );
-        if (!success || (data.length != 0 && !abi.decode(data, (bool))))
-            revert TransferFailed();
-    }
-}
+    sig [Address, Address, UInt]
+    def _safeTransfer( token:, to:, value: )
+ 
+        ## fix-fix-fix - autoset msg.sender via call(stack) or such
+        ##   use 
+        ##    ERC20( token ).call { transfer( to: to, amount: value  ) }
+        ##   to update context (msg.sender) - why? why not?
+        ##   always call "external" contracts 
+        ##      via interface proxy or such - why? why not?
+        success =   callstack { ERC20( token ).transfer( to: to, amount: value  ) } 
+        assert success, "Transfer Failed"
+    end
+end
