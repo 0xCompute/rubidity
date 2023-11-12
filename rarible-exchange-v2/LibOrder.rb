@@ -1,44 +1,64 @@
-// SPDX-License-Identifier: MIT
+# pragma solidity 0.7.6;
+#
+# import "@rarible/lib-asset/contracts/LibAsset.sol";
+# 
+# import "./LibMath.sol";
+# import "./LibOrderDataV3.sol";
+# import "./LibOrderDataV2.sol";
+# import "./LibOrderDataV1.sol";
 
-pragma solidity 0.7.6;
 
-import "@rarible/lib-asset/contracts/LibAsset.sol";
 
-import "./LibMath.sol";
-import "./LibOrderDataV3.sol";
-import "./LibOrderDataV2.sol";
-import "./LibOrderDataV1.sol";
 
-library LibOrder {
-    using SafeMathUpgradeable for uint;
+module LibOrder
+##  add library machinery "by hand" for now - begin
+  include Types
+  def self.struct( class_name, **attributes )
+     typedclass = Types::Struct.new( class_name, scope: self, **attributes )
+     typedclass
+  end
+##  end
+ 
 
-    bytes32 constant ORDER_TYPEHASH = keccak256(
+
+    ORDER_TYPEHASH = keccak256(
         "Order(address maker,Asset makeAsset,address taker,Asset takeAsset,uint256 salt,uint256 start,uint256 end,bytes4 dataType,bytes data)Asset(AssetType assetType,uint256 value)AssetType(bytes4 assetClass,bytes data)"
-    );
+    )  ## bytes32
 
-    bytes4 constant DEFAULT_ORDER_TYPE = 0xffffffff;
+    DEFAULT_ORDER_TYPE  =  '0xffffffff'   ## bytes4; use bytes4('0xffffffff') - why? why not?
 
-    struct Order {
-        address maker;
-        LibAsset.Asset makeAsset;
-        address taker;
-        LibAsset.Asset takeAsset;
-        uint salt;
-        uint start;
-        uint end;
-        bytes4 dataType;
-        bytes data;
-    }
+    struct :Order, 
+        maker:     Address,
+        makeAsset: LibAsset::Asset,
+        taker:     Address,
+        takeAsset: LibAsset::Asset,
+        salt:      UInt,
+        start:     Timestamp,     
+        _end:      Timestamp,     ## end is keyword in ruby       
+        dataType:  Bytes,         ## was: bytes4
+        data:      Bytes 
 
-    function calculateRemaining(Order memory order, uint fill, bool isMakeFill) internal pure returns (uint makeValue, uint takeValue) {
-        if (isMakeFill){
-            makeValue = order.makeAsset.value.sub(fill);
-            takeValue = LibMath.safeGetPartialAmountFloor(order.takeAsset.value, order.makeAsset.value, makeValue);
-        } else {
-            takeValue = order.takeAsset.value.sub(fill);
-            makeValue = LibMath.safeGetPartialAmountFloor(order.makeAsset.value, order.takeAsset.value, takeValue); 
-        } 
-    }
+
+    # sig [Order, UInt, Bool], :pure, returns: [UInt,UInt]  # returns makeValue, takeValue     
+    def self.calculateRemaining( order:, fill:, isMakeFill: )
+            if isMakeFill
+                makeValue = order.makeAsset.value - fill
+                takeValue = LibMath.safeGetPartialAmountFloor( order.takeAsset.value, order.makeAsset.value, makeValue)
+             else 
+                takeValue = order.takeAsset.value - fill
+                makeValue = LibMath.safeGetPartialAmountFloor( order.makeAsset.value, order.takeAsset.value, takeValue) 
+             end 
+
+             [makeValue, takeValue]
+    end
+
+
+end  # module LibOrder
+
+
+__END__
+
+
 
     function hashKey(Order memory order) internal pure returns (bytes32) {
         if (order.dataType == LibOrderDataV1.V1 || order.dataType == DEFAULT_ORDER_TYPE) {
@@ -80,3 +100,4 @@ library LibOrder {
         require(order.end == 0 || order.end > block.timestamp, "Order end validation failed");
     }
 }
+

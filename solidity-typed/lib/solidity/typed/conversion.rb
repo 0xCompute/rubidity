@@ -28,14 +28,21 @@ end
 alias_method :uint256, :uint
 alias_method :uint224, :uint
 alias_method :uint112, :uint   ## note: for now all are uint256 - fix? - why? why not?
-
-
 =begin
 def uint( obj=0 )
     ## check if typed?
    ## raise exception on error
 end
 =end
+
+
+def bytes( obj )
+  return obj           if obj.is_a?( Types::Bytes )
+
+  Types::Bytes.new( obj )   
+end
+alias_method :bytes4, :bytes  ## fix-fix-fix  - cut of bytes (only first 4 bytes/8 hexchars)
+
 
 
 
