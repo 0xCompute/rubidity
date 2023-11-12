@@ -99,67 +99,71 @@ For example, here is the first ever card registered: facet.cards/666
 
 ## Frequently Asked Questions (FAQs) and Answers
 
-Q: Is the Facet card mainnet based erc-721 or facetscan based erc-721?
+
+#### Q: Is the Facet card mainnet based erc-721 or facetscan based erc-721?
 
 A: This pre-registration will be happening on Ethereum mainnet 
 and we will be ethscribing receipts for the purchases. When Facet goes live on mainnet we will airdrop everyone their cards who registered early.
 
 
-Q: Do I have to pay a fee for pre-registration?
+#### Q: Do I have to pay a fee for pre-registration?
 
 A: No additional fee but all registration has a yearly fee
 
-Q: Could I pay the registration fee by eth? Could  one wallet registered more than 1 facet cards?
+#### Q: Could I pay the registration fee by eth? Could  one wallet registered more than 1 facet cards?
 
 A: yes to both
 
-Q: Will it be possible to squat multiple names from one address?
-   How many names can you reserve per address?
+#### Q: Will it be possible to squat multiple names from one address? How many names can you reserve per address?
 
 A: An address can reserve unlimited names. Unlimited! 
 
 
 
-Q: Thanks, once a facet card like 'a' is purchased, it cannot be purchased again by others, right?
+#### Q: Thanks, once a facet card like 'a' is purchased, it cannot be purchased again by others, right?
 
 A: Until it expires; you pay on a yearly basis
 
 
-Q: Are names tradable?
+#### Q: Are names tradable?
 
 A: Yes when we launch on Facet they will be ERC-721 NFTs and be tradeable
 
-Q: Is it case sensitive? Are these case sensitive?
 
-A: lowercase only. Everything must be lowercase!
+#### Q: Are names case sensitive?
+
+A: Lowercase only (a-z). Everything must be lowercase!
 
 
-
-Q: Will there be support for Chinese/Japanese/Russian/Arabic/etc charactes?
+#### Q: Will there be support for Chinese/Japanese/Russian/Arabic/etc charactes?
 
 A: It's all lowercase alphanumeric (a-z, 0-9)
 
 
-
-Q: why did facet card launch first on mainnet?
+#### Q: why did facet card launch first on mainnet?
 
 A: So people can get the "early reserver" sticker!
 
 
-Q: i hope i am the first one to register. i pray i did.
+#### Q: i hope i am the first one to register. i pray i did.
 
 A: You can check by going to fac.et/yourname 
 
 
-Q: what is the benefit to get the card and how much that it costs on a yearly basis?
+#### Q: what is the benefit to get the card and how much that it costs on a yearly basis?
 
-A: it's like ENS but more gas-efficient which means you can do more things with it. 
+A: It's like ENS but more gas-efficient which means you can do more things with it. 
 There will also be a profile page at fac.et/name. Finally the card will be a platform for stickers where anyone will have the ability to create stickers for people to claim
 Stickers can represent POAPs, memberships, authentication, etc
 Everyone who reserves early gets a sticker from us, for example.
 
+#### Q: Are Facet cards solely usernames, no domains? 
 
-Q: can we please verify the contract on mainnet, that would be very helpful!
+A: They are usernames more than domains.  For example there are no subdomains.
+
+
+
+#### Q: can we please verify the contract on mainnet, that would be very helpful!
 
 
 A: It's a proxy; the verified implementation is her: https://etherscan.io/address/0x7a540005f29dab4bcf7d37d44865d79cc185439c#code
