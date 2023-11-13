@@ -3,6 +3,10 @@
 #
 #  include via module - why? why not?
 
+#
+# now with Float included here - change to numeric.rb or such - why? why not?
+#  or move to core_ext/numbers or such?
+
 
 class Integer
     def e2()  self * 10**2; end   #                       100
@@ -32,11 +36,23 @@ class Integer
     ###########
     # Ethereum money units
     #  add more - why? why not?
+    #  use alias_method :ether, :e18 - why? why not?
     def ether()   self * 10**18; end
     alias_method :eth, :ether
-  
 end # class Integer
-  
-  
 
 
+class Float
+    def e18() (self *10**18).to_i; end
+
+    ## note: add e6 (zeros) after conversion to int
+    ## 21e24.to_i = 20999999999999999110807552 !!!!
+    ## 21.0.e24   = 21000000000000000000000000
+    def e24() (self *10**18).to_i.e6; end
+
+    #  use alias_method :ether, :e18 - why? why not?
+    def ether() (self *10**18).to_i; end
+    alias_method :eth, :ether
+end
+
+  
