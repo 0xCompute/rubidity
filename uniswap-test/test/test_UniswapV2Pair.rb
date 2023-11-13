@@ -6,6 +6,44 @@
 require_relative 'helper'
 
 
+
+####################
+# load (parse) and generate contract classes
+
+source = Contract.load( 'UniswapV2Factory' )
+
+pp source.contracts
+
+puts "  #{source.contracts.size} contract(s):"
+source.contracts.each do |contract|
+    print "   #{contract.name}"
+    print " is #{contract.is.inspect}"   unless contract.is.empty?
+    print "\n"
+end
+
+# 8 contract(s):
+#   UniswapV2Callee
+#   ERC20
+#   UniswapV2ERC20 is [:ERC20]
+#   UnsafeNoApprovalERC20 is [:ERC20]
+#   PublicMintERC20 is [:ERC20]
+#   IUniswapV2Factory
+#   UniswapV2Pair is [:UniswapV2ERC20]
+#   UniswapV2Factory
+
+
+pp ERC20
+pp PublicMintERC20 
+pp UniswapV2Pair 
+pp UniswapV2Factory
+
+pp ERC20.name
+pp PublicMintERC20.name 
+pp UniswapV2Pair.name 
+pp UniswapV2Factory.name
+
+
+
 class TestUniswapV2Pair < Minitest::Test
 
   ALICE  = '0x'+'a'*40 # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
@@ -68,10 +106,22 @@ beforeEach(async () => {
       decimals: 18 )
     pp token1
 
+    Runtime.msg.sender = ALICE
+    ## todo/check - what is the balance of alice in test setup upstream? (all by default?)
+    token0.mint( 1000.e18 ) 
+    token1.mint( 1000.e18 ) 
 
-    pair = UniswapV2Pair.construct( token0: address(token0),
-                                    token1: address(token1) ) 
 
+
+    factory = UniswapV2Factory.construct( _feeToSetter: ALICE ) 
+    
+    # Create a pair using the UniswapV2Factory contract
+    pair_address = factory.createPair(
+                          tokenA: address( token0 ), 
+                          tokenB: address( token1 ))
+    pp pair_address                  
+
+    pair = UniswapV2Pair.at( pair_address )   ## get contract ref
 
     Runtime.msg.sender = ALICE
 
@@ -120,7 +170,7 @@ it('mint', async () => {
     token1Amount = 4.e18
     token0.transfer( address(pair), token0Amount)
     token1.transfer( address(pair), token1Amount)
-    
+
     # const expectedLiquidity = expandTo18Decimals(2)
     # await expect(pair.mint(wallet.address, overrides))
     #  .to.emit(pair, 'Transfer')
@@ -133,7 +183,7 @@ it('mint', async () => {
     #  .withArgs(wallet.address, token0Amount, token1Amount)
   
     expectedLiquidity = 2.e18
-    pair.mint
+    pair.mint( to: ALICE )
     #  .to.emit(pair, 'Transfer')
     #  .withArgs(AddressZero, AddressZero, MINIMUM_LIQUIDITY)
     #  .to.emit(pair, 'Transfer')
@@ -148,14 +198,14 @@ it('mint', async () => {
     # expect(await pair.balanceOf(wallet.address)).to.eq(expectedLiquidity.sub(MINIMUM_LIQUIDITY))
     assert pair.balanceOf( ALICE ) == expectedLiquidity - 1000
     # expect(await token0.balanceOf(pair.address)).to.eq(token0Amount)
-    assert token0.balanceOf( pair.address) == token0Amount
+    assert token0.balanceOf( address( pair )) == token0Amount
     # expect(await token1.balanceOf(pair.address)).to.eq(token1Amount)
-    assert token1.balanceOf( pair.address) == token1Amount
+    assert token1.balanceOf( address( pair )) == token1Amount
     reserves = pair.getReserves
     # expect(reserves[0]).to.eq(token0Amount)
     assert reserves[0] == token0Amount
     # expect(reserves[1]).to.eq(token1Amount)
-    assert reserves[1] == token1Amount       
+    assert reserves[1] == token1Amount      
   end  # method test_mint  
 end  # class TestUniswapV2Pair
 

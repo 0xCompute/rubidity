@@ -13,6 +13,9 @@ class Builder
 
   ## note: try adding filename and lineno to get source for block!!!
   def self.load( code, filename, lineno )
+
+    ## todo/fix: add filename to @paths too (to avoid possible recursive loading!!)
+
     builder = Builder.new
     builder.instance_eval( code, filename, lineno )
     builder
@@ -20,7 +23,11 @@ class Builder
 
   def initialize
     @source = Source.new
+    ## only load path once; keep track of loaded imports 
+    ##  change paths to contracts or such - why? why not?
+    @paths  = []   
   end
+
 
   attr_reader :source
 
@@ -38,11 +45,18 @@ class Builder
     code = File.open( "contracts/#{path}.rb", 'r:utf-8' ) { |f| f.read }
   
     basename = File.basename( path )
-    lineno   = 1  ## note: starting at line 1 (NOT 0!!!)
-    instance_eval( code, basename, lineno )
+
+    if @paths.include?( basename )
+        puts "   skipping import; already loaded"
+    else
+       @paths << basename
+       lineno   = 1  ## note: starting at line 1 (NOT 0!!!)
+       instance_eval( code, basename, lineno )
+    end
   end
 
 
+  
   def contract( name, is: [], abstract: false, &body )
      contract =  ContractDef.new( name, is: is, abstract: abstract )
      contract.instance_eval( &body )
