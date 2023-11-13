@@ -108,8 +108,8 @@ beforeEach(async () => {
 
     Runtime.msg.sender = ALICE
     ## todo/check - what is the balance of alice in test setup upstream? (all by default?)
-    token0.mint( 1000.e18 ) 
-    token1.mint( 1000.e18 ) 
+    token0.mint( 10000.e18 ) 
+    token1.mint( 10000.e18 ) 
 
 
 
@@ -207,5 +207,166 @@ it('mint', async () => {
     # expect(reserves[1]).to.eq(token1Amount)
     assert reserves[1] == token1Amount      
   end  # method test_mint  
+
+
+=begin
+  async function addLiquidity(token0Amount: BigNumber, token1Amount: BigNumber) {
+    await token0.transfer(pair.address, token0Amount)
+    await token1.transfer(pair.address, token1Amount)
+    await pair.mint(wallet.address, overrides)
+  }
+  const swapTestCases: BigNumber[][] = [
+    [1, 5, 10, '1662497915624478906'],
+    [1, 10, 5, '453305446940074565'],
+
+    [2, 5, 10, '2851015155847869602'],
+    [2, 10, 5, '831248957812239453'],
+
+    [1, 10, 10, '906610893880149131'],
+    [1, 100, 100, '987158034397061298'],
+    [1, 1000, 1000, '996006981039903216']
+  ].map(a => a.map(n => (typeof n === 'string' ? bigNumberify(n) : expandTo18Decimals(n))))
+  swapTestCases.forEach((swapTestCase, i) => {
+    it(`getInputPrice:${i}`, async () => {
+      const [swapAmount, token0Amount, token1Amount, expectedOutputAmount] = swapTestCase
+      await addLiquidity(token0Amount, token1Amount)
+      await token0.transfer(pair.address, swapAmount)
+      await expect(pair.swap(0, expectedOutputAmount.add(1), wallet.address, '0x', overrides)).to.be.revertedWith(
+        'UniswapV2: K'
+      )
+      await pair.swap(0, expectedOutputAmount, wallet.address, '0x', overrides)
+    })
+  })
+=end
+
+   ###
+   # swapAmount, token0Amount, token1Amount, expectedOutputAmount
+   SWAP_TEST_CASES = [
+     [1.e18, 5.e18, 10.e18,  1662497915624478906],
+     [1.e18, 10.e18, 5.e18,  453305446940074565],
+
+     [2.e18, 5.e18, 10.e18,   2851015155847869602],
+     [2.e18, 10.e18, 5.e18,   831248957812239453],
+
+     [1.e18, 10.e18, 10.e18,     906610893880149131],
+     [1.e18, 100.e18, 100.e18,   987158034397061298],
+     [1.e18, 1000.e18, 1000.e18, 996006981039903216]
+   ]
+
+  def test_swapTestCases
+     SWAP_TEST_CASES.each_with_index do |swapTestCase,i|
+        swapAmount, token0Amount, token1Amount, expectedOutputAmount = swapTestCase
+  
+        puts "==> getInputPrice:#{i}"
+        pp swapTestCase
+
+        token0, token1, pair =  _setup_contracts
+
+        # addLiquidity( token0Amount, token1Amount )
+        token0.transfer( address(pair), token0Amount )
+        token1.transfer( address(pair), token1Amount )
+        pair.mint( to: ALICE )  
+        assert token0.balanceOf( address( pair )) == token0Amount
+        assert token1.balanceOf( address( pair )) == token1Amount
+     
+        token0.transfer( address(pair), swapAmount )
+        assert token0.balanceOf( address( pair )) == token0Amount + swapAmount
+
+        # todo - add error case with revert!
+        # await expect(pair.swap(0, expectedOutputAmount.add(1), wallet.address, '0x', overrides)).to.be.revertedWith(
+        #  'UniswapV2: K'
+        # )
+        
+        #   function :swap, { amount0Out: :uint256, 
+        #                     amount1Out: :uint256, 
+        #                     to: :address, 
+        #                     data: :bytes }
+
+        # allow '0x' for empty bytes type - why? why not?
+        #              bytes.length = 0
+        # await pair.swap(0, expectedOutputAmount, wallet.address, '0x', overrides)
+
+        pair.swap( amount0Out:  0, 
+                   amount1Out:  expectedOutputAmount, 
+                   to:          ALICE, 
+                   data:       '0x00' )
+ 
+        assert token0.balanceOf( address( pair )) == token0Amount + swapAmount
+        assert token1.balanceOf( address( pair )) == token1Amount - expectedOutputAmount
+      
+        assert token0.balanceOf( ALICE ) ==  10000.e18 - token0Amount - swapAmount
+        assert token1.balanceOf( ALICE ) ==  10000.e18 - token1Amount + expectedOutputAmount
+     end
+  end
+
+=begin
+  const optimisticTestCases: BigNumber[][] = [
+    ['997000000000000000', 5, 10, 1], // given amountIn, amountOut = floor(amountIn * .997)
+    ['997000000000000000', 10, 5, 1],
+    ['997000000000000000', 5, 5, 1],
+    [1, 5, 5, '1003009027081243732'] // given amountOut, amountIn = ceiling(amountOut / .997)
+  ].map(a => a.map(n => (typeof n === 'string' ? bigNumberify(n) : expandTo18Decimals(n))))
+  optimisticTestCases.forEach((optimisticTestCase, i) => {
+    it(`optimistic:${i}`, async () => {
+      const [outputAmount, token0Amount, token1Amount, inputAmount] = optimisticTestCase
+      await addLiquidity(token0Amount, token1Amount)
+      await token0.transfer(pair.address, inputAmount)
+      await expect(pair.swap(outputAmount.add(1), 0, wallet.address, '0x', overrides)).to.be.revertedWith(
+        'UniswapV2: K'
+      )
+      await pair.swap(outputAmount, 0, wallet.address, '0x', overrides)
+    })
+  })
+=end
+
+
+###
+# outputAmount, token0Amount, token1Amount, inputAmount
+  OPTIMISTIC_TEST_CASES = [
+    [997000000000000000, 5.e18, 10.e18, 1.e18], # given amountIn, amountOut = floor(amountIn * .997)
+    [997000000000000000, 10.e18, 5.e18, 1.e18],
+    [997000000000000000, 5.e18, 5.e18, 1.e18],
+    [1.e18, 5.e18, 5.e18, 1003009027081243732]  # given amountOut, amountIn = ceiling(amountOut / .997)
+  ]
+
+  def test_optimisticTestCases
+    OPTIMISTIC_TEST_CASES.each_with_index do |optimisticTestCase,i|
+      outputAmount, token0Amount, token1Amount, inputAmount = optimisticTestCase
+
+      puts "==> optimistic:#{i}"
+      pp optimisticTestCase
+
+      token0, token1, pair =  _setup_contracts
+
+       # addLiquidity( token0Amount, token1Amount )
+       token0.transfer( address(pair), token0Amount )
+       token1.transfer( address(pair), token1Amount )
+       pair.mint( to: ALICE )  
+       assert token0.balanceOf( address( pair )) == token0Amount
+       assert token1.balanceOf( address( pair )) == token1Amount
+    
+       token0.transfer( address(pair), inputAmount )
+       assert token0.balanceOf( address( pair )) == token0Amount + inputAmount
+
+       # await expect(pair.swap(outputAmount.add(1), 0, wallet.address, '0x', overrides)).to.be.revertedWith(
+       #  'UniswapV2: K'
+       # )
+       # await pair.swap(outputAmount, 0, wallet.address, '0x', overrides)
+
+        pair.swap( amount0Out:  outputAmount, 
+                   amount1Out:  0, 
+                   to:          ALICE, 
+                   data:       '0x00' )
+ 
+        assert token0.balanceOf( address( pair )) == token0Amount + inputAmount - outputAmount
+        assert token1.balanceOf( address( pair )) == token1Amount
+        
+        assert token0.balanceOf( ALICE ) ==  10000.e18 - token0Amount - inputAmount + outputAmount
+        assert token1.balanceOf( ALICE ) ==  10000.e18 - token1Amount
+    end
+  end
+  
+
+
 end  # class TestUniswapV2Pair
 

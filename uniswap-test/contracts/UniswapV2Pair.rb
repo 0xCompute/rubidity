@@ -48,7 +48,15 @@ contract :UniswapV2Pair, is: :UniswapV2ERC20 do
   
 
   function :_safeTransfer, { token: :address, to: :address, value: :uint256 }, :private do
-    result = ERC20(token).transfer(to: to, amount: value)
+    ## fix-fix-fix - autoset msg.sender via call(stack) or such
+    result = callstack do 
+                  puts "==> safeTransfer token: #{token}"
+                  puts "  from: #{address(this)}"
+                  puts "  to:   #{to}"
+                  puts "  value: #{value}"
+                  ERC20(token).transfer(to: to, amount: value) 
+             end
+    puts "  result: #{result}"
     
     require(result, "ScribeSwap: TRANSFER_FAILED")
   end
@@ -233,7 +241,8 @@ contract :UniswapV2Pair, is: :UniswapV2ERC20 do
     _safeTransfer(_token0, to, amount0Out) if amount0Out > 0 # optimistically transfer tokens
     _safeTransfer(_token1, to, amount1Out) if amount1Out > 0 # optimistically transfer tokens
     
-    UniswapV2Callee(to).uniswapV2Call(msg.sender, amount0Out, amount1Out, data) if data.length > 0
+    ## note: no support for callee for now
+    ## UniswapV2Callee(to).uniswapV2Call(msg.sender, amount0Out, amount1Out, data) if data.length > 0
     
     balance0 = ERC20(_token0).balanceOf(address(this))
     balance1 = ERC20(_token1).balanceOf(address(this))

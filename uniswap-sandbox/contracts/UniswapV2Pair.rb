@@ -48,7 +48,8 @@ contract :UniswapV2Pair, is: :UniswapV2ERC20 do
   
 
   function :_safeTransfer, { token: :address, to: :address, value: :uint256 }, :private do
-    result = ERC20.at(token).transfer(to: to, amount: value)
+    
+    result = callstack { ERC20.at(token).transfer(to: to, amount: value) }
     
     require(result, "ScribeSwap: TRANSFER_FAILED")
   end

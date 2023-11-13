@@ -48,15 +48,16 @@ contract :UniswapV2Factory do
 =end
 
     ## fix-fix-fix - auto set call stack/msg.sender
-    Runtime.msg.sender = __address__
-    pair = UniswapV2Pair.construct
-    pair.init( token0, token1 )
+    pair = callstack do 
+                  c = UniswapV2Pair.construct 
+                  c.init( token0, token1 )
+                  c
+           end
+    s.getPair[token0][token1] = address( pair )
+    s.getPair[token1][token0] = address( pair )
 
-    s.getPair[token0][token1] = pair.__address__
-    s.getPair[token1][token0] = pair.__address__
-
-    s.allPairs.push( pair.__address__ )
-    emit :PairCreated, token0: token0, token1: token1, pair: pair.__address__, pairLength: s.allPairs.length
+    s.allPairs.push( address( pair ) )
+    emit :PairCreated, token0: token0, token1: token1, pair: address( pair ), pairLength: s.allPairs.length
 
     return address( pair )
   end
