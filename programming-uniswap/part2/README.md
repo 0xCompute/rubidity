@@ -133,11 +133,11 @@ or
 $$price_1 = \frac{reserve_0}{reserve_1}$$
 -->
 
-![](i/price0.png)
+     price0 = reserve1 / reserve0
 
 or
 
-![](i/price1.png)
+     price1 = reserve0 / reserve1 
 
 
 For the price oracle functionality, Uniswap V2 uses marginal prices, 
