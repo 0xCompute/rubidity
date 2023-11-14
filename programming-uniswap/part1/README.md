@@ -24,10 +24,10 @@ I showed how to build it from scratch and explained its core mechanics. This blo
 
 ## Tooling
 
-In this series, I'll be using Ruby / Rubidity for contracts developing and testing. Rubidity is a modern Ethereum Layer 1 (L1) via Ethscriptions (Calldata) and Facet VM  
-toolkit written in Ruby by Tom Lehman et al.  It allows to write tests in Ruby. Yes, we'll use Ruby for both writing contracts and testing them and you'll see that this is much cleaner and handier than writing tests in Javascript (JS).
+In this series, I'll be using Ruby / Rubidity for contracts developing and testing. Rubidity is a modern Ethereum Layer 1 (L1) via Ethscriptions (Calldata) and Facet VM toolkit written in Ruby by Tom Lehman et al. It allows to write tests in Ruby. Yes, we'll use Ruby for both writing contracts and testing them and you'll see that this is much cleaner and handier than writing tests in Javascript (JS).
 
 I'll also use the rubidity-contracts library (gem) for ERC20 implementation.
+
 
 
 ## Architecture of Uniswap V2
@@ -73,7 +73,7 @@ We'll use reserve0 and reserve1 variable to track reserves in pools:
 class UniswapV2Pair < ERC20
     #...
  
-    storage _reserve0: UInt
+    storage _reserve0: UInt,
             _reserve1: UInt
 
     #...
@@ -90,8 +90,7 @@ So, here's the low-level function for depositing new liquidity:
 
 ``` ruby
 sig []
-def mint
-    
+def mint  
     balance0 = ERC20(@token0).balanceOf( address(this) ) 
     balance1 = ERC20(@token1).balanceOf( address(this) )   
     amount0 = balance0 - @_reserve0
@@ -122,7 +121,7 @@ The function is quite minimal, isn't it?
 
 
 As you can see from the code, liquidity is calculated differently when initially deposited into pool (the `totalSupply == 0` branch). 
-Think about this: how many LP-token do we need to issue when there’s no liquidity in the pool? Uniswap V1 used the amount of deposited ethers, which made the initial amount of LP-tokens dependent on the ratio at which liquidity was deposited. But nothing forces users to deposit at the correct ratio that reflects actual prices at that moment. Moreover, Uniswap V2 now supports arbitrary ERC20 token pairs, which means there might be no prices valued in ETH at all.
+Think about this: how many LP-token do we need to issue when there's no liquidity in the pool? Uniswap V1 used the amount of deposited ethers, which made the initial amount of LP-tokens dependent on the ratio at which liquidity was deposited. But nothing forces users to deposit at the correct ratio that reflects actual prices at that moment. Moreover, Uniswap V2 now supports arbitrary ERC20 token pairs, which means there might be no prices valued in ETH at all.
 
 For initial LP-amount, Uniswap V2 ended up using geometric mean of deposited amounts:
 
@@ -132,7 +131,7 @@ For initial LP-amount, Uniswap V2 ended up using geometric mean of deposited amo
 
 The main benefit of this decision is that such formula ensures that the initial liquidity ratio doesn't affect the value of a pool share.
 
-Now, let's calculate LP-tokens issued when there’s already some liquidity. The main requirement here is that the amount is:
+Now, let's calculate LP-tokens issued when there's already some liquidity. The main requirement here is that the amount is:
 
 1. proportional to the deposited amount,
 2. proportional to the total issued amount of LP-tokens.
@@ -163,16 +162,266 @@ end
 
 In the first branch, we're subtracting MINIMUM_LIQUIDITY 
 (which is a constant 1000, or 1e-15) when initial liquidity is provided. 
-This protects from someone making one pool token share (1e-18, 1 wei) too expensive, which would turn away small liquidity providers. 1000 wei of LP-tokens is a negligible amount for most of pools, but if someone tries to make the cost of one pool token share too expensive (say, $100), they’d have to burn 1000 times of such cost (that is, $100,000).
+This protects from someone making one pool token share (1e-18, 1 wei) too expensive, which would turn away small liquidity providers. 1000 wei of LP-tokens is a negligible amount for most of pools, but if someone tries to make the cost of one pool token share too expensive (say, $100), they'd have to burn 1000 times of such cost (that is, $100,000).
 
-To solidify our understanding of minting, let’s write tests.
+To solidify our understanding of minting, let's write tests.
+
+## Writing tests in Rubidity
+
+As I said above, I'll be using ruby to test our dumb contracts–this will allow us to quickly set up our tests and not have any business with JavaScript. Our dumb contracts tests will simply be ruby scripts. That's it: ruby scripts that test dumb contracts.
+
+This is all we need to set up testing of the pair contract:
+
+``` ruby
+class TestUniswapV2Pair < Minitest::Test
+
+  ALICE = '0x'+'a'*40  # e.g. '0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+
+  def _setup_contracts
+    token0 = PublicMintERC20.construct(
+      name: "Token A",
+      symbol: "TKNA",
+      maxSupply: 21.e24,  
+      perMintLimit: 21.e24,
+      decimals: 18 )
+
+    token1 = PublicMintERC20.construct(
+      name: "Token B",
+      symbol: "TKNB",
+      maxSupply: 21.e24,
+      perMintLimit: 21.e24,
+      decimals: 18 )
+
+    pair = UniswapV2Pair.construct( token0: address(token0),
+                                    token1: address(token1) ) 
+
+    Runtime.msg.sender = ALICE
+    token0.mint( 10.ether )   
+    token1.mint( 10.ether ) 
+
+    [token0, token1, pair]
+  end
+
+  # Any method starting with "test" is a test case.
+end
+```
+
+Let's add a test for pair bootstrapping (providing initial liquidity):
+
+```ruby
+def test_MintBootstrap
+    token0, token1, pair =  _setup_contracts
+
+    token0.transfer( address(pair), 1.ether ) 
+    token1.transfer( address(pair), 1.ether )
+
+    pair.mint
+
+    assert  pair.balanceOf( ALICE ) == 1.ether - 1000
+    reserves = pair.getReserves
+    assert reserves[0] == 1.ether
+    assert reserves[1] == 1.ether
+    assert pair.totalSupply == 1.ether
+end
+```
+
+1 ether of `token0` and 1 ether of `token1` 
+are added to the test pool. As a result, 1 ether of LP-tokens is issued and we get 1 ether - 1000 (minus the minimal liquidity). Pool reserves and total supply get changed accordingly.
+
+What happens when balanced liquidity is provided to a pool that already has some liquidity? Let's see:
+
+```ruby
+def test_MintWhenTheresLiquidity
+    token0, token1, pair =  _setup_contracts
+
+    token0.transfer( address(pair), 1.ether )
+    token1.transfer( address(pair), 1.ether )
+
+    pair.mint  # + 1 LP
+
+    token0.transfer( address(pair), 2.ether )
+    token1.transfer( address(pair), 2.ether )
+
+    pair.mint    #  + 2 LP
+
+    assert pair.balanceOf(address( ALICE )) == 3.ether - 1000
+    assert pair.totalSupply == 3.ether
+    reserves = pair.getReserves
+    assert reserves[0] == 3.ether
+    assert reserves[1] == 3.ether
+end
+```
+
+Everything looks correct here. 
+Let's see what happens when unbalanced liquidity is provided:
+
+``` ruby
+def test_MintUnbalanced
+    token0, token1, pair =  _setup_contracts
+
+    token0.transfer( address(pair), 1.ether )
+    token1.transfer( address(pair), 1.ether )
+
+    pair.mint  #  + 1 LP
+    
+    assert pair.balanceOf( ALICE ) == 1.ether - 1000
+    reserves = pair.getReserves
+    assert reserves[0] == 1.ether
+    assert reserves[1] == 1.ether
+
+    token0.transfer( address(pair), 2.ether )
+    token1.transfer( address(pair), 1.ether )
+
+    pair.mint   # + 1 LP
+
+    assert pair.balanceOf( ALICE ) == 2.ether - 1000
+    reserves = pair.getReserves
+    assert reserves[0] == 3.ether
+    assert reserves[1] == 2.ether
+end
+```
+
+This is what we talked about: even though user provided more `token0` 
+liquidity than `token1` liquidity, they still got only 1 LP-token.
+
+Alright, liquidity provision looks good. Let's now move to liquidity removal.
 
 
+## Removing liquidity
+
+Liquidity removal is opposite to provision. Likewise, burning is opposite to minting. Removing liquidity from pool means burning of LP-tokens in exchange for proportional amount of underlying tokens. The amount of tokens returned to liquidity provided is calculated like that:
+
+<!-- $$Amount_{token}=Reserve_{token} * \frac{Balance_{LP}}{TotalSupply_{LP}}$$  -->
+
+    amount_token = reserve_token * balance_lp / totalsupply_lp
+
+In plain English: the amount of tokens returned is proportional to the amount of LP-tokens held over total supply of LP tokens. The bigger your share of LP-tokens, the bigger share of reserve you get after burning.
+
+And this is all we need to know to implement burn function:
 
 
+``` ruby
+sig []
+def burn 
+    balance0 = ERC20(@token0).balanceOf( address(this) ) 
+    balance1 = ERC20(@token1).balanceOf( address(this) ) 
+    liquidity = @balanceOf[msg.sender]
 
-To be continued...
+    amount0 = (liquidity * balance0) / @totalSupply
+    amount1 = (liquidity * balance1) / @totalSupply
 
+    assert amount0 > 0 && amount1 > 0, "Insufficient Liquidity Burned"
+
+    _burn( msg.sender, liquidity )
+        
+    _safeTransfer( @token0, msg.sender, amount0 )
+    _safeTransfer( @token1, msg.sender, amount1 )
+
+    balance0 = ERC20(@token0).balanceOf( address(this) ) 
+    balance1 = ERC20(@token1).balanceOf( address(this) ) 
+
+    _update( balance0, balance1 )
+
+    log Burn, sender: msg.sender, amount0: amount0, amount1: amount1
+end
+```
+
+As you can see, UniswapV2 doesn't support partial removal of liquidity.
+
+> Update: the above statement is wrong! I made a logical bug in this function, 
+> can you spot it? If not, I explained and fixed it in Part 4.
+
+Let's test it:
+
+``` ruby
+def test_Burn
+  token0, token1, pair =  _setup_contracts
+
+  token0.transfer( address(pair), 1.ether )
+  token1.transfer( address(pair), 1.ether )
+
+  pair.mint
+  pair.burn
+
+  assert pair.balanceOf(address( ALICE )) == 0
+  reserves = pair.getReserves
+  assert reserves[0] == 1000
+  assert reserves[1] == 1000
+  assert pair.totalSupply == 1000
+  assert token0.balanceOf(address( ALICE )), 10.ether - 1000
+  assert token1.balanceOf(address( ALICE )), 10.ether - 1000
+end
+```
+
+We see that the pool returns to its uninitialized state except the minimum liquidity that was sent to the zero address– it cannot be claimed.
+
+Now, let's see what happens when we burn after providing unbalanced liquidity:
+
+``` ruby
+def test_BurnUnbalanced
+  token0, token1, pair =  _setup_contracts
+
+  token0.transfer( address(pair), 1.ether )
+  token1.transfer( address(pair), 1.ether )
+
+  pair.mint
+
+  token0.transfer( address(pair), 2.ether )
+  token1.transfer( address(pair), 1.ether )
+
+  pair.mint   # + 1 LP
+
+  pair.burn
+
+  assert pair.balanceOf(address(ALICE)) == 0
+  reserves = pair.getReserves
+  assert reserves[0] == 1500
+  assert reserves[1] == 1000
+  assert pair.totalSupply == 1000
+  assert token0.balanceOf( address( ALICE )) == 10.ether - 1500
+  assert token1.balanceOf( address( ALICE )) == 10.ether - 1000
+end
+```
+
+What we see here is that we have lost 500 wei of token0! This is the punishment for price manipulation we talked above. But the amount is ridiculously small, it doesn't seem significant at all. This so because our current user (the test contract) is the only liquidity provider. What if we provide unbalanced liquidity to a pool that was initialized by another user? Let's see:
+
+
+```ruby
+def test_BurnUnbalancedDifferentUsers
+  token0, token1, pair =  _setup_contracts
+
+  Runtime.msg.sender = BOB
+  token0.transfer( address(pair), 1.ether )
+  token1.transfer( address(pair), 1.ether )
+  pair.mint
+
+  assert pair.balanceOf(address( ALICE )) == 0
+  assert pair.balanceOf(address( BOB )) == 1.ether - 1000
+  assert pair.totalSupply == 1.ether
+
+
+  Runtime.msg.sender = ALICE
+  token0.transfer( address(pair), 2.ether )
+  token1.transfer( address(pair), 1.ether )
+  pair.mint    # + 1 LP
+
+  pair.burn
+
+  # this user is penalized for providing unbalanced liquidity
+  assert  pair.balanceOf(address( ALICE)) == 0
+  reserves = pair.getReserves
+  assert reserves[0] == 1.5.ether
+  assert reserves[1] == 1.ether
+  assert pair.totalSupply == 1.ether
+  assert token0.balanceOf(address(ALICE)), 10.ether - 0.5.ether 
+  assert token1.balanceOf(address(ALICE)), 10.ether
+end
+```
+
+This looks completely different! We've now lost 0.5 ether of `token0`, 
+which is 1/4 of what we deposited. Now that's a significant amount!
+
+Try to figure out who eventually gets that 0.5 ether: the pair or the test user? ;-).
 
 
 
