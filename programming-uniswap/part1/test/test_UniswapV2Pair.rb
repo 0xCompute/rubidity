@@ -255,11 +255,11 @@ def test_BurnUnbalancedDifferentUsers
 
   # assertReserves(1.5 ether, 1 ether)
   pp reserves = pair.getReserves
-  assert reserves[0] == 15.e17   ## 1.5 ether
+  assert reserves[0] == 1.5.ether
   assert reserves[1] == 1.ether
 
   assert pair.totalSupply == 1.ether
-  assert token0.balanceOf(address(ALICE)), 10.ether - 5.e17  # 0.5 ether 
+  assert token0.balanceOf(address(ALICE)), 10.ether - 0.5.ether 
   assert token1.balanceOf(address(ALICE)), 10.ether
 
   # testUser.withdrawLiquidity(address(pair))
@@ -274,7 +274,7 @@ def test_BurnUnbalancedDifferentUsers
   assert reserves[1] == 1000
 
   assert pair.totalSupply == 1000
-  assert token0.balanceOf(address(BOB)) == 10.ether + 5.e17 - 1500
+  assert token0.balanceOf(address(BOB)) == 10.ether + 0.5.ether - 1500
   assert token1.balanceOf(address(BOB)) == 10.ether - 1000
 end
 

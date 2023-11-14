@@ -252,11 +252,11 @@ def test_BurnUnbalancedDifferentUsers
 
   # assertReserves(1.5 ether, 1 ether)
   pp reserves = pair.getReserves
-  assert reserves[0] == 15.e17   ## 1.5 ether
+  assert reserves[0] == 1.5.ether
   assert reserves[1] == 1.ether
 
   assert pair.totalSupply == 1.ether
-  assert token0.balanceOf(address(ALICE)), 10.ether - 5.e17  # 0.5 ether 
+  assert token0.balanceOf(address(ALICE)), 10.ether - 0.5.ether 
   assert token1.balanceOf(address(ALICE)), 10.ether
 
   # testUser.withdrawLiquidity(address(pair))
@@ -271,7 +271,7 @@ def test_BurnUnbalancedDifferentUsers
   assert reserves[1] == 1000
 
   assert pair.totalSupply == 1000
-  assert token0.balanceOf(address(BOB)) == 10.ether + 5.e17 - 1500
+  assert token0.balanceOf(address(BOB)) == 10.ether + 0.5.ether - 1500
   assert token1.balanceOf(address(BOB)) == 10.ether - 1000
 end
 
@@ -322,20 +322,20 @@ def test_SwapBasicScenario
   token1.transfer(address(pair), 2.ether)
   pair.mint
 
-  token0.transfer(address(pair),  1.e17 )  # 0.1 ether
+  token0.transfer(address(pair),  0.1.ether ) 
 
   ## swap( amount0Out:, amount1Out:, to: )
-  pair.swap( 0, 18.e16, address( ALICE ) );   # 0.18 ether
+  pair.swap( 0, 0.18.ether, address( ALICE ) )
 
-  assert token0.balanceOf(address( ALICE )) == 10.ether - 1.ether - 1.e17   # - 0.1 ether
+  assert token0.balanceOf(address( ALICE )) == 10.ether - 1.ether - 0.1.ether
     # "unexpected token0 balance"
-  assert token1.balanceOf(address( ALICE )) == 10.ether - 2.ether + 18.e16  # + 0.18 ether
+  assert token1.balanceOf(address( ALICE )) == 10.ether - 2.ether + 0.18.ether
     # "unexpected token1 balance"
   
   ## assertReserves(1 ether + 0.1 ether, 2 ether - 0.18 ether)
   pp reserves = pair.getReserves
-  assert reserves[0] == 1.ether + 1.e17
-  assert reserves[1] == 2.ether - 18.e16
+  assert reserves[0] == 1.ether + 0.1.ether
+  assert reserves[1] == 2.ether - 0.18.ether
 end
 
 
@@ -347,21 +347,21 @@ def test_SwapBasicScenarioReverseDirection
   token1.transfer(address(pair), 2.ether)
   pair.mint
 
-  token1.transfer(address(pair), 2.e17 )   # 0.2 ether
+  token1.transfer(address(pair), 0.2.ether ) 
 
   ## swap( amount0Out:, amount1Out:, to: )
-  pair.swap( 9.e16, 0, address( ALICE ))   # 0.09 ether 
+  pair.swap( 0.09.ether, 0, address( ALICE ))   
 
 
-  assert token0.balanceOf(address( ALICE )) == 10.ether - 1.ether + 9.e16  # + 0.09 ether
+  assert token0.balanceOf(address( ALICE )) == 10.ether - 1.ether + 0.09.ether
     # "unexpected token0 balance"
-  assert token1.balanceOf(address( ALICE )) == 10.ether - 2.ether - 2.e17  # - 0.2 ether
+  assert token1.balanceOf(address( ALICE )) == 10.ether - 2.ether - 0.2.ether
     # "unexpected token1 balance"
 
   # assertReserves(1 ether - 0.09 ether, 2 ether + 0.2 ether)
   pp reserves = pair.getReserves
-  assert reserves[0] == 1.ether - 9.e16
-  assert reserves[1] == 2.ether + 2.e17
+  assert reserves[0] == 1.ether - 0.09.ether
+  assert reserves[1] == 2.ether + 0.2.ether
 end
 
 
@@ -372,21 +372,21 @@ def test_SwapBidirectional
   token1.transfer(address(pair), 2.ether)
   pair.mint
 
-  token0.transfer(address(pair), 1.e17 )   # 0.1 ether 
-  token1.transfer(address(pair), 2.e17 )   # 0.2 ether
+  token0.transfer(address(pair), 0.1.ether )    
+  token1.transfer(address(pair), 0.2.ether )   
  
   ## swap( amount0Out:, amount1Out:, to: )  
-  pair.swap( 9.e16, 18.e16, address( ALICE ))  ## 0.09 ether, 0.18 ether 
+  pair.swap( 0.09.ether, 0.18.ether, address( ALICE ))  ## 0.09 ether, 0.18 ether 
 
-  assert token0.balanceOf(address( ALICE )) == 10.ether - 1.ether - 1.e16  # - 0.01 ether
+  assert token0.balanceOf(address( ALICE )) == 10.ether - 1.ether - 0.01.ether
   # "unexpected token0 balance"
-  assert token1.balanceOf(address( ALICE )) == 10.ether - 2.ether - 2.e16  # - 0.02 ether
+  assert token1.balanceOf(address( ALICE )) == 10.ether - 2.ether - 0.02.ether
   # "unexpected token1 balance"
   
   # assertReserves(1 ether + 0.01 ether, 2 ether + 0.02 ether)
   pp reserves = pair.getReserves
-  assert reserves[0] == 1.ether + 1.e16
-  assert reserves[1] == 2.ether + 2.e16
+  assert reserves[0] == 1.ether + 0.01.ether
+  assert reserves[1] == 2.ether + 0.02.ether
 end
 
 
