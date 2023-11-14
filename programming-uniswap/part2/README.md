@@ -26,7 +26,7 @@ Additionally, I'll explain some details and ideas behind the pair contract imple
 Let's begin!
 
 
-> You can find full source code of this part here: [source code, part 2](/).
+> You can find full source code of this part here: [source code, part 2](.).
 
 
 ## Tokens swapping
@@ -149,7 +149,7 @@ calculating such prices can be tricky: if, for example, the ratio of two reserve
 and Unsiwap V2 uses [UQ112.112](https://en.wikipedia.org/wiki/Q_(number_format)) 
 numbers for that.
 
-UQ112.112 is basically a number that uses 112 bits for the fractional part and 112 for the integer part. 112 bits were chosen to make storage of the reserve state variables more optimal (more on this in the next section)-that's why the variables use type uint112. Reserves, on the other hand, are stored as the integer part of a UQ112.112 number–this is why they're multiplied by `2**112` before price calculation.
+UQ112.112 is basically a number that uses 112 bits for the fractional part and 112 for the integer part. 112 bits were chosen to make storage of the reserve state variables more optimal (more on this in the next section)-that's why the variables use type uint (112 bits). Reserves, on the other hand, are stored as the integer part of a UQ112.112 number–this is why they're multiplied by `2**112` before price calculation.
 
 <!-- Check out UQ112x112.sol for more details, it's very simple. -->
 
@@ -198,9 +198,10 @@ That's it for today! I hope this part clarifies a lot in our implementation. Nex
 
 
 ## Links
-  [Source code of part 2](/)
-  [UniswapV2 Whitepaper](https://uniswap.org/whitepaper.pdf) – worth reading and re-reading.
-  [Q (number format)](https://en.wikipedia.org/wiki/Q_(number_format))
+ 
+-  [Source code of part 2](.)
+-  [UniswapV2 Whitepaper](https://uniswap.org/whitepaper.pdf) – worth reading and re-reading.
+-  [Q (number format)](https://en.wikipedia.org/wiki/Q_(number_format))
 
 
 
