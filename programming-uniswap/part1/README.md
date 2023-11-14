@@ -383,7 +383,7 @@ def test_BurnUnbalanced
 end
 ```
 
-What we see here is that we have lost 500 wei of token0! This is the punishment for price manipulation we talked above. But the amount is ridiculously small, it doesn't seem significant at all. This so because our current user (the test contract) is the only liquidity provider. What if we provide unbalanced liquidity to a pool that was initialized by another user? Let's see:
+What we see here is that we have lost 500 wei of `token0`! This is the punishment for price manipulation we talked above. But the amount is ridiculously small, it doesn't seem significant at all. This so because our current user (the test contract) is the only liquidity provider. What if we provide unbalanced liquidity to a pool that was initialized by another user? Let's see:
 
 
 ```ruby
