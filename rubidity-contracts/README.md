@@ -197,11 +197,9 @@ Let's go.
 ``` ruby
 require 'rubidity/contracts'
 
-contract = PublicMintERC20.new
-
-contract.constructor(
-    name: 'My Fun Token', # String,
-    symbol: 'FUN',        # String,
+contract = PublicMintERC20.construct(
+    name: 'My Fun Token',  # String,
+    symbol: 'FUN',         # String,
     maxSupply:  21000000,  #  UInt,
     perMintLimit: 1000,    #  UInt,
     decimals:     18,      #  UInt
@@ -225,7 +223,7 @@ charlie = '0x'+'c'*40 # e.g. '0xcccccccccccccccccccccccccccccccccccccccc'
 
 #  sig [UInt]
 #  def mint( amount: )
- contract.msg.sender = alice
+contract.msg.sender = alice
 
 contract.mint( 100 )
 contract.mint( 200 )

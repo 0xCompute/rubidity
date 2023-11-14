@@ -6,7 +6,7 @@
 require_relative 'helper'
 
 
-class TestGenerativeERC721 < MiniTest::Test
+class TestGenerativeERC721 < Minitest::Test
 
 STATE_ZERO = {
     :name=>"",

@@ -9,8 +9,12 @@ require 'solidity/typed'
 require 'rubidity'
 
 
-require_relative '../ERC20'
-require_relative '../PublicMintERC20'
+## pull-in standard contracts from rubidity contracts
+$LOAD_PATH.unshift( '../../rubidity_contracts/lib' )
+require 'rubidity/contracts/erc20'
+require 'rubidity/contracts/public_mint_erc20'
+
+
 require_relative '../UniswapV2Pair'
 
 

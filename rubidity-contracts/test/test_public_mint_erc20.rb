@@ -6,7 +6,7 @@
 require_relative 'helper'
 
 
-class TestPublicMintERC20 < MiniTest::Test
+class TestPublicMintERC20 < Minitest::Test
   
 STATE_ZERO = {
   :name=>'',
