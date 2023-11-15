@@ -1,0 +1,33 @@
+require 'hoe'
+require './lib/rubysol/version.rb'
+
+
+Hoe.spec 'rubysol' do
+
+  self.version =   Rubysol::Module::Lang::VERSION
+
+  self.summary = 'rubysol - ruby for (blockchain) layer 1 (l1) contracts / protocols with "off-chain" indexer; 100% compatible with solidity datatypes and abis'
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/s6ruby/rubidity' }
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'gerald.bauer@gmail.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = [
+    ['solidity-typed', '>= 0.2.0'],
+    ['digest-lite'],      ## pulls in keccak256
+    ['hexutils'],         ## pulls in hex/to_hex (decode/encode_hex)
+  ]
+
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.3'
+  }
+end

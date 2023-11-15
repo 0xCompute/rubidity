@@ -5,12 +5,10 @@ am NOT affiliated with facet computing inc. (middlemarch et al) or paid to work 
 
 
 
-# Rubidity  -  Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" Indexer
+# Rubidity & Rubysol  -  Rubies for Layer 1 (L1) Contracts / Protocols with "Off-Chain" Indexer
 
 
-## What's Happening Here?
-
-This is a rubidity sandbox by [Gerald Bauer](https://github.com/geraldb)
+This is a rubidity & rubysol sandbox by [Gerald Bauer](https://github.com/geraldb)
 
 The idea here is to experiment with rubidity "off-chain"
 and if time permits break the "majestic rails rubidity monolith"
@@ -30,7 +28,11 @@ The first published modules / gems include:
 
 
 
-- [**rubidity**](rubidity) - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer 
+- [~~**rubidity ("next")**~~](rubidity) - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer 
+
+- [**rubysol**](rubysol) - (formerly known as rubidity ("next")) ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer 
+
+
 
 - [**rubidity-contracts**](rubidity-contracts) - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer
 
@@ -86,7 +88,7 @@ at the ruby code commons (rubycocos) org.
 
 ## Questions? Comments?
 
-Join us in the [Rubidity (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
+Join us in the [Rubidity & Rubysol (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
 Your questions and commentary welcome.
 
 Or post them over at the [Help & Support](https://github.com/geraldb/help) page. Thanks.
