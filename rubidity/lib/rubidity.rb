@@ -79,6 +79,9 @@ require_relative 'rubidity/contract/runtime'
 require_relative 'rubidity/contract'
 require_relative 'rubidity/abi_proxy'
 
+require_relative 'rubidity/library'   ## add support for libaries
+
+
 require_relative 'rubidity/runtime'
 
 

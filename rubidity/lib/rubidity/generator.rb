@@ -141,7 +141,7 @@ def self.typed_function( contract_class, name, inputs: )
             contract_class.class_eval do
 
                define_method :"__#{contract_name}__#{name}" do |*args_unsafe,**kwargs_unsafe|
-                  puts "==> calling __#{contract_name}__#{name} (#{contract_class.name})"
+                  puts "==> calling __#{contract_name}__#{name} (class #{contract_class.name})"
         
                   m = method( :"__#{contract_name}__#{name}_unsafe" )
                   kwargs = Function.params( m, inputs, *args_unsafe, **kwargs_unsafe )
@@ -163,6 +163,67 @@ def self.typed_function( contract_class, name, inputs: )
                ##        as alternative to NOT conflict with global conversion function - why? why not?
             end
 end  # method typed_function
+
+
+def self.typed_library_function( contract_class, name, inputs: )  
+  ## note: must? find matching method in class
+  ## todo/fix:  use methods( false) if available (do NOT look-up in subclasses or such)
+
+  ## todo - make sure contract_class is a module (not a class) !!!!
+
+  ## note: make sure name and contract_name is always a symbol
+  name          = name.to_sym
+  contract_name = _demodulize( contract_class.name ).to_sym   
+
+          exists = contract_class.instance_methods( false ).include?( name )
+          if !exists
+            error_message = "[ERRRO] no method #{name} found for sig in module #{contract_class.name}"
+            puts error_message
+            ## fix: change to NoMethodError - exists?
+            raise NameError, error_message
+          end
+    
+          ## note:  method lookup via method needs an object / INSTANCE
+          ##             NOT working with class only!!!!
+          ## m = contract_class.method( name )
+          ## puts "  bingo! #{name} - #{m.owner}"
+          puts "  bingo! #{name}"
+      
+
+## avoid recursive circle
+##    exlcude method from method_add automagic wrapping/generation 
+
+contract_class.sigs_exclude << :"#{name}_unsafe"
+contract_class.sigs_exclude << name
+
+          ##
+          ##  use :name_raw instead of :name_unsafe - why? why not?
+
+          ## rewire
+          ##   alias_method :name_unsafe, :name
+          ##   alias_method :name,        :name_typed 
+          contract_class.class_eval do
+  
+             alias_method :"#{name}_unsafe", name
+  
+             define_method name do |*args_unsafe,**kwargs_unsafe|
+                puts "==> calling #{contract_name}.#{name} (module #{contract_class.name})"
+      
+                m = method( :"#{name}_unsafe" )
+                kwargs = Function.params( m, inputs, *args_unsafe, **kwargs_unsafe )
+                
+                ret = m.call( **kwargs )
+                ## todo/fix:
+                ##   check returns type / value too
+                ret
+             end 
+ 
+             ## make into module functions!!!
+             module_function name
+             module_function :"#{name}_unsafe"
+          end
+end  # method typed_library_function
+
 
 
 ###
