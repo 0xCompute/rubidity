@@ -1,9 +1,7 @@
 
-> The future of decentralized processing is here.
-> Revolutionizing computation with (dumb) contracts / protocols (and "off-chain" indexer) 
-> one block at a time.
->
-> -- [Ethereum Inscriptions (Ethscriptions) Virtual Machine (VM)](https://goerli.ethscriptionsvm.com/)
+**DISCLAIMER:   the rubidity gem version is different 
+from the rubidity built into the face vm / app and i (Gerald Bauer) 
+am NOT affiliated with facet computing inc. (middlemarch et al) or paid to work on the rubidity gem.**
 
 
 
@@ -176,12 +174,11 @@ Quotes / Hightlights from the docs:
 
 ## What's Happening Here?
 
-This is a rubidity sandbox by [Gerald Bauer](https://github.com/geraldb) - not (yet) affiliated with 
-ethscriptions or middlemarch (a.k.a. Tom Lehman).
+This is a rubidity sandbox by [Gerald Bauer](https://github.com/geraldb)
 
 The idea here is to experiment with rubidity "off-chain"
 and if time permits break the "majestic rails rubidity monolith"
-also known as "ethscriptions vm" up into easier to (re)use modules.
+also known as "facet vm" (formerly "ethscriptions vm") up into easier to (re)use modules.
 
 For example, why not bundle up a "core" language "rubidity" gem with 
 no dependencies on any blockchain and break out "core / standard" 
