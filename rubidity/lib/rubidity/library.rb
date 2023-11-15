@@ -1,20 +1,27 @@
 
 module Library
 
-  def struct( class_name, **attributes )
-    typedclass = Types::Struct.new( class_name, scope: self, **attributes )
-    typedclass  
+  def self.extended(base)
+    puts "==> turn (extend) module >#{base.name}< into library"
+    base.include( Types )  ## make solidity types availbe (Address, Bytes, etc.)
+    base.extend( ClassMethods )
+    ## todo/fix: add  runtime and crypto methods too? why? why not? 
   end
-    
-  def enum( class_name, *args )
-    typedclass = Types::Enum.new( class_name, *args, scope: self  )
-    typedclass
-  end
-    
 
+
+  module ClassMethods
+    def struct( class_name, **attributes )
+      typedclass = Types::Struct.new( class_name, scope: self, **attributes )
+      typedclass  
+    end
+    
+    def enum( class_name, *args )
+      typedclass = Types::Enum.new( class_name, *args, scope: self  )
+      typedclass
+    end
+    
 ####
 #   note:  sig machinery with method_added MUST come last here
-
 def sigs
   @sigs ||= {}
 end
@@ -115,4 +122,5 @@ def method_added( name )
 
   puts "<== method added hook >#{name}< done."                               
 end
+end # module ClassMethods
 end  # module Library
