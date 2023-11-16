@@ -19,13 +19,16 @@ no dependencies on any blockchain and break out "core / standard"
 contracts samples and database (SQL) and runtime modules or such.
 
 
+What's in a name?  See [What's Rubidity!? What's Rubysol!? »](NAMES.md)
+
+
+
 
 The first published modules / gems include:
 
-- [~~**rubidity-typed**~~](rubidity-typed) - "zero-dependency" 100%-solidity compatible data type machinery incl. (frozen) string, address, uint, int, enum, struct, array, mapping, and more for rubidity - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer
+- ~~**rubidity-typed**~~ - "zero-dependency" 100%-solidity compatible data type machinery incl. (frozen) string, address, uint, int, enum, struct, array, mapping, and more for rubidity - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer
 
 - [**solidity-typed**](solidity-typed) (formerly known as rubidity-typed) -  "zero-dependency" 100%-solidity compatible data type and application binary interface (abi) machinery incl. bool, (frozen) string, address, bytes, uint, int, enum, struct, array, mapping, event, and more for solidity-inspired contract (blockchain) programming languages incl. rubidity et al
-
 
 
 - ~~**rubidity ("next")**~~ - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer 
@@ -43,19 +46,18 @@ The first published modules / gems include:
   - [Programming DeFi: Uniswap V2. Part 2](programming-uniswap/part2)
 
 
+- ~~**rubidity-classic**~~ - rubidity classic / o.g. contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 
 
-- [~~**rubidity-classic**~~](rubidity-classic) - rubidity classic / o.g. contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 
 
-
-- [**rubidity**~~](rubidity) - (formerly known as rubidity classic) rubidity "classic / o.g." contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubysol "more ruby-ish" contract classes. 
+- [**rubidity**](rubidity) - (formerly known as rubidity classic) rubidity "classic / o.g." contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubysol "more ruby-ish" contract classes. 
 
 
 
 More:
 
-- [~~**rubidity-simulacrum**~~](rubidity-simulacrum) - run (dumb) blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free)
+- ~~**rubidity-simulacrum**~~ - run (dumb) blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free)
 
-- [~~**redpaper**~~](redpaper) - Yes, you can. it's just ruby. Run the sample contracts from the [Red Paper](https://github.com/s6ruby/redpaper)
+- ~~**redpaper**~~ - Yes, you can. it's just ruby. Run the sample contracts from the [Red Paper](https://github.com/s6ruby/redpaper)
 with rubidity and simulacrum!
 
 
