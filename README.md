@@ -19,7 +19,13 @@ no dependencies on any blockchain and break out "core / standard"
 contracts samples and database (SQL) and runtime modules or such.
 
 
-What's in a name?  See [What's Rubidity!? What's Rubysol!? »](NAMES.md)
+Updates  
+
+- What's in a name?  See [What's Rubidity!? What's Rubysol!? »](NAMES.md)
+
+- For an alternate approach that look's at the "majestic rails rubidity monolith" code as-is (that is, not suggesting new or alternate syntax or semantics)
+and simply tries to break out and start to (re)package / modular-ize code in "place holder" gems (waiting for adoption by the founders) such as 0xfacet and 0xfacet-typed and 0xfacet-rubidity see [Rubidity O.G. (Dumb Contracts) Public Code Review / (More) Tests / Gems & More »](https://github.com/s6ruby/rubidity.review)
+
 
 
 
