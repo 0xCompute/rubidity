@@ -1,21 +1,22 @@
-# Rubidity Contracts
+# Rubysol Contracts
 
- rubidity-contracts - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer
+ rubysol-contracts - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer
  
 * home  :: [github.com/s6ruby/rubidity](https://github.com/s6ruby/rubidity)
 * bugs  :: [github.com/s6ruby/rubidity/issues](https://github.com/s6ruby/rubidity/issues)
-* gem   :: [rubygems.org/gems/rubidity-contracts](https://rubygems.org/gems/rubidity-contracts)
-* rdoc  :: [rubydoc.info/gems/rubidity-contracts](http://rubydoc.info/gems/rubidity-contracts)
+* gem   :: [rubygems.org/gems/rubysol-contracts](https://rubygems.org/gems/rubysol-contracts)
+* rdoc  :: [rubydoc.info/gems/rubysol-contracts](http://rubydoc.info/gems/rubysol-contracts)
 
 
 
 
-## What's Solidity?! What's Rubidity?!
+## What's Solidity?! What's Rubidity?! What's Rubysol?!
 
 See [**Solidity - Contract Application Binary Interface (ABI) Specification** »](https://docs.soliditylang.org/en/latest/abi-spec.html)
 
 See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" Indexer**  »](https://github.com/s6ruby/rubidity)
 
+See [**Rubysol - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" Indexer**  »](https://github.com/s6ruby/rubidity/tree/master/rubysol)
 
 
 
@@ -27,7 +28,7 @@ Let's try the PublicMintERC20 contract...
 <details>
 <summary markdown="1">Show Source</summary>
 
-[contracts/public_mint_erc20.rb](lib/rubidity/contracts/public_mint_erc20.rb):
+[contracts/public_mint_erc20.rb](lib/rubysol/contracts/public_mint_erc20.rb):
 
 ```ruby
 class PublicMintERC20 < ERC20
@@ -81,7 +82,7 @@ that builds on the ERC20 (base) contract.
 <details>
 <summary markdown="1">Show Source</summary>
 
-[contracts/erc20.rb](lib/rubidity/contracts/erc20.rb):
+[contracts/erc20.rb](lib/rubysol/contracts/erc20.rb):
 
 ```ruby
 class ERC20 < Contract
@@ -195,7 +196,7 @@ end
 Let's go.
 
 ``` ruby
-require 'rubidity/contracts'
+require 'rubysol/contracts'
 
 contract = PublicMintERC20.construct(
     name: 'My Fun Token',  # String,
@@ -306,7 +307,7 @@ at the ruby code commons (rubycocos) org.
 
 ## Questions? Comments?
 
-Join us in the [Rubidity (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
+Join us in the [Rubidity & Rubysol (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
 Your questions and commentary welcome.
 
 Or post them over at the [Help & Support](https://github.com/geraldb/help) page. Thanks.

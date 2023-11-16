@@ -1,5 +1,5 @@
 require_relative 'helper'
-require 'rubidity/contracts'
+require 'rubysol/contracts'
 
 require 'cocos'  ## add write_json helper
 

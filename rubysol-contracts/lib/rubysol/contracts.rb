@@ -1,5 +1,5 @@
 require 'solidity/typed'
-require 'rubidity'
+require 'rubysol'
 
 ## our own code / contracts
 require_relative 'contracts/version'
@@ -15,4 +15,4 @@ require_relative 'contracts/public_mint_erc20.rb'
 
 
 
-puts Rubidity::Module::Contracts.banner     ## say hello
+puts Rubysol::Module::Contracts.banner     ## say hello

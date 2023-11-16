@@ -3,7 +3,7 @@ require_relative 'helper'
 
 ## pull in contract one-by-one for now (later auto-load ALL!)
 
-require 'rubidity/contracts/erc20'
+require 'rubysol/contracts/erc20'
 
 
 pp ERC20
@@ -14,7 +14,7 @@ pp ERC20.state_variable_definitions
 puts
 pp ERC20.parent_contracts
 
-require 'rubidity/contracts/public_mint_erc20'
+require 'rubysol/contracts/public_mint_erc20'
 
 
 pp PublicMintERC20

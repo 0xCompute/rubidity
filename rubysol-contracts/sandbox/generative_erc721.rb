@@ -3,7 +3,7 @@ require_relative 'helper'
 
 ## pull in contract one-by-one for now (later auto-load ALL!)
 
-require 'rubidity/contracts/erc721'
+require 'rubysol/contracts/erc721'
 
 
 pp ERC721
@@ -14,7 +14,7 @@ pp ERC721.state_variable_definitions
 puts
 pp ERC721.parent_contracts
 
-require 'rubidity/contracts/generative_erc721'
+require 'rubysol/contracts/generative_erc721'
 
 
 pp GenerativeERC721

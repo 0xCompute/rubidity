@@ -28,7 +28,7 @@ The first published modules / gems include:
 
 - ~~**rubidity-typed**~~ - "zero-dependency" 100%-solidity compatible data type machinery incl. (frozen) string, address, uint, int, enum, struct, array, mapping, and more for rubidity - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer
 
-- [**solidity-typed**](solidity-typed) (formerly known as rubidity-typed) -  "zero-dependency" 100%-solidity compatible data type and application binary interface (abi) machinery incl. bool, (frozen) string, address, bytes, uint, int, enum, struct, array, mapping, event, and more for solidity-inspired contract (blockchain) programming languages incl. rubidity et al
+- [**solidity-typed**](solidity-typed) (formerly known as rubidity-typed) -  "zero-dependency" 100%-solidity compatible data type and application binary interface (abi) machinery incl. bool, (frozen) string, address, bytes, uint, int, enum, struct, array, mapping, event, and more for solidity-inspired contract (blockchain) programming languages incl. rubidity, rubysol et al
 
 
 - ~~**rubidity ("next")**~~ - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer 
@@ -37,11 +37,11 @@ The first published modules / gems include:
 
 
 
-- [**rubidity-contracts**](rubidity-contracts) - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer
+- [**rubysol-contracts**](rubysol-contracts) - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer
 
-- [**uniswap**](uniswap) - core uniswap v2 (dumb) contracts for ruby (rubidity) for layer 1 (l1) with "off-chain" indexer
+- [**uniswap**](uniswap) - core uniswap v2 (dumb) contracts for ruby (rubysol) for layer 1 (l1) with "off-chain" indexer
 
-- [**programming-uniswap**](programming-uniswap) - programming (decentralized finance - defi) uniswap v2 contracts article series, the ruby / rubidity edition
+- [**programming-uniswap**](programming-uniswap) - programming (decentralized finance - defi) uniswap v2 contracts article series, the ruby / rubysol edition
   - [Programming DeFi: Uniswap V2. Part 1](programming-uniswap/part1)
   - [Programming DeFi: Uniswap V2. Part 2](programming-uniswap/part2)
 
@@ -61,9 +61,9 @@ More:
 with rubidity and simulacrum!
 
 
-- [**soliscript**](https://github.com/soliscript/soliscript) (formerly known as rubidity-simulacrum) - run blockchain contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free)
+- [**soliscript**](https://github.com/soliscript/soliscript) (formerly known as rubidity-simulacrum) - run blockchain contracts in rubysol (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free)
 
-- [**soliscript.starter**](https://github.com/soliscript/soliscript.starter) (formerly known as red paper contracts) -  run (blockchain) contracts in rubidity (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free) incl. the red paper contracts e.g. satoshi dice (gambling), crowd funder, ballot (liquid delegate democracy)
+- [**soliscript.starter**](https://github.com/soliscript/soliscript.starter) (formerly known as red paper contracts) -  run (blockchain) contracts in rubysol (with 100%-solidity compatible data types & abis) on an ethereum simulacrum in your own home for fun & profit (for free) incl. the red paper contracts e.g. satoshi dice (gambling), crowd funder, ballot (liquid delegate democracy)
 
 
 

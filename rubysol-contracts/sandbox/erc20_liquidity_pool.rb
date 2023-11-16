@@ -3,7 +3,7 @@ require_relative 'helper'
 
 ## pull in contract one-by-one for now (later auto-load ALL!)
 
-require 'rubidity/contracts/erc20_liquidity_pool'
+require 'rubysol/contracts/erc20_liquidity_pool'
 
 
 pp ERC20LiquidityPool

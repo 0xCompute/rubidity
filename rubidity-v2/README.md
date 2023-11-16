@@ -1,8 +1,4 @@
-# Rubidity "Classic" V2
-
-## What's Rubidity?!
-
-See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" Indexer**  »](https://github.com/s6ruby/rubidity)
+# Rubidity "Classic / O.G." V2 (Syntax) Proposals
 
 
 ## Ideas / Proposals 
@@ -94,7 +90,7 @@ end
 
 
 Let's use typed classed for (rubidity types).  For example, `:address` becomes `Address`, `:uint256` becomes `UInt`, and so on.
-See the [rubidity-typed gem / library](https://www.rubydoc.info/gems/rubidity-typed) for a 1:1 mapping of rubidity / solidity types to ruby typed classes.
+See the [solidity-typed gem / library](https://www.rubydoc.info/gems/solidity-typed) for a 1:1 mapping of rubidity / solidity types to ruby typed classes.
 
 Let's try to update the "classic" syntax v2:
 

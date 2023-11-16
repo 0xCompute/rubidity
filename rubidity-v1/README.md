@@ -1,18 +1,12 @@
-# Rubidity Classic
-
-
-## What's Rubidity?!
-
-See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" Indexer**  »](https://github.com/s6ruby/rubidity)
+# Rubidity "Classic / O.G." V1 (Syntax) Proposals
 
 
 
-
-## Classic vs "More Ruby-ish" - Why!?
+## Rubidity "Classic / O.G."  vs "More Ruby-ish" Rubysol - Why!?
 
 Why? Why? Why?  
 
-In the original rubidity "classic" version inheritance 
+In the original rubidity "classic / o.g." version inheritance 
 "models" solidity with the is class-macro "keyword" e.g.:
 
 ``` ruby
@@ -67,7 +61,7 @@ and compare to the update (v.0.2.1) -> <https://www.rubydoc.info/gems/rubidity-c
 ## What's different?
 
 
-Before (Classic)
+Before (Rubidity Classic / O.G.)
 
 ```ruby
 class ERC20 < Contract
@@ -196,7 +190,8 @@ end
 ```
 
 
-After (More Ruby-ish)
+
+After (More Ruby-ish Rubysol)
 
 ```ruby
 class ERC20 < Contract
@@ -339,7 +334,8 @@ end
 ```
 
 
-Better? More Ruby-ish? You decide.
+
+Better? More Ruby-ish Rubysol? You decide.
 
 
 

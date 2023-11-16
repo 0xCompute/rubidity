@@ -67,7 +67,7 @@ A: Why not?  More serious - the idea is to stress the fact of the 100% solidity-
 and the "zero-dependency" to support easy (re)use in many solidity-inspired (blockchain) contract programming languages incl. rubidity, rubysol et al.   
 
 
-For more see [**Solidity Typed »**](../solidity-typed)
+For more see [**Solidity Typed »**](solidity-typed)
 
 
 
@@ -83,7 +83,7 @@ as rubysol and the "classic / o.g." becomes the one and only rubidity
 to avoid any confusion about syntax and style when contract programming in ruby.
 
 
-For more see [**Rubidity »**](../rubidity)
+For more see [**Rubidity »**](rubidity)
 
 
 

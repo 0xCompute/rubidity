@@ -5,7 +5,7 @@ require './lib/solidity/typed/version.rb'
 Hoe.spec 'solidity-typed' do
   self.version =  Solidity::Module::Typed::VERSION
 
-  self.summary = 'solidity-typed - "zero-dependency" 100%-solidity compatible data type and application binary interface (abi) machinery incl. bool, (frozen) string, address, bytes, uint, int, enum, struct, array, mapping, event, and more for solidity-inspired contract (blockchain) programming languages incl. rubidity et al'
+  self.summary = 'solidity-typed - "zero-dependency" 100%-solidity compatible data type and application binary interface (abi) machinery incl. bool, (frozen) string, address, bytes, uint, int, enum, struct, array, mapping, event, and more for solidity-inspired contract (blockchain) programming languages incl. rubidity, rubysol et al'
   self.description = summary
 
   self.urls    = { home: 'https://github.com/s6ruby/rubidity' }

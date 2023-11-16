@@ -1,6 +1,6 @@
 # Solidity Typed
 
-solidity-typed - "zero-dependency" 100%-solidity compatible data type and application binary interface (abi) machinery incl. bool, (frozen) string, address, bytes, uint, int, enum, struct, array, mapping, event, and more for solidity-inspired contract (blockchain) programming languages incl. rubidity et al
+solidity-typed - "zero-dependency" 100%-solidity compatible data type and application binary interface (abi) machinery incl. bool, (frozen) string, address, bytes, uint, int, enum, struct, array, mapping, event, and more for solidity-inspired contract (blockchain) programming languages incl. rubidity, rubysol et al
 
 
 
@@ -11,11 +11,13 @@ solidity-typed - "zero-dependency" 100%-solidity compatible data type and applic
 * rdoc  :: [rubydoc.info/gems/solidity-typed](http://rubydoc.info/gems/solidity-typed)
 
 
-## What's Solidity?! What's Rubidity?!
+## What's Solidity?! What's Rubidity?! What's Rubysol?!
 
 See [**Solidity - Contract Application Binary Interface (ABI) Specification** »](https://docs.soliditylang.org/en/latest/abi-spec.html)
 
 See [**Rubidity - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" Indexer**  »](https://github.com/s6ruby/rubidity)
+
+See [**Rubysol - Ruby for Layer 1 (L1) Contracts / Protocols with "Off-Chain" Indexer**  »](https://github.com/s6ruby/rubidity/tree/master/rubysol)
 
 
 
@@ -311,7 +313,7 @@ at the ruby code commons (rubycocos) org.
 
 ## Questions? Comments?
 
-Join us in the [Rubidity (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
+Join us in the [Rubidity & Rubysol (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
 Your questions and commentary welcome.
 
 Or post them over at the [Help & Support](https://github.com/geraldb/help) page. Thanks.

@@ -1,11 +1,11 @@
 require 'hoe'
-require './lib/rubidity/contracts/version.rb'
+require './lib/rubysol/contracts/version.rb'
 
-Hoe.spec 'rubidity-contracts' do
+Hoe.spec 'rubysol-contracts' do
 
-  self.version =  Rubidity::Module::Contracts::VERSION
+  self.version =  Rubysol::Module::Contracts::VERSION
 
-  self.summary = 'rubidity-contracts - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer'
+  self.summary = 'rubysol-contracts - standard contracts (incl. erc20, erc721, etc) for ruby for layer 1 (l1) with "off-chain" indexer'
   self.description = summary
 
   self.urls    = { home: 'https://github.com/s6ruby/rubidity' }
@@ -18,7 +18,7 @@ Hoe.spec 'rubidity-contracts' do
   self.history_file = 'CHANGELOG.md'
 
   self.extra_deps = [
-    ['rubidity', '>= 0.8.1'],
+    ['rubysol', '>= 0.1.0'],
   ]
 
   self.licenses = ['Public Domain']

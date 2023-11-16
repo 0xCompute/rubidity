@@ -1,9 +1,9 @@
-module Rubidity
+module Rubysol
   module Module
     module Contracts
       MAJOR = 0
-      MINOR = 3
-      PATCH = 1
+      MINOR = 1
+      PATCH = 0
       VERSION = [MAJOR,MINOR,PATCH].join('.')
     
       def self.version
@@ -11,7 +11,7 @@ module Rubidity
       end
     
       def self.banner
-        "rubidity-contracts/#{VERSION} on Ruby #{RUBY_VERSION} (#{RUBY_RELEASE_DATE}) [#{RUBY_PLATFORM}] in (#{root})"
+        "rubysol-contracts/#{VERSION} on Ruby #{RUBY_VERSION} (#{RUBY_RELEASE_DATE}) [#{RUBY_PLATFORM}] in (#{root})"
       end
     
       def self.root
@@ -20,4 +20,4 @@ module Rubidity
     
     end # module Contracts
   end # module Module
-end # module Rubidity
+end # module Rubysol
