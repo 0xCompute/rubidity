@@ -1,117 +1,42 @@
-##
-# note: for now rubidity/typed gem pulls in
-#    require 'forwardable'  ## def_delegate
 
-##
-## move require json to rubidity/typed ??
-require 'json'   ##  use in public_abi_to_json
-
-
-
-require 'digest-lite'      ### pulls in keccak256
-require 'hexutils'         ### pulls in hex/to_hex (decode/encode_hex)
 require 'solidity/typed'
-
-
-
-
-## define global Array()  and Mapping(,)  helpers
-##     to  generate types
-##   or add upstream TypedArray() and TypedMapping(,) 
-##    and add alias here for Array(), Mapping(,) - why? why not? 
-
-def array( sub_type, size=0 ) 
-    typedclass = Types::Array.new( sub_type, size )
-    typedclass   
-end
-
-def mapping( key_type, value_type ) 
-    typedclass = Types::Mapping.new( key_type, value_type )
-    typedclass
-end
-
-
-
-
-## add "namespaced" convenience / shortcut names for Typed<Type> classes
-##   note use ::String for "standard" string and such!!!
-class Contract
-
-   include Types
-=begin   
-   String          = TypedString
-   Address         = TypedAddress
-   InscriptionId   = TypedInscriptionId
-   Bytes32         = TypedBytes32
-   Bytes           = TypedBytes
-   Bool            = TypedBool
-   UInt            = TypedUInt
-   Int             = TypedInt
-   Timestamp       = TypedTimestamp
-=end
-   ## todo/check - what to do about  TypedArray and Typed Mapping
-   ##                 requires/uses mapping() and array for now
-   ##
-   ##     Array   = TypedArray
-   ##     Mapping = TypedMapping ??
-   ##      and (Typed)Array.of(  UInt ) or (Typed)Array.of( String )
-   ##      and (Typed)Mapping.of( Address, UInt) or ...
-   ## Array           = TypedArray
-   ## Mapping         = TypedMapping
-   ##
-   ## puts "check alias are same?"
-   ## pp String   == TypedString    #=> true!!
-   ## pp String   === TypedString   #=> false!!!!!!!
-   ## pp Address  == TypedAddress    #=> true
-   ## pp Address  === TypedAddress   #=> false!!!!!
-   ##  note: use org class name; alias via === compare WILL FAIL!!!
-   ## note:  case/when/ will NOT work; use if/elsfi/else!!!
-end # class Contract
- 
+require 'rubysol'
 
 
 ## our own code
-require_relative 'rubidity/version'
-require_relative 'rubidity/generator'
-
-require_relative 'rubidity/contract/crypto'
-require_relative 'rubidity/contract/runtime'
-require_relative 'rubidity/contract'
-require_relative 'rubidity/abi_proxy'
-
-require_relative 'rubidity/library'   ## add support for libaries
+require_relative 'rubidity/version'  # let version always go first
+require_relative 'rubidity/proc'
+require_relative 'rubidity/builder'
+require_relative 'rubidity/codegen'
 
 
-require_relative 'rubidity/runtime'
 
-
-##
-#  add extra setup helpers
+###
+# for easy use / convenience
+#     pack everything into Contract.load( path/name ) 
 
 class Contract
+  def self.load( path, generate: true )
 
-    def self.construct( *args, **kwargs )
-      ## todo/fix: check either args or kwargs MUST be empty
-      ##   can only use one format
-      puts "[debug] Contract.construct  - class -> #{self.name}"
-      puts "           args: #{args.inspect}"      unless args.empty?
-      puts "           kwargs: #{kwargs.inspect}"  unless kwargs.empty?
-
-      contract = new
-      
-      ## (auto-)register before or after calling constructor  - why? why not?
-      contract.__autoregister__
- 
-      contract.constructor( *args, **kwargs )
-      contract
+    source = Builder.load_file( path ).source
+    pp source
+    pp source.contracts
+    
+    puts "  #{source.contracts.size} contract(s) in source (unit):"
+    source.contracts.each do |contract|
+        print "   #{contract.name}"
+        print " is #{contract.is.inspect}"   unless contract.is.empty?
+        print "\n"
     end
-    ## note: create is only an alias for construct !!!!
-    ##         to create an empty contract to load with state use new!!!
-    class << self
-      alias_method :create, :construct
-    end
-end  # class Contract
+    
+    ####################
+    ### generate contract classes
+    source.generate   if generate
+     
+    source  ## return source (unit) - why? why not?   
+  end
+end   # class Contract
 
 
 
-puts Rubidity::Module::Lang.banner     ## say hello
+puts Rubysol::Module::Rubidity.banner     ## say hello

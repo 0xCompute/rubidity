@@ -1,9 +1,9 @@
-module Rubidity
+module Rubysol
   module Module
-    module Lang
+    module Rubidity
       MAJOR = 0
-      MINOR = 8
-      PATCH = 2
+      MINOR = 9
+      PATCH = 0
       VERSION = [MAJOR,MINOR,PATCH].join('.')
     
       def self.version
@@ -18,6 +18,6 @@ module Rubidity
         File.expand_path( File.dirname(File.dirname(File.dirname(File.dirname(__FILE__)))) )
       end
     
-    end # module Lang
+    end # module Rubidity
   end # module Module
-end # module Rubidity
+end # module Rubysol

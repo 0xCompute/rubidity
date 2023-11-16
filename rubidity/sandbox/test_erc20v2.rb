@@ -3,9 +3,9 @@
 #    $ ruby sandbox/test_erc20v2.rb
 
 $LOAD_PATH.unshift( '../solidity-typed/lib' )
-$LOAD_PATH.unshift( '../rubidity/lib' )
+$LOAD_PATH.unshift( '../rubysol/lib' )
 $LOAD_PATH.unshift( './lib' )
-require 'rubidity/classic'
+require 'rubidity'
 
 
 

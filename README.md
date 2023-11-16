@@ -28,7 +28,7 @@ The first published modules / gems include:
 
 
 
-- [~~**rubidity ("next")**~~](rubidity) - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer 
+- ~~**rubidity ("next")**~~ - ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer 
 
 - [**rubysol**](rubysol) - (formerly known as rubidity ("next")) ruby for layer 1 (l1) contracts / protocols with "off-chain" indexer 
 
@@ -43,8 +43,11 @@ The first published modules / gems include:
   - [Programming DeFi: Uniswap V2. Part 2](programming-uniswap/part2)
 
 
-- [**rubidity-classic**](rubidity-classic) - rubidity classic / o.g. contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 
 
+- [~~**rubidity-classic**~~](rubidity-classic) - rubidity classic / o.g. contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 
+
+
+- [**rubidity**~~](rubidity) - (formerly known as rubidity classic) rubidity "classic / o.g." contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubysol "more ruby-ish" contract classes. 
 
 
 

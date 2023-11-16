@@ -1,27 +1,27 @@
-# Rubidity Notes 
+# Notes
 
 
-##  Changelog
+## Fix
 
-_What's different from "upstream" rubidity in ethscription vm?_
+check if global  address() or uint256() conversion functions
+conflict with  "storage" type helper in contract e.g.
 
-
-### remove active_support (gem) dependency 
-
--  requires delegate  - replace with def_delegate ??
--  requires Array#exclude?  - replace with ??
-    --   if TYPES.exclude?(type_name)
-
-
-in class AbiProxy / def initialize
-change 
-     @data = {}.with_indifferent_access
-to
-     @data = {}
+``` ruby
+uint256 :public, :totalSupply
+address :public, :owner
+# and so on
+```
 
 
-## many uses of blank? and present?
-##   keep activesupport for now - or add blank? (requires many extensions)
-##    present? =>  !blank?
 
 
+## Todos
+
+- [ ]  add config option for search path for contracts; defaults to ./contracts
+- [ ]  add support for returns with more than one output type!!!!!
+
+
+
+## Ideas
+
+maybe add an export to write-out the "converted" contract code as text - why? why not?

@@ -4,9 +4,20 @@
 
 
 $LOAD_PATH.unshift( '../solidity-typed/lib' )
-$LOAD_PATH.unshift( '../rubidity/lib' )
+$LOAD_PATH.unshift( '../rubysol/lib' )
 $LOAD_PATH.unshift( './lib' )
-require 'rubidity/classic'
+require 'rubidity'
+
+
+## todo/fix:
+##  returns with array not read/parsed right - not working
+##  -> :returns=>[:array, :uint32, []],
+##  
+## function getProductTrack{:args=>{:prodId=>:uint32},
+##  :options=>[:public, :view],
+##  :returns=>[:array, :uint32, []],
+##  :body=>" \n" + "      return s.productTrack[ prodId ]\n" + "  "}
+##   kwargs: prodId:
 
 
 

@@ -4,9 +4,9 @@ require './lib/rubidity/version.rb'
 
 Hoe.spec 'rubidity' do
 
-  self.version =   Rubidity::Module::Lang::VERSION
+  self.version =  Rubysol::Module::Rubidity::VERSION
 
-  self.summary = 'rubidity - ruby for (blockchain) layer 1 (l1) contracts / protocols with "off-chain" indexer; 100% compatible with solidity datatypes and abis'
+  self.summary = 'rubidity gem - rubidity "classic / o.g." contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubysol "more ruby-ish" contract classes'
   self.description = summary
 
   self.urls    = { home: 'https://github.com/s6ruby/rubidity' }
@@ -19,11 +19,8 @@ Hoe.spec 'rubidity' do
   self.history_file = 'CHANGELOG.md'
 
   self.extra_deps = [
-    ['solidity-typed', '>= 0.2.0'],
-    ['digest-lite'],      ## pulls in keccak256
-    ['hexutils'],         ## pulls in hex/to_hex (decode/encode_hex)
+    ['rubysol', '>= 0.1.0'],
   ]
-
 
   self.licenses = ['Public Domain']
 
