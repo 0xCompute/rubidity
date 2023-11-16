@@ -1,4 +1,3 @@
-# pragma: rubidity 0.0.1
 
 # @title CrowdFunder
 # @author geraldb

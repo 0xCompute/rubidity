@@ -1,5 +1,3 @@
-# Declare the source file language version
-# pragma: rubidity 0.0.1
 
 # Start with Natspec comment 
 # used for documentation - and as descriptive data for UI elements/actions

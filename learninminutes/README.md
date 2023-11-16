@@ -1,6 +1,6 @@
-# Learn X in Y Minutes (Where X=Rubidity, Y=?)
+# Learn X in Y Minutes (Where X=Rubysol, Y=?)
 
-Inspired by [Learn X In Y Minutes - Where X=Solidity](https://learnxinyminutes.com/docs/solidity/) [(Source)](https://github.com/adambard/learnxinyminutes-docs/blob/master/solidity.html.markdown) - a reworked edition / version for Rubidity et al.
+Inspired by [Learn X In Y Minutes - Where X=Solidity](https://learnxinyminutes.com/docs/solidity/) [(Source)](https://github.com/adambard/learnxinyminutes-docs/blob/master/solidity.html.markdown) - a reworked edition / version for Rubysol et al.
 
 
 
@@ -10,9 +10,6 @@ First, a simple Bank contract. Allows deposits, withdrawals, and balance checks
 [simple_bank.rb](simple_bank.rb) (note .rb extension)
 
 ``` ruby
-# Declare the source file language version
-# pragma: rubidity 0.0.1
-
 # Start with Natspec comment 
 # used for documentation - and as descriptive data for UI elements/actions
 
@@ -114,8 +111,6 @@ A crowdfunding example (broadly similar to Kickstarter).
 
 
 ``` ruby
-# pragma: rubidity 0.0.1
-
 # @title CrowdFunder
 # @author geraldb
 class CrowdFunder < Contract  
@@ -234,7 +229,7 @@ end
 
 ## Questions? Comments?
 
-Join us in the [Rubidity (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
+Join us in the [Rubidity & Rubysol (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
 Your questions and commentary welcome.
 
 Or post them over at the [Help & Support](https://github.com/geraldb/help) page. Thanks.
