@@ -28,6 +28,12 @@ and simply tries to break out and start to (re)package / modular-ize code in "pl
 
 
 
+Aside - Rubidity vs Rubysol - What's the difference (in a nutshell)? 
+
+- [Rubidity tries to be as close as possible in syntax to solidity](https://www.rubydoc.info/gems/rubidity) and 
+- [Rubysol tries to be as close as possible in syntax to ruby](https://www.rubydoc.info/gems/rubysol)
+
+
 
 
 The first published modules / gems include:
