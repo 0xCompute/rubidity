@@ -1,4 +1,4 @@
-# Proof Of Time  - "Gas-Less" Decentralized "Turning-Complete" Computing with "Normalized" Timeouts  
+# Proof Of Time  - "Gas-Less" Decentralized "Turing-Complete" Computing with "Normalized" Timeouts  
 
 by [Gerald Bauer](https://github.com/geraldb),  November 2023
 
@@ -6,7 +6,7 @@ by [Gerald Bauer](https://github.com/geraldb),  November 2023
 DRAFT - DRAFT - DRAFT  (Version 0.1)
 
 
-Let's try to square the circle and solve the halting problem of "turning-complete" computing
+Let's try to square the circle and solve the halting problem of "turing-complete" computing
 with "normalized" timeouts.
 
 
