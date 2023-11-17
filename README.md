@@ -86,6 +86,28 @@ the discord (chat server), see the [Changelog  - Good Morning](CHANGELOG.md).
 
 
 
+## White Papers  
+
+### Proof Of Time  - "Gas-Less" Decentralized "Turning-Complete" Computing with "Normalized" Timeouts  
+
+DRAFT - DRAFT - DRAFT  (Version 0.1)
+
+Let's try to square the circle and solve the halting problem of "turning-complete" computing
+with "normalized" timeouts.
+
+The idea:
+
+Every transactions gets time measured / profiled and if a max time is hit the transactions is halted / stopped and marked as invalid / reverted / aborted.
+
+The problem:
+
+(Compute) Time is relative!
+
+Let's make (transaction processing) time absolute with mathematics / statistics (within a +/- window)...
+
+[**Read More »**](PROOF-OF-TIME.md)
+
+
 
 
 ## Bonus - More Blockchain (Crypto) Tools, Libraries & Scripts In Ruby
