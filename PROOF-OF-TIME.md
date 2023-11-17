@@ -12,7 +12,7 @@ with "normalized" timeouts.
 
 The idea:
 
-Every transactions gets time measured / profiled and if a max time is hit the transactions is halted / stopped and marked as invalid / reverted / aborted.
+Every transaction gets time measured / profiled and if a max time is hit the transaction is halted / stopped and marked as invalid / reverted / aborted.
 
 
 The problem:
@@ -37,7 +37,7 @@ gets adjusted by the time factor.
 
 Consensus on time outs.
 
-If a time out candidate happens the transactions with time out data
+If a time out candidate happens the transaction with time out data
 gets published to the network for verification to a "time out transaction pool". 
 
 Plus the runtime MUST publish a mean time 
