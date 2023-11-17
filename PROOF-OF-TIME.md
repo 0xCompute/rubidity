@@ -56,7 +56,7 @@ to square the circle and decentralize.
 
 
 Note: To make it work in a decentralized way the "standard" time out
-will have a tolerance "windows" +/- delta. 
+will have a tolerance "window" +/- delta. 
 
 
 
