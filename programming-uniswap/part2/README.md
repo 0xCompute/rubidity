@@ -10,7 +10,7 @@ written by Ivan Kuznetsov
 ---
 
 Note: This is an edited version by Gerald Bauer to change 
-the code from Solidity (Ethereum VM) to Ruby / Rubidity (Facet VM).
+the code from Solidity (Ethereum VM) to Ruby / Rubysol.
 
 ---
 
@@ -143,7 +143,7 @@ or
 For the price oracle functionality, Uniswap V2 uses marginal prices, 
 which don't include slippage and swap fee and also don't depend on swapped amount.
 
-Since Rubidity doesn't support float point division, 
+Since Rubysol doesn't support float point division, 
 calculating such prices can be tricky: if, for example, the ratio of two reserves is
 `2/3`, then the price is 0. We need to increase precision when calculating marginal prices, 
 and Unsiwap V2 uses [UQ112.112](https://en.wikipedia.org/wiki/Q_(number_format)) 

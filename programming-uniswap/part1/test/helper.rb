@@ -4,15 +4,15 @@ require 'minitest/autorun'
 
 ## our own code
 $LOAD_PATH.unshift( '../../solidity-typed/lib' )
-$LOAD_PATH.unshift( '../../rubidity/lib' )
+$LOAD_PATH.unshift( '../../rubysol/lib' )
 require 'solidity/typed'
-require 'rubidity'
+require 'rubysol'
 
 
-## pull-in standard contracts from rubidity contracts
-$LOAD_PATH.unshift( '../../rubidity_contracts/lib' )
-require 'rubidity/contracts/erc20'
-require 'rubidity/contracts/public_mint_erc20'
+## pull-in standard contracts from rubysol contracts
+$LOAD_PATH.unshift( '../../rubysol_contracts/lib' )
+require 'rubysol/contracts/erc20'
+require 'rubysol/contracts/public_mint_erc20'
 
 
 require_relative '../UniswapV2Pair'

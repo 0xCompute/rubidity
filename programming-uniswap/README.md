@@ -1,7 +1,7 @@
 Decentralized Exchange (DEX) • Automated Market Makers (AMMs) • Liquidity Pools (LPs) • Token Swapping • Price Oracle • Constant Product Function • Infinite Reserves
 
 
-# Programming (Decentralized Finance - DeFi) - Uniswap V2 Contracts - Ruby / Rubidity Edition
+# Programming (Decentralized Finance - DeFi) - Uniswap V2 Contracts - Ruby / Rubysol Edition
 
 
 ## What's happening here?
@@ -23,7 +23,7 @@ Ivan Kuznetsov
  
 
 
-The idea is to rebuild the contracts (and tests) from scratch in Ruby / Rubidity!
+The idea is to rebuild the contracts (and tests) from scratch in Ruby / Rubysol!
 
 - [/part1](part1)
 - [/part2](part2) 
@@ -36,7 +36,7 @@ The idea is to rebuild the contracts (and tests) from scratch in Ruby / Rubidity
 
 ## Questions? Comments?
 
-Join us in the [Rubidity (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
+Join us in the [Rubidity & Rubysol (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
 Your questions and commentary welcome.
 
 Or post them over at the [Help & Support](https://github.com/geraldb/help) page. Thanks.

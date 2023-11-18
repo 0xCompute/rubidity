@@ -10,7 +10,7 @@ written by Ivan Kuznetsov
 ---
 
 Note: This is an edited version by Gerald Bauer to change 
-the code from Solidity (Ethereum VM) to Ruby / Rubidity (Facet VM).
+the code from Solidity (Ethereum VM) to Ruby / Rubysol.
 
 ---
 
@@ -24,9 +24,9 @@ I showed how to build it from scratch and explained its core mechanics. This blo
 
 ## Tooling
 
-In this series, I'll be using Ruby / Rubidity for contracts developing and testing. Rubidity is a modern Ethereum Layer 1 (L1) via Ethscriptions (Calldata) and Facet VM toolkit written in Ruby by Tom Lehman et al. It allows to write tests in Ruby. Yes, we'll use Ruby for both writing contracts and testing them and you'll see that this is much cleaner and handier than writing tests in Javascript (JS).
+In this series, I'll be using Ruby / Rubysol for contracts. It allows to write tests in Ruby. Yes, we'll use Ruby for both writing contracts and testing them and you'll see that this is much cleaner and handier than writing tests in Javascript (JS).
 
-I'll also use the rubidity-contracts library (gem) for ERC20 implementation.
+I'll also use the rubysol-contracts library (gem) for ERC20 implementation.
 
 
 
@@ -166,7 +166,7 @@ This protects from someone making one pool token share (1e-18, 1 wei) too expens
 
 To solidify our understanding of minting, let's write tests.
 
-## Writing tests in Rubidity
+## Writing tests in Rubysol
 
 As I said above, I'll be using ruby to test our dumb contracts–this will allow us to quickly set up our tests and not have any business with JavaScript. Our dumb contracts tests will simply be ruby scripts. That's it: ruby scripts that test dumb contracts.
 
@@ -433,7 +433,7 @@ Well, enough for today. Feel free experimenting with the code and, for example, 
  
 - [Source code of part 1](.)
 - [UniswapV2 Whitepaper](https://uniswap.org/whitepaper.pdf) – worth reading and re-reading.
-- [Rubidity GitHub repo](https://github.com/s6ruby/rubidity)
+- [Rubidity & Rubysol GitHub repo](https://github.com/s6ruby/rubidity)
 - [Programming DeFi: Uniswap V1](https://jeiwan.net/posts/programming-defi-uniswap-1/)
 
 
