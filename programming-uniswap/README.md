@@ -14,23 +14,28 @@ Ivan Kuznetsov
 
 
 
+
 ### The Uniswap V2 Series
+
+The idea is to rebuild the contracts (and tests) from scratch in Ruby / Rubysol!
+
+- [**Programming DeFi in Ruby: Uniswap V2. Part 1**](part1)
+- [**Programming DeFi in Ruby: Uniswap V2. Part 2**](part2) 
+- [**Programming DeFi in Ruby: Uniswap V2. Part 3**](part3)  
+- /part4   SOON!
+
+
+
+
+<details>
+<summary markdown="1">For reference the Solidity versions</summary>
 
 - [Programming DeFi: Uniswap V2. Part 1](https://jeiwan.net/posts/programming-defi-uniswapv2-1/),  ([source](https://github.com/Jeiwan/zuniswapv2/tree/part_1))
 - [Programming DeFi: Uniswap V2. Part 2](https://jeiwan.net/posts/programming-defi-uniswapv2-2/),  ([source](https://github.com/Jeiwan/zuniswapv2/tree/part_2))
 - [Programming DeFi: Uniswap V2. Part 3](https://jeiwan.net/posts/programming-defi-uniswapv2-3/),  ([source](https://github.com/Jeiwan/zuniswapv2/tree/part_3))
 - [Programming DeFi: Uniswap V2. Part 4](https://jeiwan.net/posts/programming-defi-uniswapv2-4/),  ([source](https://github.com/Jeiwan/zuniswapv2/tree/part_4))
  
-
-
-The idea is to rebuild the contracts (and tests) from scratch in Ruby / Rubysol!
-
-- [/part1](part1)
-- [/part2](part2) 
-- /part3   SOON!
-- /part4   SOON!
-
-
+</details>
 
 
 

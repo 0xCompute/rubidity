@@ -1,4 +1,4 @@
-# Programming DeFi: Uniswap V2. Part 2
+# Programming DeFi in Ruby: Uniswap V2. Part 2
 
 written by Ivan Kuznetsov
 ([web / blog](https://jeiwan.net),

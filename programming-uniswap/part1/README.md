@@ -1,4 +1,4 @@
-# Programming DeFi: Uniswap V2. Part 1
+# Programming DeFi in Ruby: Uniswap V2. Part 1
 
 written by Ivan Kuznetsov
 ([web / blog](https://jeiwan.net),
@@ -24,9 +24,7 @@ I showed how to build it from scratch and explained its core mechanics. This blo
 
 ## Tooling
 
-In this series, I'll be using Ruby / Rubysol for contracts. It allows to write tests in Ruby. Yes, we'll use Ruby for both writing contracts and testing them and you'll see that this is much cleaner and handier than writing tests in Javascript (JS).
-
-I'll also use the rubysol-contracts library (gem) for ERC20 implementation.
+In this series, I'll be using Ruby / Rubysol for contracts. It allows to write tests in Ruby. Yes, we'll use Ruby for both writing contracts and testing them and also use the rubysol-contracts library (gem) for the ERC20 implementation.
 
 
 

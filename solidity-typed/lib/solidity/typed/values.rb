@@ -65,6 +65,19 @@ class Address < TypedValue
       @value
    end
 
+   ## add compare - why? why not?
+   include Comparable
+   def <=>(other)
+      ## compare hexstring instead of unint? - why? why not?
+      if other.is_a?(Address) 
+         to_uint <=> other.to_uint
+      else
+         ## use type error or retur nil?
+         raise ArgumentError, "Address#<=>(other) expects Address; got #{other.class.name}" 
+      end
+   end
+
+
    def to_uint  ## add helper here - why? why not?
       num =  @value.to_i(16)
       UInt.new( num )

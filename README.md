@@ -54,8 +54,10 @@ The first published modules / gems include:
 - [**uniswap**](uniswap) - core uniswap v2 (dumb) contracts for ruby (rubysol) for layer 1 (l1) with "off-chain" indexer
 
 - [**programming-uniswap**](programming-uniswap) - programming (decentralized finance - defi) uniswap v2 contracts article series, the ruby / rubysol edition
-  - [Programming DeFi: Uniswap V2. Part 1](programming-uniswap/part1)
-  - [Programming DeFi: Uniswap V2. Part 2](programming-uniswap/part2)
+  - [Programming DeFi in Ruby: Uniswap V2. Part 1](programming-uniswap/part1)
+  - [Programming DeFi in Ruby: Uniswap V2. Part 2](programming-uniswap/part2)
+  - [Programming DeFi in Ruby: Uniswap V2. Part 3](programming-uniswap/part3)
+
 
 
 - ~~**rubidity-classic**~~ - rubidity classic / o.g. contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 
