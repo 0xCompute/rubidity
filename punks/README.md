@@ -15,7 +15,7 @@ we would have to change the image hash because all 10k Cryptopunks and cryptophu
 
 More:
 
-ha. that's the beauty of (dumb) contracts or the punk (dumb) contract.  the composite all-in-one image will be "off-chain".  thus, no worries about duplicates.  if you get a punk via the (dumb) contract than you get a token with an "on-chain" index (e.g. 0,1,2,3, etc.) like in the original (anno 2017)!  and every inscription is a (dumb) contract inscription (no image ever etched). back to the future! 
+ha. that's the beauty of (dumb) contracts or the punk (dumb) contract.  the composite all-in-one image will be "off-chain".  thus, no worries about duplicates.  if you get a punk via the (dumb) contract than you get a token with an index (e.g. 0,1,2,3, etc.) like in the original (anno 2017)!  and every inscription is a (dumb) contract inscription (no image ever etched). back to the future! 
 
 and yes, of course the idea is to generate a new 10 000 punks set anyway
 that automagically has a new hash.  i have done many (new!) 10 000 punk series already.  a great candidate might be the human series with 10 skin tones (using the google skin tone research sponsored dr. ellis monk skin tones  - see https://skintone.google/ ) and the script to generate all 10 000 (human) punks (no aliens, zombies, apes) -> 
