@@ -50,6 +50,11 @@ Todos
 - [ ] maybe make into (standard) erc-721 token  (no wrapper needed) - why? why not?
 
 
+For the work-in-progress (dumb) contract, see [Punks.rb »](Punks.rb)
+
+
+
+
 
 ## Timeline
 
