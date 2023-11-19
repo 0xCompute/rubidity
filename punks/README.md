@@ -19,15 +19,22 @@ ha. that's the beauty of (dumb) contracts or the punk (dumb) contract.  the comp
 and yes, of course the idea is to generate a new 10 000 punks set anyway
 that automagically has a new hash.  i have done many (new!) 10 000 punk series already.  a great candidate might be the human series with 10 skin tones (using the google skin tone research sponsored dr. ellis monk skin tones  - see https://skintone.google/ ) and the script to generate all 10 000 (human) punks (no aliens, zombies, apes) -> 
 https://github.com/cryptopunksnotdead/punks.sandbox/blob/master/humans/generate_10000.rb
-  and here's an image preview of the first ones in 2x 
-![](https://github.com/cryptopunksnotdead/punks.sandbox/raw/master/humans/i/humans_preview@2x.png
+  and here's an image preview of the first two hundred  
+
+![](https://github.com/cryptopunksnotdead/punks.sandbox/raw/master/humans/i/humans_preview.png
 )
 
 or maybe using an ethscribe neon (ethscribe) green skin tone ;-) -> 
-![](https://github.com/ordinalpunks/ordinalpunks.sandbox/raw/master/ethscribes/i/ethscribes@4x.png)
+
+![](https://github.com/ordinalpunks/ordinalpunks.sandbox/raw/master/ethscribes/i/ethscribes.png)
 
 or maybe using a neon effect on a black & white sketch  - the (bitcon) orange preview here to be changed to green ;-) -> 
-![](https://github.com/ordinalpunks/ordinalpunks.sandbox/raw/master/neon/i/neons.png)   anyways, for sure no 1:1 copy or a reshuffle or left-right flip. 
+
+![](https://github.com/ordinalpunks/ordinalpunks.sandbox/raw/master/neon/i/neons.png)   
+
+
+anyways, for sure no 1:1 copy or a reshuffle or left-right flip. 
+
 
 
 
@@ -52,6 +59,6 @@ Todos
 
 ## More Ideas
 
-- [ ] Why not use the CryptoPunksMerket (also know as V2) contract?
+- [ ] Why not use the CryptoPunksMarket (also know as V2) contract?
 
 
