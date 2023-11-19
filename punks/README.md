@@ -1,4 +1,5 @@
-# Punks
+# 10 000 Punks - The Facet (Dumb) Contract Edition V1
+
 
 The idea:
 
@@ -60,5 +61,6 @@ Todos
 ## More Ideas
 
 - [ ] Why not use the CryptoPunksMarket (also know as V2) contract?
+- [ ]  pass-in the image hash in the constructor? let's anyone deploy a new (punk) collection reusing the contract code!
 
 
