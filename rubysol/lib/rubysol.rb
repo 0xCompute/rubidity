@@ -31,6 +31,15 @@ def mapping( key_type, value_type )
 end
 
 
+## allow "global" shared errors - why? why not?
+##  add structs and events too - why? why not?
+
+def error( class_name, **attributes )
+  ## for global - use scope Types (module) or scope Kernel - why? why not?
+  typedclass = Types::Error.new( class_name, scope: Types, **attributes )
+  typedclass  
+end
+
 
 
 ## add "namespaced" convenience / shortcut names for Typed<Type> classes

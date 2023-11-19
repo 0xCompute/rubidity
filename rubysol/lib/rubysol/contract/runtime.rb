@@ -52,5 +52,24 @@ module RuntimeHelper
                                      data:  data })
   end
 
+
+  def revert( error_klass, *args, **kwargs )
+    raise "error class expected; got: >#{error_klass.inspect}<; sorry"  unless error_klass.ancestors.include?( Types::Error)
+    
+    err = if kwargs.size > 0
+            error_klass.new( **kwargs )
+          else
+            error_klass.new( *args )
+          end
+
+    ## fix-fix-fix - add log_error like log_event or such - why? why not?      
+    # current_transaction.log_event( { event: event_klass.name, 
+    #                                     data:  data })
+
+    raise err      
+end
+
+
+
 end  # module RuntimeHelper
 

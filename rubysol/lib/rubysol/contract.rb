@@ -145,6 +145,12 @@ class Contract
     typedclass  
   end
 
+  def self.error( class_name, **attributes )
+    typedclass = Types::Error.new( class_name, scope: self, **attributes )
+    typedclass  
+  end
+
+
 
    include CryptoHelper     # e.g. keccak256
    include RuntimeHelper    # e.g. msg, tx, block, log, etc.
