@@ -7,7 +7,7 @@ require 'helper'
 
 
 
-class TestZeros < MiniTest::Test
+class TestZeros < Minitest::Test
 
 
 include Types

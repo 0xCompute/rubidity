@@ -7,7 +7,7 @@ require 'helper'
 
 
 
-class TestTypeof < MiniTest::Test
+class TestTypeof < Minitest::Test
 
 
 include Types

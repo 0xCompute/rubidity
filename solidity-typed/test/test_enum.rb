@@ -21,7 +21,7 @@ end
 
 
 
-class TestEnum < MiniTest::Test
+class TestEnum < Minitest::Test
 
    include Types   ## make all enums (and "convenience" converters) global
 

@@ -7,7 +7,7 @@ require 'helper'
 
 
 
-class TestMetatypes < MiniTest::Test
+class TestMetatypes < Minitest::Test
 
 
 include Types

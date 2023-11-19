@@ -7,7 +7,7 @@ require 'helper'
 
 
 
-class TestBool < MiniTest::Test
+class TestBool < Minitest::Test
 
 
 include Types

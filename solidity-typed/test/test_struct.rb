@@ -10,7 +10,7 @@ require 'helper'
 require_relative 'voter'
 
 
-class TestStruct < MiniTest::Test
+class TestStruct < Minitest::Test
 
 include Types
 

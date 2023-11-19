@@ -8,7 +8,7 @@ require 'forwardable'  ## def_delegate
 class ValueError < StandardError; end
 ## if type is ok, but value of type not in range (e.g. uint with negative numbers)
 ##    or maybe enum out-of-range - why? why not? 
-
+##  todo/check - where ValueError gets used
 
 
 
@@ -43,6 +43,8 @@ require_relative 'typed/struct'
 require_relative 'typed/struct_builder'
 require_relative 'typed/event'
 require_relative 'typed/event_builder'
+require_relative 'typed/error'
+require_relative 'typed/error_builder'
 
 
 require_relative 'typed/enum'

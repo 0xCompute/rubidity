@@ -440,6 +440,58 @@ end # class EventType
 
 
 
+###
+#  error for now kind of like a struct - why? why not?
+##    but MUST be initialized (and than frozen) 
+##    and no zero possible etc.
+
+class ErrorType < ReferenceType
+  attr_reader :error_name
+  attr_reader :error_class ## reference error_class here - why? why not? 
+  def initialize( error_name, error_class )
+    @error_name  = error_name
+    @error_class = error_class
+  end
+  def format
+    ## use tuple here (not error) - why? why not?
+     named_types = @error_class.attributes.map  {|key,type| "#{key} #{type.format}" }
+     "#{@error_name} error(#{named_types.join(',')})" 
+  end
+  alias_method :to_s, :format 
+
+  ## check what abi looks like if possible for error
+  ##                  is like tuple?
+
+  def ==(other)
+    other.is_a?( ErrorType ) &&
+    @error_name  == other.error_name &&  ## check for name too - why? why not? 
+    @error_class == other.error_class 
+  end
+ 
+
+  def typedclass_name() @error_class.name;  end
+  def typedclass() @error_class;  end
+ 
+  ## note: mut? == true MUST use new_zero (dup)
+  ##       mut? == false MUST use zero (frozen/shared/singelton)
+  def mut?() false; end
+  def zero
+    raise "error cannot be zero (by defintion); sorry"
+  end
+  alias_method :new_zero, :zero 
+
+  def new( initial_values )  ## todo/check: change to values with splat - why? why not?  
+      ## note: use "splat" here - must be empty or matching number of fields/attributes
+      ##  change - why? why not?
+     @error_class.new( *initial_values ) 
+  end 
+end # class ErrorType
+
+
+
+
+
+
 
 
 

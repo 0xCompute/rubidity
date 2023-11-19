@@ -9,8 +9,11 @@ lib/solidity/typed/bool.rb
 lib/solidity/typed/conversion.rb
 lib/solidity/typed/enum.rb
 lib/solidity/typed/enum_builder.rb
+lib/solidity/typed/error.rb
+lib/solidity/typed/error_builder.rb
 lib/solidity/typed/event.rb
 lib/solidity/typed/event_builder.rb
+lib/solidity/typed/integer.rb
 lib/solidity/typed/mapping.rb
 lib/solidity/typed/mapping_builder.rb
 lib/solidity/typed/metatypes/array.rb

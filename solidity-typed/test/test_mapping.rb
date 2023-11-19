@@ -11,7 +11,7 @@ require_relative 'voter'
 
 
 
-class TestMapping < MiniTest::Test
+class TestMapping < Minitest::Test
 
   include Types
 

@@ -6,7 +6,7 @@
 require 'helper'
 
 
-class TestArray < MiniTest::Test
+class TestArray < Minitest::Test
 
   include Types
 
