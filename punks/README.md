@@ -127,7 +127,7 @@ function buyPunk(uint punkIndex) {
 
 
 
-For the work-in-progress (dumb) contract V1, see [Punks.rb »](Punks.rb)
+For the work-in-progress (dumb) contract V1, see [PunksV1.rb »](PunksV1.rb)
 
 
 Aside - What's news in the v2 contract?
@@ -136,8 +136,22 @@ Aside - What's news in the v2 contract?
 - [x] adds bids to punks e.g. `enterBidForPunk` (and `withdrawBidForPunk`) and `acceptBidForPunk`
 
 
-For the work-in-progress (dumb) contract V2, see [PunksMarket.rb »](PunksMarket.rb)
+For the work-in-progress (dumb) contract V2, see [PunksV2.rb »](PunksV2.rb)
 
+
+
+## The Best of Both Contracts V1 & V2  - Punks For All
+
+- [x] lets you claim punks for free - V1 mechanics
+- [x] reserve for deployer / owner - V1 mechanics
+- [x] incl. bug fix (use seller instead of order.seller) 
+- [x] adds bids from V2
+- [ ] pass in image hash in constructor
+- [ ] pass in name/symbol/totalSupply in constructor
+- [ ] add support for erc-721 standard (no wrappers needed) - why? why not?
+
+
+For the work-in-progress (dumb) contract, see Punks.rb
 
 
 

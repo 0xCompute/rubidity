@@ -1,6 +1,6 @@
 ###
 # to run use (in /punks):
-#   $ ruby test_Punks.rb
+#   $ ruby test_PunksV1.rb
 
 
 $LOAD_PATH.unshift( '../solidity-typed/lib' )
@@ -8,7 +8,7 @@ $LOAD_PATH.unshift( '../rubysol/lib' )
 require 'rubysol'
 
 
-require_relative 'Punks'   #  punks contract
+require_relative 'PunksV1'   #  punks contract
 
 
 pp Punks

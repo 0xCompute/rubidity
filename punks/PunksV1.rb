@@ -50,9 +50,8 @@ class Punks < Contract
             pendingWithdrawals: mapping( Address, UInt )
 
 
-    # Initializes contract with initial supply tokens to the creator of the contract */
     sig []
-    def constructor    # payable 
+    def constructor     
         @owner = msg.sender
         @totalSupply = 10000    # Update total supply
         @punksRemainingToAssign = @totalSupply

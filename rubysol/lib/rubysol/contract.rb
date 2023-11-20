@@ -277,7 +277,7 @@ class Contract
         end
       end
 
-      h[name] = ivar.serialize
+      h[name] = ivar.as_data  # was. serialize
       h
     end
   end
