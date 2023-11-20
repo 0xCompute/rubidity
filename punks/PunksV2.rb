@@ -94,7 +94,7 @@ class PunksMarket < Contract
 
     sig [array(Address), array(UInt)]
     def setInitialOwners( addresses:, indices: ) 
-        assert msg.sender == owner
+        assert msg.sender == @owner
         n = addresses.length
         for i in 0..n
             setInitialOwner( addresses[i], indices[i] )
@@ -103,7 +103,7 @@ class PunksMarket < Contract
 
     sig []
     def allInitialOwnersAssigned
-        assert msg.sender == owner
+        assert msg.sender == @owner
         @allPunksAssigned = true
     end
 
