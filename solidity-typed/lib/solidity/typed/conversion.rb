@@ -19,6 +19,11 @@ def address( obj )
 end  # methdod address 
 
 
+def string( obj )
+    return obj           if obj.is_a?( Types::String )
+    Types::String.new( obj )
+end
+
 def uint( obj )
     return obj.to_uint   if obj.is_a?( Types::Address )
     return obj           if obj.is_a?( Types::UInt )

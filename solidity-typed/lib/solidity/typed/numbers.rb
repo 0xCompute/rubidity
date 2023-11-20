@@ -17,6 +17,14 @@ class UInt < TypedValue
        @value
     end 
   
+
+     ## called / required if type is rvalue (NOT lvalue)
+     ##   tries to coerce lvalue to this type here
+     def coerce(other)
+        puts "calling UInt#coerce other=#{other}:#{other.class.name}"
+        [UInt.new( other.to_int ), self]
+      end
+    
      include Comparable
      def <=>(other)  @value <=> other.to_int; end
 

@@ -255,10 +255,28 @@ class Contract
 
   
   def serialize
-    self.class.state_variable_definitions.keys.reduce({}) do |h, name|
+    self.class.state_variable_definitions.reduce({}) do |h, (name, spec)|
+      type = spec[:type]
       ivar = instance_variable_get("@#{name}")
       ## todo/fix: make sure ivar is_a? Typed!!!!
+      ##   fix-fix-fix- throw error/expetion not warn - if ivar not found!!!
       puts "WARN!! no ivar @#{name} found!!! - #{instance_variables}"   if ivar.nil?
+
+      ## allow literals for now for address
+      ##       string, uint
+      ##   some more - why? why not?
+      if ivar.is_a?( ::String )  ## note: check for Ruby ::String (not Type::String)
+        if type == Typed::AddressType.instance
+           ivar = Address.new( ivar ) 
+        elsif type == Typed::StringType.instance
+           ivar = String.new( ivar )
+       end
+      elsif ivar.is_a?( Integer )
+        if type == Typed::UIntType.instance
+           ivar = UInt.new( ivar )
+        end
+      end
+
       h[name] = ivar.serialize
       h
     end

@@ -26,7 +26,7 @@ class Punks < Contract
              fromAddress: Address, # indexed 
              toAddress:   Address  # indexed
     event :PunkNoLongerForSale,
-             punkIndex:  UInt   # indexed
+             punkIndex:  UInt    # indexed
 
     struct :Offer, 
         isForSale:  Bool,
