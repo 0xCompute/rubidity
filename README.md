@@ -59,11 +59,16 @@ The first published modules / gems include:
   - [Programming DeFi in Ruby: Uniswap V2. Part 3](programming-uniswap/part3)
 
 
+- [**punks**](punks) -  10 000 punks - the facet (dumb) contract edition v1 / v2 (in ruby / rubysol / rubidity)
+
+
 
 - ~~**rubidity-classic**~~ - rubidity classic / o.g. contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubidity "more ruby-ish" contract classes. 
 
 
 - [**rubidity**](rubidity) - (formerly known as rubidity classic) rubidity "classic / o.g." contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubysol "more ruby-ish" contract classes. 
+
+- [**ethscribe**](ethscribe) -  inscription (ethscription calldata) api wrapper & helpers for ethereum & co.
 
 
 
