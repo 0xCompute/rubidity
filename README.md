@@ -70,6 +70,10 @@ The first published modules / gems include:
 
 - [**ethscribe**](ethscribe) -  inscription (ethscription calldata) api wrapper & helpers for ethereum & co.
 
+- [**scribelite**](scribelite)  - inscription / inscribe (ethscription calldata) database for ethereum & co; let's you query via sql and more
+
+
+
 
 
 More:
