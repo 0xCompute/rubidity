@@ -1,4 +1,4 @@
-# Inscription / Inscribe (Ethscription Calldata) SQL Database
+# Scribelite - Inscription / Inscribe (Ethscription Calldata) SQL Database
 
 scribelite - inscription / inscribe (ethscription calldata) database for ethereum & co; let's you query via sql and more
 

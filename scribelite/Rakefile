@@ -1,11 +1,11 @@
 require 'hoe'
-# require './lib/scribelite/version.rb'
+require './lib/scribelite/version.rb'
 
 
 Hoe.spec 'scribelite' do
-  self.version =  '0.0.1' # Scribelite::VERSION
+  self.version =  Scribelite::VERSION
 
-  self.summary = "scribelite - inscription / inscribe (ethscription calldata) database for ethereum & co; let's you query via sql and more"
+  self.summary = "scribelite gem - inscription / inscribe (ethscription calldata) database for ethereum & co; let's you query via sql and more"
   self.description = summary
 
   self.urls    = { home: 'https://github.com/s6ruby/rubidity' }
@@ -19,6 +19,13 @@ Hoe.spec 'scribelite' do
 
   self.extra_deps = [
     ['ethscribe'],   
+    ['activerecord'],
+    ['activerecord-utils'],
+    ['logutils'],
+    ['logutils-activerecord'],
+    ['props'],
+    ['props-activerecord'],
+    ['sqlite3'],
   ]
 
   self.licenses = ['Public Domain']
