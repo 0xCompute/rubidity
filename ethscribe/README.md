@@ -47,52 +47,52 @@ Let's try the mainnet:
 ```ruby
 require 'ethscribe'
 
-web = Ethscribe::Api.mainnet    # or Ethscribe::Api.goerli
+net = Ethscribe::Api.mainnet    # or Ethscribe::Api.goerli
 
 
-## get latest 25 inscriptions (defaults: page_size=25, sort_order=desc)
-pp web.ethscriptions
+# get latest 25 inscriptions (defaults: page_size=25, sort_order=desc)
+pp net.ethscriptions
 
-## get inscriptions page 1 (same as above)
-pp web.ethscriptions( page: 1 ) 
+# get inscriptions page 1 (same as above)
+pp net.ethscriptions( page: 1 ) 
 
 # get inscriptions page 2
-pp web.ethscriptions( page: 2 ) 
+pp net.ethscriptions( page: 2 ) 
 
 # get oldest first  - sort_order=asc
-pp web.ethscriptions( page: 1, sort_order: 'asc' ) 
-pp web.ethscriptions( page: 2, sort_order: 'asc' ) 
+pp net.ethscriptions( page: 1, sort_order: 'asc' ) 
+pp net.ethscriptions( page: 2, sort_order: 'asc' ) 
 
 
 # get inscription by id or num
-pp web.ethscription( 0 ) 
-pp web.ethscription( 1 ) 
-pp web.ethscription( 1000 ) 
-pp web.ethscription( 1_000_000 ) 
+pp net.ethscription( 0 ) 
+pp net.ethscription( 1 ) 
+pp net.ethscription( 1000 ) 
+pp net.ethscription( 1_000_000 ) 
 
 
-# get inscriptions owend by <addresss>
+# get inscriptions owned by <addresss>
 address = '0x2a878245b52a2d46cb4327541cbc96e403a84791'
-pp web.ethscriptions_owned_by( address ) 
+pp net.ethscriptions_owned_by( address ) 
 
 
 # get inscription (decoded) content_data and content_type by id or num 
-pp web.ethscription_data( 0 ) 
-pp web.ethscription_data( 1 ) 
-pp web.ethscription_data( 2 ) 
+pp net.ethscription_data( 0 ) 
+pp net.ethscription_data( 1 ) 
+pp net.ethscription_data( 2 ) 
 
 
 # check if content exists (using sha256 hash)
 # inscribe no. 0
 sha = '2817fd9cf901e4435253881550731a5edc5e519c19de46b08e2b19a18e95143e'
-pp web.ethscription_exists( sha ) 
+pp net.ethscription_exists( sha ) 
 
 # inscribe no. ??
 sha = '2817fd9cf901e4435253833550731a5edc5e519c19de46b08e2b19a18e95143e'
-pp web.ethscription_exists( sha )  
+pp net.ethscription_exists( sha )  
 
 # check the indexer (block) status
-pp web.block_status
+pp net.block_status
 ```
 
 
