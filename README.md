@@ -68,6 +68,9 @@ The first published modules / gems include:
 
 - [**rubidity**](rubidity) - (formerly known as rubidity classic) rubidity "classic / o.g." contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubysol "more ruby-ish" contract classes. 
 
+
+- [**calldata**](calldata) - Calldata.encode / Calldata.decode using utf8_to_hex and hex_to_utf8 helpers and more for inscriptions / inscribes for ethereum & co
+
 - [**ethscribe**](ethscribe) -  inscription (ethscription calldata) api wrapper & helpers for ethereum & co.
 
 - [**scribelite**](scribelite)  - inscription / inscribe (ethscription calldata) database for ethereum & co; let's you query via sql and more

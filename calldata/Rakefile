@@ -1,0 +1,28 @@
+require 'hoe'
+# require './lib/calldata/version.rb'
+
+
+Hoe.spec 'calldata' do
+  self.version =  '0.1.0'
+
+  self.summary = "calldata gem - Calldata.encode / Calldata.decode using utf8_to_hex and hex_to_utf8 helpers and more for inscriptions / inscribes for ethereum & co"
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/s6ruby/rubidity' }
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'gerald.bauer@gmail.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = [
+  ]
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.3'
+  }
+end
