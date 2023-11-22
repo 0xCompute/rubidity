@@ -76,7 +76,7 @@ uri = "data:,"
 
 DataUri.valid?( uri )  
 #=> true
-mediatype, data = DataUri.parse( uri )    ## returns mediatype (1) mimetype+parameters, 2) data)
+mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (mimetype+parameters), 2) data
 #=> "", ""
 ```
 
