@@ -109,8 +109,8 @@ DataUri.valid?( uri )
 mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (mimetype+parameters), 2) data
 #=> "image/png", "<blob>"
 
-## let's save the jpeg image (blob)
-write_blob( "15.jpeg", data )
+## let's save the png image (blob)
+write_blob( "15.png", data )
 ```
 
 and voila!
