@@ -24,7 +24,7 @@ See [Introducing Ethscriptions - A new way of creating and sharing digital artif
 ### Calldata
 
 Let's start with the Calldata encode/decode helpers.
-In an inscribe the data gets incode in the the calldata (hexdata notes) of a transaction.
+In an inscribe the data gets encoded in the the calldata (hexdata notes) of a transaction.
 The calldata is a binary blob. 
 Note: This gem uses hexstrings for binary blobs.
 
@@ -33,29 +33,29 @@ Option 1: Use the "low-level" global `utf8_to_hex` and `hex_to_utf8` helper meth
 ```ruby
 require 'calldata'
 
-hex = utf8_to_hex( "data:image/png;base64,..." )
-#=>  "646174613a696d6167652f706e673b6261736536342c2e2e2e"
-utf8 = hex_to_utf8( "646174613a696d6167652f706e673b6261736536342c2e2e2e" )
-#=>  "data:image/png;base64,..."
-
 hex = utf8_to_hex( "Hello, World!" )
 #=>  "48656c6c6f2c20576f726c6421"
 utf8 = hex_to_utf8( "48656c6c6f2c20576f726c6421" )
 #=>  "Hello, World!"
+
+hex = utf8_to_hex( "data:image/png;base64,..." )
+#=>  "646174613a696d6167652f706e673b6261736536342c2e2e2e"
+utf8 = hex_to_utf8( "646174613a696d6167652f706e673b6261736536342c2e2e2e" )
+#=>  "data:image/png;base64,..."
 ```
 
 Option 2: Use the `Calldata` module helper methods `encode/encode_utf8` and `decode/decode_hex`:
 
 ``` ruby
-hex = Calldata.encode( "data:image/png;base64,..." )   
-#=>  "646174613a696d6167652f706e673b6261736536342c2e2e2e"
-utf8 = Calldata.decode( "0x646174613a696d6167652f706e673b6261736536342c2e2e2e" )    
-#=>  "data:image/png;base64,..."
-
 hex = Calldata.encode( "Hello, World!" )
 #=>  "48656c6c6f2c20576f726c6421"
 utf8 = Calldata.decode( "0x48656c6c6f2c20576f726c6421" )
 #=>  "Hello, World!"
+
+hex = Calldata.encode( "data:image/png;base64,..." )   
+#=>  "646174613a696d6167652f706e673b6261736536342c2e2e2e"
+utf8 = Calldata.decode( "0x646174613a696d6167652f706e673b6261736536342c2e2e2e" )    
+#=>  "data:image/png;base64,..."
 ```
 
 Note: The `hex_to_utf8` helper (incl. `Calldata.decode`) 
@@ -83,11 +83,11 @@ mediatype, data = DataUri.parse( uri )    ## returns mediatype (1) mimetype+para
 Let's try the (genesis) inscribe no. 0:
 
 ``` ruby
-uri = "data:,data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHV..."
+uri = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHV..."
 
 DataUri.valid?( uri )  
 #=> true
-mediatype, data = DataUri.parse( uri )    ## returns mediatype (1) mimetype+parameters, 2) data)
+mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (mimetype+parameters), 2) data
 #=> "image/jpeg", "<blob>"
 
 ## let's save the jpeg image (blob)
@@ -106,8 +106,8 @@ uri = "data:image/png;base64,/9j/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlubwIQAAB..."
 
 DataUri.valid?( uri )  
 #=> true
-mediatype, data = DataUri.parse( uri )    ## returns mediatype (1) mimetype+parameters, 2) data)
-#=> "image/png", "blob>"
+mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (mimetype+parameters), 2) data
+#=> "image/png", "<blob>"
 
 ## let's save the jpeg image (blob)
 write_blob( "15.jpeg", data )
