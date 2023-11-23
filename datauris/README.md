@@ -15,8 +15,7 @@ Data URI Syntax via [Wikipedia](https://en.wikipedia.org/wiki/Data_URI_scheme):
 > The syntax of data URIs is defined in [Request for Comments (RFC) 2397](https://datatracker.ietf.org/doc/html/rfc2397), 
 > published in August 1998, and follows the URI scheme syntax. A data URI consists of:
 >
->
->     data:content/type;base64,
+>     data:[<mediatype>][;base64],<data>
 > 
 > -  The **scheme**, `data`. It is followed by a colon (`:`).
 > -  An optional **media type**. The media type part may include one or more parameters,

@@ -111,6 +111,33 @@ module DataUri
     end
 
 
+   ###
+   ## fix-fix-fix - use our own encode_uri instead of encode_uri_component
+   ##                 why? keep more chars unescaped
+   ##                   e.g.   ??
+   ## 
+   ##   check about space ( ) - must be encoded - why? why not??
+   ##               comma (,)
+   ##               more from json -  [] or {} or ""
+   ##
+   ## see <https://en.wikipedia.org/wiki/Percent-encoding>
+   ##
+   ##  Reserved characters that have no reserved purpose in a particular context
+   ##  may also be percent-encoded but
+   ##   are not semantically different from those that are not.
+
+
+=begin   
+   def escape(string)
+    encoding = string.encoding
+    string.b.gsub(/([^ a-zA-Z0-9_.\-~]+)/) do |m|
+      '%' + m.unpack('H2' * m.bytesize).join('%').upcase
+    end.tr(' ', '+').force_encoding(encoding)
+  end
+=end
+
+
+
     ## base64 - force base64 encoding (instead of "automagic")
     def self.build( data, type=nil, base64: nil )
         uri = "data:"
