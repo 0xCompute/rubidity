@@ -1,12 +1,12 @@
 ###
 #  to run use
-#     ruby -I ./lib -I ./test test/test_datauri.rb
+#     ruby -I ./lib -I ./test test/test_inscribes.rb
 
 
 require 'helper'
 
 
-class TestDataUri < Minitest::Test
+class TestInscribes < Minitest::Test
 
 
 def test_empty
@@ -61,5 +61,5 @@ def test_images
 end
 
 
-end   # class TestDataUri
+end   # class TestInscribes
 

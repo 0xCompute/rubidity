@@ -1,8 +1,5 @@
 
 
-require 'base64'   ## pull in base40 encode/decode (standard) module
-
-
 
 ## add/use global helpers - why? why not?
 
@@ -79,65 +76,4 @@ module Calldata
       alias_method :is_valid?,   :valid?
    end
 end  # module Calldata
-
-
-
-
-module DataUri
-    REGEX = %r{
-      \Adata:
-      (?<mediatype>
-        (?<mimetype> .+? / .+? )?
-        (?<parameters> (?: ; .+? = .+? )* )
-      )?
-      (?<extension>;base64)?
-      ,
-      (?<data>.*)\z
-    }x
-
-    def self._parse( str ) REGEX.match( str ); end
-
-    def self.parse( str )
-        m = _parse( str ) 
-  
-        if m
-          ## 1) return mediatype (mimetype PLUS optional parameters)
-          ## 2) return data (base64 decoded or not)
-  
-          mediatype = m[:mediatype]  
-          data      = if m[:extension]   ## assume base64 encoded
-                         Base64.strict_decode64(m[:data])
-                      else
-                         m[:data]
-                      end
-          [mediatype, data]
-        else
-           raise ArgumentError, "invalid datauri - cannot match regex; sorry"
-        end
-    end
-
-
-    def self.valid?( str )
-      m = _parse( str )
-      if m 
-        if m[:extension]   ## assume base64
-            begin
-              Base64.strict_decode64(m[:data])
-              true
-            rescue ArgumentError
-              false
-            end
-          else
-            true
-          end
-      else
-         false
-      end
-    end
-
-    ## add alias convenience names - why? why not?
-    class << self 
-      alias_method :is_valid?,   :valid?
-    end
-end  # module  DataUri
 

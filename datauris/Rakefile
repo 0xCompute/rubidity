@@ -1,0 +1,28 @@
+require 'hoe'
+# require './lib/datauris/version.rb'
+
+
+Hoe.spec 'datauris' do
+  self.version =  '0.1.0'
+
+  self.summary = "datauris gem - helpers to parse (decode) and build (encode) data uris incl. base64-encoded images and more"
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/s6ruby/rubidity' }
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'gerald.bauer@gmail.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = [
+  ]
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.3'
+  }
+end
