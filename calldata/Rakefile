@@ -18,6 +18,8 @@ Hoe.spec 'calldata' do
   self.history_file = 'CHANGELOG.md'
 
   self.extra_deps = [
+    ['datauris', '>= 1.0.0'],
+    ['cocos'],
   ]
 
   self.licenses = ['Public Domain']

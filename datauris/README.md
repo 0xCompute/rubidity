@@ -1,11 +1,12 @@
 # Data URI Helpers
 
-datauris - helpers to parse (decode) and build (encode) data uris incl. base64-encoded images and more
+datauris - helpers to parse (decode) and build (encode) data uris incl. (strict)base64-encoded/decoded images and more
 
 * home  :: [github.com/s6ruby/rubidity](https://github.com/s6ruby/rubidity)
 * bugs  :: [github.com/s6ruby/rubidity/issues](https://github.com/s6ruby/rubidity/issues)
 * gem   :: [rubygems.org/gems/datauris](https://rubygems.org/gems/datauris)
 * rdoc  :: [rubydoc.info/gems/datauris](http://rubydoc.info/gems/datauris)
+
 
 
 ## What are Data URIs?!

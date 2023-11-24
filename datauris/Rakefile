@@ -1,11 +1,11 @@
 require 'hoe'
-# require './lib/datauris/version.rb'
+require './lib/datauris/version.rb'
 
 
 Hoe.spec 'datauris' do
-  self.version =  '0.1.0'
+  self.version =  DataUri::VERSION
 
-  self.summary = "datauris gem - helpers to parse (decode) and build (encode) data uris incl. base64-encoded images and more"
+  self.summary = "datauris gem -  DataUri helpers to parse (decode) and build (encode) data uris incl. (strict) base64-encoded/decoded images and more"
   self.description = summary
 
   self.urls    = { home: 'https://github.com/s6ruby/rubidity' }

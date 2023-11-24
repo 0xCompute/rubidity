@@ -1,6 +1,10 @@
 
-require 'base64'   ## pull in base40 encode/decode (standard) module
+require 'base64'   ## pull in Base64.strict_encode64/decode64 (standard) module
+require 'uri'      ## pull in URI.decode_uri_component
 
+
+## our own code
+require_relative 'datauris/version'     # let version go first
 
 
 module DataUri
@@ -121,21 +125,40 @@ module DataUri
    ##               more from json -  [] or {} or ""
    ##
    ## see <https://en.wikipedia.org/wiki/Percent-encoding>
+
+
+   ## RFC 3986 section 2.3 Unreserved Characters (January 2005)
+   ##   A-Z => A	B	C	D	E	F	G	H	I	J	K	L	M	N	O	P	Q	R	S	T	U	V	W	X	Y	Z
+   ##   a-z => a	b	c	d	e	f	g	h	i	j	k	l	m	n	o	p	q	r	s	t	u	v	w	x	y	z
+   ##   0-9 => 0	1	2	3	4	5	6	7	8	9
+   ##   	-	_	.	~	
+   ##  Other characters in a URI must be percent-encoded.   
+
+   ## RFC 3986 section 2.2 Reserved Characters (January 2005)
+   ##  !	#	$	&	'	(	)	*	+	,	/	:	;	=	?	@	[	]
    ##
-   ##  Reserved characters that have no reserved purpose in a particular context
+   ##  what's missing in reserved?  
+   ##              space(20)  and 
+   ##              double quoutes (") and
+   ##              curly bracket ({}), and ??
+   ##
+   ##  note:  Reserved characters that have no reserved purpose in a particular context
    ##  may also be percent-encoded but
    ##   are not semantically different from those that are not.
 
 
-=begin   
-   def escape(string)
-    encoding = string.encoding
-    string.b.gsub(/([^ a-zA-Z0-9_.\-~]+)/) do |m|
-      '%' + m.unpack('H2' * m.bytesize).join('%').upcase
-    end.tr(' ', '+').force_encoding(encoding)
-  end
-=end
+   ## add more reserved chars here - to keep verbatim (as literal) and NOT percent-encoded
+   ##   why? why not?
 
+
+    NOT_SAFECHARS_RX = /([^a-zA-Z0-9\-_.~]+)/
+
+    def self.encode_uri( str )
+      encoding = str.encoding
+      str.b.gsub( NOT_SAFECHARS_RX ) do |m|
+        '%' + m.unpack('H2' * m.bytesize).join('%').upcase
+      end.force_encoding(encoding)
+    end
 
 
     ## base64 - force base64 encoding (instead of "automagic")
@@ -143,7 +166,7 @@ module DataUri
         uri = "data:"
         uri += type      if type   ## note: allow optional / no type
         
-        puts "  type: #{type.inspect}, base64: #{base64.inspect}"
+        ## puts "  type: #{type.inspect}, base64: #{base64.inspect}"
 
         ## add more (binary) media types here - why? why not?
         ##   note svg is text AND an image => image/svg+xml
@@ -169,7 +192,7 @@ module DataUri
             ##  space becomes %20
             ##  :     becomes %3A
             ##  ,     becomes %2C  and so on
-            uri += "," + URI.encode_uri_component( data )
+            uri += "," + encode_uri( data )
         end   
     end
       
@@ -184,3 +207,5 @@ module DataUri
 end  # module  DataUri
 
 
+
+puts  DataUri.banner      # say hello
