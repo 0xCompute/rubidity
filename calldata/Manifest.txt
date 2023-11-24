@@ -3,3 +3,5 @@ Manifest.txt
 README.md
 Rakefile
 lib/calldata.rb
+lib/calldata/parser.rb
+lib/calldata/version.rb

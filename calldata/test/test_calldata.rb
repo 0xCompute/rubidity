@@ -37,7 +37,7 @@ def test_calldata
      assert_equal hex, utf8_to_hex(hex_to_utf8( hex ))
      assert_equal hex, Calldata.encode(Calldata.decode( hex ))
      assert_equal hex, Calldata.encode_utf8(Calldata.decode_hex( hex ))
-     assert   Calldata.valid?( hex )
+     assert   Calldata.valid_hex?( hex )
    end
 end
 

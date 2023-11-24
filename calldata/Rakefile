@@ -1,9 +1,9 @@
 require 'hoe'
-# require './lib/calldata/version.rb'
+require './lib/calldata/version.rb'
 
 
 Hoe.spec 'calldata' do
-  self.version =  '0.1.0'
+  self.version =  Calldata::VERSION
 
   self.summary = "calldata gem - Calldata.encode / Calldata.decode using utf8_to_hex and hex_to_utf8 helpers and more for inscriptions / inscribes for ethereum & co"
   self.description = summary

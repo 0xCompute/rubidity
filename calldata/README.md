@@ -18,10 +18,6 @@ See [Introducing Ethscriptions - A new way of creating and sharing digital artif
 
 ## Usage
 
-[Calldata](#calldata) • [DataUri](#datauri)
-
-
-### Calldata
 
 Let's start with the Calldata encode/decode helpers.
 In an inscribe the data gets encoded in the the calldata (hexdata notes) of a transaction.
@@ -62,36 +58,37 @@ Note: The `hex_to_utf8` helper (incl. `Calldata.decode`)
 works with or without leading `0x` in  hexstrings.
 
 
+### Data URIs / URLs
 
-### DataUri
 
-Let's continue with the DataUri helpers.
-A valid inscribe must use a valid data uri in the calldata.
+Let's continue with the built-in data uri/url machinery.
+A valid inscribe must use a valid data uri/url in the calldata.
 
 The "useless" (null) minimum is:
 
 ``` ruby
 
-uri = "data:,"
+data_uri = "data:,"
 
-DataUri.valid?( uri )  
+Calldata.valid_data?( data_uri )  
 #=> true
-mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (mimetype+parameters), 2) data
-#=> "", ""
+data = Calldata.parse_data( data_uri )    # returns a Calldata::Text object
+data.type #=> "text/plain"
+data.text #=> ""
 ```
 
 Let's try the (genesis) inscribe no. 0:
 
 ``` ruby
-uri = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHV..."
+data_uri = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHV..."
 
-DataUri.valid?( uri )  
+Calldata.valid_data?( data_uri )  
 #=> true
-mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (mimetype+parameters), 2) data
-#=> "image/jpeg", "<blob>"
-
+data = Calldata.parse_data( data_uri )   # returns a Calldata::Blob object 
+data.type #=> "image/jpeg"
+data.blob #=> <blob>
 ## let's save the jpeg image (blob)
-write_blob( "0.jpeg", data )
+data.write( "0.jpeg" )
 ```
 
 and voila!
@@ -102,15 +99,15 @@ and voila!
 Let's try the inscribe no. 15:
 
 ``` ruby
-uri = "data:image/png;base64,/9j/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlubwIQAAB..."
+data_uri = "data:image/png;base64,/9j/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlubwIQAAB..."
 
-DataUri.valid?( uri )  
+Calldata.valid_data?( data_uri )  
 #=> true
-mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (mimetype+parameters), 2) data
-#=> "image/png", "<blob>"
-
+data = Calldata.parse_data( data_uri )    # returns a Calldata::Blob object 
+data.type  #=> "image/png"
+data.blob  #=> <blob>
 ## let's save the png image (blob)
-write_blob( "15.png", data )
+data.write( "15.png" )
 ```
 
 and voila!
@@ -118,10 +115,40 @@ and voila!
 ![](i/15.png)
 
 
+Let's try a (structured) protocol message inscribe:
+
+``` ruby
+data_uri = %Q<data:,{"p":"erc-20","op":"mint","tick":"eths","id":"16888","amt":"1000"}>
+
+
+Calldata.valid_data?( data_uri )  
+#=> true
+data = Calldata.parse_data( data_uri )    # returns a Calldata::Msg object 
+data.type     #=> "application/json"  
+data['p']     #=> "erc-20"
+data['op']    #=> "mint"
+data['tick']  #=> "eths"
+data['id']    #=> "16888"
+data['amt']   #=> "1000"
+```
+
+or use the convenience all-in-one `parse_hex` helper:
+
+
+``` ruby
+hex  = "0x646174613a2c7b2270223a226572632d3230222c226f70223a226d696e74222c227469636b223a2265746873222c226964223a223136383838222c22616d74223a2231303030227d"
+
+data = Calldata.parse_hex( hex )    # returns a Calldata::Msg object 
+data.type     #=> "application/json"  
+data['p']     #=> "erc-20"
+data['op']    #=> "mint"
+data['tick']  #=> "eths"
+data['id']    #=> "16888"
+data['amt']   #=> "1000"
+```
+
 
 That's it for now.
-
-
 
 
 

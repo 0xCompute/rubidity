@@ -4,6 +4,9 @@ require 'datauris'    ##  e.g. first pull-in zero-dependeny gem incl. DataUri.pa
 require 'cocos'       ##  e.g. read/write_blob/json etc.
 
 
+## our own code
+require_relative 'calldata/version'    # let version go first
+
 
 
 ## add/use global helpers - why? why not?
@@ -51,7 +54,7 @@ class Calldata
    
    def self.decode( hex )
       raise TypeError, "Calldata.decode - String expected; got #{hex.inspect} : #{hex.class.name}"  unless hex.is_a?( String )
-      raise ArgumentError, "Calldata.decode - hexstring expected; got #{hex}"   unless valid?( hex )
+      raise ArgumentError, "Calldata.decode - hexstring expected; got #{hex}"   unless valid_hex?( hex )
       ## todo/check -  add a regex/format check here - why? why not?
       ##  must be string and hexchars only (0x/0X)
       hex_to_utf8( hex )
@@ -60,7 +63,7 @@ class Calldata
 
    HEXCHARS_RX = /\A[0-9a-fA-F]{2,}\z/
      
-   def self.valid?( hex )  
+   def self.valid_hex?( hex )  
       ### cut-off optionial 0x/0X
       hex = hex[2..-1]   if hex.start_with?( '0x' ) || hex.start_with?( '0X') 
    
@@ -73,14 +76,22 @@ class Calldata
       match && hex.length.even?
    end
 
-
+ 
    ## add alias convenience names - why? why not?
    class << self 
       alias_method :encode_utf8, :encode
       alias_method :decode_hex,  :decode
-      alias_method :is_valid?,   :valid?
-      alias_method :is_hex?,     :valid?
-      alias_method :hex?,        :valid?
+      alias_method :is_hex?,     :valid_hex?
+      alias_method :hex?,        :valid_hex?  
    end
 end  # class Calldata
 
+
+
+## more of our own code
+require_relative 'calldata/parser'
+
+
+
+
+puts   Calldata.banner    ## say hello

@@ -1,6 +1,6 @@
 # Data URI Helpers
 
-datauris - helpers to parse (decode) and build (encode) data uris incl. (strict)base64-encoded/decoded images and more
+datauris - helpers to parse (decode) and build (encode) data uris incl. (strict) base64-encoded/decoded images and more
 
 * home  :: [github.com/s6ruby/rubidity](https://github.com/s6ruby/rubidity)
 * bugs  :: [github.com/s6ruby/rubidity/issues](https://github.com/s6ruby/rubidity/issues)

@@ -3,6 +3,9 @@
 
 ## todos:
 
+
+- [ ]  - fix/fix/fix - change parse return args  - data first, type second - why? why not?
+
 - [ ]  return default media type (text/plain) if non specified - why? why not?
        - and add charset=ASCII - why? why not? (and change string encoding?)
 - [ ]  check for charset parameter and (auto-)change string encoding - why? why not?
