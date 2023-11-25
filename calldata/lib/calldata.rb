@@ -14,36 +14,39 @@ require_relative 'calldata/version'    # let version go first
 ## hexdata encode/decode   (hex string NOT binary, utf8-encoded string)
 ##   utf8-to-hex, hex-to-utf8
 
-def utf8_to_hex( utf8 )  ## use bin to hex - why? why not?
-    # str.unpack('U'*str.length).map {|b| b.to_s(16) }.join
-    # str.unpack('H*').first
-    ## note: 0 or 3 must be 00 or 03 with padding!!
-    ##  or use rjust( 2, '0' ) - why? why not?
-    # str.each_byte.map { |b| '%02x' % b }.join
+def utf8_to_hex( utf8 )  ## use bin_to_hex - why? why not?
     utf8.unpack('H*').first
 end
 
 
-def hex_to_utf8( hex )  ## use hex to bin - why? why not?
-    # str.scan(/../).map { |x| x.hex }.pack('c*')
-    ## fix: will NOT work for multi-byte chars
-    ## str.scan(/../).map { |x| x.hex.chr }.join
-
+def hex_to_utf8( hex )  ## use hex_to_bin - why? why not?
     ### cut-off optionial 0x/0X
-    hex = hex[2..-1]   if hex.start_with?( '0x' ) || hex.start_with?( '0X') 
+    hex = hex[2..-1]   if hex.start_with?( '0x' ) || hex.start_with?( '0X' ) 
     
-    ## note:  ethscriptios specifies that \u0000 
+    ## note:  ethscriptions specifies that \u0000 
     ##             (that is, \x00 - 0 byte) gets deleted/removed (even if valid utf-8)
     ##         reason given:  0 byte in utf-8 messes up postgresql storage!
 
-    [hex].pack('H*').force_encoding( 'UTF-8' ).gsub( "\u0000", '' )
+    ## fix-fix-fix - todo: add support for cleanup / fix corrup utf8 encoding - why? why not?
+    ##   unless utf8_string.valid_encoding?
+    ##     utf8_string = utf8_string.encode('UTF-8', 
+    ##                           invalid: :replace, 
+    ##                           undef: :replace, 
+    ##                           replace: "\uFFFD")
+    ##   end
+    ##    check what's the replace char -> "\uFFFD"         
+
+    # note: about string#delete
+    #   Returns a copy of str with all characters of its arguments deleted. 
+    #   Uses the same rules for building the set of characters as String#count.
+
+    [hex].pack('H*').force_encoding( 'UTF-8' ).delete( "\u0000" )
 end
 
 
 
 ##
 ## note: change Calldata to a base class with concrete/subclasses!!
-
 
 class Calldata
    def self.encode( utf8 )
@@ -73,6 +76,8 @@ class Calldata
       match = HEXCHARS_RX.match( hex)
    
       ## note: a byte requires two hexchars (hexchars must be even!! 2,4,6,8,etc.)
+      ##   enforce this even requirement - why? why not?
+      ##    or turn a into a0 and  0 int 00 and so on - why? why not?
       match && hex.length.even?
    end
 
