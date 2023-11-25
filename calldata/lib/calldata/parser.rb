@@ -17,7 +17,7 @@ class Calldata
    def self.parse_hex( hex )  parse_data( decode( hex )); end
 
    def self.parse_data( utf8 )
-       type, data = DataUri.parse( utf8 )
+       data, type = DataUri.parse( utf8 )  ## note: data, type order switched in datauris 1.0.1+
         
        binary = if type 
                    if type.start_with?( 'image/svg+xml' )

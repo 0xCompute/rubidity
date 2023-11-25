@@ -20,7 +20,7 @@ class TestOldGem < Minitest::Test
      ## "should parse as a URI::Data object
      assert   DataUri.valid?( uri )
 
-     mediatype, data = DataUri.parse( uri )
+     data, mediatype = DataUri.parse( uri )
      assert_equal 'image/gif', mediatype            ## should have a content_type of image/gif
      assert_equal Base64.strict_decode64( base64 ), data   ## should have data
   end    
@@ -32,7 +32,7 @@ class TestOldGem < Minitest::Test
      ## "should parse as a URI::Data object
      assert   DataUri.valid?( uri )
 
-     mediatype, data = DataUri.parse( uri )
+     data, mediatype = DataUri.parse( uri )
  
      ## should have a content_type of text/plain - fix - add default if empty - why? why not?
      assert_equal '', mediatype    # 'text/plain'
@@ -46,7 +46,7 @@ class TestOldGem < Minitest::Test
       ## "should parse as a URI::Data object
       assert   DataUri.valid?( uri )
 
-      mediatype, data = DataUri.parse( uri )
+      data, mediatype = DataUri.parse( uri )
       # should have a content_type of text/html" - fix - incl. parameters - why? why not?
       assert_equal 'text/html;charset=utf-8', mediatype    
       assert_equal "<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head><title>Embedded Window</title></head>\r\n<body><h1>42</h1></body>\n</html>\n\r\n", data
@@ -61,7 +61,7 @@ class TestOldGem < Minitest::Test
       ## "should parse as a URI::Data object
       assert   DataUri.valid?( uri )
 
-      mediatype, data = DataUri.parse( uri )
+      data, mediatype = DataUri.parse( uri )
       assert_equal 'application/octet-stream', mediatype    
       assert_equal bin, data
  end

@@ -58,21 +58,21 @@ Let's try and parse the Wikipedia Data URI examples:
 uri = "data:text/vnd-example+xyz;foo=bar;base64,R0lGODdh"
 DataUri.valid?( uri )  
 #=> true
-mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (+parameters), 2) data
-#=> "text/vnd-example+xyz;foo=bar", "<blob>"
+data, mediatype = DataUri.parse( uri )    ## returns 1) data, 2) mediatype (+parameters)
+#=> "<blob>", "text/vnd-example+xyz;foo=bar"
 
 uri = "data:text/plain;charset=UTF-8;page=21,the%20data:1234,5678"
 DataUri.valid?( uri )  
 #=> true
-mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (+parameters), 2) data
-#=> "text/plain;charset=UTF-8;page=21", "the data:1234,5678"
+data, mediatype = DataUri.parse( uri )    ## returns 1) data, 2) mediatype (+parameters)
+#=> "the data:1234,5678", "text/plain;charset=UTF-8;page=21"
 
 
 uri = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/"
 DataUri.valid?( uri )  
 #=> true
-mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (+parameters), 2) data
-#=> "image/jpeg", "<blob>"
+data, mediatype = DataUri.parse( uri )    ## returns 1) data, 2) mediatype (+parameters)
+#=> "<blob>", "image/jpeg"
 ```
 
 
@@ -87,7 +87,7 @@ uri = "data:,"
 
 DataUri.valid?( uri )  
 #=> true
-mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (+parameters), 2) data
+data, mediatype = DataUri.parse( uri )    ## returns 1) data, 2) mediatype (+parameters)
 #=> "", ""
 ```
 
@@ -98,8 +98,8 @@ uri = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHV..."
 
 DataUri.valid?( uri )  
 #=> true
-mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (+parameters), 2) data
-#=> "image/jpeg", "<blob>"
+data, mediatype = DataUri.parse( uri )    ## returns 1) data, 2) mediatype (+parameters)
+#=> "<blob>", "image/jpeg"
 
 ## let's save the jpeg image (blob)
 write_blob( "0.jpeg", data )
@@ -117,8 +117,8 @@ uri = "data:image/png;base64,/9j/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlubwIQAAB..."
 
 DataUri.valid?( uri )  
 #=> true
-mediatype, data = DataUri.parse( uri )    ## returns 1) mediatype (+parameters), 2) data
-#=> "image/png", "<blob>"
+data, mediatype = DataUri.parse( uri )    ## returns 1) data, 2) mediatype (+parameters)
+#=> "<blob>", "image/png"
 
 ## let's save the png image (blob)
 write_blob( "15.png", data )

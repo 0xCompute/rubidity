@@ -58,7 +58,7 @@ module DataUri
             (?<subtype> [\w.+-]+? )
         )?
         (?<parameters> (?: ; 
-                           [\w.+-]+? 
+                           [\w-]+? 
                               = 
                               .+? 
                         )* 
@@ -89,7 +89,11 @@ module DataUri
                          ## todo/double check - use a different URI decoder - why? why not?
                          URI.decode_uri_component(m[:data])
                       end
-          [mediatype, data]
+
+          ## returns data first!!!
+          ##  and mediatype second (to follow the order in build)
+          ##   - also mediatype is optional -  arguable more intuitive - yes,no?
+          [data, mediatype]
         else
            raise ArgumentError, "invalid datauri - cannot match regex; sorry"
         end
@@ -201,8 +205,8 @@ module DataUri
     ## add alias convenience names - why? why not?
     class << self 
       alias_method :is_valid?,   :valid?
-      alias_method :decode,      :parse
-      alias_method :encode,      :build
+      alias_method :decode,      :parse    ### add decode - why? why not?
+      alias_method :encode,      :build    ### add encode - why? why not?
     end
 end  # module  DataUri
 

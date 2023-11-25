@@ -24,7 +24,7 @@ def test_images
 
     assert DataUri.valid?( uri )  
    
-    mediatype, data = DataUri.parse( uri )
+    data, mediatype = DataUri.parse( uri )
     assert_equal 'image/png', mediatype
 
     pp data.encoding   ## check if set to binary by base64 decode?
@@ -38,7 +38,7 @@ def test_images
 
     assert DataUri.valid?( uri )  
    
-    mediatype, data = DataUri.parse( uri )
+    data, mediatype = DataUri.parse( uri )
     assert_equal 'image/png', mediatype
 
     pp data.encoding   ## check if set to binary by base64 decode?
@@ -52,7 +52,7 @@ def test_images
 
     assert DataUri.valid?( uri )  
    
-    mediatype, data = DataUri.parse( uri )
+    data, mediatype = DataUri.parse( uri )
     assert_equal 'image/jpeg', mediatype
 
     pp data.encoding   ## check if set to binary by base64 decode?
