@@ -10,8 +10,8 @@ module Model
 Prop      = ConfDb::Model::Prop
 
 
-class Inscribe    < ActiveRecord::Base ; end
-class Calldata    < ActiveRecord::Base ; end
+class Scribe      < ActiveRecord::Base ; end
+class Tx          < ActiveRecord::Base ; end
 
 
 end # module Model

@@ -17,8 +17,8 @@ ScribeDb.open( './scribe.db' )
 
 
 puts
-puts "  #{Inscribe.count} inscribe(s)"
-puts "  #{Calldata.count} calldata(s)"
+puts "  #{Scribe.count} scribe(s)"
+puts "  #{Tx.count} tx(s)"
 
 
 puts "bye"

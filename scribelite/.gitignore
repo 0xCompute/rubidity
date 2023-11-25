@@ -38,4 +38,6 @@ build/
 ###
 #  ignore sqlite dbs
 *.db
+*.db-shm  
+*.db-wal
 scribe.db

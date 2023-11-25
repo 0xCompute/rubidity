@@ -19,7 +19,85 @@ See [Introducing Ethscriptions - A new way of creating and sharing digital artif
 
 ## Usage
 
+The work-in-progess database schema looks like:
+
+``` ruby
+ActiveRecord::Schema.define do
+
+create_table :scribes, :id => :string do |t|    
+    t.integer  :num, null: false, index: { unique: true, name: 'scribe_nums' }
+    t.integer  :bytes
+    t.string   :content_type
+    ## add allow duplicate opt-in protocol flag e.g. esip6
+    t.boolean    :duplicate      ## allows duplicates flag 
+    t.boolean    :flagged,  null: false,  default: false  ## censored flag / removed on request
+    ## move sha to tx - why? why not?
+    t.string     :sha,    null: false    ## sha hash as hexstring (but no leading 0)
+end
+
+create_table :txs, :id => :string do |t|
+    t.binary     :data     # ,  null: false
+    t.datetime   :date, null: false
+    t.integer    :block, null: false
+    t.integer    :idx,   null: false  ## transaction index (number)
+
+    t.string     :from, null: false
+    t.string     :to,   null: false   
+
+    t.integer    :fee
+    t.integer    :value
+end  
+end 
+```
+
+
+and to setup use it like:
+
+``` ruby
+require 'scribelite'
+
+ScribeDb.connect( adapter:  'sqlite3',
+                  database: './scribe.db' )
+
+ScribeDb.create_all   ## build schema
+```
+
+
+and to query use it like:
+
+``` ruby
+require 'scribelite'
+
+ScribeDb.open( './scribe.db' )
+
+puts
+puts "  #{Scribe.count} scribe(s)"
+puts "  #{Tx.count} tx(s)"
+
+
+## how many flagged in top 100?
+limit = 100
+
+flagged_count =  Scribe.order( :num ).limit(limit).where( flagged: true ).count
+pp flagged_count    #=> 75 !!!!!!!!!
+unflagged_count =  Scribe.order( :num).limit(limit).where( flagged: false ).count
+pp unflagged_count  #=> 25
+
+
+Scribe.order( :num ).limit(limit).each do |scribe|
+    if scribe.flagged?
+      print " xx "
+    else
+      print "==> "
+    end
+    print "#{scribe.num} / #{scribe.content_type}   -   #{scribe.tx.date} @ #{scribe.tx.block}"
+    print "\n"
+end
+```
+
+
 To be continued...
+
 
 
 

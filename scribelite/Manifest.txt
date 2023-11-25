@@ -3,8 +3,8 @@ Manifest.txt
 README.md
 Rakefile
 lib/scribelite.rb
-lib/scribelite/models/calldata.rb
 lib/scribelite/models/forward.rb
-lib/scribelite/models/inscribe.rb
+lib/scribelite/models/scribe.rb
+lib/scribelite/models/tx.rb
 lib/scribelite/schema.rb
 lib/scribelite/version.rb

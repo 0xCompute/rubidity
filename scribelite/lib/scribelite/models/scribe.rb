@@ -2,8 +2,8 @@
 module ScribeDb
     module Model
   
-  class Inscribe < ActiveRecord::Base
-    has_one :calldata, foreign_key: 'id'
+  class Scribe < ActiveRecord::Base
+    has_one :tx, foreign_key: 'id'
  
     ## convernience helper
     ##  forward to blob.content
@@ -182,7 +182,7 @@ def export( path=export_path )
 end
 =end
 
-  end  # class Inscribe
+  end  # class Scribe
   
     end # module Model
 end # module ScribeDb

@@ -18,7 +18,8 @@ Hoe.spec 'scribelite' do
   self.history_file = 'CHANGELOG.md'
 
   self.extra_deps = [
-    ['ethscribe'],   
+    ['ethscribe'], 
+    ['calldata'],    ## todo - check if included via ethscribe in the future?  
     ['activerecord'],
     ['activerecord-utils'],
     ['logutils'],

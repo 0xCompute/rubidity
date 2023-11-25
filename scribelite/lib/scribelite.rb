@@ -1,10 +1,11 @@
 
 # core and stlibs
 require 'ethscribe'  ## will pull-in cocos & friends
-
+require 'calldata'
 
 
 require 'logger'    # Note: use for ActiveRecord::Base.logger -- remove/replace later w/ LogUtils::Logger ???
+require 'date'      ## check if date & datetime required ??
 
 
 # 3rd party gems / libs
@@ -27,8 +28,8 @@ require_relative 'scribelite/version'   # always goes first
 
 require_relative 'scribelite/models/forward'
 
-require_relative 'scribelite/models/inscribe'
-require_relative 'scribelite/models/calldata'
+require_relative 'scribelite/models/scribe'
+require_relative 'scribelite/models/tx'
 
 
 require_relative 'scribelite/schema'      
@@ -66,7 +67,7 @@ module ScribeDb
       ConfDb.create    # add props table
     end
 
-    unless ScribeDb::Model::Inscribe.table_exists?
+    unless ScribeDb::Model::Scribe.table_exists?
       ScribeDb.create
     end
   end # method auto_migrate!
@@ -136,8 +137,8 @@ end  # module ScribeDb
 
 
 ## add convenience helpers
-Inscribe  = ScribeDb::Model::Inscribe
-Calldata  = ScribeDb::Model::Calldata
+Scribe    = ScribeDb::Model::Scribe
+Tx        = ScribeDb::Model::Tx
 
 
 # say hello
