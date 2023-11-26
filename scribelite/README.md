@@ -69,7 +69,7 @@ require 'scribelite'
 
 ScribeDb.open( './scribe.db' )
 
-[1,2,3,4].each do |page|
+(1..4).each do |page|
    ScribeDb.import_ethscriptions( page: page )
 end
 ```

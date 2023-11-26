@@ -19,8 +19,8 @@ to [inscribe №999](https://ethscriptions.com/ethscriptions/999).
 
 Let's setup and build from scratch / zero 
 a single-file SQLite database (e.g. `sub1k.db`) with
-the first thousand ehtscriptions, 
-that is, all metadata and (content) blobs, that is, images or text or audio or whatever.
+the first thousand ethscriptions, 
+that is, all metadata and transaction (call) data, that is, images or text or  whatever.
 
 To fetch the inscription metadata and transaction (call) data
 let's use the ethscriptions.com api wrapper / client, that is,
@@ -28,7 +28,7 @@ the [ethscribe gem](../ethscribe).
 
 To setup and build the SQL schema / tables
 and insert (& update) all database records let's use
-the ethcriptions sqlite database helpers & machinery, that is, the [scribelite gem](../scribelite).
+the ethscriptions sqlite database helpers & machinery, that is, the [scribelite gem](../scribelite).
 
 
 Let's get started:
@@ -109,15 +109,15 @@ end
 resulting in:
 
 ```
-75 KB (76754 bytes) - Scribe №10 (image/png) - 2022-08-30 03:24:05 UTC
-69.3 KB (70958 bytes) - Scribe №338 (image/png) - 2023-06-15 21:31:47 UTC
-66.1 KB (67658 bytes) - Scribe №339 (image/png) - 2023-06-15 21:52:47 UTC
-49 KB (50218 bytes) - Scribe №224 (image/png) - 2023-06-15 09:56:35 UTC
+75   KB (76754 bytes) - Scribe №10  (image/png)  - 2022-08-30 03:24:05 UTC
+69.3 KB (70958 bytes) - Scribe №338 (image/png)  - 2023-06-15 21:31:47 UTC
+66.1 KB (67658 bytes) - Scribe №339 (image/png)  - 2023-06-15 21:52:47 UTC
+49   KB (50218 bytes) - Scribe №224 (image/png)  - 2023-06-15 09:56:35 UTC
 26.7 KB (27359 bytes) - Scribe №243 (image/jpeg) - 2023-06-15 10:59:35 UTC
-26.3 KB (26906 bytes) - Scribe №528 (image/png) - 2023-06-16 21:54:11 UTC
+26.3 KB (26906 bytes) - Scribe №528 (image/png)  - 2023-06-16 21:54:11 UTC
 26.2 KB (26807 bytes) - Scribe №244 (image/jpeg) - 2023-06-15 11:00:35 UTC
-23.6 KB (24174 bytes) - Scribe №1 (image/png) - 2017-03-17 19:42:09 UTC
-23 KB (23534 bytes) - Scribe №15 (image/png) - 2023-06-14 23:03:47 UTC
+23.6 KB (24174 bytes) - Scribe №1   (image/png)  - 2017-03-17 19:42:09 UTC
+23   KB (23534 bytes) - Scribe №15  (image/png)  - 2023-06-14 23:03:47 UTC
 22.6 KB (23131 bytes) - Scribe №204 (image/jpeg) - 2023-06-15 08:55:23 UTC
 ```
 
@@ -262,7 +262,8 @@ resulting in:
 
 and voila find all exported images in the [/i directory »](i)
 
-![i/sub1k-export.png]
+![](i/sub1k-export.png)
+
 
 
 
