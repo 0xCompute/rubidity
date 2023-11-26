@@ -141,6 +141,13 @@ Scribe    = ScribeDb::Model::Scribe
 Tx        = ScribeDb::Model::Tx
 
 
+
+require 'active_support/number_helper'
+include ActiveSupport::NumberHelper   ## e.g. number_to_human_size
+
+
+
+
 # say hello
 puts Scribelite.banner     ## if defined?($RUBYCOCOS_DEBUG) && $RUBCOCOS_DEBUG
 

@@ -17,7 +17,8 @@ module ScribeDb
     ### scope like helpers
     def self.png() where( content_type: 'image/png' ); end
     def self.gif() where( content_type: 'image/gif' ); end
-    def self.jpg() where( content_type: 'image/jpeg' ); end
+    def self.jpg() where( content_type: ['image/jpeg',
+                                         'image/jpg'] ); end
     def self.webp() where( content_type: 'image/webp' ); end
     def self.svg()  where( content_type: 'image/svg+xml' ); end
     def self.avif() where( content_type: 'image/avif' ); end
@@ -31,6 +32,7 @@ module ScribeDb
         where( content_type: [
             'image/png',
             'image/jpeg',
+            'image/jpg',
             'image/gif',
             'image/webp',
             'image/svg+xml',
@@ -98,90 +100,64 @@ module ScribeDb
        .order( Arel.sql( 'COUNT(*) DESC, content_type')).count
    end
 
+   def self.from_counts
+       joins(:tx ).group( 'from' )
+       .order( Arel.sql( 'COUNT(*) DESC')).count
+   end 
+
+   def self.block_counts
+       joins(:tx).group( 'block' )
+         .order( 'block').count
+   end 
+
+   def self.block_with_timestamp_counts
+       joins(:tx).group( Arel.sql( "block || ' @ ' || date" ))
+         .order( 'block' ).count
+   end
+
+
+   def self.date_counts
+      ## note: strftime is SQLite specific/only!!!
+      joins(:tx).group( Arel.sql("strftime('%Y-%m-%d', date)"))
+       .order( Arel.sql("strftime('%Y-%m-%d', date)")).count
+   end
+
+   def self.month_counts
+      ## note: strftime is SQLite specific/only!!!
+      joins(:tx).group( Arel.sql("strftime('%Y-%m', date)"))
+       .order( Arel.sql("strftime('%Y-%m', date)")).count
+   end
+
+   def self.year_counts
+      ## note: strftime is SQLite specific/only!!!
+      joins(:tx).group( Arel.sql("strftime('%Y', date)"))
+       .order( Arel.sql("strftime('%Y', date)")).count
+   end
+ 
+   def self.hour_counts
+     ## note: strftime is SQLite specific/only!!!
+      joins(:tx).group( Arel.sql("strftime('%Y-%m-%d %Hh', date)"))
+      .order( Arel.sql("strftime('%Y-%m-%d %Hh', date)")).count
+   end
+
+
+=begin
+class << self
+   alias_method :counts_by_address,      :address_counts
+ nd
+=end
+
    class << self
       alias_method :biggest, :largest
       alias_method :counts_by_content_type, :content_type_counts
+      alias_method :counts_by_date,         :date_counts
+      alias_method :counts_by_day,          :date_counts
+      alias_method :counts_by_month,        :month_counts
+      alias_method :counts_by_year,         :year_counts
+      alias_method :counts_by_hour,         :hour_counts
+      alias_method :counts_by_block,        :block_counts
+      alias_method :counts_by_block_with_timestamp,  :block_with_timestamp_counts
    end
-
- ###
- # instance methods
-def extname
-  ## map mime type to file extname
-  ## see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
-  ##  for real-world usage, see https://dune.com/dgtl_assets/bitcoin-ordinals-analysis
-  ##  https://github.com/casey/ord/blob/master/src/media.rs
-
-   if content_type.start_with?( 'text/plain' )
-      '.txt'
-   elsif content_type.start_with?( 'text/markdown' )
-      '.md'
-   elsif content_type.start_with?( 'text/html' )
-      '.html'
-   elsif content_type.start_with?( 'text/javascript' ) ||
-         content_type.start_with?( 'application/javascript' )
-      ## note: application/javascript is considered bad practice/legacy
-      '.js'
-   elsif content_type.start_with?( 'image/png' )
-       ## Portable Network Graphics (PNG)
-      '.png'
-   elsif content_type.start_with?( 'image/jpeg' )
-        ##  Joint Photographic Expert Group image (JPEG) 
-       '.jpg'   ## use jpeg - why? why not?
-   elsif content_type.start_with?( 'image/webp' )
-        ## Web Picture format (WEBP)
-       '.webp'   ## note: no three-letter extension available
-   elsif content_type.start_with?( 'image/svg' )
-        ## Scalable Vector Graphics (SVG) 
-       '.svg'
-   elsif content_type.start_with?( 'image/gif' ) 
-       ##  Graphics Interchange Format (GIF)
-       '.gif'
-   elsif content_type.start_with?( 'image/avif' )  
-       ## AV1 Image File Format (AVIF)
-       '.avif'
-   elsif content_type.start_with?( 'application/epub' )
-       '.epub'
-   elsif content_type.start_with?( 'application/pdf' )
-       '.pdf'
-   elsif content_type.start_with?( 'application/json' )
-       '.json'
-   elsif content_type.start_with?( 'application/pgp-signature' )
-       '.sig'
-   elsif content_type.start_with?( 'audio/mpeg' )
-       '.mp3'
-   elsif content_type.start_with?( 'audio/midi' )
-       '.midi'
-   elsif content_type.start_with?( 'video/mp4' )
-       '.mp4'
-   elsif content_type.start_with?( 'video/webm' )
-       '.wepm'
-   elsif content_type.start_with?( 'audio/mod' )  
-      ## is typo? possible? only one inscription in 20m?
-       '.mod'   ## check/todo/fix if is .wav?? 
-   else
-      puts "!! ERROR - no file extension configured for content type >#{content_type}<; sorry:"
-      pp self
-      exit 1
-   end
-end
-
-=begin
-def export_path  ## default export path
-   numstr = "%08d" % num   ###  e.g. 00000001  
-   "./tmp/#{numstr}#{extname}" 
-end
-def export( path=export_path )
-   if blob
-     write_blob( path, blob.content )
-   else
-      ## todo/fix: raise exception - no content
-      puts "!! ERROR - inscribe has no content (blob); sorry:"
-      pp self
-      exit 1
-   end
-end
-=end
-
   end  # class Scribe
   
     end # module Model
