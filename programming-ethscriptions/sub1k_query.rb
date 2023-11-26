@@ -9,8 +9,8 @@ ScribeDb.open( './sub1k.db' )
 puts
 puts "  #{Scribe.count} scribe(s)"
 puts "  #{Tx.count} tx(s)"
-#=>   0 scribe(s)
-#=>   0 tx(s)
+#=>   1000 scribe(s)
+#=>   1000 tx(s)
 
 Scribe.biggest.limit(20).each do |scribe|
     print "#{number_to_human_size(scribe.bytes)} (#{scribe.bytes} bytes) - "

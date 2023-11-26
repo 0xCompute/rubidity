@@ -23,6 +23,9 @@ module ScribeDb
     def self.svg()  where( content_type: 'image/svg+xml' ); end
     def self.avif() where( content_type: 'image/avif' ); end
 
+    def self.pdf()  where( content_type: 'application/pdf' ); end
+
+        
     class << self
        alias_method :jpeg, :jpg
     end     
