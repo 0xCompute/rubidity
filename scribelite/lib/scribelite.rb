@@ -34,8 +34,6 @@ require_relative 'scribelite/models/tx'
 
 require_relative 'scribelite/schema'      
 
-# require_relative 'cache'
-# require_relative 'importer'  ## note: require (soft dep) ordinals gems!!!
 
 
 
@@ -131,6 +129,11 @@ module ScribeDb
 
 end  # module ScribeDb
 
+
+
+
+# add ethscriptions / ethscripe importer - why? why not?
+require_relative 'scribelite/importer'
 
 
 

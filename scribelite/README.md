@@ -25,24 +25,23 @@ The work-in-progess database schema looks like:
 ActiveRecord::Schema.define do
 
 create_table :scribes, :id => :string do |t|    
-    t.integer  :num, null: false, index: { unique: true, name: 'scribe_nums' }
-    t.integer  :bytes
-    t.string   :content_type
+    t.integer    :num, null: false, index: { unique: true, name: 'scribe_nums' }
+    t.integer    :bytes
+    t.string     :content_type
     ## add allow duplicate opt-in protocol flag e.g. esip6
     t.boolean    :duplicate      ## allows duplicates flag 
     t.boolean    :flagged,  null: false,  default: false  ## censored flag / removed on request
-    ## move sha to tx - why? why not?
     t.string     :sha,    null: false    ## sha hash as hexstring (but no leading 0)
 end
 
 create_table :txs, :id => :string do |t|
     t.binary     :data     # ,  null: false
-    t.datetime   :date, null: false
+    t.datetime   :date,  null: false
     t.integer    :block, null: false
     t.integer    :idx,   null: false  ## transaction index (number)
 
-    t.string     :from, null: false
-    t.string     :to,   null: false   
+    t.string     :from,  null: false
+    t.string     :to,    null: false   
 
     t.integer    :fee
     t.integer    :value
@@ -61,6 +60,20 @@ ScribeDb.connect( adapter:  'sqlite3',
 
 ScribeDb.create_all   ## build schema
 ```
+
+and lets import the first hundred (page size is 25)  ethscriptions on mainnet (via the ethscriptions.com api):
+
+
+``` ruby
+require 'scribelite'
+
+ScribeDb.open( './scribe.db' )
+
+[1,2,3,4].each do |page|
+   ScribeDb.import_ethscriptions( page: page )
+end
+```
+
 
 
 and to query use it like:
@@ -93,8 +106,27 @@ Scribe.order( :num ).limit(limit).each do |scribe|
     print "#{scribe.num} / #{scribe.content_type}   -   #{scribe.tx.date} @ #{scribe.tx.block}"
     print "\n"
 end
-```
 
+
+## Let's query for all inscriptions grouped by date (day) 
+## and dump the results:
+pp Scribe.counts_by_day   
+pp Scribe.counts_by_year
+pp Scribe.counts_by_month
+pp Scribe.counts_by_hour
+
+
+## Let's query for all content types and group by count (descending) 
+## and dump the results:
+pp Scribe.counts_by_content_type
+
+pp Scribe.counts_by_block
+pp Scribe.counts_by_block_with_timestamp
+
+pp Scribe.counts_by_address   # from (creator/minter) address 
+
+# ...
+```
 
 To be continued...
 

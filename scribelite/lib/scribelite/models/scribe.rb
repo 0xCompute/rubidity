@@ -100,10 +100,6 @@ module ScribeDb
        .order( Arel.sql( 'COUNT(*) DESC, content_type')).count
    end
 
-   def self.from_counts
-       joins(:tx ).group( 'from' )
-       .order( Arel.sql( 'COUNT(*) DESC')).count
-   end 
 
    def self.block_counts
        joins(:tx).group( 'block' )
@@ -141,11 +137,13 @@ module ScribeDb
    end
 
 
-=begin
-class << self
-   alias_method :counts_by_address,      :address_counts
- nd
-=end
+   def self.from_counts
+    ## note: from is sql keyword!!!
+    ##  wrap in [] for sqlite - check if works for others!!!  
+      joins(:tx).group( '[from]' )
+       .order( Arel.sql( 'COUNT(*) DESC')).count
+   end 
+
 
    class << self
       alias_method :biggest, :largest
@@ -157,7 +155,8 @@ class << self
       alias_method :counts_by_hour,         :hour_counts
       alias_method :counts_by_block,        :block_counts
       alias_method :counts_by_block_with_timestamp,  :block_with_timestamp_counts
-   end
+      alias_method :counts_by_address,      :from_counts
+    end
   end  # class Scribe
   
     end # module Model
