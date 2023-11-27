@@ -19,6 +19,20 @@ pp Scribe.counts_by_month
 pp Scribe.counts_by_content_type
 
 
+def parse_source( src )
+    ## find all contracts - assume last is the name of the one to create!
+    ## contract(:PublicMintERC20
+    names = src.scan( /contract\(:([A-Z][A-Za-z0-9]*)\b/ )
+
+    ##
+    ## note: returns nested array (because of inner capture group)
+    ## e.g. [["ERC20"], ["FacetSwapV1Callee"], ["FacetSwapV1ERC20"], ["IFacetSwapV1Factory"], ["Upgradeable"], ["FacetSwapV1Pair"]]
+    ##      [["ERC20"], ["Upgradeable"], ["EthscriptionERC20Bridge"]]
+
+    names.flatten   
+end
+
+
 ## e.g.
 ##     data:application/vnd.facet.tx+json;rule=esip6,
 ##          {"op":"call","data":
@@ -33,10 +47,8 @@ pp Scribe.counts_by_content_type
 
 
 def parse_tx( datauri )
-    ## hack/patch newline (\n) to %0A 
-    datauri = datauri.gsub( "\n", "%0A" )
-
-    raw, type = DataUri.parse( datauri )
+      ## note: datauri uses utf8 extension by default (add/use utf8: true flag)
+    raw, type = DataUri.parse( datauri, utf8: true )
     unless type.start_with?( 'application/vnd.facet.tx+json' )
       puts "!! ERROR - expected application/vnd.facet.tx+json...; got:"
       puts datauri
@@ -58,25 +70,29 @@ facet_count  = Scribe.facet.count
 pp facet_count
 
 Scribe.facet.order( :num ).each do |scribe|
-  puts "==> #{scribe.num} - #{scribe.tx.date}   #{number_to_human_size(scribe.bytes)} (#{scribe.bytes} bytes)  ..."
-  ## puts  scribe.tx.data
   data = parse_tx( scribe.tx.data )
 
   op     = data['op']
-  to     = data['data']['to']
   args   = data['data']['args']
   
   if op == 'call'
     func  = data['data']['function']
+    to    = data['data']['to']
 
     contract_name = deploys[to] ||  "???" 
  
-    puts "   CALL  #{contract_name}.#{func}  - args:"
+    puts "==> CALL #{contract_name}.#{func}    @ #{scribe.num} - #{scribe.tx.date}   (#{number_to_human_size(scribe.bytes)}) ..."
+    puts "      to (contract): #{to}, args:"
     pp args
   elsif op == 'create'
     source = data['data']['source_code']
  
-    puts "   CREATE  args:"
+    contract_names = parse_source( source )
+
+  ## puts "==> #{scribe.num} - #{scribe.tx.date}   (#{number_to_human_size(scribe.bytes)})  ..."
+
+    puts "==> CREATE #{contract_names[-1]}    @ #{scribe.num} - #{scribe.tx.date}   (#{number_to_human_size(scribe.bytes)}) ..."
+    puts "       txid: #{scribe.id}"
     pp args
   else
       puts "!! ERROR - unknown facet op:"
