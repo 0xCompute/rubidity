@@ -25,6 +25,13 @@ class TestOldGem < Minitest::Test
      assert_equal Base64.strict_decode64( base64 ), data   ## should have data
   end    
 
+#
+#  Expected: # encoding: ASCII-8BIT
+#    valid: true
+# "GIF89a\x01\x00\x01\x00\x80\x01\x00\x00\x00\x00\xFF\xFF\xFF!\xF9\x04\x01\x00\x00\x01\x00,\x00\x00\x00\x00\x01\x00\x01\x00@\x02\x02L\x01\x00;"
+#  Actual: "R0lGODlhAQABAIABAAAAAP///yH5BAEAAAEALAAAAAABAAEAQAICTAEAOw=="
+
+
   # a text/plain data URI
   def test_text
      uri = "data:,A%20brief%20note"
@@ -63,7 +70,7 @@ class TestOldGem < Minitest::Test
 
       data, mediatype = DataUri.parse( uri )
       assert_equal 'application/octet-stream', mediatype    
-      assert_equal bin, data
+      assert_equal bin, data 
  end
 
 

@@ -23,6 +23,13 @@ thus - all percent-encoded data_uris are BROKEN! -
 that is, all %hh stay "verbatim" in the text.
 
 
+> Without ";base64", the data (as a sequence of octets) is represented 
+> using ASCII encoding for octets inside the range of safe URL characters 
+> and using the standard %xx hex encoding of URLs for octets outside that range.
+>
+> -- https://www.rfc-editor.org/rfc/rfc2397#section-2 - data uri spec
+
+
 
 
 ### mistyped mimetypes

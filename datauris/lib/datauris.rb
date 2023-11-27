@@ -8,17 +8,6 @@ require_relative 'datauris/version'     # let version go first
 
 
 module DataUri
-    REGEX_V0 = %r{
-      \Adata:
-      (?<mediatype>
-        (?<type> .+? / .+? )?
-        (?<parameters> (?: ; .+? = .+? )* )
-      )?
-      (?<base64extension>;base64)?
-      ,
-      (?<data>.*)\z
-    }x
-
     ## allow type only - why? why not?
     ## split subtype into [tree prefix] and subtype
     ##  check if type can include dash (-) - why? why not?
@@ -64,7 +53,9 @@ module DataUri
                         )* 
         )
       )?
-      (?<base64extension>;base64)?
+      (?:;
+         (?<extension>base64|utf8)
+       )?
       ,
       (?<data>.*)
       \z
@@ -73,16 +64,21 @@ module DataUri
 
     def self._parse( str ) REGEX.match( str ); end
 
-    def self.parse( str )
+    def self.parse( str, utf8: false )   ## allow force utf8 with utf8: true
         m = _parse( str ) 
   
         if m
           ## 1) return mediatype (mimetype PLUS optional parameters)
           ## 2) return data (base64 decoded or not)
   
+          ## todo/check:
+          ##   add force_encoding( 'UTF-8' ) to returned data (if not base64) - why? why not?
+
           mediatype = m[:mediatype]  
-          data      = if m[:base64extension]   ## assume base64 encoded
+          data      = if m[:extension] && m[:extension] == 'base64'  ## assume base64 encoded
                          Base64.strict_decode64(m[:data])
+                      elsif utf8 || (m[:extension] && m[:extension] == 'utf8')
+                         m[:data]    ## note: no decode; assume "plain" utf8 string  
                       else
                          ## e.g. %20 => space(20)
                          ##  etc.
@@ -100,18 +96,25 @@ module DataUri
     end
 
 
-    def self.valid?( str )
+    def self.valid?( str, utf8: false )
       m = _parse( str )
       if m 
-        if m[:base64extension]   ## assume base64
+        if m[:extension] && m[:extension] == 'base64'   ## assume base64
           begin
             Base64.strict_decode64(m[:data])
             true
           rescue ArgumentError
             false
           end
+        elsif utf8 || (m[:extension] && m[:extension] == 'utf8') 
+           true   ## pass through as is; assume always true (check valid utf8 encoding - why? why not?) 
         else
-          true
+          begin 
+            URI.decode_uri_component(m[:data])            
+            true
+          rescue ArgumentError   ## check if decode errors are argument errors??
+            false
+          end
         end
       else
         false
@@ -165,8 +168,10 @@ module DataUri
     end
 
 
-    ## base64 - force base64 encoding (instead of "automagic")
-    def self.build( data, type=nil, base64: nil )
+    ## base64 - force base64 encoding instead of "automagic" (base64: true)
+    ## utf8   - or force utf8 encoding  (utf8: true)
+    ## uri    - or force STOPPING uri encoding (uri: false)
+    def self.build( data, type=nil, base64: nil, utf8: nil, uri: nil )
         uri = "data:"
         uri += type      if type   ## note: allow optional / no type
         
@@ -191,12 +196,16 @@ module DataUri
 
         if base64    
             uri += ";base64," + Base64.strict_encode64( data )
+        elsif utf8 
+            uri += ";utf8," + data          
         else
             ## use encode_uri_component by default - why? why not?
             ##  space becomes %20
             ##  :     becomes %3A
             ##  ,     becomes %2C  and so on
-            uri += "," + encode_uri( data )
+            ##
+            ## note: use uri: false to turn of uri encode!!!
+            uri += "," +  (uri == false ? data : encode_uri( data ))
         end   
     end
       
