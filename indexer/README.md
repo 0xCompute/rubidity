@@ -13,14 +13,19 @@ and so on)
 some (very few) inscribes use the "non-standard" utf8 extension
 to mark this technique e.g. 
 
-     text/plain;utf8,Hello, World!  
+     data:text/plain;utf8,Hello, World!  
+
+web standard would be to use percent-encode e.g.:
+
+     data:text/plain,Hello%2C%20World%21   # or text/plain the default
+     data:,Hello%2C%20World%21
 
 
 note: the current ethscriptions.com indexer ALWAYS uses 
 the "non-standard" utf8 extension (with or without extension in datauri)
 and NEVER percent-encodes/decodes
 thus - all percent-encoded data_uris are BROKEN! - 
-that is, all %hh stay "verbatim" in the text.
+that is, all %xx stay "verbatim" in the text.
 
 
 > Without ";base64", the data (as a sequence of octets) is represented 

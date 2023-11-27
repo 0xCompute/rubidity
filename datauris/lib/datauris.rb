@@ -172,8 +172,8 @@ module DataUri
     ## utf8   - or force utf8 encoding  (utf8: true)
     ## uri    - or force STOPPING uri encoding (uri: false)
     def self.build( data, type=nil, base64: nil, utf8: nil, uri: nil )
-        uri = "data:"
-        uri += type      if type   ## note: allow optional / no type
+        str = "data:"
+        str += type      if type   ## note: allow optional / no type
         
         ## puts "  type: #{type.inspect}, base64: #{base64.inspect}"
 
@@ -195,9 +195,9 @@ module DataUri
         end
 
         if base64    
-            uri += ";base64," + Base64.strict_encode64( data )
+            str += ";base64," + Base64.strict_encode64( data )
         elsif utf8 
-            uri += ";utf8," + data          
+            str += ";utf8," + data          
         else
             ## use encode_uri_component by default - why? why not?
             ##  space becomes %20
@@ -205,7 +205,7 @@ module DataUri
             ##  ,     becomes %2C  and so on
             ##
             ## note: use uri: false to turn of uri encode!!!
-            uri += "," +  (uri == false ? data : encode_uri( data ))
+            str += "," +  (uri == false ? data : encode_uri( data ))
         end   
     end
       
