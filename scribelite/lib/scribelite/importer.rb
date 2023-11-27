@@ -4,7 +4,7 @@ module ScribeDb
 
 ## note: by default - sort asc(ending) - oldest first (0,1,2,3, .etc.)
 def self.import_ethscriptions( page: 1, sort_order: 'asc' )
-    net   = Ethscribe::Api.mainnet
+    net   = Ethscribe.config.client
     recs = net.ethscriptions( page: page, sort_order: sort_order )
 
     recs.each_with_index do |rec,i|
@@ -63,7 +63,10 @@ def self.import_ethscriptions( page: 1, sort_order: 'asc' )
            bytes: data ? data.length : nil    ## auto-add/calc bytes (content length)
         }
 
-
+        if num.nil?
+             puts "!! skipping unconfirmed / unassigned inscribe - no. num"
+             next
+        end
 
 
         scribe = Scribe.find_by( id: txid )

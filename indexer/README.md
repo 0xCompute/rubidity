@@ -4,6 +4,27 @@
 ##  ethscriptions.com (Indexer) Quirks
 
 
+### "non-standard" utf8 extension for data encoding
+
+most text inscribe do NOT use percent-encode (encode_uri_component)
+but paste / add the raw utf8 string ( % as % and \n as \n and space as space 
+and so on)
+
+some (very few) inscribes use the "non-standard" utf8 extension
+to mark this technique e.g. 
+
+     text/plain;utf8,Hello, World!  
+
+
+note: the current ethscriptions.com indexer ALWAYS uses 
+the "non-standard" utf8 extension (with or without extension in datauri)
+and NEVER percent-encodes/decodes
+thus - all percent-encoded data_uris are BROKEN! - 
+that is, all %hh stay "verbatim" in the text.
+
+
+
+
 ### mistyped mimetypes
 
 - plain/text   instead of text/plain

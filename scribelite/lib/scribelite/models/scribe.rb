@@ -25,6 +25,9 @@ module ScribeDb
 
     def self.pdf()  where( content_type: 'application/pdf' ); end
 
+    def self.facet()  where( content_type: 'application/vnd.facet.tx+json' ); end
+
+
         
     class << self
        alias_method :jpeg, :jpg
