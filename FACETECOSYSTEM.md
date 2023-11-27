@@ -19,6 +19,7 @@ Products & Services
 - Facet Cards  [(Web)](https://facet.cards)
   - [Facet Cards Intro & F.A.Q](FACETCARDS.md)
 - Facet Swap  (with Rewards) [(Web)](https://facetswap.com)
+  - [Facet Swap Intro](FACETSWAP.md)
   - [Facet Swap Reward Intro](FACETREWARDS.md)
 
 
@@ -26,7 +27,8 @@ Products & Services
 ## More
 
 
-[**Rubidity "Next"**](/rubidity)   by [Gerald Bauer](https://github.com/geraldb)  - "gem-ified" and modular rubidity lang runtime incl. structs, enums, array of structs, etc.
+[**Rubysol**](/rubysol)   by [Gerald Bauer](https://github.com/geraldb)  - rubysol (formerly known as rubidity "next") "gem-ified" and modular contract lang runtime incl. structs, enums, array of structs, etc.
+
 
 
 
