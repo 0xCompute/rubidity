@@ -2,6 +2,8 @@ $LOAD_PATH.unshift( "../scribelite/lib" )
 require 'scribelite'
 
 
+require_relative 'facet'   ## pullin facet (pretty) printer et al
+
 
 ScribeDb.open( './facet.db' )
 
@@ -19,112 +21,27 @@ pp Scribe.counts_by_month
 pp Scribe.counts_by_content_type
 
 
-def parse_source( src )
-    ## find all contracts - assume last is the name of the one to create!
-    ## contract(:PublicMintERC20
-    names = src.scan( /contract\(:([A-Z][A-Za-z0-9]*)\b/ )
 
-    ##
-    ## note: returns nested array (because of inner capture group)
-    ## e.g. [["ERC20"], ["FacetSwapV1Callee"], ["FacetSwapV1ERC20"], ["IFacetSwapV1Factory"], ["Upgradeable"], ["FacetSwapV1Pair"]]
-    ##      [["ERC20"], ["Upgradeable"], ["EthscriptionERC20Bridge"]]
-
-    names.flatten   
-end
-
-
-## e.g.
-##     data:application/vnd.facet.tx+json;rule=esip6,
-##          {"op":"call","data":
-##             {"to":"0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
-##              "function":"swapExactTokensForTokens",
-##              "args":{"amountIn":"5000000000000000",
-##                      "amountOutMin":"6308999624399590752944",
-##                      "path":["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
-##                              "0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"],
-##                      "to":"0xBf4a5d5DcB7F0626c63Df0199091b269893cB6d9",
-##                      "deadline":"1000000000000000000"}}}
-
-
-def parse_tx( datauri )
-      ## note: datauri uses utf8 extension by default (add/use utf8: true flag)
-    raw, type = DataUri.parse( datauri, utf8: true )
-    unless type.start_with?( 'application/vnd.facet.tx+json' )
-      puts "!! ERROR - expected application/vnd.facet.tx+json...; got:"
-      puts datauri
-      exit 1
-    end
-    data = JSON.parse( raw )
-    data
-end
-
-
-deploys = {
-    '0xde11257ac24e96b8e39df45dbd4d3cf32237d63d' => 'FacetSwapV1Router', 
-    '0x82dd9ceed833f78d45dd54e2a3755e022b0bad70' => 'FacetSwapV1Router',
-    '0x0e1e5810121d4e138df1d293b95cadcc1ccf3bc3' => 'FacetSwapV1Factory',
-}
 
 
 facet_count  = Scribe.facet.count
 pp facet_count
 
+
+facet = FacetPrinter.new
+
+
+log = ''
+
 Scribe.facet.order( :num ).each do |scribe|
-  data = parse_tx( scribe.tx.data )
+  buf = facet.format( scribe ) 
+  puts buf
 
-  op     = data['op']
-  args   = data['data']['args']
-  
-  if op == 'call'
-    func  = data['data']['function']
-    to    = data['data']['to']
-
-    contract_name = deploys[to] ||  "???" 
- 
-    puts "==> CALL #{contract_name}.#{func}    @ #{scribe.num} - #{scribe.tx.date}   (#{number_to_human_size(scribe.bytes)}) ..."
-    puts "      to (contract): #{to}, args:"
-    pp args
-  elsif op == 'create'
-    source = data['data']['source_code']
- 
-    contract_names = parse_source( source )
-
-  ## puts "==> #{scribe.num} - #{scribe.tx.date}   (#{number_to_human_size(scribe.bytes)})  ..."
-
-    puts "==> CREATE #{contract_names[-1]}    @ #{scribe.num} - #{scribe.tx.date}   (#{number_to_human_size(scribe.bytes)}) ..."
-    puts "       txid: #{scribe.id}"
-    pp args
-  else
-      puts "!! ERROR - unknown facet op:"
-      pp data
-      exit 1
-  end
+  log << buf
 end
+
+write_text( "./tmp/facet.log", log )
+
 
 puts "bye"
 
-
-
-__END__
-
-## first 1000
-
-{"image/png"=>412,
- "text/plain"=>290,
- "application/json"=>262,
- "image/jpeg"=>30,
- "image/svg+xml"=>4,
- nil=>1,
- "text/html"=>1}
-
-
- ## with latest
-
- {"application/json"=>927,
- "image/png"=>414,
- "text/plain"=>325,
- "application/vnd.facet.tx+json"=>266,
- "image/jpeg"=>30,
- "image/svg+xml"=>28,
- "text/html"=>8,
- nil=>1}

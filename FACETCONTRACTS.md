@@ -4,6 +4,22 @@
 Countdown to Facet mainnet on block 18684900! - <https://etherscan.io/block/countdown/18684900> - Estimated Target Date: Thu November, 30 2023 15:04:08
 
 
+Hirsch writes:
+
+Initially bridging will be limited as we make sure everything is running smoothly. 
+We don't want to just go live with everything at once.
+
+1. Launch Facet mainnet
+2. Launch bridge for Sunrise holders
+3. Open bridge to public 
+
+If everything goes perfectly we will monitor it for 24 hours before opening it to the public.
+
+You will technically be able to bridge over anything on Ethereum. 
+Our official bridge will only support ETH and Eths initially. 
+But anyone can create a bridge. Not just us.
+
+
 
 
 ## Frequently Asked Questions (F.A.Q.s) and Answers
