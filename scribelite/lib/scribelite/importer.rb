@@ -3,9 +3,15 @@
 module ScribeDb
 
 ## note: by default - sort asc(ending) - oldest first (0,1,2,3, .etc.)
-def self.import_ethscriptions( page: 1, sort_order: 'asc' )
+def self.import_ethscriptions( page: 1, 
+                               per_page: 50, 
+                               sort_order: 'asc' )
     net   = Ethscribe.config.client
-    recs = net.ethscriptions( page: page, sort_order: sort_order )
+    recs = net.ethscriptions( page: page,
+                              per_page: per_page, 
+                              sort_order: sort_order )
+
+    puts "  #{recs.size} record(s)"                          
 
     recs.each_with_index do |rec,i|
         puts "==> page #{page}/#{i+1} - #{rec['transaction_hash']}..."
@@ -73,8 +79,8 @@ def self.import_ethscriptions( page: 1, sort_order: 'asc' )
         if scribe
             ## skip for now - found id db
         else
-            puts "scribe_attribs:"
-            pp scribe_attribs
+            # puts "scribe_attribs:"
+            # pp scribe_attribs
             Scribe.create!( **scribe_attribs )
         end
  
@@ -82,12 +88,13 @@ def self.import_ethscriptions( page: 1, sort_order: 'asc' )
         if tx
             ## skip for now - found id db
         else
-            puts "tx_attribs:"
-            pp tx_attribs
+            # puts "tx_attribs:"
+            # pp tx_attribs
             Tx.create!( **tx_attribs )
         end
     end
 
+    recs.size   ## return number of records fetched for now
 end  # method import_ethscriptions
 
 end  # module ScribeDb

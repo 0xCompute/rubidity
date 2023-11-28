@@ -19,16 +19,18 @@ max = Scribe.maximum( :num )
 pp max
 puts "   #{max} max. scribe number"
 
-page = max / 25
+per_page = 50     # note: 50 per page is max on ethscriptions.com request (default is: 25)
+page     = max / per_page
 puts "   #{page} page offset for restart"
 
 
 
 loop do 
-    ScribeDb.import_ethscriptions( page: page )
+    recs  = ScribeDb.import_ethscriptions( page: page, per_page: per_page )
+    break if recs < per_page     ## assume last page has returned less records
+
     page += 1
 end
-
 
 puts
 puts "  #{Scribe.count} scribe(s)"
