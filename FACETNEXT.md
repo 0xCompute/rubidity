@@ -37,7 +37,7 @@ Or is there?
 
 The facet data uri/url starts:
 
-    data:application/vnd.facet.tx+json;
+    data:application/vnd.facet.tx+json;esip6=true,
 
 
 What's wrong?
@@ -167,7 +167,7 @@ Re(use) top languages and do NOT invent new ones.
 #### A simple ERC20 mint transaction:
 
 ```
-application/vnd.facet.tx;rule=esip6,{
+data:application/vnd.facet.tx;rule=esip6,{
     "op": "call",
     "data": {
         "to": "0x1234eccd1000898941bc19d3f356322783941fa6",
@@ -191,7 +191,7 @@ amount: 1000000000000000000000
 #### A more complicated UniswapV2-style swap:
 
 ```
-application/vnd.facet.tx;rule=esip6,{
+data:application/vnd.facet.tx;rule=esip6,{
     "to": "0xcce2f1662d48863d57a973b95e1c49b485493511",
     "data": {
         "function": "swapExactTokensForTokens",
