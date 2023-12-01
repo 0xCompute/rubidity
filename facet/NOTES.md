@@ -1,5 +1,24 @@
 # Quick Scratch Notes
 
+
+## facet to address is NOT 0x0 BUT  0x0..face7!!!
+
+see <https://etherscan.io/address/0x00000000000000000000000000000000000face7>
+to track transactions!
+
+why?  easier to track - get all txns sent to 0x0..face7!  
+0x0 is too generic (used by many others too incl. default for contract creation and burning etc.)
+
+see <https://etherscan.io/address/0x0000000000000000000000000000000000000000>
+
+
+double check: - if 0x0 is still an option in facet or 0x..face7 only?
+
+
+
+
+## sync log 
+
 ```
 ==>  144 block(s)  - 18691986 to 18692129...
         total_future_ethscriptions: 0
