@@ -57,9 +57,13 @@ module DataUri
          (?<extension>base64|utf8)
        )?
       ,
-      (?<data>.*)
+      (?<data>
+        (?:.|[\n\r])*
+      )
       \z
     }x
+    
+    ## note    (?<data>.*) - . (dot) will NOT include newlines!!!
 
 
     def self._parse( str ) REGEX.match( str ); end

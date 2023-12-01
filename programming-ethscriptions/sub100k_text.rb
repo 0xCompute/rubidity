@@ -1,3 +1,4 @@
+$LOAD_PATH.unshift( "../datauris/lib" )
 $LOAD_PATH.unshift( "../scribelite/lib" )
 require 'scribelite'
 
@@ -13,35 +14,50 @@ puts "  #{Tx.count} tx(s)"
 #=>   100000 tx(s)
 
 text_count = Scribe.text.count
-pp text_count
+pp text_count     # 77522 (!)
 
 
-## fix:  datauri.parse  cannot handle "raw" newline
-###               using decode_uri_component
-##  "data:text/plain;charset=utf-8,%2F%0A"   
-broken_uri = %Q<data:text/plain;charset=utf-8,#{URI.encode_uri_component("/\n")}>
-pp broken_uri
-pp DataUri.parse( broken_uri )
 
-broken_uri = "data:text/plain;charset=utf-8,/\n"
-pp DataUri.parse( broken_uri )
+limit = 100
 
+buf = ''
 
-__END__
-
-limit = 20
 ## print text
-Scribe.text.order(:num).each do |scribe|
+Scribe.text.order(:num).limit( limit).each_with_index do |scribe,i|
   puts "==> #{scribe.num} @ #{scribe.tx.date} - #{scribe.content_type}   #{number_to_human_size(scribe.bytes)} (#{scribe.bytes} bytes) ..."
-
-  print "!!! >#{scribe.tx.data}<"   unless  DataUri.valid?( scribe.tx.data )
   
-    data, content_type  = DataUri.parse( scribe.tx.data )
+    data, content_type  = DataUri.parse( scribe.tx.data, utf8: true )
     ## double check content type - why? why not?
     puts data
     puts
-end
 
+    buf << "==> no. #{i+1}  - #{scribe.num} @ #{scribe.tx.date} - #{scribe.content_type}   #{number_to_human_size(scribe.bytes)} (#{scribe.bytes} bytes)\n"
+    buf << data
+    buf << "\n\n"
+  end
+  write_text( "./sub100k.txt", buf )
+
+
+
+  buf = ''
+
+## print text
+##  exclude biggies > 1024
+  Scribe.text.order(:num).where( 'bytes < 1024' ).limit( limit).each_with_index do |scribe,i|
+    puts "==> #{scribe.num} @ #{scribe.tx.date} - #{scribe.content_type}   #{number_to_human_size(scribe.bytes)} (#{scribe.bytes} bytes) ..."
+    
+      data, content_type  = DataUri.parse( scribe.tx.data, utf8: true )
+      ## double check content type - why? why not?
+      puts data
+      puts
+  
+      buf << "==> no. #{i+1}  - #{scribe.num} @ #{scribe.tx.date} - #{scribe.content_type}   #{number_to_human_size(scribe.bytes)} (#{scribe.bytes} bytes)\n"
+      buf << data.force_encoding( 'utf-8' )
+      buf << "\n"
+    end
+  
+
+write_text( "./sub100k_sub1k.txt", buf )
 
 
 puts "bye"

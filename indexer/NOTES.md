@@ -1,126 +1,190 @@
-# (Build Your Own) Ethscriptions Indexer Notes
+# Notes
 
+some stats for the first  1602550 scribe(s)
 
-##  ethscriptions.com (Indexer) Quirks
+by day:
 
-
-### "non-standard" utf8 extension for data encoding
-
-most text inscribe do NOT use percent-encode (encode_uri_component)
-but paste / add the raw utf8 string ( % as % and \n as \n and space as space 
-and so on)
-
-some (very few) inscribes use the "non-standard" utf8 extension
-to mark this technique e.g. 
-
-     data:text/plain;utf8,Hello, World!  
-
-web standard would be to use percent-encode e.g.:
-
-     data:text/plain,Hello%2C%20World%21   # or text/plain the default
-     data:,Hello%2C%20World%21
-
-
-note: the current ethscriptions.com indexer ALWAYS uses 
-the "non-standard" utf8 extension (with or without extension in datauri)
-and NEVER percent-encodes/decodes
-thus - all percent-encoded data_uris are BROKEN! - 
-that is, all %xx stay "verbatim" in the text.
-
-
-> Without ";base64", the data (as a sequence of octets) is represented 
-> using ASCII encoding for octets inside the range of safe URL characters 
-> and using the standard %xx hex encoding of URLs for octets outside that range.
->
-> -- https://www.rfc-editor.org/rfc/rfc2397#section-2 - data uri spec
-
-
-
-
-### mistyped mimetypes
-
-- plain/text   instead of text/plain
-- image/jpg    instead of image/jpeg
-
-
-more quirks
-- plain/text;   - parameter separator but no parameters
-
-
-svg
-- unifiy   image/svg  and image/svg+xml  - why? why not?
-
-upcase  - auto downcase content type - why? why not?
-TEXT/PLAIN   - is valid 
-IMAGE/PNG    - is valid 
-
-
-
-### invalid mimetypes accepted
-
-"EthscriptionsApe0000;image/png"=>1,
-"EthscriptionsApe3332;image/png"=>1,
+```
+{"2016-05-29"=>1,
+ "2017-03-17"=>1,
+ "2017-07-06"=>1,
+ "2018-06-29"=>1,
+ "2019-07-23"=>1,
+ "2019-12-04"=>1,
+ "2020-01-08"=>1,
+ "2020-02-06"=>1,
+ "2020-07-28"=>1,
+ "2020-08-22"=>1,
+ "2022-08-30"=>1,
  
+ "2023-06-14"=>10,
+ "2023-06-15"=>319,
+ "2023-06-16"=>9884,
+ "2023-06-17"=>7837,
+ "2023-06-18"=>44627,
+ "2023-06-19"=>23587,
+ "2023-06-20"=>57933,
+ "2023-06-21"=>15071,
+ "2023-06-22"=>18350,
+ "2023-06-23"=>10270,
+ "2023-06-24"=>74738,
+ "2023-06-25"=>36797,
+ "2023-06-26"=>18310,
+ "2023-06-27"=>29750,
+ "2023-06-28"=>3022,
+ "2023-06-29"=>583,
+ "2023-06-30"=>796,
+ 
+ "2023-07-01"=>1572,
+ "2023-07-02"=>4506,
+ "2023-07-03"=>21163,
+ "2023-07-04"=>6711,
+ "2023-07-05"=>98,
+ "2023-07-06"=>252,
+ "2023-07-07"=>564,
+ "2023-07-08"=>26754,
+ "2023-07-09"=>1735,
+ "2023-07-10"=>1900,
+ "2023-07-11"=>5870,
+ "2023-07-12"=>6002,
+ "2023-07-13"=>27672,
+ "2023-07-14"=>1366,
+ "2023-07-15"=>5971,
+ "2023-07-16"=>10839,
+ "2023-07-17"=>15103,
+ "2023-07-18"=>18094,
+ "2023-07-19"=>7558,
+ "2023-07-20"=>9133,
+ "2023-07-21"=>14372,
+ "2023-07-22"=>4199,
+ "2023-07-23"=>7162,
+ "2023-07-24"=>2444,
+ "2023-07-25"=>2246,
+ "2023-07-26"=>28285,
+ "2023-07-27"=>566,
+ "2023-07-28"=>306,
+ "2023-07-29"=>1727,
+ "2023-07-30"=>22882,
+ "2023-07-31"=>1886,
+
+ "2023-08-01"=>53593,
+ "2023-08-02"=>3173,
+ "2023-08-03"=>9032,
+ "2023-08-04"=>32619,
+ "2023-08-05"=>134614,
+ "2023-08-06"=>62223,
+ "2023-08-07"=>30176,
+ "2023-08-08"=>65855,
+ "2023-08-09"=>5418,
+ "2023-08-10"=>3348,
+ "2023-08-11"=>16031,
+ "2023-08-12"=>16781,
+ "2023-08-13"=>2864,
+ "2023-08-14"=>3612,
+ "2023-08-15"=>1705,
+ "2023-08-16"=>19758,
+ "2023-08-17"=>3324,
+ "2023-08-18"=>2198,
+ "2023-08-19"=>5501,
+ "2023-08-20"=>5625,
+ "2023-08-21"=>4341,
+ "2023-08-22"=>2537,
+ "2023-08-23"=>23943,
+ "2023-08-24"=>36067,
+ "2023-08-25"=>3560,
+ "2023-08-26"=>2923,
+ "2023-08-27"=>2038,
+ "2023-08-28"=>403,
+ "2023-08-29"=>623,
+ "2023-08-30"=>879,
+ "2023-08-31"=>659,
+ 
+ "2023-09-01"=>933,
+ "2023-09-02"=>1541,
+ "2023-09-03"=>1475,
+ "2023-09-04"=>1214,
+ "2023-09-05"=>702,
+ "2023-09-06"=>1729,
+ "2023-09-07"=>3626,
+ "2023-09-08"=>1135,
+ "2023-09-09"=>1004,
+ "2023-09-10"=>1817,
+ "2023-09-11"=>488,
+ "2023-09-12"=>463,
+ "2023-09-13"=>3917,
+ "2023-09-14"=>16076,
+ "2023-09-15"=>1478,
+ "2023-09-16"=>1293,
+ "2023-09-17"=>1573,
+ "2023-09-18"=>4185,
+ "2023-09-19"=>3244,
+ "2023-09-20"=>2068,
+ "2023-09-21"=>1106,
+ "2023-09-22"=>2526,
+ "2023-09-23"=>1749,
+ "2023-09-24"=>6653,
+ "2023-09-25"=>3469,
+ "2023-09-26"=>1688,
+ "2023-09-27"=>25657,
+ "2023-09-28"=>2529,
+ "2023-09-29"=>1094,
+ "2023-09-30"=>1536,
+ 
+ "2023-10-01"=>1063,
+ "2023-10-02"=>1111,
+ "2023-10-03"=>1094,
+ "2023-10-04"=>1238,
+ "2023-10-05"=>3396,
+ "2023-10-06"=>1453,
+ "2023-10-07"=>3269,
+ "2023-10-08"=>13857,
+ "2023-10-09"=>3835,
+ "2023-10-10"=>29871,
+ "2023-10-11"=>12463,
+ "2023-10-12"=>8377,
+ "2023-10-13"=>15537,
+ "2023-10-14"=>8333,
+ "2023-10-15"=>5688,
+ "2023-10-16"=>4494,
+ "2023-10-17"=>5651,
+ "2023-10-18"=>8775,
+ "2023-10-19"=>5364,
+ "2023-10-20"=>5686,
+ "2023-10-21"=>35801,
+ "2023-10-22"=>31199,
+ "2023-10-23"=>5709,
+ "2023-10-24"=>4294,
+ "2023-10-25"=>19675,
+ "2023-10-26"=>12193,
+ "2023-10-27"=>6443,
+ "2023-10-28"=>12215,
+ "2023-10-29"=>70242}
+```
 
 
-### datauris - uri encoding/decoding
-
-- text with unencoded newline (`\n`)  - should idealy use %0A ??
-example:
-- inscribe no.   trailing newline
-
-
-
-### protocols
-
-- how to identify protocol text messages (using json)
-
-- allow no mimetype  if starting with `{`
-- allow plain/text mimetype (and variants) if starting with `{`
-- allow application/json
-- others?  - why? why not?
-
-- [ ]  add a new protocol score to model (do NOT use text for queries!!!)
-
-
-
-
-
-### Appendix
-
-mimetype usage in sub100k (via escriptions.com)
+by month:
 
 ```
-{"text/plain"=>77513,
- nil=>13343,
- "image/png"=>6145,
- "image/jpeg"=>2712,
- "image/gif"=>156,
- "application/pdf"=>36,
- "image/webp"=>22,
- "image/svg+xml"=>19,
- "plain/text;"=>13,
- "application/json"=>9,
- "image/svg"=>7,
- "text/html"=>7,
- "image/svg+xml;utf8"=>4,
- "audio/ogg"=>2,
- "image/bmp"=>2,
- "EthscriptionsApe0000;image/png"=>1,
- "EthscriptionsApe3332;image/png"=>1,
- "IMAGE/PNG"=>1,
- "audio/flac"=>1,
- "audio/mpeg"=>1,
- "audio/wav"=>1,
- "dadabots/was+here"=>1,
- "image/jpg"=>1,
- "text/html;"=>1,
- "text/plain;utf8"=>1}
+{"2016-05"=>1,
+ "2017-03"=>1,
+ "2017-07"=>1,
+ "2018-06"=>1,
+ "2019-07"=>1,
+ "2019-12"=>1,
+ "2020-01"=>1,
+ "2020-02"=>1,
+ "2020-07"=>1,
+ "2020-08"=>1,
+ "2022-08"=>1,
+ "2023-06"=>351884,
+ "2023-07"=>258938,
+ "2023-08"=>555423,
+ "2023-09"=>97968,
+ "2023-10"=>338326}
 ```
 
 
-
-and mimetype usage in first 1.5 million (via escriptions.com)
+by content type:
 
 ```
 {"text/plain"=>1281621,
@@ -234,4 +298,31 @@ and mimetype usage in first 1.5 million (via escriptions.com)
  "text/png;base64 "=>1,
  "text/svg"=>1}
 ```
+
+
+by size - top 20:
+
+```
+127 KB (129744 bytes) - Scribe №17454 (application/pdf) - 2023-06-17 20:35:47 UTC
+124 KB (126760 bytes) - Scribe №17445 (application/pdf) - 2023-06-17 20:33:35 UTC
+124 KB (126502 bytes) - Scribe №336495 (image/png) - 2023-06-27 05:28:23 UTC
+123 KB (126355 bytes) - Scribe №1220813 (image/jpeg) - 2023-09-23 11:21:35 UTC
+123 KB (126231 bytes) - Scribe №413450 (image/jpeg) - 2023-07-08 17:17:59 UTC
+123 KB (126227 bytes) - Scribe №384125 (image/jpeg) - 2023-07-04 05:59:59 UTC
+123 KB (126219 bytes) - Scribe №491355 (image/jpeg) - 2023-07-18 04:06:35 UTC
+123 KB (125983 bytes) - Scribe №1262503 (image/jpeg) - 2023-09-29 19:06:23 UTC
+122 KB (125411 bytes) - Scribe №1570835 (image/jpeg) - 2023-10-29 06:57:47 UTC
+122 KB (124998 bytes) - Scribe №515705 (image/gif) - 2023-07-20 00:21:59 UTC
+122 KB (124807 bytes) - Scribe №17446 (image/jpeg) - 2023-06-17 20:34:35 UTC
+122 KB (124671 bytes) - Scribe №17449 (image/jpeg) - 2023-06-17 20:35:11 UTC
+122 KB (124579 bytes) - Scribe №17450 (image/jpeg) - 2023-06-17 20:35:23 UTC
+122 KB (124451 bytes) - Scribe №17452 (image/jpeg) - 2023-06-17 20:35:35 UTC
+122 KB (124431 bytes) - Scribe №17453 (image/jpeg) - 2023-06-17 20:35:47 UTC
+121 KB (124375 bytes) - Scribe №461549 (image/jpeg) - 2023-07-15 09:33:11 UTC
+121 KB (124371 bytes) - Scribe №17456 (image/jpeg) - 2023-06-17 20:35:59 UTC
+121 KB (124255 bytes) - Scribe №17458 (image/jpeg) - 2023-06-17 20:36:11 UTC
+121 KB (124247 bytes) - Scribe №17459 (image/jpeg) - 2023-06-17 20:36:23 UTC
+121 KB (124187 bytes) - Scribe №17460 (image/jpeg) - 2023-06-17 20:36:35 UTC
+```
+
 
