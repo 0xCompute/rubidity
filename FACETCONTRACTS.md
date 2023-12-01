@@ -19,6 +19,22 @@ You will technically be able to bridge over anything on Ethereum.
 Our official bridge will only support ETH and Eths initially. 
 But anyone can create a bridge. Not just us.
 
+ o o o
+
+Hirsch write:
+
+Facet Mainnet has been live for only 12 hours, and here are the stats!
+
+- TVL (Total Value Locked): $3 million
+- Transactions: 34,676
+- Unique Wallets: 1,923
+
+We've launched an entirely new protocol that allows you to do everything you can on Ethereum, but cheaper. We've also launched a block explorer, a DEX, bridges, and a brand new name service called Facet Cards.
+
+There have been no major issues. 
+Things got slow at points, but we fixed them and made it run faster.
+
+
 
 
 

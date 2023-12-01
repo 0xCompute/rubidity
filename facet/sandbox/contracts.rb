@@ -178,7 +178,7 @@ CHROME_PATH = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
 Facetscan::Puppeteer.chrome_path = CHROME_PATH
 
 
-recs = Facetscan::Puppeteer.contracts( limit: 17 )
+recs = Facetscan::Puppeteer.contracts( limit: 4 )
 
 headers = ['txid','name','address']
 buf = headers.join( ',' )

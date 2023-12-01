@@ -23,6 +23,18 @@ Products & Services
   - [Facet Swap Reward Intro](FACETREWARDS.md)
 
 
+## Analytics
+
+### Facet Bridge ( "Stacked / Locked" Ether)
+
+contract @ <https://etherscan.io/address/0xD729345aA12c5Af2121D96f87B673987f354496B>
+
+Facet Bridge Dashboard - <https://dune.com/richass12/facet>
+
+
+
+
+
 
 ## More
 

@@ -1,5 +1,33 @@
 # Quick Scratch Notes
 
+```
+==>  144 block(s)  - 18691986 to 18692129...
+        total_future_ethscriptions: 0
+!! skipping unconfirmed / unassigned inscribe - no. num
+!! skipping unconfirmed / unassigned inscribe - no. num
+!! skipping unconfirmed / unassigned inscribe - no. num
+!! skipping unconfirmed / unassigned inscribe - no. num
+      255 record(s) added
+
+  66245 scribe(s)
+  66245 tx(s)
+```
+
+
+## stats 
+
+```
+  66245 scribe(s)
+  66245 tx(s)
+{"2023-11-22"=>1, 
+ "2023-11-29"=>5, 
+ "2023-11-30"=>34612, 
+ "2023-12-01"=>31627}
+{"application/vnd.facet.tx+json"=>66240, 
+ "application/vnd.facet.system+json"=>5}
+
+66240  (+ 5 system)
+```
 
 
 ## media types usage

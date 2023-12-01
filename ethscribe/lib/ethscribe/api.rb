@@ -45,12 +45,66 @@ class Api   ## change/rename Api to Client - why? why not?
     params << ['sort_order', sort_order.to_s.downcase ]    if sort_order
     
     if params.size > 0
-         src += "?" + params.map { |key,value| "#{key}=#{value}" }.join('&')
+         src += "?" + params.map { |key,value| "#{key}=#{URI.encode_uri_component(value)}" }.join('&')
     end
 
     res = get( src )
     res.json   ## return parsed json data - why? why not?
   end
+
+
+  ####
+  #  ContractTransaction.transaction_mimetype
+  #    "application/vnd.facet.tx+json"
+  #  SystemConfigVersion.system_mimetype
+  #    "application/vnd.facet.system+json"
+  def newer_facet_txs( new_block_number, 
+                       max: 2500,
+                       max_blocks: 10000,
+                       count: 0 )
+    newer_ethscriptions( new_block_number, 
+                           max_ethscriptions: max,
+                           max_blocks: max_blocks,
+                           mimetypes: ['application/vnd.facet.tx+json',
+                                       'application/vnd.facet.system+json'],
+                           count: count
+                         )
+  end
+  alias_method :newer_facet_txns, :newer_facet_txs
+
+  ## add "undocumented" endpoint 
+  ##   /ethscriptions/newer_ethscriptions
+  ##
+  ##  see https://github.com/0xFacet/facet-vm/blob/main/app/models/ethscription_sync.rb
+
+  def newer_ethscriptions( new_block_number, 
+                           max_ethscriptions: 2500,
+                           max_blocks: 10000,
+                           mimetypes: [],
+                           count: 0
+                         )
+    src = "#{@base}/ethscriptions/newer_ethscriptions"
+
+    params = []
+    params << ['block_number', new_block_number.to_s]
+
+    ## note: array MUST use rails convention with []
+    mimetypes.each do |mimetype|
+      params << ['mimetypes[]', mimetype]
+    end
+
+    params << ['max_ethscriptions',  max_ethscriptions.to_s] 
+    params << ['max_blocks', max_blocks.to_s ] 
+    params << ['past_ethscriptions_count', count.to_s]
+ 
+    src += "?" + params.map do |key,value| 
+                     "#{URI.encode_uri_component(key)}=#{URI.encode_uri_component(value)}" 
+                  end.join('&')
+  
+    res = get( src )
+    res.json   ## return parsed json data - why? why not?
+  end
+
 
 #  
 #  Get ethscriptions owned by address

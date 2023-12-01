@@ -1,0 +1,1738 @@
+==> CALL PublicMintERC20.approve    @ 454702 - 2023-11-25 12:36:12 UTC   (273 Bytes) ...
+      to (contract): 0xb9b5c20291293b0a136fb279cc3ed4c106cfff38, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CREATE PublicMintERC20    @ 454711 - 2023-11-25 12:41:48 UTC   (3.34 KB) ...
+       txid: 0x4f248c3d19f94d613f608d045e526d8faf22733a52e8f166b8aadb25da33ee58
+       address: 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd
+{"name"=>"Facet",
+ "symbol"=>"Facet",
+ "maxSupply"=>"21000000000000000000000000",
+ "perMintLimit"=>"1000000000000000000000",
+ "decimals"=>"18"}
+
+==> CALL EthscriptionERC20Bridge.bridgeIn    @ 454779 - 2023-11-25 12:55:36 UTC   (213 Bytes) ...
+      to (contract): 0xd633259f580af1fa7ae335d2f7a83746a57633c7, args:
+{"to"=>"0x46b70f26bb08c20e137eb8795c16bcc4c5e90303", "amount"=>"1"}
+
+==> CALL EtherBridge.bridgeIn    @ 454783 - 2023-11-25 13:06:12 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x3d540826abb85e64d76e22dbff4081b5123e163b",
+ "amount"=>"100000000000000000"}
+
+==> CALL EtherBridge.approve    @ 454785 - 2023-11-25 13:09:48 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Pair.approve    @ 454786 - 2023-11-25 13:10:24 UTC   (273 Bytes) ...
+      to (contract): 0x8e3e671cc6d78e62797ae616ef07efcdd04c144e, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL PublicMintERC20.approve    @ 454787 - 2023-11-25 13:10:36 UTC   (273 Bytes) ...
+      to (contract): 0xeb78b8e2901c360f21ca47f7541a150320e3fee5, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL PublicMintERC20.approve    @ 454788 - 2023-11-25 13:12:12 UTC   (273 Bytes) ...
+      to (contract): 0x11c12e9b79237f2bb2d66f4cf87791a40e87a9fd, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL PublicMintERC20.approve    @ 454789 - 2023-11-25 13:13:00 UTC   (273 Bytes) ...
+      to (contract): 0xb9b5c20291293b0a136fb279cc3ed4c106cfff38, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 454791 - 2023-11-25 13:18:12 UTC   (411 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"10000000000000000",
+ "amountOutMin"=>"464915635885227",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0x5419b2dbdcd9e5e9c45cf3089d001d3fcb4d3cf9"],
+ "to"=>"0x3D540826aBb85E64D76e22Dbff4081b5123E163b",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 454792 - 2023-11-25 13:20:48 UTC   (273 Bytes) ...
+      to (contract): 0x382bd41f02c93121a05422fa35a514896459ee57, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeIn    @ 454793 - 2023-11-25 13:22:24 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x5fa6f9a1cb05837f4a22184b8d02c275afdb64f3",
+ "amount"=>"20000000000000000"}
+
+==> CALL EtherBridge.approve    @ 454794 - 2023-11-25 13:24:24 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeIn    @ 454800 - 2023-11-25 13:34:48 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x1b95d89ca2e23d52fe87d151de8e1513bb2c806a",
+ "amount"=>"100000000000000000"}
+
+==> CALL EtherBridge.bridgeOut    @ 454806 - 2023-11-25 13:35:24 UTC   (179 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"amount"=>"50000000000000000"}
+
+==> CALL EtherBridge.approve    @ 454823 - 2023-11-25 13:36:12 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 454824 - 2023-11-25 13:37:12 UTC   (419 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"10000000000000000",
+ "amountOutMin"=>"16262286099184090592353",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0x1b95D89CA2e23D52FE87d151dE8E1513BB2c806A",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 454826 - 2023-11-25 13:38:12 UTC   (273 Bytes) ...
+      to (contract): 0xb324c3fccd5da0bad69d2709752044c6bd9adf1f, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 454827 - 2023-11-25 13:39:00 UTC   (418 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"10000000000000000",
+ "amountOutMin"=>"7641882883767201762661",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xd139b92dd35b35eeee2aade812fb3c621d540df4"],
+ "to"=>"0x5fA6F9A1cb05837F4A22184B8d02C275aFDb64F3",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Pair.approve    @ 454828 - 2023-11-25 13:39:00 UTC   (273 Bytes) ...
+      to (contract): 0x9e157e59ca04ba22808eddb7d1552bc99c9b63b1, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 454829 - 2023-11-25 13:39:36 UTC   (445 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"1000000000000000",
+ "amountBDesired"=>"1645883873927799688835",
+ "to"=>"0x1b95D89CA2e23D52FE87d151dE8E1513BB2c806A",
+ "deadline"=>1700919870,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"}
+
+==> CALL PublicMintERC20.approve    @ 454830 - 2023-11-25 13:40:48 UTC   (273 Bytes) ...
+      to (contract): 0xd139b92dd35b35eeee2aade812fb3c621d540df4, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeOut    @ 454831 - 2023-11-25 13:40:48 UTC   (179 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"amount"=>"10000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 454855 - 2023-11-25 13:41:48 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"1000000000000000",
+ "amountOutMin"=>"1624368293138622970679",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0x1b95D89CA2e23D52FE87d151dE8E1513BB2c806A",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 454856 - 2023-11-25 13:41:48 UTC   (273 Bytes) ...
+      to (contract): 0xd139b92dd35b35eeee2aade812fb3c621d540df4, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 454934 - 2023-11-25 13:42:36 UTC   (442 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"9045131295936",
+ "amountBDesired"=>"7719000000000000000000",
+ "to"=>"0x5fA6F9A1cb05837F4A22184B8d02C275aFDb64F3",
+ "deadline"=>1700920043,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xd139b92dd35b35eeee2aade812fb3c621d540df4"}
+
+==> CALL EtherBridge.bridgeIn    @ 454965 - 2023-11-25 13:43:48 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xcd3770c48ed8495fa008960ae6a447f7908edc55",
+ "amount"=>"30000000000000000"}
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455025 - 2023-11-25 13:44:36 UTC   (444 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"996256604166685",
+ "amountBDesired"=>"7710000000000000000000",
+ "to"=>"0x5fA6F9A1cb05837F4A22184B8d02C275aFDb64F3",
+ "deadline"=>1700920134,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xd139b92dd35b35eeee2aade812fb3c621d540df4"}
+
+==> CALL EtherBridge.approve    @ 455026 - 2023-11-25 13:44:36 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455064 - 2023-11-25 13:45:36 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"1000000000000000",
+ "amountOutMin"=>"1624030922412619696449",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0xCd3770c48ed8495FA008960ae6a447F7908edC55",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455099 - 2023-11-25 13:46:24 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"1000000000000000",
+ "amountOutMin"=>"1623693656832869327096",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0xCd3770c48ed8495FA008960ae6a447F7908edC55",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455130 - 2023-11-25 13:47:24 UTC   (273 Bytes) ...
+      to (contract): 0xb324c3fccd5da0bad69d2709752044c6bd9adf1f, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455144 - 2023-11-25 13:51:48 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"1000000000000000",
+ "amountOutMin"=>"1623356496355671760738",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0xCd3770c48ed8495FA008960ae6a447F7908edC55",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL EtherBridge.bridgeOut    @ 455145 - 2023-11-25 13:52:00 UTC   (178 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"amount"=>"1000000000000000"}
+
+==> CALL EtherBridge.bridgeIn    @ 455146 - 2023-11-25 13:52:24 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x388c068a3e5f5cea41c15841a4aaf4e1f7caebfc",
+ "amount"=>"20000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455147 - 2023-11-25 13:53:00 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455148 - 2023-11-25 13:53:48 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"1000000000000000",
+ "amountOutMin"=>"1623019440937349599420",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0x388c068A3e5F5CEA41c15841A4aaf4e1f7CaebFC",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455149 - 2023-11-25 14:01:00 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeIn    @ 455150 - 2023-11-25 14:01:48 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x94a594c9b979d8268e0a80e7bc2c8d3787fe4e2c",
+ "amount"=>"10000000000000000"}
+
+==> CALL EtherBridge.bridgeIn    @ 455151 - 2023-11-25 14:02:36 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x3a8d696ced73d5c821c3f933c6a96daa6ef9b25c",
+ "amount"=>"10000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455152 - 2023-11-25 14:03:48 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455153 - 2023-11-25 14:07:36 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"3000000000000000",
+ "amountOutMin"=>"2291283884482661978795",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xd139b92dd35b35eeee2aade812fb3c621d540df4"],
+ "to"=>"0x94A594C9B979d8268e0A80e7BC2c8d3787fE4E2C",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455154 - 2023-11-25 14:10:00 UTC   (273 Bytes) ...
+      to (contract): 0xd139b92dd35b35eeee2aade812fb3c621d540df4, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455155 - 2023-11-25 14:10:48 UTC   (442 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"2584989257573",
+ "amountBDesired"=>"2310000000000000000000",
+ "to"=>"0x94A594C9B979d8268e0A80e7BC2c8d3787fE4E2C",
+ "deadline"=>1700921740,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xd139b92dd35b35eeee2aade812fb3c621d540df4"}
+
+==> CALL FacetSwapV1Pair.approve    @ 455156 - 2023-11-25 14:11:48 UTC   (273 Bytes) ...
+      to (contract): 0x2af36defdf468103556023593db4be23e321c055, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeIn    @ 455174 - 2023-11-25 14:23:48 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x3aab23339b712429f5bd421d4b18f3b5d5594cfc",
+ "amount"=>"10000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455175 - 2023-11-25 14:24:36 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeIn    @ 455189 - 2023-11-25 14:43:12 UTC   (231 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x3aab23339b712429f5bd421d4b18f3b5d5594cfc",
+ "amount"=>"10000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455190 - 2023-11-25 14:54:36 UTC   (399 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"6000000000000000000",
+ "amountOutMin"=>"1",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb9b5c20291293b0a136fb279cc3ed4c106cfff38"],
+ "to"=>"0x3AaB23339b712429f5bd421d4B18f3b5D5594CFc",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455191 - 2023-11-25 15:05:48 UTC   (413 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"100000000000000000",
+ "amountOutMin"=>"2682371171222131",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0x5419b2dbdcd9e5e9c45cf3089d001d3fcb4d3cf9"],
+ "to"=>"0x3AaB23339b712429f5bd421d4B18f3b5D5594CFc",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455193 - 2023-11-25 15:10:48 UTC   (273 Bytes) ...
+      to (contract): 0xb324c3fccd5da0bad69d2709752044c6bd9adf1f, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL PublicMintERC20.mint    @ 455194 - 2023-11-25 15:15:24 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455195 - 2023-11-25 15:45:48 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455196 - 2023-11-25 15:49:12 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455197 - 2023-11-25 15:50:24 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455198 - 2023-11-25 15:57:00 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455199 - 2023-11-25 15:57:48 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455200 - 2023-11-25 15:58:12 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455201 - 2023-11-25 16:09:00 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455202 - 2023-11-25 16:09:36 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455204 - 2023-11-25 16:13:12 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455205 - 2023-11-25 16:13:12 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455206 - 2023-11-25 16:22:48 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455207 - 2023-11-25 16:24:00 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455208 - 2023-11-25 16:24:48 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455209 - 2023-11-25 16:29:48 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455210 - 2023-11-25 16:29:48 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455219 - 2023-11-25 16:33:00 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455220 - 2023-11-25 16:33:00 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455221 - 2023-11-25 16:35:36 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455222 - 2023-11-25 16:35:36 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455224 - 2023-11-25 16:41:24 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455226 - 2023-11-25 16:41:36 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL PublicMintERC20.mint    @ 455227 - 2023-11-25 16:41:36 UTC   (159 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+{"amount"=>"10"}
+
+==> CALL EtherBridge.bridgeIn    @ 455230 - 2023-11-25 17:31:36 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x0a47e8a57de64a25aec6dfac44f02741aba4b137",
+ "amount"=>"200000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455231 - 2023-11-25 17:33:36 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL PublicMintERC20.approve    @ 455232 - 2023-11-25 17:33:36 UTC   (273 Bytes) ...
+      to (contract): 0xbba30a9b39ae1297fc668cd5f7e5762db4e1a5cc, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL PublicMintERC20.mint    @ 455428 - 2023-11-25 23:31:24 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL EtherBridge.bridgeIn    @ 455430 - 2023-11-26 01:08:48 UTC   (227 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xf07ddde90f667d420edfe837a4feeccf6c289ea6",
+ "amount"=>"1000000000000000"}
+
+==> CALL EthscriptionERC20Bridge.bridgeOut    @ 455431 - 2023-11-26 01:08:48 UTC   (163 Bytes) ...
+      to (contract): 0x0e8a5203d363d777f62b3200e7c28c630cfc9770, args:
+{"amount"=>"2"}
+
+==> CALL EtherBridge.approve    @ 455432 - 2023-11-26 01:10:00 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EthscriptionERC20Bridge.markWithdrawalComplete    @ 455433 - 2023-11-26 01:10:00 UTC   (297 Bytes) ...
+      to (contract): 0x0e8a5203d363d777f62b3200e7c28c630cfc9770, args:
+{"to"=>"0x9c3f46b26fd083325ce666fae403534d0e455d0e",
+ "withdrawalId"=>
+  "0xfbb938c0b332e840d88922681de4cc7ee80dd02197e7b4a3b6d0851be0b15dd9"}
+
+==> CALL EtherBridge.bridgeIn    @ 455434 - 2023-11-26 01:10:00 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xf07ddde90f667d420edfe837a4feeccf6c289ea6",
+ "amount"=>"20000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455435 - 2023-11-26 01:10:36 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"5000000000000000",
+ "amountOutMin"=>"6331887036192554273976",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"],
+ "to"=>"0xf07dddE90f667D420eDFe837A4FeEccF6c289Ea6",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455436 - 2023-11-26 01:11:36 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"4000000000000000",
+ "amountOutMin"=>"3054127143229572397532",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xd139b92dd35b35eeee2aade812fb3c621d540df4"],
+ "to"=>"0xf07dddE90f667D420eDFe837A4FeEccF6c289Ea6",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.removeLiquidity    @ 455437 - 2023-11-26 01:12:24 UTC   (401 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"liquidity"=>"1000000000000000",
+ "to"=>"0x9C3F46B26fD083325CE666fAE403534D0e455D0e",
+ "deadline"=>1700961432,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5419b2dbdcd9e5e9c45cf3089d001d3fcb4d3cf9",
+ "tokenB"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455438 - 2023-11-26 01:12:48 UTC   (416 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"4000000000000000",
+ "amountOutMin"=>"124999379157390778797",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1"],
+ "to"=>"0xf07dddE90f667D420eDFe837A4FeEccF6c289Ea6",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Pair.approve    @ 455439 - 2023-11-26 01:13:24 UTC   (273 Bytes) ...
+      to (contract): 0x9e157e59ca04ba22808eddb7d1552bc99c9b63b1, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455440 - 2023-11-26 01:13:24 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"4000000000000000",
+ "amountOutMin"=>"6488712343281183660540",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0xf07dddE90f667D420eDFe837A4FeEccF6c289Ea6",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.removeLiquidity    @ 455441 - 2023-11-26 01:14:00 UTC   (406 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"liquidity"=>"196000000000000000000",
+ "to"=>"0x9C3F46B26fD083325CE666fAE403534D0e455D0e",
+ "deadline"=>1700961533,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"}
+
+==> CALL PublicMintERC20.approve    @ 455442 - 2023-11-26 01:14:24 UTC   (273 Bytes) ...
+      to (contract): 0xb324c3fccd5da0bad69d2709752044c6bd9adf1f, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455443 - 2023-11-26 01:15:00 UTC   (421 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"258691000000000000000000",
+ "amountOutMin"=>"152891221715948768",
+ "path"=>
+  ["0xb324c3fccd5da0bad69d2709752044c6bd9adf1f",
+   "0x5f5e099e59720e515114ae82b855fbcfb9bd07a9"],
+ "to"=>"0x9C3F46B26fD083325CE666fAE403534D0e455D0e",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455444 - 2023-11-26 01:15:00 UTC   (273 Bytes) ...
+      to (contract): 0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455445 - 2023-11-26 01:15:24 UTC   (445 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"1000000000000000",
+ "amountBDesired"=>"1697821214810724059997",
+ "to"=>"0xf07dddE90f667D420eDFe837A4FeEccF6c289Ea6",
+ "deadline"=>1700961617,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"}
+
+==> CALL EtherBridge.bridgeIn    @ 455446 - 2023-11-26 02:25:00 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x1304a87090343a2fd7accbeb442edda5464b1657",
+ "amount"=>"90000000000000000"}
+
+==> CALL FacetSwapV1Router.removeLiquidity    @ 455447 - 2023-11-26 02:26:12 UTC   (405 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"liquidity"=>"17600000000000000000",
+ "to"=>"0x1304a87090343a2FD7AccBeB442EdDa5464B1657",
+ "deadline"=>1700965898,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455448 - 2023-11-26 02:29:12 UTC   (418 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"3197000000000000000000",
+ "amountOutMin"=>"99497899978936759",
+ "path"=>
+  ["0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1",
+   "0x5f5e099e59720e515114ae82b855fbcfb9bd07a9"],
+ "to"=>"0x1304a87090343a2FD7AccBeB442EdDa5464B1657",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455449 - 2023-11-26 02:31:00 UTC   (420 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"100000000000000000",
+ "amountOutMin"=>"76014149557930514870783",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xd139b92dd35b35eeee2aade812fb3c621d540df4"],
+ "to"=>"0x1304a87090343a2FD7AccBeB442EdDa5464B1657",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455450 - 2023-11-26 02:32:00 UTC   (273 Bytes) ...
+      to (contract): 0xd139b92dd35b35eeee2aade812fb3c621d540df4, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455451 - 2023-11-26 02:33:12 UTC   (448 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"100000000000000000",
+ "amountBDesired"=>"76683254702682586399785",
+ "to"=>"0x1304a87090343a2FD7AccBeB442EdDa5464B1657",
+ "deadline"=>1700966315,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xd139b92dd35b35eeee2aade812fb3c621d540df4"}
+
+==> CALL FacetSwapV1Pair.approve    @ 455452 - 2023-11-26 02:35:36 UTC   (273 Bytes) ...
+      to (contract): 0x2af36defdf468103556023593db4be23e321c055, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeIn    @ 455453 - 2023-11-26 02:36:00 UTC   (230 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x00000028e21a66b7f5f1bcf3e655d3254682cc15",
+ "amount"=>"5000000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455454 - 2023-11-26 02:37:36 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.removeLiquidity    @ 455455 - 2023-11-26 02:37:48 UTC   (405 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"liquidity"=>"87500000000000000000",
+ "to"=>"0x1304a87090343a2FD7AccBeB442EdDa5464B1657",
+ "deadline"=>1700966610,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xd139b92dd35b35eeee2aade812fb3c621d540df4"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455456 - 2023-11-26 02:38:48 UTC   (419 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"76773700000000000000000",
+ "amountOutMin"=>"98398862236983375",
+ "path"=>
+  ["0xd139b92dd35b35eeee2aade812fb3c621d540df4",
+   "0x5f5e099e59720e515114ae82b855fbcfb9bd07a9"],
+ "to"=>"0x1304a87090343a2FD7AccBeB442EdDa5464B1657",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455457 - 2023-11-26 02:39:12 UTC   (411 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"1000000000000000000",
+ "amountOutMin"=>"7372243543810",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xeb78b8e2901c360f21ca47f7541a150320e3fee5"],
+ "to"=>"0x00000028E21a66b7F5F1BCf3E655d3254682cc15",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455458 - 2023-11-26 02:40:00 UTC   (411 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"1000000000000000000",
+ "amountOutMin"=>"1935624296997",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xeb78b8e2901c360f21ca47f7541a150320e3fee5"],
+ "to"=>"0x00000028E21a66b7F5F1BCf3E655d3254682cc15",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455459 - 2023-11-26 02:43:24 UTC   (273 Bytes) ...
+      to (contract): 0xeb78b8e2901c360f21ca47f7541a150320e3fee5, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeOut    @ 455460 - 2023-11-26 02:44:00 UTC   (180 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"amount"=>"290000000000000000"}
+
+==> CALL EtherBridge.markWithdrawalComplete    @ 455461 - 2023-11-26 02:45:48 UTC   (297 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x1304a87090343a2fd7accbeb442edda5464b1657",
+ "withdrawalId"=>
+  "0x70fb69f6f766f9b31ac4fbae9e93eaa9f345f9bdd542d27583cf38ecf6494fa1"}
+
+==> CALL PublicMintERC20.approve    @ 455462 - 2023-11-26 02:45:48 UTC   (273 Bytes) ...
+      to (contract): 0xb9b5c20291293b0a136fb279cc3ed4c106cfff38, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeIn    @ 455463 - 2023-11-26 02:46:24 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x1304a87090343a2fd7accbeb442edda5464b1657",
+ "amount"=>"290000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455464 - 2023-11-26 02:47:36 UTC   (421 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"100000000000000000",
+ "amountOutMin"=>"125729949028296326609086",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"],
+ "to"=>"0x1304a87090343a2FD7AccBeB442EdDa5464B1657",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455465 - 2023-11-26 02:51:12 UTC   (421 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"100000000000000000",
+ "amountOutMin"=>"165805521779207613916259",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0x9C3F46B26fD083325CE666fAE403534D0e455D0e",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455466 - 2023-11-26 02:51:48 UTC   (448 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"90252611897189070",
+ "amountBDesired"=>"150000000000000000000000",
+ "to"=>"0x9C3F46B26fD083325CE666fAE403534D0e455D0e",
+ "deadline"=>1700967398,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"}
+
+==> CALL PublicMintERC20.approve    @ 455467 - 2023-11-26 02:52:48 UTC   (273 Bytes) ...
+      to (contract): 0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeOut    @ 455468 - 2023-11-26 02:54:48 UTC   (181 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"amount"=>"3000000000000000000"}
+
+==> CALL EtherBridge.markWithdrawalComplete    @ 455469 - 2023-11-26 02:55:48 UTC   (297 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x00000028e21a66b7f5f1bcf3e655d3254682cc15",
+ "withdrawalId"=>
+  "0x68b45a031f913115e1d0239af626d3abfd215aa97bcfb9525924a4d1a4ae9187"}
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455470 - 2023-11-26 02:57:24 UTC   (449 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"100000000000000000",
+ "amountBDesired"=>"126509975620893788032982",
+ "to"=>"0x1304a87090343a2FD7AccBeB442EdDa5464B1657",
+ "deadline"=>1700967790,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"}
+
+==> CALL FacetSwapV1Pair.approve    @ 455471 - 2023-11-26 02:58:24 UTC   (273 Bytes) ...
+      to (contract): 0x08a269b0cbeee401d61f5db049f3cfe7fb3b62dd, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.removeLiquidity    @ 455472 - 2023-11-26 03:01:00 UTC   (406 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"liquidity"=>"112300000000000000000",
+ "to"=>"0x1304a87090343a2FD7AccBeB442EdDa5464B1657",
+ "deadline"=>1700967998,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455473 - 2023-11-26 03:01:48 UTC   (420 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"126900000000000000000000",
+ "amountOutMin"=>"98334008787230447",
+ "path"=>
+  ["0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed",
+   "0x5f5e099e59720e515114ae82b855fbcfb9bd07a9"],
+ "to"=>"0x1304a87090343a2FD7AccBeB442EdDa5464B1657",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL EtherBridge.bridgeOut    @ 455475 - 2023-11-26 03:07:24 UTC   (180 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"amount"=>"298000000000000000"}
+
+==> CALL EtherBridge.markWithdrawalComplete    @ 455476 - 2023-11-26 03:08:12 UTC   (297 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x1304a87090343a2fd7accbeb442edda5464b1657",
+ "withdrawalId"=>
+  "0x55e50ed782429858a340562c437a69352daf53146c87bc9fb765521beb1dc8cd"}
+
+==> CALL EtherBridge.bridgeIn    @ 455477 - 2023-11-26 03:09:24 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x1304a87090343a2fd7accbeb442edda5464b1657",
+ "amount"=>"290000000000000000"}
+
+==> CALL EtherBridge.bridgeOut    @ 455478 - 2023-11-26 03:10:00 UTC   (180 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"amount"=>"290000000000000000"}
+
+==> CALL EtherBridge.markWithdrawalComplete    @ 455483 - 2023-11-26 03:45:00 UTC   (297 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x1304a87090343a2fd7accbeb442edda5464b1657",
+ "withdrawalId"=>
+  "0xefc046630faa99f4beced70440529609887bd79b23b24166a24bb31a47203ee1"}
+
+==> CALL EtherBridge.bridgeIn    @ 455484 - 2023-11-26 03:45:48 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x1304a87090343a2fd7accbeb442edda5464b1657",
+ "amount"=>"290000000000000000"}
+
+==> CALL EtherBridge.bridgeOut    @ 455496 - 2023-11-26 04:47:12 UTC   (180 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"amount"=>"290000000000000000"}
+
+==> CALL EtherBridge.markWithdrawalComplete    @ 455497 - 2023-11-26 04:47:48 UTC   (297 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x1304a87090343a2fd7accbeb442edda5464b1657",
+ "withdrawalId"=>
+  "0xf9e14083363c3498fa4643b543dade5b6335d40285140f65140a09b71dadc668"}
+
+==> CALL EthscriptionERC20Bridge.bridgeIn    @ 455502 - 2023-11-26 04:57:24 UTC   (213 Bytes) ...
+      to (contract): 0xd633259f580af1fa7ae335d2f7a83746a57633c7, args:
+{"to"=>"0xe728eacda19c80495bbd8d1b65485bbfe4a2b85c", "amount"=>"1"}
+
+==> CALL PublicMintERC20.mint    @ 455506 - 2023-11-26 05:40:48 UTC   (178 Bytes) ...
+      to (contract): 0x3751727bb1105201d13ac6d2dccb33410636d162, args:
+{"amount"=>"500000000000000000000"}
+
+==> CALL FacetSwapV1Router.removeLiquidity    @ 455507 - 2023-11-26 06:17:48 UTC   (406 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"liquidity"=>"116000000000000000000",
+ "to"=>"0x9C3F46B26fD083325CE666fAE403534D0e455D0e",
+ "deadline"=>1700979755,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"}
+
+==> CALL EtherBridge.approve    @ 455508 - 2023-11-26 06:24:00 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455509 - 2023-11-26 06:25:12 UTC   (419 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"50000000000000000",
+ "amountOutMin"=>"38087364409609272689601",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xd139b92dd35b35eeee2aade812fb3c621d540df4"],
+ "to"=>"0x469264AfE93730d82e386e72B24cb1F736f164Ef",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455510 - 2023-11-26 06:25:48 UTC   (273 Bytes) ...
+      to (contract): 0xd139b92dd35b35eeee2aade812fb3c621d540df4, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455511 - 2023-11-26 06:26:36 UTC   (446 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"4544857077833165",
+ "amountBDesired"=>"35000000000000000000000",
+ "to"=>"0x469264AfE93730d82e386e72B24cb1F736f164Ef",
+ "deadline"=>1700980280,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xd139b92dd35b35eeee2aade812fb3c621d540df4"}
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455515 - 2023-11-26 08:28:12 UTC   (447 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"32100000000000000",
+ "amountBDesired"=>"41040302584759849034326",
+ "to"=>"0xe5254E61B579d02EC9a573593A9833a238F2a97e",
+ "deadline"=>1700987585,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"}
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455516 - 2023-11-26 08:29:36 UTC   (447 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"22100000000000000",
+ "amountBDesired"=>"36730238940633319526580",
+ "to"=>"0xe5254E61B579d02EC9a573593A9833a238F2a97e",
+ "deadline"=>1700987659,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"}
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455517 - 2023-11-26 08:30:48 UTC   (447 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"11940000000000000",
+ "amountBDesired"=>"19844301038514110187664",
+ "to"=>"0xe5254E61B579d02EC9a573593A9833a238F2a97e",
+ "deadline"=>1700987724,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"}
+
+==> CALL EtherBridge.markWithdrawalComplete    @ 455518 - 2023-11-26 08:34:48 UTC   (297 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xe5254e61b579d02ec9a573593a9833a238f2a97e",
+ "withdrawalId"=>
+  "0xb619f471bf9693662194b900119da57a4b4cfe6e8cb700065327892219586a34"}
+
+==> CALL EtherBridge.bridgeOut    @ 455519 - 2023-11-26 08:35:24 UTC   (178 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"amount"=>"1120000000000000"}
+
+==> CALL EtherBridge.bridgeIn    @ 455520 - 2023-11-26 09:52:48 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xb21515e7ef95e6ec374091fb24abbae31e9675e5",
+ "amount"=>"35000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455521 - 2023-11-26 09:55:12 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455522 - 2023-11-26 09:56:36 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"3000000000000000",
+ "amountOutMin"=>"4919779621926960808282",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0xb21515E7ef95e6EC374091fB24ABBAE31E9675e5",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455523 - 2023-11-26 09:57:24 UTC   (273 Bytes) ...
+      to (contract): 0xb324c3fccd5da0bad69d2709752044c6bd9adf1f, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455524 - 2023-11-26 09:59:00 UTC   (445 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"2991663940635106",
+ "amountBDesired"=>"4969000000000000000000",
+ "to"=>"0xb21515E7ef95e6EC374091fB24ABBAE31E9675e5",
+ "deadline"=>1700993012,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455525 - 2023-11-26 10:00:12 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"1000000000000000",
+ "amountOutMin"=>"1265788506491994579884",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"],
+ "to"=>"0xb21515E7ef95e6EC374091fB24ABBAE31E9675e5",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455526 - 2023-11-26 10:01:48 UTC   (273 Bytes) ...
+      to (contract): 0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeIn    @ 455527 - 2023-11-26 10:12:00 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xea67df17a20d84adb44211ff99080967d6174473",
+ "amount"=>"100000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455529 - 2023-11-26 10:13:00 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455530 - 2023-11-26 10:14:36 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"10000000000000000",
+ "amountOutMin"=>"313535918135799325513",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1"],
+ "to"=>"0xea67dF17A20d84adB44211Ff99080967d6174473",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455531 - 2023-11-26 10:16:00 UTC   (273 Bytes) ...
+      to (contract): 0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455533 - 2023-11-26 10:17:00 UTC   (419 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"10000000000000000",
+ "amountOutMin"=>"16376793561148039382811",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0xea67dF17A20d84adB44211Ff99080967d6174473",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455534 - 2023-11-26 10:18:24 UTC   (273 Bytes) ...
+      to (contract): 0xb324c3fccd5da0bad69d2709752044c6bd9adf1f, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455535 - 2023-11-26 10:19:48 UTC   (446 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"9980413606295517",
+ "amountBDesired"=>"16542000000000000000000",
+ "to"=>"0xea67dF17A20d84adB44211Ff99080967d6174473",
+ "deadline"=>1700994238,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"}
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455540 - 2023-11-26 10:22:12 UTC   (444 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"9949632325489811",
+ "amountBDesired"=>"316000000000000000000",
+ "to"=>"0xea67dF17A20d84adB44211Ff99080967d6174473",
+ "deadline"=>1700994411,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1"}
+
+==> CALL EtherBridge.bridgeIn    @ 455544 - 2023-11-26 10:26:12 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xcda618d86f3128a6617dc327fd22a6ed2e936356",
+ "amount"=>"100000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455548 - 2023-11-26 10:28:24 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455551 - 2023-11-26 10:31:00 UTC   (419 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"10000000000000000",
+ "amountOutMin"=>"16342298016478226880916",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0xCDA618d86f3128A6617dC327Fd22A6Ed2E936356",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455554 - 2023-11-26 10:32:00 UTC   (419 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"10000000000000000",
+ "amountOutMin"=>"12648341473549783999072",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"],
+ "to"=>"0xCDA618d86f3128A6617dC327Fd22A6Ed2E936356",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455555 - 2023-11-26 10:34:24 UTC   (273 Bytes) ...
+      to (contract): 0xb324c3fccd5da0bad69d2709752044c6bd9adf1f, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL PublicMintERC20.approve    @ 455556 - 2023-11-26 10:36:00 UTC   (273 Bytes) ...
+      to (contract): 0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455557 - 2023-11-26 10:38:00 UTC   (446 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"9980296771094131",
+ "amountBDesired"=>"16507000000000000000000",
+ "to"=>"0xCDA618d86f3128A6617dC327Fd22A6Ed2E936356",
+ "deadline"=>1700995346,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"}
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455562 - 2023-11-26 10:45:48 UTC   (442 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"780899890619",
+ "amountBDesired"=>"12776000000000000000000",
+ "to"=>"0xCDA618d86f3128A6617dC327Fd22A6Ed2E936356",
+ "deadline"=>1700995436,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"}
+
+==> CALL PublicMintERC20.approve    @ 455567 - 2023-11-26 10:51:36 UTC   (273 Bytes) ...
+      to (contract): 0x382bd41f02c93121a05422fa35a514896459ee57, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455568 - 2023-11-26 10:53:36 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"1280000000000000000",
+ "amountOutMin"=>"3429532447863683875",
+ "path"=>
+  ["0x382bd41f02c93121a05422fa35a514896459ee57",
+   "0x5f5e099e59720e515114ae82b855fbcfb9bd07a9"],
+ "to"=>"0x55A43e9F8728eBc819Ac54E980F7bE236b3f15c2",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL EthscriptionERC20Bridge.bridgeIn    @ 455573 - 2023-11-26 11:06:00 UTC   (213 Bytes) ...
+      to (contract): 0xd633259f580af1fa7ae335d2f7a83746a57633c7, args:
+{"to"=>"0x374c87e5e499d76644456db7a570ebd68f382d2a", "amount"=>"1"}
+
+==> CALL PublicMintERC20.approve    @ 455574 - 2023-11-26 11:09:48 UTC   (273 Bytes) ...
+      to (contract): 0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL PublicMintERC20.approve    @ 455575 - 2023-11-26 11:11:00 UTC   (273 Bytes) ...
+      to (contract): 0xb324c3fccd5da0bad69d2709752044c6bd9adf1f, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455576 - 2023-11-26 11:11:48 UTC   (419 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"18396000000000000000000",
+ "amountOutMin"=>"10965342256678023",
+ "path"=>
+  ["0xb324c3fccd5da0bad69d2709752044c6bd9adf1f",
+   "0x5f5e099e59720e515114ae82b855fbcfb9bd07a9"],
+ "to"=>"0x55A43e9F8728eBc819Ac54E980F7bE236b3f15c2",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455577 - 2023-11-26 11:12:24 UTC   (416 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"321000000000000000000",
+ "amountOutMin"=>"9974195478881082",
+ "path"=>
+  ["0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1",
+   "0x5f5e099e59720e515114ae82b855fbcfb9bd07a9"],
+ "to"=>"0x55A43e9F8728eBc819Ac54E980F7bE236b3f15c2",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL EtherBridge.bridgeOut    @ 455578 - 2023-11-26 11:13:00 UTC   (181 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"amount"=>"3000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455579 - 2023-11-26 11:17:36 UTC   (419 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"50000000000000000",
+ "amountOutMin"=>"81388625147503373406566",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0x55A43e9F8728eBc819Ac54E980F7bE236b3f15c2",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455580 - 2023-11-26 11:18:48 UTC   (447 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"50112954263661674",
+ "amountBDesired"=>"82211000000000000000000",
+ "to"=>"0x55A43e9F8728eBc819Ac54E980F7bE236b3f15c2",
+ "deadline"=>1700997807,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455581 - 2023-11-26 11:41:12 UTC   (419 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"10000000000000000",
+ "amountOutMin"=>"12630993157694187117885",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"],
+ "to"=>"0x076eb1e4f127F579aEcA3d227ff4f24425f0E9Af",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455582 - 2023-11-26 11:42:12 UTC   (273 Bytes) ...
+      to (contract): 0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455583 - 2023-11-26 11:43:36 UTC   (445 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"5000000000000000",
+ "amountBDesired"=>"6394090302272442945658",
+ "to"=>"0x076eb1e4f127F579aEcA3d227ff4f24425f0E9Af",
+ "deadline"=>1700999297,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455584 - 2023-11-26 11:47:36 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"10000000000000000",
+ "amountOutMin"=>"313537075084614983947",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1"],
+ "to"=>"0x076eb1e4f127F579aEcA3d227ff4f24425f0E9Af",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455585 - 2023-11-26 11:48:24 UTC   (273 Bytes) ...
+      to (contract): 0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455586 - 2023-11-26 11:49:36 UTC   (444 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"5000000000000000",
+ "amountBDesired"=>"158800428741850699001",
+ "to"=>"0x076eb1e4f127F579aEcA3d227ff4f24425f0E9Af",
+ "deadline"=>1700999648,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1"}
+
+==> CALL FacetSwapV1Pair.approve    @ 455587 - 2023-11-26 11:50:36 UTC   (273 Bytes) ...
+      to (contract): 0xf59ff17810e4258804ec6940612065684a21a0cc, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.removeLiquidity    @ 455588 - 2023-11-26 11:51:48 UTC   (403 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"liquidity"=>"400000000000000000",
+ "to"=>"0x076eb1e4f127F579aEcA3d227ff4f24425f0E9Af",
+ "deadline"=>1700999785,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1"}
+
+==> CALL EtherBridge.markWithdrawalComplete    @ 455589 - 2023-11-26 11:51:48 UTC   (297 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x55a43e9f8728ebc819ac54e980f7be236b3f15c2",
+ "withdrawalId"=>
+  "0x1362b07206a1c9e78bd71ef5afecda08b8af71859436673601456859f6b7e943"}
+
+==> CALL EtherBridge.bridgeIn    @ 455590 - 2023-11-26 11:57:00 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xd3346b818ef2188dcbe0c77a97d7320f53b27576",
+ "amount"=>"100000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455591 - 2023-11-26 12:00:12 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EthscriptionERC20Bridge.bridgeIn    @ 455592 - 2023-11-26 12:46:24 UTC   (213 Bytes) ...
+      to (contract): 0x0e8a5203d363d777f62b3200e7c28c630cfc9770, args:
+{"to"=>"0x076eb1e4f127f579aeca3d227ff4f24425f0e9af", "amount"=>"1"}
+
+==> CALL EthscriptionERC20Bridge.bridgeOut    @ 455593 - 2023-11-26 12:48:36 UTC   (163 Bytes) ...
+      to (contract): 0x0e8a5203d363d777f62b3200e7c28c630cfc9770, args:
+{"amount"=>"1"}
+
+==> CALL EthscriptionERC20Bridge.markWithdrawalComplete    @ 455594 - 2023-11-26 12:49:24 UTC   (297 Bytes) ...
+      to (contract): 0x0e8a5203d363d777f62b3200e7c28c630cfc9770, args:
+{"to"=>"0x076eb1e4f127f579aeca3d227ff4f24425f0e9af",
+ "withdrawalId"=>
+  "0x77e9fc84b0e71891793832048bb8f1f57ac7dd6f3c783c6ae8519289f7a7cfe5"}
+
+==> CALL EthscriptionERC20Bridge.bridgeIn    @ 455596 - 2023-11-26 13:12:12 UTC   (213 Bytes) ...
+      to (contract): 0xd633259f580af1fa7ae335d2f7a83746a57633c7, args:
+{"to"=>"0x1d7e454ab11603667c211b065246062c95da81d8", "amount"=>"1"}
+
+==> CALL EtherBridge.bridgeIn    @ 455597 - 2023-11-26 14:06:00 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x0b81e5cdafdb549f73c4046590876a4ceec7f0d8",
+ "amount"=>"100000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455598 - 2023-11-26 14:08:00 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeIn    @ 455599 - 2023-11-26 15:05:12 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xcf014e32adc222e213bc7f4a3c8550d057b96477",
+ "amount"=>"30000000000000000"}
+
+==> CALL EtherBridge.bridgeOut    @ 455600 - 2023-11-26 15:06:00 UTC   (179 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"amount"=>"10000000000000000"}
+
+==> CALL EtherBridge.markWithdrawalComplete    @ 455601 - 2023-11-26 15:06:48 UTC   (297 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xcf014e32adc222e213bc7f4a3c8550d057b96477",
+ "withdrawalId"=>
+  "0x6ace35e2383b6dcd5a67501a625ce3fb1213c328397f25bc14f545af20b6dd55"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455602 - 2023-11-26 15:07:48 UTC   (419 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"10000000000000000",
+ "amountOutMin"=>"16175539173583151850435",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"],
+ "to"=>"0xCF014e32adc222e213bc7f4A3C8550D057B96477",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455603 - 2023-11-26 15:09:00 UTC   (273 Bytes) ...
+      to (contract): 0xb324c3fccd5da0bad69d2709752044c6bd9adf1f, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CREATE PublicMintERC20    @ 455604 - 2023-11-26 15:09:48 UTC   (3.27 KB) ...
+       txid: 0x67a29528f60fcbb8295f1d2a0e1bd220a5cc5a3085c20f2c5a12b95b20062f01
+       address: ???
+{"name"=>"Click", "perMintLimit"=>"5", "maxSupply"=>"1000"}
+
+==> CREATE EtherBridge    @ 455605 - 2023-11-26 15:10:00 UTC   (5.49 KB) ...
+       txid: 0x6a94f607b0bc8f7b66616dac8e491e7b93e4de4975579a017c24ca657f308f1d
+       address: ???
+{"name"=>"Cross"}
+
+==> CREATE EthscriptionERC20Bridge    @ 455606 - 2023-11-26 15:10:24 UTC   (5.93 KB) ...
+       txid: 0xf907f7c96b2770fbef00f1cc7cb7d00473c425b61affe01180d38ac2efb0612f
+       address: ???
+{"name"=>"Claim", "mintAmount"=>"1000"}
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455607 - 2023-11-26 15:10:36 UTC   (445 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"997494803244666",
+ "amountBDesired"=>"16338000000000000000000",
+ "to"=>"0xCF014e32adc222e213bc7f4A3C8550D057B96477",
+ "deadline"=>1701011709,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xb324c3fccd5da0bad69d2709752044c6bd9adf1f"}
+
+==> CREATE FacetSwapV1Pair    @ 455608 - 2023-11-26 15:11:00 UTC   (11.8 KB) ...
+       txid: 0x6c793812444850bc9da18c77893233e9b65f5fa5a279effb664bb68fcf92ab01
+       address: 0x5c68dd21830b4c630a97f51a3eafd6e676000234
+{}
+
+==> CALL EtherBridge.bridgeIn    @ 455609 - 2023-11-26 15:31:24 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xe87e4f1516577359297ada62e8a33268b4220cad",
+ "amount"=>"10000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455610 - 2023-11-26 15:32:24 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455611 - 2023-11-26 15:34:00 UTC   (410 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"1000000000000000",
+ "amountOutMin"=>"513324189707396",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0x382bd41f02c93121a05422fa35a514896459ee57"],
+ "to"=>"0xE87e4F1516577359297adA62e8A33268B4220CaD",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455612 - 2023-11-26 15:34:00 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455613 - 2023-11-26 15:35:24 UTC   (273 Bytes) ...
+      to (contract): 0x382bd41f02c93121a05422fa35a514896459ee57, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455614 - 2023-11-26 15:36:36 UTC   (437 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"500000000000000",
+ "amountBDesired"=>"961523956441614",
+ "to"=>"0xE87e4F1516577359297adA62e8A33268B4220CaD",
+ "deadline"=>1701013286,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x382bd41f02c93121a05422fa35a514896459ee57",
+ "tokenB"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9"}
+
+==> CALL PublicMintERC20.mint    @ 455615 - 2023-11-26 16:03:00 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455616 - 2023-11-26 16:03:12 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455617 - 2023-11-26 16:07:00 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455618 - 2023-11-26 16:07:00 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455619 - 2023-11-26 16:07:36 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455620 - 2023-11-26 16:07:36 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455621 - 2023-11-26 16:10:12 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455622 - 2023-11-26 16:17:00 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455623 - 2023-11-26 16:17:12 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455624 - 2023-11-26 16:17:12 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL EtherBridge.bridgeIn    @ 455625 - 2023-11-26 17:00:48 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x1cdd06bf8da1ff1c822a3719b4a38230a4715107",
+ "amount"=>"400000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455626 - 2023-11-26 17:01:48 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455627 - 2023-11-26 17:03:48 UTC   (414 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"100000000000000000",
+ "amountOutMin"=>"50726914076900758",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0x382bd41f02c93121a05422fa35a514896459ee57"],
+ "to"=>"0x1cDD06BF8Da1fF1c822A3719b4a38230A4715107",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455628 - 2023-11-26 17:05:48 UTC   (419 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"50000000000000000",
+ "amountOutMin"=>"37924545960399239977565",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xd139b92dd35b35eeee2aade812fb3c621d540df4"],
+ "to"=>"0x1cDD06BF8Da1fF1c822A3719b4a38230A4715107",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455633 - 2023-11-27 00:52:12 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455634 - 2023-11-27 00:52:12 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL PublicMintERC20.mint    @ 455635 - 2023-11-27 00:52:36 UTC   (179 Bytes) ...
+      to (contract): 0xa4a94f89858ff103562aaaa4b4cd362f1c0b8dfd, args:
+{"amount"=>"1000000000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455637 - 2023-11-27 02:02:36 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"10000000000000000",
+ "amountOutMin"=>"313426262392759561926",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1"],
+ "to"=>"0x8D2de5c1Eeaf77A3caeda9f7b97dF055eE2e9756",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL EtherBridge.bridgeIn    @ 455638 - 2023-11-27 02:04:00 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x8d2de5c1eeaf77a3caeda9f7b97df055ee2e9756",
+ "amount"=>"10000000000000000"}
+
+==> CALL EtherBridge.bridgeOut    @ 455639 - 2023-11-27 02:05:00 UTC   (179 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"amount"=>"10000000000000000"}
+
+==> CALL EtherBridge.markWithdrawalComplete    @ 455640 - 2023-11-27 02:05:36 UTC   (297 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x8d2de5c1eeaf77a3caeda9f7b97df055ee2e9756",
+ "withdrawalId"=>
+  "0x4959bafab85190e25ce4e44ed62a447f21f198da5cf76209f3ba909014108584"}
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455641 - 2023-11-27 02:07:00 UTC   (443 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"100000000000000",
+ "amountBDesired"=>"127881806045448858913",
+ "to"=>"0x8D2de5c1Eeaf77A3caeda9f7b97dF055eE2e9756",
+ "deadline"=>1701051099,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"}
+
+==> CALL FacetSwapV1Pair.approve    @ 455642 - 2023-11-27 02:07:24 UTC   (273 Bytes) ...
+      to (contract): 0x08a269b0cbeee401d61f5db049f3cfe7fb3b62dd, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.bridgeIn    @ 455643 - 2023-11-27 02:36:48 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x2de09cbaa9cd74c7ab8bebb0d11a99f82fe7a38d",
+ "amount"=>"100000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455644 - 2023-11-27 02:37:48 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL PublicMintERC20.approve    @ 455645 - 2023-11-27 02:45:00 UTC   (273 Bytes) ...
+      to (contract): 0xb9b5c20291293b0a136fb279cc3ed4c106cfff38, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CREATE PublicMintERC20    @ 455646 - 2023-11-27 02:57:48 UTC   (3.34 KB) ...
+       txid: 0x6ab7ac6fab2ceed26ef35f68063fe131748540a839f8f0163915b2f04067e1e4
+       address: 0xd777fd9e86f1a13edf9dfcf9eed8d01cfb538ec1
+{"name"=>"TT1",
+ "symbol"=>"TT",
+ "maxSupply"=>"100000000000000000000000000",
+ "perMintLimit"=>"1000000000000000000000",
+ "decimals"=>"18"}
+
+==> CREATE PublicMintERC20    @ 455648 - 2023-11-27 03:09:24 UTC   (3.33 KB) ...
+       txid: 0xdbb2c072959fa0b883f04f3abb6915ae8e6517db0b9a1978e4998d9f54321283
+       address: 0xccee9f4733d059c51d578dc78ac5f50456fd630c
+{"name"=>"TT2",
+ "symbol"=>"TT",
+ "maxSupply"=>"10000000000000000000000",
+ "perMintLimit"=>"1000000000000000000000",
+ "decimals"=>"18"}
+
+==> CALL EtherBridge.bridgeIn    @ 455653 - 2023-11-27 03:25:24 UTC   (230 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xd7d0ccca9260fd824287a2740d657a24fe60608c",
+ "amount"=>"1000000000000000000"}
+
+==> CALL EtherBridge.bridgeIn    @ 455656 - 2023-11-27 04:38:36 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xbf4a5d5dcb7f0626c63df0199091b269893cb6d9",
+ "amount"=>"20000000000000000"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455657 - 2023-11-27 04:40:12 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"5000000000000000",
+ "amountOutMin"=>"6308999624399590752944",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"],
+ "to"=>"0xBf4a5d5DcB7F0626c63Df0199091b269893cB6d9",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455658 - 2023-11-27 04:41:48 UTC   (273 Bytes) ...
+      to (contract): 0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455659 - 2023-11-27 04:44:48 UTC   (445 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"3912541201088219",
+ "amountBDesired"=>"5000000000000000000000",
+ "to"=>"0xBf4a5d5DcB7F0626c63Df0199091b269893cB6d9",
+ "deadline"=>1701060550,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"}
+
+==> CALL EtherBridge.bridgeIn    @ 455660 - 2023-11-27 04:59:00 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x8fd18b2448a23affa4ba2456619a260a1ec833a7",
+ "amount"=>"15000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455661 - 2023-11-27 05:00:12 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455662 - 2023-11-27 05:01:36 UTC   (417 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"5000000000000000",
+ "amountOutMin"=>"6304678015616593356050",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"],
+ "to"=>"0x8Fd18b2448a23aFfA4BA2456619a260a1ec833a7",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455663 - 2023-11-27 05:03:36 UTC   (273 Bytes) ...
+      to (contract): 0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455664 - 2023-11-27 05:05:24 UTC   (445 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"4698266727009601",
+ "amountBDesired"=>"6000000000000000000000",
+ "to"=>"0x8Fd18b2448a23aFfA4BA2456619a260a1ec833a7",
+ "deadline"=>1701061774,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"}
+
+==> CALL EtherBridge.bridgeIn    @ 455665 - 2023-11-27 05:14:48 UTC   (228 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0x46b7708477b63d0622493fc76e0c92f29391d6b5",
+ "amount"=>"20000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455666 - 2023-11-27 05:16:36 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455667 - 2023-11-27 05:17:36 UTC   (416 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"6000000000000000",
+ "amountOutMin"=>"188002573129305904742",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1"],
+ "to"=>"0x46B7708477b63D0622493fC76E0c92F29391d6b5",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455668 - 2023-11-27 05:19:00 UTC   (273 Bytes) ...
+      to (contract): 0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455669 - 2023-11-27 05:20:12 UTC   (444 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"5670696813365958",
+ "amountBDesired"=>"180000000000000000000",
+ "to"=>"0x46B7708477b63D0622493fC76E0c92F29391d6b5",
+ "deadline"=>1701062686,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1"}
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455670 - 2023-11-27 05:21:36 UTC   (413 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"9000000000000000000",
+ "amountOutMin"=>"279855994009849",
+ "path"=>
+  ["0xcffc7fbd459d4c028163029d0db0fa26f44b0ed1",
+   "0x5f5e099e59720e515114ae82b855fbcfb9bd07a9"],
+ "to"=>"0x46B7708477b63D0622493fC76E0c92F29391d6b5",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL EtherBridge.bridgeIn    @ 455671 - 2023-11-27 05:30:12 UTC   (229 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xbe8962177eb6d032a8db918140035d82148ff6ef",
+ "amount"=>"200000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455672 - 2023-11-27 05:32:12 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455673 - 2023-11-27 05:33:36 UTC   (419 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"50000000000000000",
+ "amountOutMin"=>"62810455840904403107169",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"],
+ "to"=>"0xBE8962177eb6d032A8DB918140035d82148FF6eF",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455674 - 2023-11-27 05:35:48 UTC   (273 Bytes) ...
+      to (contract): 0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455675 - 2023-11-27 05:36:48 UTC   (447 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"39420748101547350",
+ "amountBDesired"=>"50000000000000000000000",
+ "to"=>"0xBE8962177eb6d032A8DB918140035d82148FF6eF",
+ "deadline"=>1701063669,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"}
+
+==> CALL EtherBridge.bridgeIn    @ 455676 - 2023-11-27 06:06:24 UTC   (230 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+{"to"=>"0xafa841fab90d5b2f68d04799ed35a458d856d1e5",
+ "amount"=>"1000000000000000000"}
+
+==> CALL EtherBridge.approve    @ 455677 - 2023-11-27 06:07:24 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.swapExactTokensForTokens    @ 455678 - 2023-11-27 06:09:00 UTC   (421 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountIn"=>"300000000000000000",
+ "amountOutMin"=>"368072104545269206331462",
+ "path"=>
+  ["0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+   "0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"],
+ "to"=>"0xAFa841FAB90d5b2f68d04799Ed35A458D856d1E5",
+ "deadline"=>"1000000000000000000"}
+
+==> CALL PublicMintERC20.approve    @ 455679 - 2023-11-27 06:11:12 UTC   (273 Bytes) ...
+      to (contract): 0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL FacetSwapV1Router.addLiquidity    @ 455680 - 2023-11-27 06:12:12 UTC   (449 Bytes) ...
+      to (contract): 0x82dd9ceed833f78d45dd54e2a3755e022b0bad70, args:
+{"amountADesired"=>"200000000000000000",
+ "amountBDesired"=>"243624713294099769262198",
+ "to"=>"0xAFa841FAB90d5b2f68d04799Ed35A458D856d1E5",
+ "deadline"=>1701065798,
+ "amountAMin"=>"0",
+ "amountBMin"=>"0",
+ "tokenA"=>"0x5f5e099e59720e515114ae82b855fbcfb9bd07a9",
+ "tokenB"=>"0xc0189ae03d30b642c58e2e1b84d1e45fab47f5ed"}
+
+==> CALL PublicMintERC20.approve    @ 455681 - 2023-11-27 07:12:24 UTC   (273 Bytes) ...
+      to (contract): 0xb9b5c20291293b0a136fb279cc3ed4c106cfff38, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL EtherBridge.approve    @ 455682 - 2023-11-27 07:12:48 UTC   (273 Bytes) ...
+      to (contract): 0x5f5e099e59720e515114ae82b855fbcfb9bd07a9, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL PublicMintERC20.approve    @ 455683 - 2023-11-27 07:13:36 UTC   (273 Bytes) ...
+      to (contract): 0x5f9c41c921db18ff0d3578680615e1783e93cc1e, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+
+==> CALL PublicMintERC20.approve    @ 455684 - 2023-11-27 07:14:24 UTC   (273 Bytes) ...
+      to (contract): 0xb324c3fccd5da0bad69d2709752044c6bd9adf1f, args:
+["0x82dd9ceed833f78d45dd54e2a3755e022b0bad70",
+ "57896044618658097711785492504343953926634992332820282019728792003956564819968"]
+

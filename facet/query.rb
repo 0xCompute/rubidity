@@ -28,12 +28,14 @@ facet_count  = Scribe.facet.count
 pp facet_count
 
 
+
 facet = FacetPrinter.new
 
 
 log = ''
+limit = 200   
 
-Scribe.facet.order( :num ).each do |scribe|
+Scribe.facet.order( :num ).limit( limit ).each do |scribe|
   buf = facet.format( scribe ) 
   puts buf
 
