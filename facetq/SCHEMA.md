@@ -16,9 +16,12 @@
   runtime_ms        :integer
   created_at        :datetime         not null
   updated_at        :datetime         not null
+```
 
- Indexes
+<details>
+<summary markdown="1">Indexes</summary>
 
+```
   index_eth_blocks_on_block_number                      (block_number) UNIQUE
   index_eth_blocks_on_block_number_completed            (block_number) WHERE ((processing_state)::text = 'complete'::text)
   index_eth_blocks_on_block_number_pending              (block_number) WHERE ((processing_state)::text = 'pending'::text)
@@ -29,6 +32,8 @@
   index_eth_blocks_on_processing_state                  (processing_state)
   index_eth_blocks_on_timestamp                         (timestamp)
 ```
+
+</details>
 
 
 ## Table name: ethscriptions
@@ -52,9 +57,12 @@
   transaction_fee   :bigint
   created_at        :datetime         not null
   updated_at        :datetime         not null
+```
 
- Indexes
+<details>
+<summary markdown="1">Indexes & Foreign Keys</summary>
 
+```
   index_ethscriptions_on_block_number_and_transaction_index  (block_number,transaction_index) UNIQUE
   index_ethscriptions_on_processing_state                    (processing_state)
   index_ethscriptions_on_transaction_hash                    (transaction_hash) UNIQUE
@@ -63,6 +71,8 @@
 
   fk_rails_...  (block_number => eth_blocks.block_number) ON DELETE => cascade
 ```
+
+</details>
 
 
 ## Table name: transaction_receipts
@@ -91,9 +101,12 @@
   transaction_fee            :bigint
   created_at                 :datetime         not null
   updated_at                 :datetime         not null
+```
 
- Indexes
+<details>
+<summary markdown="1">Indexes  & Foreign Keys</summary>
 
+```
   index_contract_tx_receipts_on_block_number_and_tx_index    (block_number,transaction_index) UNIQUE
   index_transaction_receipts_on_block_number                 (block_number)
   index_transaction_receipts_on_block_number_and_runtime_ms  (block_number,runtime_ms)
@@ -108,6 +121,9 @@
   fk_rails_...  (block_number => eth_blocks.block_number) ON DELETE => cascade
   fk_rails_...  (transaction_hash => ethscriptions.transaction_hash) ON DELETE => cascade
 ```
+
+</details>
+
 
 ## Table name: contract_artifacts
 
@@ -125,9 +141,12 @@
   pragma_version             :string           not null
   created_at                 :datetime         not null
   updated_at                 :datetime         not null
+```
 
- Indexes
+<details>
+<summary markdown="1">Indexes & Foreign Keys</summary>
 
+```
   idx_on_block_number_transaction_index_internal_tran_570359f80e  (block_number,transaction_index,internal_transaction_index) UNIQUE
   idx_on_transaction_hash_internal_transaction_index_c95378cab3   (transaction_hash,internal_transaction_index) UNIQUE
   index_contract_artifacts_on_init_code_hash                      (init_code_hash) UNIQUE
@@ -138,6 +157,8 @@
   fk_rails_...  (block_number => eth_blocks.block_number) ON DELETE => cascade
   fk_rails_...  (transaction_hash => ethscriptions.transaction_hash) ON DELETE => cascade
 ```
+
+</details>
 
 
 ## Table name: contracts
@@ -154,9 +175,12 @@
   deployed_successfully  :boolean          not null
   created_at             :datetime         not null
   updated_at             :datetime         not null
+```
 
- Indexes
+<details>
+<summary markdown="1">Indexes & Foreign Keys</summary>
 
+```
   idx_on_address_deployed_successfully                  (address) UNIQUE WHERE (deployed_successfully = true)
   index_contracts_on_address                            (address) UNIQUE
   index_contracts_on_current_init_code_hash             (current_init_code_hash)
@@ -171,6 +195,8 @@
   fk_rails_...  (block_number => eth_blocks.block_number) ON DELETE => cascade
   fk_rails_...  (transaction_hash => ethscriptions.transaction_hash) ON DELETE => cascade
 ```
+
+</details>
 
 
 ## Table name: contract_calls
@@ -199,9 +225,12 @@
   runtime_ms                 :integer          not null
   created_at                 :datetime         not null
   updated_at                 :datetime         not null
+```
 
- Indexes
+<details>
+<summary markdown="1">Indexes & Foreign Keys</summary>
 
+```
   idx_on_block_number_txi_internal_txi                (block_number,transaction_index,internal_transaction_index) UNIQUE
   idx_on_tx_hash_internal_txi                         (transaction_hash,internal_transaction_index) UNIQUE
   index_contract_calls_on_call_type                   (call_type)
@@ -218,6 +247,8 @@
   fk_rails_...  (transaction_hash => ethscriptions.transaction_hash) ON DELETE => cascade
 ```
 
+</details>
+
 
 ## Table name: contract_states
 
@@ -232,9 +263,12 @@
   contract_address  :string           not null
   created_at        :datetime         not null
   updated_at        :datetime         not null
+```
 
- Indexes
+<details>
+<summary markdown="1">Indexes & Foreign Keys</summary>
 
+```
   index_contract_states_on_addr_block_number_tx_index             (contract_address,block_number,transaction_index) UNIQUE
   index_contract_states_on_contract_address                       (contract_address)
   index_contract_states_on_contract_address_and_transaction_hash  (contract_address,transaction_hash) UNIQUE
@@ -248,6 +282,9 @@
   fk_rails_...  (transaction_hash => ethscriptions.transaction_hash) ON DELETE => cascade
 ```
 
+</details>
+
+
 ## Table name: contract_transactions
 
 ```
@@ -259,9 +296,12 @@
   transaction_index :bigint           not null
   created_at        :datetime         not null
   updated_at        :datetime         not null
+```
 
- Indexes
+<details>
+<summary markdown="1">Indexes & Foreign Keys</summary>
 
+```
   index_contract_transactions_on_transaction_hash  (transaction_hash) UNIQUE
   index_contract_txs_on_block_number_and_tx_index  (block_number,transaction_index) UNIQUE
 
@@ -270,6 +310,9 @@
   fk_rails_...  (block_number => eth_blocks.block_number) ON DELETE => cascade
   fk_rails_...  (transaction_hash => ethscriptions.transaction_hash) ON DELETE => cascade
 ```
+
+</details>
+
 
 ## Table name: system_config_versions
 
@@ -283,9 +326,12 @@
   admin_address       :string
   created_at          :datetime         not null
   updated_at          :datetime         not null
+```
 
- Indexes
+<details>
+<summary markdown="1">Indexes & Foreign Keys</summary>
 
+```
   idx_on_block_number_transaction_index_efc8dd9c1d  (block_number,transaction_index) UNIQUE
   index_system_config_versions_on_transaction_hash  (transaction_hash) UNIQUE
 
@@ -294,6 +340,8 @@
   fk_rails_...  (block_number => eth_blocks.block_number) ON DELETE => cascade
   fk_rails_...  (transaction_hash => ethscriptions.transaction_hash) ON DELETE => cascade
 ```
+
+</details>
 
 
 
