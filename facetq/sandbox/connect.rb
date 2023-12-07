@@ -1,8 +1,11 @@
 ####
 # to run use:
-#   $ ruby -I ./lib sandbox/query.rb
+#   $ ruby sandbox/connect.rb
 
+
+$LOAD_PATH.unshift( './lib' )
 require 'facetq'
+
 
 require 'yaml'
 
@@ -28,25 +31,4 @@ puts "  #{ContractCall.count} contract call(s)"
 puts "  #{ContractState.count} countract state(s)"
 
 puts "  #{SystemConfigVersion.count} system config version(s)"
-
-
-
-
-
-
-data = EthBlock.order(:block_number).limit(1)
-pp data
-
-puts 
-pp data.as_json
-
-
-data = TransactionReceipt.limit(1)
-pp data
-
-puts 
-pp data.as_json
-
-
-puts "bye"
 

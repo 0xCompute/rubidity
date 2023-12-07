@@ -1,6 +1,6 @@
-# Facet Q - Facet Models For Easy SQL Database Queries
+# Facet Q - Facet Models For SQL Database Queries
 
-facetq - "stand-alone" facet  (activerecord) models for easy sql database queries and more
+facetq - "stand-alone" facet (activerecord) models for easy (re)use for sql database queries and more
 
 * home  :: [github.com/0xCompute/rubidity](https://github.com/0xCompute/rubidity)
 * bugs  :: [github.com/0xCompute/rubidity/issues](https://github.com/0xCompute/rubidity/issues)
@@ -16,10 +16,10 @@ require 'facetq'
 
 ## step 1: connect to database
 config = {
-  adapter:  'postgresql'
-  encoding: 'unicode'
-  database: 'ethscriptions_vm_development'
-  username: '<your username here>'
+  adapter:  'postgresql',
+  encoding: 'unicode',
+  database: 'ethscriptions_vm_development',
+  username: '<your username here>',
   password: '<your password here>'
 }
 ActiveRecord::Base.establish_connection( config )
@@ -28,9 +28,22 @@ ActiveRecord::Base.establish_connection( config )
 puts "  #{EthBlock.count} block(s)"
 puts "  #{Ethscription.count} ethscription(s)"
 puts "  #{TransactionReceipt.count} receipt(s)"
-#=>  19998 block(s)
-#    1 ethscription(s)
-#    0 receipt(s)
+puts "  #{ContractArtifact.count} contract artifact(s)"
+puts "  #{Contract.count} contract(s)"
+puts "  #{ContractTransaction.count} contract transaction(s)"
+puts "  #{ContractCall.count} contract call(s)"
+puts "  #{ContractState.count} countract state(s)"
+puts "  #{SystemConfigVersion.count} system config version(s)"
+#=>  107353 block(s)
+#    294056 ethscription(s)
+#     33798 receipt(s)
+#         8 contract artifact(s)
+#        38 contract(s)
+#     33798 contract transaction(s)
+#     34295 contract call(s)
+#     29541 countract state(s)
+#         5 system config version(s)
+
 
 ## lets try some more queries
 data = EthBlock.order(:block_number).limit(1)
@@ -58,6 +71,8 @@ pp data.as_json
 #     "processing_state"=>"complete",
 #     "transaction_count"=>0}]
 
+
+# and so forth
 ```
 
 That's it for now.

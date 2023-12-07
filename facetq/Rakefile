@@ -3,9 +3,9 @@ require 'hoe'
 
 
 Hoe.spec 'facetq' do
-  self.version = '0.0.1'
+  self.version = '0.1.0'
 
-  self.summary = 'facetq - "stand-alone" facet (activerecord) models for easy sql database queries and more'
+  self.summary = 'facetq - "stand-alone" facet (activerecord) models for easy (re)use for sql database queries and more'
   self.description = summary
 
   self.urls    = { home: 'https://github.com/0xCompute/rubidity' }

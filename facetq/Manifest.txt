@@ -3,6 +3,13 @@ Manifest.txt
 README.md
 Rakefile
 lib/facetq.rb
-lib/facetq/eth_block.rb
-lib/facetq/ethscription.rb
-lib/facetq/transaction_receipt.rb
+lib/facetq/json_sorter.rb
+lib/facetq/models/contract.rb
+lib/facetq/models/contract_artifact.rb
+lib/facetq/models/contract_call.rb
+lib/facetq/models/contract_state.rb
+lib/facetq/models/contract_transaction.rb
+lib/facetq/models/eth_block.rb
+lib/facetq/models/ethscription.rb
+lib/facetq/models/system_config_version.rb
+lib/facetq/models/transaction_receipt.rb
