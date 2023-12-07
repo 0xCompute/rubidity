@@ -1,0 +1,44 @@
+class Ethscription  <  ActiveRecord::Base #  ApplicationRecord
+  
+  belongs_to :eth_block, foreign_key: :block_number, primary_key: :block_number, optional: true
+
+#  has_many :contracts, primary_key: 'transaction_hash', foreign_key: 'transaction_hash'
+ 
+  has_one :transaction_receipt, primary_key: 'transaction_hash', foreign_key: 'transaction_hash'
+
+#  has_one :contract_transaction, primary_key: 'transaction_hash', foreign_key: 'transaction_hash'
+#  has_one :system_config_version, primary_key: 'transaction_hash', foreign_key: 'transaction_hash'
+#  has_many :contract_states, primary_key: 'transaction_hash', foreign_key: 'transaction_hash'
+
+  before_validation :downcase_hex_fields
+  
+  scope :newest_first, -> { order(block_number: :desc, transaction_index: :desc) }
+  scope :oldest_first, -> { order(block_number: :asc, transaction_index: :asc) }
+  
+  scope :unprocessed, -> { where(processing_state: "pending") }
+  
+  def content
+    content_uri[/.*?,(.*)/, 1]
+  end
+  
+  def parsed_content
+    JSON.parse(content)
+  end
+  
+  def processed?
+    processing_state != "pending"
+  end
+  
+  def self.required_initial_owner
+    "0x00000000000000000000000000000000000face7"
+  end
+  
+  
+  private
+  
+  def downcase_hex_fields
+    self.transaction_hash = transaction_hash.downcase
+    self.creator = creator.downcase
+    self.initial_owner = initial_owner.downcase
+  end
+end

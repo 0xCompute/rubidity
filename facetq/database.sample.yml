@@ -1,0 +1,7 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: ethscriptions_vm_development
+  username: <your username here>
+  password: <your password here>
+  

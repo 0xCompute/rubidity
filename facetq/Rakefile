@@ -1,0 +1,29 @@
+require 'hoe'
+# require './lib/facetq/version.rb'
+
+
+Hoe.spec 'facetq' do
+  self.version = '0.0.1'
+
+  self.summary = 'facetq - "stand-alone" facet (activerecord) models for easy sql database queries and more'
+  self.description = summary
+
+  self.urls    = { home: 'https://github.com/0xCompute/rubidity' }
+
+  self.author  = 'Gerald Bauer'
+  self.email   = 'gerald.bauer@gmail.com'
+
+  # switch extension to .markdown for gihub formatting
+  self.readme_file  = 'README.md'
+  self.history_file = 'CHANGELOG.md'
+
+  self.extra_deps = [
+    ['activerecord'],
+  ]
+
+  self.licenses = ['Public Domain']
+
+  self.spec_extras = {
+    required_ruby_version: '>= 2.3'
+  }
+end
