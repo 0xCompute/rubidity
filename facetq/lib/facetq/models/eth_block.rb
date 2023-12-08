@@ -28,7 +28,7 @@
 #
 
 
-class EthBlock <  ActiveRecord::Base   #  ApplicationRecord
+class EthBlock <  ActiveRecord::Base
 
   has_many :ethscriptions, foreign_key: :block_number, primary_key: :block_number
   has_many :transaction_receipts, foreign_key: :block_number, primary_key: :block_number

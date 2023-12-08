@@ -9,20 +9,24 @@ facetq - "stand-alone" facet (activerecord) models for easy (re)use for sql data
 
 
 
+![](i/facet-models.png)
+
+
+
 # Usage
 
 ``` ruby 
 require 'facetq'
 
 ## step 1: connect to database
-config = {
+DB_CONFIG = {
   adapter:  'postgresql',
   encoding: 'unicode',
   database: 'ethscriptions_vm_development',
   username: '<your username here>',
   password: '<your password here>'
 }
-ActiveRecord::Base.establish_connection( config )
+ActiveRecord::Base.establish_connection( DB_CONFIG )
 
 ## step 2: query
 puts "  #{EthBlock.count} block(s)"

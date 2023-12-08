@@ -28,7 +28,9 @@
 #  fk_rails_...  (block_number => eth_blocks.block_number) ON DELETE => cascade
 #  fk_rails_...  (transaction_hash => ethscriptions.transaction_hash) ON DELETE => cascade
 #
-class ContractArtifact  < ActiveRecord::Base   # ApplicationRecord
+
+
+class ContractArtifact  < ActiveRecord::Base
   
   belongs_to :contract_transaction, foreign_key: :transaction_hash, primary_key: :transaction_hash, optional: true
   

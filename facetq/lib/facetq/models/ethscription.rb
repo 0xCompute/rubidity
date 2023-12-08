@@ -33,7 +33,7 @@
 #
 
 
-class Ethscription  <  ActiveRecord::Base #  ApplicationRecord
+class Ethscription  <  ActiveRecord::Base
   
   belongs_to :eth_block, foreign_key: :block_number, primary_key: :block_number, optional: true
 

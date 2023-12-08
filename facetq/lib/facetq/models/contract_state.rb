@@ -27,6 +27,8 @@
 #  fk_rails_...  (contract_address => contracts.address) ON DELETE => cascade
 #  fk_rails_...  (transaction_hash => ethscriptions.transaction_hash) ON DELETE => cascade
 #
+
+
 class ContractState < ActiveRecord::Base
   self.inheritance_column = :_type_disabled
   

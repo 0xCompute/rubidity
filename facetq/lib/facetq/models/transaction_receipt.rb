@@ -44,7 +44,7 @@
 #
 
 
-class TransactionReceipt < ActiveRecord::Base   #  ApplicationRecord
+class TransactionReceipt < ActiveRecord::Base 
   belongs_to :eth_block, foreign_key: :block_number, primary_key: :block_number
 
   belongs_to :contract, primary_key: 'address', foreign_key: 'effective_contract_address', optional: true

@@ -21,6 +21,8 @@
 #  fk_rails_...  (block_number => eth_blocks.block_number) ON DELETE => cascade
 #  fk_rails_...  (transaction_hash => ethscriptions.transaction_hash) ON DELETE => cascade
 #
+
+
 class ContractTransaction < ActiveRecord::Base
   
   belongs_to :ethscription, primary_key: :transaction_hash, foreign_key: :transaction_hash, optional: true

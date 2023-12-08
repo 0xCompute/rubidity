@@ -43,7 +43,9 @@
 #  fk_rails_...  (block_number => eth_blocks.block_number) ON DELETE => cascade
 #  fk_rails_...  (transaction_hash => ethscriptions.transaction_hash) ON DELETE => cascade
 #
-class ContractCall  < ActiveRecord::Base  # ApplicationRecord
+
+
+class ContractCall  < ActiveRecord::Base
   
  
   attr_accessor :to_contract, :salt, :pending_logs, :to_contract_init_code_hash, :to_contract_source_code

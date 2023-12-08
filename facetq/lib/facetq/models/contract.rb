@@ -30,6 +30,8 @@
 #  fk_rails_...  (block_number => eth_blocks.block_number) ON DELETE => cascade
 #  fk_rails_...  (transaction_hash => ethscriptions.transaction_hash) ON DELETE => cascade
 #
+
+
 class Contract <  ActiveRecord::Base
 
   has_many :states, primary_key: 'address', foreign_key: 'contract_address', class_name: "ContractState"
