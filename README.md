@@ -69,16 +69,6 @@ The first published modules / gems include:
 - [**rubidity**](rubidity) - (formerly known as rubidity classic) rubidity "classic / o.g." contract builder; trying the impossible and square the circle, that is, a rubidity "classic / o.g." dsl builder generating rubysol "more ruby-ish" contract classes. 
 
 
-- [**datauris**](datauris) - helpers to parse (decode) and build (encode) data uris incl. base64-encoded images and more
-
-- [**calldata**](calldata) - Calldata.encode / Calldata.decode using utf8_to_hex and hex_to_utf8 helpers and more for inscriptions / inscribes for ethereum & co
-
-- [**ethscribe**](ethscribe) -  inscription (ethscription calldata) api wrapper & helpers for ethereum & co.
-
-- [**scribelite**](scribelite)  - inscription / inscribe (ethscription calldata) database for ethereum & co; let's you query via sql and more
-
-
-
 
 
 More:
@@ -143,7 +133,7 @@ at the ruby code commons (rubycocos) org.
 
 ## Questions? Comments?
 
-Join us in the [Rubidity & Rubysol (community) discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
+Join us in the [0xCompute discord (chat server)](https://discord.gg/3JRnDUap6y). Yes you can.
 Your questions and commentary welcome.
 
 Or post them over at the [Help & Support](https://github.com/geraldb/help) page. Thanks.

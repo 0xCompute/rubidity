@@ -1,7 +1,0 @@
-CHANGELOG.md
-Manifest.txt
-README.md
-Rakefile
-lib/datauri.rb
-lib/datauris.rb
-lib/datauris/version.rb

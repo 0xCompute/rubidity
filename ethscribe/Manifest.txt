@@ -1,7 +1,0 @@
-CHANGELOG.md
-Manifest.txt
-README.md
-Rakefile
-lib/ethscribe.rb
-lib/ethscribe/api.rb
-lib/ethscribe/version.rb
